@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: ${DB_PASSWORD:apE8pNGeG3dJe5j4}
+  jpa:
+    database-platform: postgres
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        # https://github.com/spring-projects/spring-boot/issues/12007#issuecomment-370774241
+        jdbc.lob.non_contextual_creation: true
+server:
+  port: 8180
