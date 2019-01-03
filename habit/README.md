@@ -2,10 +2,12 @@
 
 ## HTTP Endpoints
 
-| Verb   | Endpoint                                                  | Description          |
-| ------ | --------------------------------------------------------- |--------------------- |
-| GET    | [/habits](http://localhost:8180/habits)                   | Retrieves all habits |
-| GET    | [/actuator/health](http://localhost:8180/actuator/health) | Health check         |
+| Verb   | Endpoint                                                  | Description             |
+| ------ | --------------------------------------------------------- |------------------------ |
+| GET    | [/habits](http://localhost:8180/habits)                   | Retrieves all habits    |
+| POST   | [/habits/{id}](http://localhost:8180/habits/{id})         | Creates new habits      |
+| DELETE | [/habits/{id}](http://localhost:8180/habits/{id})         | Deletes existing habits |
+| GET    | [/actuator/health](http://localhost:8180/actuator/health) | Health check            |
 
 # Development
 
@@ -25,7 +27,7 @@ docker-compose up
 
 This starts PostgreSQL on port 5432 and a [database administration UI on port 8380](http://localhost:8380/).
 
-[init.sql](src/test/resources/db/init.sql) is automatically executed to create the database schema and insert some test data.
+SQL scripts in the folder `src/test/resources/db` are executed automatically in alphabetical order to create the database schema and insert some test data.
 
 ### Start Webservice
 
