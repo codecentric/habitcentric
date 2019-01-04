@@ -1,0 +1,24 @@
+image: node:10.15.0-alpine
+
+cache:
+  paths:
+    - node_modules/
+    - .yarn
+
+before_script:
+  - yarn config set cache-folder .yarn
+  - yarn install
+
+stages:
+  - test
+  - build
+
+unit testing:
+  stage: build
+  script:
+    - yarn run test:unit
+
+build for production:
+  stage: build
+  script:
+    - yarn run build
