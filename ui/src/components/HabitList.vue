@@ -1,0 +1,25 @@
+<template>
+  <div>
+    <v-list v-if="habits && habits.length > 0">
+      <v-list-tile v-for="(habit, index) in habits" :key="index">
+        <v-list-tile-content>
+          <v-list-tile-title>{{ habit.name }}</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
+    <HabitListEmptyState v-else />
+  </div>
+</template>
+
+<script>
+import HabitListEmptyState from "./HabitListEmptyState";
+export default {
+  name: "HabitList",
+  components: {
+    HabitListEmptyState
+  },
+  props: {
+    habits: Array
+  }
+};
+</script>

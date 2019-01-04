@@ -1,0 +1,9 @@
+version: '3.1'
+services:
+  stubs:
+    image: rodolpheche/wiremock:2.20.0-alpine
+    restart: always
+    ports:
+      - 8179:8080
+    volumes:
+      - ./stubs:/home/wiremock
