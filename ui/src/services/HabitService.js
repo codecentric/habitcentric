@@ -14,4 +14,8 @@ export default class HabitService {
   createHabit(name) {
     return this.http.post("habits", { name: name });
   }
+
+  deleteHabit(id) {
+    return this.http.delete(`habits/${id}`);
+  }
 }

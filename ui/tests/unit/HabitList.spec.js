@@ -14,7 +14,9 @@ describe("HabitList", () => {
 
   it("renders with habits", () => {
     const wrapper = mount(HabitList, { propsData: { habits } });
-    expect(wrapper.text()).toMatch("JoggingMeditatePlay guitar");
+    expect(wrapper.text()).toMatch(
+      "Jogging deleteMeditate deletePlay guitar delete"
+    );
   });
 
   it("renders with an empty array of habits", () => {
@@ -28,5 +30,14 @@ describe("HabitList", () => {
   it("renders without habits", () => {
     const wrapper = mount(HabitList);
     expect(wrapper.text()).toMatch("You haven't created any habits yet.");
+  });
+
+  it("enables users to delete habits", () => {
+    const wrapper = mount(HabitList, { propsData: { habits } });
+    const deleteButtonMeditate = wrapper
+      .findAll("div.v-list__tile__action button")
+      .at(1);
+    deleteButtonMeditate.trigger("click");
+    expect(wrapper.emitted()).toEqual({ "delete-habit": [[101]] });
   });
 });

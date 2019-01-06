@@ -3,9 +3,13 @@
     <v-container v-if="error"> <DefaultErrorState /> </v-container>
     <div v-else>
       <LoadingSpinner v-if="loading" />
-      <HabitList v-else v-bind:habits="habits" />
+      <HabitList
+        v-else
+        v-bind:habits="habits"
+        v-on:delete-habit="deleteHabit"
+      />
       <v-spacer />
-      <v-container v-if="errorWhileCreating">
+      <v-container v-if="errorWhileCreating || errorWhileDeleting">
         <DefaultErrorState />
       </v-container>
       <v-container> <HabitForm v-on:create-habit="createHabit" /> </v-container>
@@ -32,6 +36,7 @@ export default {
     return {
       error: null,
       errorWhileCreating: null,
+      errorWhileDeleting: null,
       habits: null,
       habitService: new HabitService(),
       loading: true
@@ -59,6 +64,17 @@ export default {
         .catch(error => {
           console.log(error);
           this.errorWhileCreating = error;
+        })
+        .finally(() => this.getHabits());
+    },
+    deleteHabit: async function(id) {
+      this.errorWhileDeleting = undefined;
+      this.loading = true;
+      this.habitService
+        .deleteHabit(id)
+        .catch(error => {
+          console.log(error);
+          this.errorWhileDeleting = error;
         })
         .finally(() => this.getHabits());
     }

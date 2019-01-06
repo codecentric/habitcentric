@@ -5,6 +5,11 @@
         <v-list-tile-content>
           <v-list-tile-title>{{ habit.name }}</v-list-tile-title>
         </v-list-tile-content>
+        <v-list-tile-action>
+          <v-btn icon v-on:click="$emit('delete-habit', habit.id)">
+            <v-icon>delete</v-icon>
+          </v-btn>
+        </v-list-tile-action>
       </v-list-tile>
     </v-list>
     <HabitListEmptyState v-else />

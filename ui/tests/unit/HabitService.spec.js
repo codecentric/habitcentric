@@ -34,4 +34,13 @@ describe("HabitService", () => {
       status: 200
     });
   });
+
+  it("deletes habits", () => {
+    mock.onDelete("http://dummy-habit-service/habits/123").reply(200);
+    return expect(
+      Promise.resolve(service.deleteHabit(123))
+    ).resolves.toMatchObject({
+      status: 200
+    });
+  });
 });
