@@ -10,4 +10,8 @@ export default class HabitService {
   getHabits() {
     return this.http.get("habits").then(response => response.data);
   }
+
+  createHabit(name) {
+    return this.http.post("habits", { name: name });
+  }
 }
