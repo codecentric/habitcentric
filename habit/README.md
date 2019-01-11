@@ -17,22 +17,37 @@
 ./gradlew test
 ```
 
+## Build
+
+You can created a fat JAR that contains all dependencies and a Tomcat server to run the application as follows: 
+
+```
+./gradlew clean build
+```
+
 ## Start Application Locally
 
-### Start Database
-
 ```
-docker-compose up
+docker-compose up --build
 ```
 
-This starts PostgreSQL on port 5432 and a [database administration UI on port 8380](http://localhost:8380/).
+It's recommend to use `docker-compose` to start the following components on your local machine:
+* [REST webservice](http://localhost:8180/actuator/health) (port 8180)
+* PostgreSQL database (port 5432)
+* [Database administration UI](http://localhost:8380/) (port 8380)
+
+`Dockerfile` describes the application's Docker image and expects an existing JAR ([see Build](#build)).
+`--build` makes sure that this Docker image is build each time and changes become effective.
 
 SQL scripts in the folder `src/test/resources/db` are executed automatically in alphabetical order to create the database schema and insert some test data.
 
-### Start Webservice
-
-Execute the following command to start the application on port 8180:
+You can terminate terminate all started containers as follows:
 
 ```
-./gradlew bootRun
+docker-compose down
 ```
+
+It's also possible to start each component separately:
+
+* `docker-compose up db` to start the database
+* `docker-compose up app` or `./gradlew bootRun` to start the webservice
