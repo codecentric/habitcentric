@@ -10,6 +10,6 @@
       "Access-Control-Allow-Origin": "*"
     },
     "bodyFileName": "habits.json",
-    "fixedDelayMilliseconds": 2000
+    "fixedDelayMilliseconds": 500
   }
 }

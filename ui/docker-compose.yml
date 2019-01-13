@@ -1,5 +1,11 @@
 version: '3.1'
 services:
+  ui:
+    build: .
+    depends_on:
+      - stubs
+    ports:
+      - 8171:80
   stubs:
     image: rodolpheche/wiremock:2.20.0-alpine
     restart: always
