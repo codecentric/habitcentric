@@ -1,0 +1,34 @@
+{
+  "scenarioName": "To do list",
+  "requiredScenarioState": "Test created",
+  "request": {
+    "method": "GET",
+    "url": "/habits"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "jsonBody": [
+      {
+        "id": 1,
+        "name": "Jogging"
+      },
+      {
+        "id": 101,
+        "name": "Meditate"
+      },
+      {
+        "id": 51,
+        "name": "Play guitar"
+      },
+      {
+        "id": 1001,
+        "name": "Test"
+      }
+    ],
+    "fixedDelayMilliseconds": 500
+  }
+}

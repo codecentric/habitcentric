@@ -1,0 +1,27 @@
+{
+  "scenarioName": "To do list",
+  "requiredScenarioState": "Jogging and meditate",
+  "request": {
+    "method": "GET",
+    "url": "/habits"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "jsonBody": [
+      {
+        "id": 1,
+        "name": "Jogging"
+      },
+      {
+        "id": 101,
+        "name": "Meditate"
+      }
+    ],
+    "fixedDelayMilliseconds": 500
+  }
+}

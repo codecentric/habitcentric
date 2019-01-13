@@ -1,0 +1,22 @@
+{
+  "scenarioName": "To do list",
+  "requiredScenarioState": "Play guitar",
+  "newScenarioState": "Jogging and play guitar",
+  "request": {
+    "method": "POST",
+    "url": "/habits",
+    "bodyPatterns": [
+      {
+        "contains": "Jogging"
+      }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "fixedDelayMilliseconds": 100
+  }
+}
