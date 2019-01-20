@@ -2,6 +2,7 @@ package de.codecentric.hc.habit;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter

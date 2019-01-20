@@ -1,4 +1,4 @@
 spring:
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:postgresql:9.6.8://localhost/postgres?TC_INITSCRIPT=db/init.sql
+    url: jdbc:tc:postgresql:9.6.8://localhost/postgres?TC_INITSCRIPT=db/1-create-schema.sql

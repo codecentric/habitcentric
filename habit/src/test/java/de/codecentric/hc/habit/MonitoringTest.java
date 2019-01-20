@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.equalTo;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class MonitoringTests {
+public class MonitoringTest {
 
     @LocalServerPort
     private int port;
