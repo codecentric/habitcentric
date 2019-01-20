@@ -30,7 +30,7 @@ public class HabitController {
     @GetMapping("/habits")
     @ResponseBody
     public Iterable<Habit> getHabits() {
-        return repository.findAll();
+        return repository.findAllByOrderByNameAsc();
     }
 
     @PostMapping("/habits")

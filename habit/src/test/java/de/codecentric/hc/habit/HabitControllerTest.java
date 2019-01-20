@@ -24,7 +24,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.containsInAnyOrder;
+import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.greaterThan;
@@ -54,14 +54,31 @@ public class HabitControllerTest {
     @Test
     public void getHabits() throws InterruptedException {
 
-        String[] expected = {"Jogging", "Play guitar", "Meditate"};
+        String[] inserted = {"Jogging", "Play guitar", "Meditate"};
+        String[] expected = {"Jogging", "Meditate", "Play guitar"};
 
-        Stream.of(expected).forEach(name -> insertHabit(name));
+        Stream.of(inserted).forEach(name -> insertHabit(name));
 
         given().port(port)
                 .when().get("/habits")
                 .then().statusCode(200)
-                .body("name", containsInAnyOrder(expected))
+                .body("name", contains(expected))
+                .body("id", everyItem(greaterThan(0)))
+                .extract().body().as(Habit[].class);
+    }
+
+    @Test
+    public void getHabitsOrderedByNameAscending() throws InterruptedException {
+
+        String[] inserted = {"c", "ä", "d", "b", "a", "A", "ac", "s", "af", "x", "ß"};
+        String[] expected = {"a", "A", "ä", "ac", "af", "b", "c", "d", "s", "ß", "x"};
+
+        Stream.of(inserted).forEach(name -> insertHabit(name));
+
+        given().port(port)
+                .when().get("/habits")
+                .then().statusCode(200)
+                .body("name", contains(expected))
                 .body("id", everyItem(greaterThan(0)))
                 .extract().body().as(Habit[].class);
     }
