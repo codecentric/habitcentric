@@ -19,6 +19,10 @@ group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
+bootRun {
+	args = ["--server.port=8180"]
+}
+
 repositories {
 	mavenCentral()
 }
