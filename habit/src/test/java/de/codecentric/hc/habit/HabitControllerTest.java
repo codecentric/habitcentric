@@ -33,7 +33,7 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class HabitControllerTests {
+public class HabitControllerTest {
 
     private static final String TABLE_NAME = "HABIT";
 
