@@ -1,24 +1,47 @@
-image: node:10.15.0-alpine
+image: docker:stable
+
+services:
+  - docker:dind
+
+stages:
+  - test
+  - build
 
 cache:
   paths:
     - node_modules/
     - .yarn
 
-before_script:
-  - yarn config set cache-folder .yarn
-  - yarn install
-
-stages:
-  - test
-  - build
+variables:
+  DOCKER_DRIVER: overlay2
 
 unit testing:
-  stage: build
+  stage: test
+  image: node:10.15.0-alpine
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install
   script:
     - yarn run test:unit
 
 build for production:
   stage: build
+  image: node:10.15.0-alpine
+  before_script:
+    - yarn config set cache-folder .yarn
+    - yarn install
   script:
     - yarn run build
+
+build image:
+  stage: build
+  image:
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest
+      -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      -t $CI_REGISTRY_IMAGE:latest
+      .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
