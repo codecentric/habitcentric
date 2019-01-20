@@ -27,3 +27,15 @@ yarn run test:unit
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+## Docker Compose
+The UI can be started locally as follows:
+```
+docker-compose up --build
+```
+WireMock is started in the background to stub backend requests.
+
+Use the following command to stop the containers again.
+```
+docker-compose down
+```

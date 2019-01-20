@@ -1,15 +1,15 @@
 {
+  "scenarioName": "To do list",
   "request": {
-    "method": "GET",
+    "method": "OPTIONS",
     "url": "/habits"
   },
   "response": {
     "status": 200,
     "headers": {
-      "Content-Type": "application/json",
+      "Access-Control-Allow-Headers": "*",
       "Access-Control-Allow-Origin": "*"
     },
-    "bodyFileName": "habits.json",
-    "fixedDelayMilliseconds": 2000
+    "fixedDelayMilliseconds": 100
   }
 }

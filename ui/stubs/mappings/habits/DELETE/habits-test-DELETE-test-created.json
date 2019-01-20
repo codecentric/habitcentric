@@ -1,0 +1,17 @@
+{
+  "scenarioName": "To do list",
+  "requiredScenarioState": "Test created",
+  "newScenarioState": "Started",
+  "request": {
+    "method": "DELETE",
+    "url": "/habits/1001"
+  },
+  "response": {
+    "status": 500,
+    "headers": {
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "fixedDelayMilliseconds": 100
+  }
+}
