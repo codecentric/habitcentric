@@ -1,5 +1,6 @@
 package de.codecentric.hc.habit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -121,6 +122,32 @@ public class HabitControllerTest {
                 .body("message", equalTo("Please choose a unique habit name."));
 
         assertThat(numberOfHabits()).isOne();
+    }
+
+    @Test
+    public void createHabitWit64CharacterName() {
+
+        String habitName = StringUtils.repeat("a", 64);
+
+        given().port(port).contentType(JSON).body(new HabitModificationRequest(habitName))
+                .when().post("/habits")
+                .then().statusCode(HttpStatus.CREATED.value())
+                .body(isEmptyOrNullString());
+
+        assertThat(numberOfHabits()).isOne();
+    }
+
+    @Test
+    public void createHabitWit65CharacterName() {
+
+        String habitName = StringUtils.repeat("a", 65);
+
+        given().port(port).contentType(JSON).body(new HabitModificationRequest(habitName))
+                .when().post("/habits")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("message", equalTo("This habit name is too long."));
+
+        assertThat(numberOfHabits()).isZero();
     }
 
     @Test

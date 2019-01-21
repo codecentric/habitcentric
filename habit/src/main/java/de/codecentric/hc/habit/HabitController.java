@@ -2,6 +2,7 @@ package de.codecentric.hc.habit;
 
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.DataException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.sql.SQLException;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -80,6 +82,16 @@ public class HabitController {
             ConstraintViolationException constraintViolation = (ConstraintViolationException) e.getCause();
             if ("unique_habit_name".equals(constraintViolation.getConstraintName())) {
                 throw new ResponseStatusException(BAD_REQUEST, "Please choose a unique habit name.");
+            }
+        }
+
+        if (e instanceof DataIntegrityViolationException && e.getCause() instanceof DataException) {
+            DataException dataException = (DataException) e.getCause();
+            if (dataException.getCause() instanceof SQLException) {
+                SQLException sqlException = (SQLException) dataException.getCause();
+                if (sqlException.getMessage().contains("value too long for type")) {
+                    throw new ResponseStatusException(BAD_REQUEST, "This habit name is too long.");
+                }
             }
         }
 
