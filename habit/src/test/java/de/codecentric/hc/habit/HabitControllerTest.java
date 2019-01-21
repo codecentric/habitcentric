@@ -63,8 +63,7 @@ public class HabitControllerTest {
                 .when().get("/habits")
                 .then().statusCode(200)
                 .body("name", contains(expected))
-                .body("id", everyItem(greaterThan(0)))
-                .extract().body().as(Habit[].class);
+                .body("id", everyItem(greaterThan(0)));
     }
 
     @Test
@@ -79,8 +78,7 @@ public class HabitControllerTest {
                 .when().get("/habits")
                 .then().statusCode(200)
                 .body("name", contains(expected))
-                .body("id", everyItem(greaterThan(0)))
-                .extract().body().as(Habit[].class);
+                .body("id", everyItem(greaterThan(0)));
     }
 
     @Test
@@ -104,7 +102,8 @@ public class HabitControllerTest {
 
         given().port(port).contentType(JSON).body(body)
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.BAD_REQUEST.value()).body("message", equalTo("Please provide a valid habit name."));
+                .then().statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("message", equalTo("Please provide a valid habit name."));
 
         assertThat(numberOfHabits()).isZero();
     }
@@ -117,7 +116,8 @@ public class HabitControllerTest {
         assertThat(numberOfHabits()).isOne();
 
         when().delete(location)
-                .then().statusCode(HttpStatus.OK.value()).body(isEmptyOrNullString());
+                .then().statusCode(HttpStatus.OK.value())
+                .body(isEmptyOrNullString());
 
         assertThat(numberOfHabits()).isZero();
     }
@@ -126,13 +126,15 @@ public class HabitControllerTest {
     public void deleteHabitNotFound() {
         given().port(port)
                 .when().delete("/habits/{id}", 999)
-                .then().statusCode(HttpStatus.NOT_FOUND.value()).body("message", equalTo("Habit '999' could not be found."));
+                .then().statusCode(HttpStatus.NOT_FOUND.value())
+                .body("message", equalTo("Habit '999' could not be found."));
     }
 
     private String insertHabit(String name) {
         return given().port(port).contentType(JSON).body(new HabitModificationRequest(name))
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.CREATED.value()).extract().header(HttpHeaders.LOCATION);
+                .then().statusCode(HttpStatus.CREATED.value())
+                .extract().header(HttpHeaders.LOCATION);
     }
 
     private int numberOfHabits() {
