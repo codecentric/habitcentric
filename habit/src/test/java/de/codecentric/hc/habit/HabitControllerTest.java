@@ -109,6 +109,21 @@ public class HabitControllerTest {
     }
 
     @Test
+    public void createHabitWithDuplicateName() {
+
+        String habitName = "ABC";
+
+        insertHabit(habitName);
+
+        given().port(port).contentType(JSON).body(new HabitModificationRequest(habitName))
+                .when().post("/habits")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("message", equalTo("Please choose a unique habit name."));
+
+        assertThat(numberOfHabits()).isOne();
+    }
+
+    @Test
     public void deleteHabit() {
 
         String location = insertHabit("Delete me");
