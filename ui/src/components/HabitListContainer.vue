@@ -12,7 +12,9 @@
       <v-container v-if="errorWhileCreating || errorWhileDeleting">
         <DefaultErrorState />
       </v-container>
-      <v-container> <HabitForm v-on:create-habit="createHabit" /> </v-container>
+      <v-container>
+        <HabitForm v-bind:habits="habits" v-on:create-habit="createHabit" />
+      </v-container>
     </div>
   </div>
 </template>
@@ -58,6 +60,7 @@ export default {
     },
     createHabit(name) {
       this.errorWhileCreating = undefined;
+      this.errorWhileDeleting = undefined;
       this.loading = true;
       this.habitService
         .createHabit(name)
@@ -68,6 +71,7 @@ export default {
         .finally(() => this.getHabits());
     },
     deleteHabit: async function(id) {
+      this.errorWhileCreating = undefined;
       this.errorWhileDeleting = undefined;
       this.loading = true;
       this.habitService
