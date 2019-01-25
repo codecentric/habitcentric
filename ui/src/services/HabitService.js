@@ -11,8 +11,8 @@ export default class HabitService {
     return this.http.get("habits").then(response => response.data);
   }
 
-  createHabit(name) {
-    return this.http.post("habits", { name: name });
+  createHabit(habit) {
+    return this.http.post("habits", habit);
   }
 
   deleteHabit(id) {

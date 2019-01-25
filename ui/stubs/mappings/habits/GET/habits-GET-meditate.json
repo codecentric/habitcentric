@@ -14,7 +14,11 @@
     "jsonBody": [
       {
         "id": 101,
-        "name": "Meditate"
+        "name": "Meditate",
+        "schedule": {
+          "repetitions": 1,
+          "frequency": "DAILY"
+        }
       }
     ],
     "fixedDelayMilliseconds": 500

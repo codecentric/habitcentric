@@ -1,14 +1,26 @@
 [
   {
     "id": 1,
-    "name": "Jogging"
+    "name": "Jogging",
+    "schedule": {
+      "repetitions": 2,
+      "frequency": "WEEKLY"
+    }
   },
   {
     "id": 101,
-    "name": "Meditate"
+    "name": "Meditate",
+    "schedule": {
+      "repetitions": 1,
+      "frequency": "DAILY"
+    }
   },
   {
     "id": 51,
-    "name": "Play guitar"
+    "name": "Play guitar",
+    "schedule": {
+      "repetitions": 5,
+      "frequency": "MONTHLY"
+    }
   }
 ]

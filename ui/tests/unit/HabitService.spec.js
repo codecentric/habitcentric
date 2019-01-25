@@ -25,11 +25,10 @@ describe("HabitService", () => {
   });
 
   it("create habits", () => {
-    mock
-      .onPost("http://dummy-habit-service/habits", { name: "new habit" })
-      .reply(200);
+    const habit = { name: "new habit", repetitions: 1, frequency: "DAILY" };
+    mock.onPost("http://dummy-habit-service/habits", habit).reply(200);
     return expect(
-      Promise.resolve(service.createHabit("new habit"))
+      Promise.resolve(service.createHabit(habit))
     ).resolves.toMatchObject({
       status: 200
     });

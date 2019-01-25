@@ -15,7 +15,7 @@ describe("HabitList", () => {
   it("renders with habits", () => {
     const wrapper = mount(HabitList, { propsData: { habits } });
     expect(wrapper.text()).toMatch(
-      "Jogging deleteMeditate deletePlay guitar delete"
+      "Jogging  deleteMeditate  deletePlay guitar  delete"
     );
   });
 

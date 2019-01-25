@@ -4,6 +4,9 @@
       <v-list-tile v-for="(habit, index) in habits" :key="index">
         <v-list-tile-content>
           <v-list-tile-title>{{ habit.name }}</v-list-tile-title>
+          <v-list-tile-sub-title v-if="habit.schedule"
+            >{{ habit.schedule | displaySchedule }}
+          </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
           <v-btn icon v-on:click="$emit('delete-habit', habit.id)">

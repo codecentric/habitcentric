@@ -14,7 +14,11 @@
     "jsonBody": [
       {
         "id": 1,
-        "name": "Jogging"
+        "name": "Jogging",
+        "schedule": {
+          "repetitions": 2,
+          "frequency": "WEEKLY"
+        }
       }
     ],
     "fixedDelayMilliseconds": 500

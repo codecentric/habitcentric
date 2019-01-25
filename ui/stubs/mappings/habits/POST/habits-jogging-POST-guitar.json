@@ -7,7 +7,13 @@
     "url": "/habits",
     "bodyPatterns": [
       {
-        "contains": "Jogging"
+        "equalToJson": {
+          "name": "Jogging",
+          "schedule": {
+            "repetitions": 2,
+            "frequency": "WEEKLY"
+          }
+        }
       }
     ]
   },
