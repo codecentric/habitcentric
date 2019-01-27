@@ -126,7 +126,9 @@ public class HabitControllerTest {
         given().port(port).contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(BAD_REQUEST.value())
-                .body("message", equalTo("Please provide a valid habit name."));
+                .body("errors[0].objectName", equalTo("modificationRequest"))
+                .body("errors[0].field", equalTo("name"))
+                .body("errors[0].code", equalTo("NotBlank"));
 
         assertThat(numberOfHabits()).isZero();
     }
@@ -182,7 +184,25 @@ public class HabitControllerTest {
         given().port(port).contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(BAD_REQUEST.value())
-                .body("message", equalTo("This habit name is too long."));
+                .body("errors[0].objectName", equalTo("modificationRequest"))
+                .body("errors[0].field", equalTo("name"))
+                .body("errors[0].code", equalTo("Size"));
+
+        assertThat(numberOfHabits()).isZero();
+    }
+
+    @Test
+    public void createHabitWitoutSchedule() {
+        ModificationRequest body = ModificationRequest.builder()
+                .name("Jogging")
+                .build();
+
+        given().port(port).contentType(JSON).body(body)
+                .when().post("/habits")
+                .then().statusCode(BAD_REQUEST.value())
+                .body("errors[0].objectName", equalTo("modificationRequest"))
+                .body("errors[0].field", equalTo("schedule"))
+                .body("errors[0].code", equalTo("NotNull"));
 
         assertThat(numberOfHabits()).isZero();
     }

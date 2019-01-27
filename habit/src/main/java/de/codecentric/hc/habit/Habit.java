@@ -18,6 +18,11 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 @Entity
 @Builder
@@ -35,9 +40,13 @@ public class Habit {
     @SequenceGenerator(name = "habit_id_generator", sequenceName = "habit_seq")
     private Long id;
 
+    @NotBlank
+    @Size(max = 64)
     private String name;
 
     @Embedded
+    @NotNull
+    @Valid
     private Schedule schedule;
 
     @Builder
@@ -49,9 +58,12 @@ public class Habit {
     @ToString
     public static class Schedule {
 
+        @NotNull
+        @Positive
         private Integer repetitions;
 
         @Enumerated(EnumType.STRING)
+        @NotNull
         private Frequency frequency;
 
         enum Frequency {DAILY, WEEKLY, MONTHLY, YEARLY}
@@ -77,8 +89,12 @@ public class Habit {
     @ToString
     public static class ModificationRequest {
 
+        @NotBlank
+        @Size(max = 64)
         private String name;
 
+        @NotNull
+        @Valid
         private Schedule schedule;
     }
 }
