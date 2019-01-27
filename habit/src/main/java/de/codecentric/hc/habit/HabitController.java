@@ -1,5 +1,6 @@
 package de.codecentric.hc.habit;
 
+import de.codecentric.hc.habit.Habit.ModificationRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.exception.DataException;
@@ -41,15 +42,23 @@ public class HabitController {
         return repository.findAllByOrderByNameAsc();
     }
 
+    @GetMapping("/habits/{id}")
+    @ResponseBody
+    public Habit getHabit(@PathVariable Long id) {
+        return repository.findById(id).orElseThrow(
+                () -> new ResponseStatusException(NOT_FOUND, String.format("Habit '%s' could not be found.", id))
+        );
+    }
+
     @PostMapping("/habits")
-    public ResponseEntity createHabit(@RequestBody HabitModificationRequest modificationRequest) {
+    public ResponseEntity createHabit(@RequestBody ModificationRequest modificationRequest) {
 
         if (StringUtils.isEmpty(StringUtils.trimWhitespace(modificationRequest.getName()))) {
             throw new ResponseStatusException(BAD_REQUEST, "Please provide a valid habit name.");
         }
 
         try {
-            Habit habit = repository.save(habitFrom(modificationRequest));
+            Habit habit = repository.save(Habit.from(modificationRequest));
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
@@ -70,10 +79,6 @@ public class HabitController {
         } catch (EmptyResultDataAccessException e) {
             throw new ResponseStatusException(NOT_FOUND, String.format("Habit '%s' could not be found.", id), e);
         }
-    }
-
-    private Habit habitFrom(HabitModificationRequest modificationRequest) {
-        return Habit.builder().name(modificationRequest.getName()).build();
     }
 
     private ResponseStatusException handleDatabaseException(DataAccessException e) {

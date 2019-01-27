@@ -1,6 +1,5 @@
 package de.codecentric.hc.habit;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -9,7 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,4 +36,49 @@ public class Habit {
     private Long id;
 
     private String name;
+
+    @Embedded
+    private Schedule schedule;
+
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Setter
+    @Getter
+    @EqualsAndHashCode
+    @ToString
+    public static class Schedule {
+
+        private Integer repetitions;
+
+        @Enumerated(EnumType.STRING)
+        private Frequency frequency;
+
+        enum Frequency {DAILY, WEEKLY, MONTHLY, YEARLY}
+    }
+
+    public static Habit from(ModificationRequest modificationRequest) {
+        return builder()
+                .name(modificationRequest.getName())
+                .schedule(modificationRequest.getSchedule())
+                .build();
+    }
+
+    /**
+     * Used to create or update {@link Habit}s.
+     * This class does not have an ID. The habit ID cannot be updated and cannot be determined before creating a habit.
+     */
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Setter
+    @Getter
+    @EqualsAndHashCode
+    @ToString
+    public static class ModificationRequest {
+
+        private String name;
+
+        private Schedule schedule;
+    }
 }
