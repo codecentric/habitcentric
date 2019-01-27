@@ -23,6 +23,7 @@ unit testing:
     - yarn install
   script:
     - yarn run test:unit
+    - yarn run lint --no-fix --max-warnings 0
 
 build for production:
   stage: build
