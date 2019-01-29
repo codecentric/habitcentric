@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import Habit from "./habits/details/Habit.vue";
+import HabitListContainer from "./components/HabitListContainer";
 
 Vue.use(Router);
 
@@ -8,10 +9,15 @@ export default new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
+    { path: "/", redirect: "/habits" },
     {
-      path: "/",
-      name: "home",
-      component: Home
+      path: "/habits",
+      component: HabitListContainer
+    },
+    {
+      path: "/habits/:id",
+      name: "habit",
+      component: Habit
     },
     {
       path: "/about",

@@ -1,10 +1,6 @@
-import Vue from "vue";
-import Vuetify from "vuetify";
 import HabitService from "@/services/HabitService";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
-
-Vue.use(Vuetify);
 
 describe("HabitService", () => {
   const mock = new MockAdapter(axios);

@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "OPTIONS",
+    "urlPattern": "/track/users/(.*)/habits/([0-9]*)"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Methods": "PUT",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "fixedDelayMilliseconds": 100
+  }
+}

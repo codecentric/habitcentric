@@ -13,6 +13,11 @@
             <v-icon>delete</v-icon>
           </v-btn>
         </v-list-tile-action>
+        <v-list-tile-action>
+          <v-btn icon :to="{ name: 'habit', params: habit }">
+            <v-icon>more_horiz</v-icon>
+          </v-btn>
+        </v-list-tile-action>
       </v-list-tile>
     </v-list>
     <HabitListEmptyState v-else />

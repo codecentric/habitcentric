@@ -18,7 +18,7 @@
         "name": "Jogging",
         "schedule": {
           "repetitions": 2,
-          "frequency": "PEE_WEEK"
+          "frequency": "PER_WEEK"
         }
       },
       {
