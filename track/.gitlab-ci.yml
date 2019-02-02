@@ -1,0 +1,14 @@
+stages:
+  - build
+
+build:
+  stage: build
+  image: gradle:4.10.2-jdk8-alpine
+  script: "gradle build"
+  artifacts:
+    when: always
+    name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
+    expire_in: 1 week
+    paths:
+      - build/reports/tests/test/
+      - build/libs/hc-track-*.jar
