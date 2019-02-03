@@ -1,3 +1,12 @@
+# API
+
+## HTTP Endpoints
+
+| Verb   | Endpoint                                                                                 | Description                                                    |
+| ------ | ---------------------------------------------------------------------------------------- |--------------------------------------------------------------- |
+| GET    | [/track/{userId}/habits/{habitId}](http://localhost:8180/track/{userId}/habits/{habitId) | Retrieves track records for a given habit of a given user      |
+| PUT    | [/track/{userId}/habits/{habitId}](http://localhost:8180/track/{userId}/habits/{habitId) | Creates/update track records for a given habit of a given user |
+
 # Development
 
 ## Execute Tests

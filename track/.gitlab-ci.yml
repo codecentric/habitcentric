@@ -1,14 +1,22 @@
 stages:
   - build
 
+services:
+  - docker:dind
+
+variables:
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_DRIVER: overlay2
+
 build:
   stage: build
   image: gradle:4.10.2-jdk8-alpine
-  script: "gradle build"
+  script: "gradle clean build"
   artifacts:
     when: always
     name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
     expire_in: 1 week
     paths:
-      - build/reports/tests/test/
       - build/libs/hc-track-*.jar
+      - build/reports/tests/test/
+      - build/test-results/test/TEST-*.xml
