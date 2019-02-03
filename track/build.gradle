@@ -18,6 +18,10 @@ group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+bootRun {
+	environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: 'local'
+}
+
 repositories {
 	mavenCentral()
 }
