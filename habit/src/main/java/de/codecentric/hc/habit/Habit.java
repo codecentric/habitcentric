@@ -14,6 +14,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Builder
@@ -23,6 +25,7 @@ import javax.persistence.SequenceGenerator;
 @Getter
 @EqualsAndHashCode
 @ToString
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name", name = "unique_habit_name"))
 public class Habit {
 
     @Id

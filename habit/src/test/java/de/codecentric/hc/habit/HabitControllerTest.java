@@ -1,5 +1,6 @@
 package de.codecentric.hc.habit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -63,8 +64,7 @@ public class HabitControllerTest {
                 .when().get("/habits")
                 .then().statusCode(200)
                 .body("name", contains(expected))
-                .body("id", everyItem(greaterThan(0)))
-                .extract().body().as(Habit[].class);
+                .body("id", everyItem(greaterThan(0)));
     }
 
     @Test
@@ -79,8 +79,7 @@ public class HabitControllerTest {
                 .when().get("/habits")
                 .then().statusCode(200)
                 .body("name", contains(expected))
-                .body("id", everyItem(greaterThan(0)))
-                .extract().body().as(Habit[].class);
+                .body("id", everyItem(greaterThan(0)));
     }
 
     @Test
@@ -104,7 +103,49 @@ public class HabitControllerTest {
 
         given().port(port).contentType(JSON).body(body)
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.BAD_REQUEST.value()).body("message", equalTo("Please provide a valid habit name."));
+                .then().statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("message", equalTo("Please provide a valid habit name."));
+
+        assertThat(numberOfHabits()).isZero();
+    }
+
+    @Test
+    public void createHabitWithDuplicateName() {
+
+        String habitName = "ABC";
+
+        insertHabit(habitName);
+
+        given().port(port).contentType(JSON).body(new HabitModificationRequest(habitName))
+                .when().post("/habits")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("message", equalTo("Please choose a unique habit name."));
+
+        assertThat(numberOfHabits()).isOne();
+    }
+
+    @Test
+    public void createHabitWit64CharacterName() {
+
+        String habitName = StringUtils.repeat("a", 64);
+
+        given().port(port).contentType(JSON).body(new HabitModificationRequest(habitName))
+                .when().post("/habits")
+                .then().statusCode(HttpStatus.CREATED.value())
+                .body(isEmptyOrNullString());
+
+        assertThat(numberOfHabits()).isOne();
+    }
+
+    @Test
+    public void createHabitWit65CharacterName() {
+
+        String habitName = StringUtils.repeat("a", 65);
+
+        given().port(port).contentType(JSON).body(new HabitModificationRequest(habitName))
+                .when().post("/habits")
+                .then().statusCode(HttpStatus.BAD_REQUEST.value())
+                .body("message", equalTo("This habit name is too long."));
 
         assertThat(numberOfHabits()).isZero();
     }
@@ -117,7 +158,8 @@ public class HabitControllerTest {
         assertThat(numberOfHabits()).isOne();
 
         when().delete(location)
-                .then().statusCode(HttpStatus.OK.value()).body(isEmptyOrNullString());
+                .then().statusCode(HttpStatus.OK.value())
+                .body(isEmptyOrNullString());
 
         assertThat(numberOfHabits()).isZero();
     }
@@ -126,13 +168,15 @@ public class HabitControllerTest {
     public void deleteHabitNotFound() {
         given().port(port)
                 .when().delete("/habits/{id}", 999)
-                .then().statusCode(HttpStatus.NOT_FOUND.value()).body("message", equalTo("Habit '999' could not be found."));
+                .then().statusCode(HttpStatus.NOT_FOUND.value())
+                .body("message", equalTo("Habit '999' could not be found."));
     }
 
     private String insertHabit(String name) {
         return given().port(port).contentType(JSON).body(new HabitModificationRequest(name))
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.CREATED.value()).extract().header(HttpHeaders.LOCATION);
+                .then().statusCode(HttpStatus.CREATED.value())
+                .extract().header(HttpHeaders.LOCATION);
     }
 
     private int numberOfHabits() {
