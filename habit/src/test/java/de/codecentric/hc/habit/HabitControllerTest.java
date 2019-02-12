@@ -1,5 +1,7 @@
 package de.codecentric.hc.habit;
 
+import de.codecentric.hc.habit.Habit.ModificationRequest;
+import de.codecentric.hc.habit.Habit.Schedule;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.ClassRule;
@@ -10,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,6 +22,8 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import java.sql.SQLException;
 import java.util.stream.Stream;
 
+import static de.codecentric.hc.habit.Habit.Schedule.Frequency.DAILY;
+import static de.codecentric.hc.habit.Habit.Schedule.Frequency.WEEKLY;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.http.ContentType.JSON;
@@ -30,6 +33,10 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static org.springframework.http.HttpStatus.OK;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
@@ -37,6 +44,8 @@ import static org.hamcrest.Matchers.isEmptyOrNullString;
 public class HabitControllerTest {
 
     private static final String TABLE_NAME = "HABIT";
+
+    private static final Schedule DEFAULT_SCHEDULE = new Schedule(1, DAILY);
 
     @ClassRule
     public static JdbcDatabaseContainer database = new PostgreSQLContainer();
@@ -85,26 +94,41 @@ public class HabitControllerTest {
     @Test
     public void createHabit() {
 
-        HabitModificationRequest body = new HabitModificationRequest("New habit");
+        ModificationRequest body = ModificationRequest.builder()
+                .name("New habit")
+                .schedule(new Schedule(2, WEEKLY))
+                .build();
 
         assertThat(numberOfHabits()).isZero();
 
-        given().port(port).contentType(JSON).body(body)
+        String location = given().port(port).contentType(JSON).body(body)
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.CREATED.value()).body(isEmptyOrNullString());
+                .then().statusCode(CREATED.value()).body(isEmptyOrNullString())
+                .extract().header("location");
 
         assertThat(numberOfHabits()).isOne();
+
+        Habit habit = given().when().get(location)
+                .then().statusCode(OK.value())
+                .extract().body().as(Habit.class);
+        assertThat(habit.getName()).isEqualTo(body.getName());
+        assertThat(habit.getSchedule()).isEqualTo(body.getSchedule());
     }
 
     @Test
     public void createHabitWithBlankName() {
 
-        HabitModificationRequest body = new HabitModificationRequest("   ");
+        ModificationRequest body = ModificationRequest.builder()
+                .name("   ")
+                .schedule(DEFAULT_SCHEDULE)
+                .build();
 
         given().port(port).contentType(JSON).body(body)
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("message", equalTo("Please provide a valid habit name."));
+                .then().statusCode(BAD_REQUEST.value())
+                .body("errors[0].objectName", equalTo("modificationRequest"))
+                .body("errors[0].field", equalTo("name"))
+                .body("errors[0].code", equalTo("NotBlank"));
 
         assertThat(numberOfHabits()).isZero();
     }
@@ -116,9 +140,14 @@ public class HabitControllerTest {
 
         insertHabit(habitName);
 
-        given().port(port).contentType(JSON).body(new HabitModificationRequest(habitName))
+        ModificationRequest body = ModificationRequest.builder()
+                .name(habitName)
+                .schedule(DEFAULT_SCHEDULE)
+                .build();
+
+        given().port(port).contentType(JSON).body(body)
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.BAD_REQUEST.value())
+                .then().statusCode(BAD_REQUEST.value())
                 .body("message", equalTo("Please choose a unique habit name."));
 
         assertThat(numberOfHabits()).isOne();
@@ -129,9 +158,14 @@ public class HabitControllerTest {
 
         String habitName = StringUtils.repeat("a", 64);
 
-        given().port(port).contentType(JSON).body(new HabitModificationRequest(habitName))
+        ModificationRequest body = ModificationRequest.builder()
+                .name(habitName)
+                .schedule(DEFAULT_SCHEDULE)
+                .build();
+
+        given().port(port).contentType(JSON).body(body)
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.CREATED.value())
+                .then().statusCode(CREATED.value())
                 .body(isEmptyOrNullString());
 
         assertThat(numberOfHabits()).isOne();
@@ -142,10 +176,33 @@ public class HabitControllerTest {
 
         String habitName = StringUtils.repeat("a", 65);
 
-        given().port(port).contentType(JSON).body(new HabitModificationRequest(habitName))
+        ModificationRequest body = ModificationRequest.builder()
+                .name(habitName)
+                .schedule(DEFAULT_SCHEDULE)
+                .build();
+
+        given().port(port).contentType(JSON).body(body)
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.BAD_REQUEST.value())
-                .body("message", equalTo("This habit name is too long."));
+                .then().statusCode(BAD_REQUEST.value())
+                .body("errors[0].objectName", equalTo("modificationRequest"))
+                .body("errors[0].field", equalTo("name"))
+                .body("errors[0].code", equalTo("Size"));
+
+        assertThat(numberOfHabits()).isZero();
+    }
+
+    @Test
+    public void createHabitWitoutSchedule() {
+        ModificationRequest body = ModificationRequest.builder()
+                .name("Jogging")
+                .build();
+
+        given().port(port).contentType(JSON).body(body)
+                .when().post("/habits")
+                .then().statusCode(BAD_REQUEST.value())
+                .body("errors[0].objectName", equalTo("modificationRequest"))
+                .body("errors[0].field", equalTo("schedule"))
+                .body("errors[0].code", equalTo("NotNull"));
 
         assertThat(numberOfHabits()).isZero();
     }
@@ -158,7 +215,7 @@ public class HabitControllerTest {
         assertThat(numberOfHabits()).isOne();
 
         when().delete(location)
-                .then().statusCode(HttpStatus.OK.value())
+                .then().statusCode(OK.value())
                 .body(isEmptyOrNullString());
 
         assertThat(numberOfHabits()).isZero();
@@ -168,14 +225,20 @@ public class HabitControllerTest {
     public void deleteHabitNotFound() {
         given().port(port)
                 .when().delete("/habits/{id}", 999)
-                .then().statusCode(HttpStatus.NOT_FOUND.value())
+                .then().statusCode(NOT_FOUND.value())
                 .body("message", equalTo("Habit '999' could not be found."));
     }
 
     private String insertHabit(String name) {
-        return given().port(port).contentType(JSON).body(new HabitModificationRequest(name))
+
+        ModificationRequest habit = ModificationRequest.builder()
+                .name(name)
+                .schedule(DEFAULT_SCHEDULE)
+                .build();
+
+        return given().port(port).contentType(JSON).body(habit)
                 .when().post("/habits")
-                .then().statusCode(HttpStatus.CREATED.value())
+                .then().statusCode(CREATED.value())
                 .extract().header(HttpHeaders.LOCATION);
     }
 
