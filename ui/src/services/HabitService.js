@@ -1,9 +1,12 @@
 import axios from "axios";
 
 export default class HabitService {
-  constructor() {
+  constructor(habitServiceHost = process.env.VUE_APP_HABIT_SERVICE_HOST) {
     this.http = axios.create({
-      baseURL: process.env.VUE_APP_HABIT_SERVICE_HOST
+      baseURL: habitServiceHost,
+      headers: {
+        Accept: "application/json"
+      }
     });
   }
 

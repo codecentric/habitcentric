@@ -1,0 +1,104 @@
+{
+  "consumer": {
+    "name": "hc-ui"
+  },
+  "provider": {
+    "name": "hc-habit"
+  },
+  "interactions": [
+    {
+      "description": "request to return the habits of a user",
+      "providerState": "habits 'Jogging', 'Meditate' and 'Play guitar' exist",
+      "request": {
+        "method": "GET",
+        "path": "/habits",
+        "headers": {
+          "Accept": "application/json"
+        }
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": [
+          {
+            "id": 1,
+            "name": "Jogging",
+            "schedule": {
+              "repetitions": 2,
+              "frequency": "WEEKLY"
+            }
+          },
+          {
+            "id": 101,
+            "name": "Meditate",
+            "schedule": {
+              "repetitions": 1,
+              "frequency": "DAILY"
+            }
+          },
+          {
+            "id": 51,
+            "name": "Play guitar",
+            "schedule": {
+              "repetitions": 5,
+              "frequency": "MONTHLY"
+            }
+          }
+        ],
+        "matchingRules": {
+          "$.body[0].id": {
+            "match": "type"
+          },
+          "$.body[1].id": {
+            "match": "type"
+          },
+          "$.body[2].id": {
+            "match": "type"
+          }
+        }
+      }
+    },
+    {
+      "description": "request to create a new habit",
+      "request": {
+        "method": "POST",
+        "path": "/habits",
+        "headers": {
+          "Accept": "application/json"
+        },
+        "body": {
+          "name": "new habit",
+          "schedule": {
+            "repetitions": 1,
+            "frequency": "DAILY"
+          }
+        }
+      },
+      "response": {
+        "status": 201,
+        "headers": {
+        }
+      }
+    },
+    {
+      "description": "request to delete the habit with id '123'",
+      "providerState": "habit with id '123' exists",
+      "request": {
+        "method": "DELETE",
+        "path": "/habits/123"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "2.0.0"
+    }
+  }
+}

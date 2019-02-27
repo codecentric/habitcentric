@@ -17,7 +17,7 @@ variables:
 
 unit testing:
   stage: test
-  image: node:10.15.0-alpine
+  image: node:10.15
   before_script:
     - yarn config set cache-folder .yarn
     - yarn install
@@ -27,7 +27,7 @@ unit testing:
 
 build for production:
   stage: build
-  image: node:10.15.0-alpine
+  image: node:10.15
   before_script:
     - yarn config set cache-folder .yarn
     - yarn install
