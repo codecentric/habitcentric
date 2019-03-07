@@ -1,0 +1,36 @@
+stages:
+  - build
+  - build image
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_DRIVER: overlay2
+
+build:
+  stage: build
+  image: gradle:5.2.1-jdk8-alpine
+  script: "gradle clean build"
+  artifacts:
+    when: always
+    name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
+    expire_in: 1 week
+    paths:
+      - build/libs/hc-gateway-*.jar
+      - build/reports/tests/test/
+      - build/test-results/test/TEST-*.xml
+
+build image:
+  stage: build image
+  image: docker:stable
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build --cache-from $CI_REGISTRY_IMAGE:latest
+      -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+      -t $CI_REGISTRY_IMAGE:latest
+      .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker push $CI_REGISTRY_IMAGE:latest
