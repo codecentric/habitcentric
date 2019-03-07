@@ -1,2 +1,36 @@
-# hc-gateway
+# Development
 
+## Execute Tests
+
+```
+./gradlew test
+```
+
+## Build
+
+You can created a fat JAR that contains all dependencies and a Tomcat server to run the application as follows: 
+
+```
+./gradlew clean build
+```
+
+## Start Application Locally
+
+To start the gateway on port 8431 with Gradle execute:
+```
+./gradlew bootRun
+```
+
+It's recommend to use `docker-compose` to start the gateway on port 8419:
+```
+docker-compose up --build
+```
+
+`Dockerfile` describes the application's Docker image and expects an existing JAR ([see Build](#build)).
+`--build` makes sure that this Docker image is build each time and changes become effective.
+
+You can terminate all started containers as follows:
+
+```
+docker-compose down
+```

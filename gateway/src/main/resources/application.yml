@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: hc-gateway
+
+---
+
+spring:
+  profiles: local
+server:
+  port: 8431
