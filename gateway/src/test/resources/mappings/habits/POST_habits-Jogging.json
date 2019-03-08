@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/habits",
+    "headers": {
+      "Authorization": {
+        "absent": true
+      },
+      "Content-Type": {
+        "contains": "application/json"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": {
+          "expression": "$.name",
+          "contains": "Jogging"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 201
+  }
+}

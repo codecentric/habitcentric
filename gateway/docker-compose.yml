@@ -2,5 +2,41 @@ version: '3.1'
 services:
   gateway:
     build: .
+    environment:
+      HABIT_URI: http://habit:8080
+      TRACK_URI: http://track:8080
+      UI_URI: http://ui
     ports:
       - 8419:8080
+    depends_on:
+      - habit
+      - track
+      - ui
+  habit:
+    build: ../hc-habit
+    depends_on:
+      - habit-db
+    environment:
+      DB_HOST: habit-db
+  habit-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ../hc-habit/src/test/resources/db:/docker-entrypoint-initdb.d
+  track:
+    build: ../hc-track
+    depends_on:
+      - track-db
+    environment:
+      DB_HOST: track-db
+  track-db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ../hc-track/src/test/resources/db:/docker-entrypoint-initdb.d
+  ui:
+    build: ../hc-ui

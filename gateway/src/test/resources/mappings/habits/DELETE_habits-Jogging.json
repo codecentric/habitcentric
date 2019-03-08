@@ -1,0 +1,14 @@
+{
+  "request": {
+    "method": "DELETE",
+    "url": "/habits/123",
+    "headers": {
+      "Authorization": {
+        "absent": true
+      }
+    }
+  },
+  "response": {
+    "status": 200
+  }
+}
