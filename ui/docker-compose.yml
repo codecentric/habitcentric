@@ -11,6 +11,6 @@ services:
     command: --verbose
     restart: always
     ports:
-      - 8179:8080
+      - 8419:8080
     volumes:
       - ./stubs:/home/wiremock

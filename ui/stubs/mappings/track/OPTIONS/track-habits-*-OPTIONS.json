@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "OPTIONS",
-    "urlPattern": "/track/users/(.*)/habits/([0-9]*)"
+    "urlPattern": "/track/habits/([0-9]*)"
   },
   "response": {
     "status": 200,

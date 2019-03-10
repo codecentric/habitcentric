@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "url": "/track/users/default/habits/51"
+    "url": "/track/habits/51"
   },
   "response": {
     "status": 200,

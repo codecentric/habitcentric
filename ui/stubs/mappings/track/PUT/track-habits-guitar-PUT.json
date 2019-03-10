@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "PUT",
-    "url": "/track/users/default/habits/51",
+    "url": "/track/habits/51",
     "bodyPatterns": [
       {
         "matches": ".*"
