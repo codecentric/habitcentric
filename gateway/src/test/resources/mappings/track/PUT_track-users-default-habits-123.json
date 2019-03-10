@@ -8,6 +8,9 @@
       },
       "Content-Type": {
         "contains": "application/json"
+      },
+      "X-User-ID": {
+        "equalTo": "default"
       }
     },
     "bodyPatterns": [
