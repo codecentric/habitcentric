@@ -49,6 +49,10 @@ public class Habit {
     @Valid
     private Schedule schedule;
 
+    @NotBlank
+    @Size(min = 5, max = 64)
+    private String userId;
+
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
@@ -69,10 +73,11 @@ public class Habit {
         enum Frequency {DAILY, WEEKLY, MONTHLY, YEARLY}
     }
 
-    public static Habit from(ModificationRequest modificationRequest) {
+    public static Habit from(ModificationRequest modificationRequest, String userId) {
         return builder()
                 .name(modificationRequest.getName())
                 .schedule(modificationRequest.getSchedule())
+                .userId(userId)
                 .build();
     }
 

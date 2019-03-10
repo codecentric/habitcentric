@@ -2,19 +2,15 @@ package de.codecentric.hc.habit;
 
 import de.codecentric.hc.habit.Habit.ModificationRequest;
 import de.codecentric.hc.habit.Habit.Schedule;
+import de.codecentric.hc.habit.testing.RestAssuredTest;
+import io.restassured.http.Header;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpHeaders;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -24,8 +20,8 @@ import java.util.stream.Stream;
 
 import static de.codecentric.hc.habit.Habit.Schedule.Frequency.DAILY;
 import static de.codecentric.hc.habit.Habit.Schedule.Frequency.WEEKLY;
+import static de.codecentric.hc.habit.HabitController.USER_ID_HEADER_NAME;
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.contains;
@@ -38,20 +34,14 @@ import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class HabitControllerTest {
+public class HabitControllerTest extends RestAssuredTest {
 
     private static final String TABLE_NAME = "HABIT";
-
+    private static final Header DEFAULT_USER_ID_HEADER = new Header(USER_ID_HEADER_NAME, "default");
     private static final Schedule DEFAULT_SCHEDULE = new Schedule(1, DAILY);
 
     @ClassRule
     public static JdbcDatabaseContainer database = new PostgreSQLContainer();
-
-    @LocalServerPort
-    private int port;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -69,7 +59,7 @@ public class HabitControllerTest {
 
         Stream.of(inserted).forEach(name -> insertHabit(name));
 
-        given().port(port)
+        given().header(DEFAULT_USER_ID_HEADER)
                 .when().get("/habits")
                 .then().statusCode(200)
                 .body("name", contains(expected))
@@ -84,7 +74,7 @@ public class HabitControllerTest {
 
         Stream.of(inserted).forEach(name -> insertHabit(name));
 
-        given().port(port)
+        given().header(DEFAULT_USER_ID_HEADER)
                 .when().get("/habits")
                 .then().statusCode(200)
                 .body("name", contains(expected))
@@ -101,14 +91,16 @@ public class HabitControllerTest {
 
         assertThat(numberOfHabits()).isZero();
 
-        String location = given().port(port).contentType(JSON).body(body)
+        String location = given().header(DEFAULT_USER_ID_HEADER)
+                .contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(CREATED.value()).body(isEmptyOrNullString())
                 .extract().header("location");
 
         assertThat(numberOfHabits()).isOne();
 
-        Habit habit = given().when().get(location)
+        Habit habit = given().header(DEFAULT_USER_ID_HEADER)
+                .when().get(location)
                 .then().statusCode(OK.value())
                 .extract().body().as(Habit.class);
         assertThat(habit.getName()).isEqualTo(body.getName());
@@ -123,7 +115,7 @@ public class HabitControllerTest {
                 .schedule(DEFAULT_SCHEDULE)
                 .build();
 
-        given().port(port).contentType(JSON).body(body)
+        given().contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(BAD_REQUEST.value())
                 .body("errors[0].objectName", equalTo("modificationRequest"))
@@ -145,7 +137,8 @@ public class HabitControllerTest {
                 .schedule(DEFAULT_SCHEDULE)
                 .build();
 
-        given().port(port).contentType(JSON).body(body)
+        given().header(DEFAULT_USER_ID_HEADER)
+                .contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(BAD_REQUEST.value())
                 .body("message", equalTo("Please choose a unique habit name."));
@@ -163,7 +156,8 @@ public class HabitControllerTest {
                 .schedule(DEFAULT_SCHEDULE)
                 .build();
 
-        given().port(port).contentType(JSON).body(body)
+        given().header(DEFAULT_USER_ID_HEADER)
+                .contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(CREATED.value())
                 .body(isEmptyOrNullString());
@@ -181,7 +175,7 @@ public class HabitControllerTest {
                 .schedule(DEFAULT_SCHEDULE)
                 .build();
 
-        given().port(port).contentType(JSON).body(body)
+        given().contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(BAD_REQUEST.value())
                 .body("errors[0].objectName", equalTo("modificationRequest"))
@@ -197,7 +191,7 @@ public class HabitControllerTest {
                 .name("Jogging")
                 .build();
 
-        given().port(port).contentType(JSON).body(body)
+        given().contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(BAD_REQUEST.value())
                 .body("errors[0].objectName", equalTo("modificationRequest"))
@@ -214,7 +208,8 @@ public class HabitControllerTest {
 
         assertThat(numberOfHabits()).isOne();
 
-        when().delete(location)
+        given().header(DEFAULT_USER_ID_HEADER)
+                .when().delete(location)
                 .then().statusCode(OK.value())
                 .body(isEmptyOrNullString());
 
@@ -223,7 +218,7 @@ public class HabitControllerTest {
 
     @Test
     public void deleteHabitNotFound() {
-        given().port(port)
+        given().header(DEFAULT_USER_ID_HEADER)
                 .when().delete("/habits/{id}", 999)
                 .then().statusCode(NOT_FOUND.value())
                 .body("message", equalTo("Habit '999' could not be found."));
@@ -236,7 +231,8 @@ public class HabitControllerTest {
                 .schedule(DEFAULT_SCHEDULE)
                 .build();
 
-        return given().port(port).contentType(JSON).body(habit)
+        return given().header(DEFAULT_USER_ID_HEADER)
+                .contentType(JSON).body(habit)
                 .when().post("/habits")
                 .then().statusCode(CREATED.value())
                 .extract().header(HttpHeaders.LOCATION);
