@@ -13,13 +13,13 @@ public class TrackTest extends WebTest {
 
     @Test
     public void getTrackRecordsShouldReturnTrackRecordsForHabits() {
-        get("/track/users/default/habits/123", DEFAULT).expectStatus().isOk()
+        get("/track/habits/123", DEFAULT).expectStatus().isOk()
                 .expectBody().jsonPath("$[*]").value(hasItems("2019-03-19", "2019-03-20", "2019-03-21"));
     }
 
     @Test
     public void putTrackRecordsShouldUpsertTrackRecordsForHabits() {
         List<String> dates = Arrays.asList("2019-03-19", "2019-03-20", "2019-03-21");
-        put("/track/users/default/habits/123", DEFAULT, dates).expectStatus().isOk();
+        put("/track/habits/123", DEFAULT, dates).expectStatus().isOk();
     }
 }
