@@ -4,19 +4,15 @@ services:
     build: .
     environment:
       DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: postgres
-      DB_USER: postgres
-      DB_PASSWORD: apE8pNGeG3dJe5j4
     ports:
-      - 8180:8180
+      - 8180:8080
     depends_on:
       - db
   db:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: apE8pNGeG3dJe5j4
+      POSTGRES_PASSWORD: postgres
     ports:
       - 5432:5432
     volumes:
