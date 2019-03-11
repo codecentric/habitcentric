@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static de.codecentric.hc.gateway.security.ApplicationUserRole.MONITORING;
+import static de.codecentric.hc.gateway.security.ApplicationUserRole.USER;
 
 @EnableWebFluxSecurity
 public class SecurityConfig {
@@ -30,12 +31,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-        http
+        http.csrf().disable()
                 .authorizeExchange()
                 .pathMatchers("/actuator/**").hasRole(MONITORING.name())
                 .pathMatchers("/favicon.ico").permitAll()
-                .and().httpBasic()
-                .and().formLogin();
+                .pathMatchers("/habits/**").hasRole(USER.name())
+                .pathMatchers("/track/**").hasRole(USER.name())
+                .pathMatchers("/ui/**").hasRole(USER.name())
+                .and().httpBasic();
         return http.build();
     }
 }

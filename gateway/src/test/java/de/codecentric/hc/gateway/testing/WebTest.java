@@ -7,6 +7,7 @@ import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
 import org.springframework.util.Base64Utils;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 
 public abstract class WebTest extends GatewayTest {
 
@@ -19,6 +20,36 @@ public abstract class WebTest extends GatewayTest {
 
     protected ResponseSpec get(String uri, ApplicationUser user) {
         return webClient.get().uri(uri)
+                .header("Authorization", basicAuthHeader(user)).exchange();
+    }
+
+    protected ResponseSpec post(String uri, Object body) {
+        return webClient.post().uri(uri)
+                .contentType(APPLICATION_JSON_UTF8).syncBody(body).exchange();
+    }
+
+    protected ResponseSpec post(String uri, ApplicationUser user, Object body) {
+        return webClient.post().uri(uri).header("Authorization", basicAuthHeader(user))
+                .contentType(APPLICATION_JSON_UTF8).syncBody(body).exchange();
+    }
+
+    protected ResponseSpec put(String uri, Object body) {
+        return webClient.put().uri(uri)
+                .contentType(APPLICATION_JSON_UTF8).syncBody(body).exchange();
+    }
+
+    protected ResponseSpec put(String uri, ApplicationUser user, Object body) {
+        return webClient.put().uri(uri)
+                .header("Authorization", basicAuthHeader(user))
+                .contentType(APPLICATION_JSON_UTF8).syncBody(body).exchange();
+    }
+
+    protected ResponseSpec delete(String uri) {
+        return webClient.delete().uri(uri).exchange();
+    }
+
+    protected ResponseSpec delete(String uri, ApplicationUser user) {
+        return webClient.delete().uri(uri)
                 .header("Authorization", basicAuthHeader(user)).exchange();
     }
 
