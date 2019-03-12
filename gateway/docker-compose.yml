@@ -8,10 +8,6 @@ services:
       UI_URI: http://ui
     ports:
       - 8419:8080
-    depends_on:
-      - habit
-      - track
-      - ui
   habit:
     build: ../hc-habit
     depends_on:
