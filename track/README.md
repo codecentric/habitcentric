@@ -31,7 +31,7 @@ docker-compose up --build
 
 It's recommend to use `docker-compose` to start the following components on your local machine:
 * [REST webservice](http://localhost:8219/actuator/health) (port 8219)
-* PostgreSQL database (port 8221)
+* PostgreSQL database
 
 `Dockerfile` describes the application's Docker image and expects an existing JAR ([see Build](#build)).
 `--build` makes sure that this Docker image is build each time and changes become effective.
