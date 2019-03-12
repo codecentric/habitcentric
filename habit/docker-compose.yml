@@ -15,10 +15,3 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - ./src/test/resources/db:/docker-entrypoint-initdb.d
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8380:8080
-    depends_on:
-      - db
