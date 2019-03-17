@@ -1,13 +1,13 @@
 # API
 
-## HTTP Endpoints
+## Documentation
 
-| Verb   | Endpoint                                                  | Description             |
-| ------ | --------------------------------------------------------- |------------------------ |
-| GET    | [/habits](http://localhost:8180/habits)                   | Retrieves all habits    |
-| POST   | [/habits/{id}](http://localhost:8180/habits/{id})         | Creates new habits      |
-| DELETE | [/habits/{id}](http://localhost:8180/habits/{id})         | Deletes existing habits |
-| GET    | [/actuator/health](http://localhost:8180/actuator/health) | Health check            |
+This project uses OpenAPI Specification version 2.0 to document its API.
+
+After starting the service locally you can find the documentation here:
+
+* OpenAPI Document: http://localhost:8180/v2/api-docs
+* Swagger UI: http://localhost:8180/swagger-ui.html
 
 # Development
 
