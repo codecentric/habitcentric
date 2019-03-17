@@ -65,6 +65,7 @@ dependencies {
     liquibaseRuntime("ch.qos.logback:logback-core:1.2.3")
     liquibaseRuntime("ch.qos.logback:logback-classic:1.2.3")
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    intTestImplementation 'au.com.dius:pact-jvm-provider-spring_2.12:3.6.12'
     intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
     intTestImplementation 'io.rest-assured:rest-assured:3.3.0'
     intTestImplementation 'org.testcontainers:testcontainers:1.11.3'
