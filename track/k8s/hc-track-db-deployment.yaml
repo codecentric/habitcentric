@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: habitcentric
+  name: track-db
+  labels:
+    app: habitcentric
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: habitcentric
+      component: track-db
+  template:
+    metadata:
+      labels:
+        app: habitcentric
+        component: track-db
+    spec:
+      containers:
+        - name: track-db
+          image: postgres
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: track-db-secret
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdb
+            - mountPath: /docker-entrypoint-initdb.d
+              name: postgresdb-init
+      volumes:
+        - name: postgresdb
+          persistentVolumeClaim:
+            claimName: track-db-pv-claim
+        - name: postgresdb-init
+          configMap:
+            name: track-db-init-config

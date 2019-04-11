@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: habitcentric
+  name: track
+  labels:
+    app: habitcentric
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: habitcentric
+      component: track
+  template:
+    metadata:
+      labels:
+        app: habitcentric
+        component: track
+    spec:
+      containers:
+        - name: track
+          image: habitcentric/track:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: track-db
+      restartPolicy: Always
