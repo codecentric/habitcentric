@@ -13,8 +13,8 @@ variables:
 
 build:
   stage: build
-  image: gradle:4.10.2-jdk8-alpine
-  script: "gradle build"
+  image: openjdk:11-jre-slim
+  script: "./gradlew clean build"
   artifacts:
     when: always
     name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
