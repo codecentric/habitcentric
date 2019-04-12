@@ -1,8 +1,5 @@
-FROM openjdk:8-jre-alpine
+FROM openjdk:11-jre-slim
 WORKDIR /opt/
-
 COPY build/libs/hc-track-*.jar app.jar
-
 EXPOSE 8080
-
-CMD [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar app.jar" ]
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar app.jar" ]
