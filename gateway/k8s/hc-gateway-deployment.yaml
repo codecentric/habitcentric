@@ -30,4 +30,16 @@ spec:
               value: http://track:8080
             - name: UI_URI
               value: http://ui
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 120
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 120
       restartPolicy: Always
