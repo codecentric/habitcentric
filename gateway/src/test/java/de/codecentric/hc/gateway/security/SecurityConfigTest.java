@@ -10,7 +10,7 @@ public class SecurityConfigTest extends WebTest {
 
     @Test
     public void requestsWithoutAuthShouldBeUnauthorized() {
-        get("/actuator/health").expectStatus().isUnauthorized();
+        get("/actuator").expectStatus().isUnauthorized();
         get("/habits").expectStatus().isUnauthorized();
         post("/habits", "{}").expectStatus().isUnauthorized();
         delete("/habits/123").expectStatus().isUnauthorized();
@@ -20,8 +20,14 @@ public class SecurityConfigTest extends WebTest {
     }
 
     @Test
+    public void requestsWithoutAuthShouldBeOk() {
+        get("/favicon.ico").expectStatus().isOk();
+        get("/actuator/health").expectStatus().isOk();
+    }
+
+    @Test
     public void requestsWithInvalidUserRoleShouldBeForbidden() {
-        get("/actuator/health", DEFAULT).expectStatus().isForbidden();
+        get("/actuator", DEFAULT).expectStatus().isForbidden();
         get("/habits", MONITORING).expectStatus().isForbidden();
         post("/habits", MONITORING, "{}").expectStatus().isForbidden();
         delete("/habits/123", MONITORING).expectStatus().isForbidden();
