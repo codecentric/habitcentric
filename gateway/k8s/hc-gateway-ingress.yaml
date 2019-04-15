@@ -12,3 +12,7 @@ spec:
             backend:
               serviceName: gateway
               servicePort: 8419
+          - path: /*
+            backend:
+              serviceName: gateway
+              servicePort: 8419
