@@ -8,7 +8,7 @@ metadata:
     component: track-db
 spec:
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   resources:
     requests:
       storage: 0.5Gi
