@@ -10,5 +10,8 @@ RUN yarn run build
 FROM nginx:1.15.8-alpine as run
 COPY --from=build /app/dist /usr/share/nginx/html/dist
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./docker-entrypoint.sh /
+RUN chmod +x /docker-entrypoint.sh
 EXPOSE 80
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
