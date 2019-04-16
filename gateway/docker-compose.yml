@@ -36,3 +36,6 @@ services:
       - ../hc-track/src/test/resources/db:/docker-entrypoint-initdb.d
   ui:
     build: ../hc-ui
+    environment:
+      HABIT_SERVICE_HOST: http://localhost:8419/
+      TRACKING_SERVICE_HOST: http://localhost:8419/
