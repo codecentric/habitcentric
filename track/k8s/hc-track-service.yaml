@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: habitcentric
+  name: track
+spec:
+  ports:
+    - name: http-hctrack
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: habitcentric
+    component: track
