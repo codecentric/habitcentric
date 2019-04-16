@@ -26,6 +26,22 @@ spec:
           envFrom:
             - secretRef:
                 name: track-db-secret
+          readinessProbe:
+            exec:
+              command:
+                - "pg_isready"
+                - "-U"
+                - "postgres"
+            initialDelaySeconds: 20
+            periodSeconds: 120
+          livenessProbe:
+            exec:
+              command:
+                - "pg_isready"
+                - "-U"
+                - "postgres"
+            initialDelaySeconds: 20
+            periodSeconds: 120
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgresdb
