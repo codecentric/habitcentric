@@ -33,6 +33,7 @@ public class SecurityConfig {
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http.csrf().disable()
                 .authorizeExchange()
+                .pathMatchers("/actuator/health/**").permitAll()
                 .pathMatchers("/actuator/**").hasRole(MONITORING.name())
                 .pathMatchers("/favicon.ico").permitAll()
                 .pathMatchers("/habits/**").hasRole(USER.name())
