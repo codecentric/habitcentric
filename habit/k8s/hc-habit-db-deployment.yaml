@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: habitcentric
+  name: habit-db
+  labels:
+    app: habitcentric
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: habitcentric
+      component: habit-db
+  template:
+    metadata:
+      labels:
+        app: habitcentric
+        component: habit-db
+    spec:
+      containers:
+        - name: habit-db
+          image: postgres
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+                name: habit-db-secret
+          readinessProbe:
+            exec:
+              command:
+                - "pg_isready"
+                - "-U"
+                - "postgres"
+            initialDelaySeconds: 20
+            periodSeconds: 120
+          livenessProbe:
+            exec:
+              command:
+                - "pg_isready"
+                - "-U"
+                - "postgres"
+            initialDelaySeconds: 20
+            periodSeconds: 120
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgresdb
+              subPath: postgres
+            - mountPath: /docker-entrypoint-initdb.d
+              name: postgresdb-init
+      volumes:
+        - name: postgresdb
+          persistentVolumeClaim:
+            claimName: habit-db-pv-claim
+        - name: postgresdb-init
+          configMap:
+            name: habit-db-init-config

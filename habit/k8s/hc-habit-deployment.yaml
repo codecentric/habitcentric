@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: habitcentric
+  name: habit
+  labels:
+    app: habitcentric
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: habitcentric
+      component: habit
+  template:
+    metadata:
+      labels:
+        app: habitcentric
+        component: habit
+    spec:
+      containers:
+        - name: habit
+          image: habitcentric/habit:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: habit-db
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 120
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 120
+      restartPolicy: Always
