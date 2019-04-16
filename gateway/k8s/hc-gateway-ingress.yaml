@@ -1,0 +1,14 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: habitcentric
+  name: gateway-ingress
+spec:
+  rules:
+    - host: habitcentric.demo
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: gateway
+              servicePort: 8419
