@@ -46,12 +46,7 @@ spec:
             - mountPath: /var/lib/postgresql/data
               name: postgresdb
               subPath: postgres
-            - mountPath: /docker-entrypoint-initdb.d
-              name: postgresdb-init
       volumes:
         - name: postgresdb
           persistentVolumeClaim:
             claimName: habit-db-pv-claim
-        - name: postgresdb-init
-          configMap:
-            name: habit-db-init-config

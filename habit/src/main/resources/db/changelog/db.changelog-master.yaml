@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-schema
+      author: denniseffing
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: UTF-8
+            endDelimiter: \nGO
+            path: db/1-create-schema.sql
+            relativeToChangeLogFile: false

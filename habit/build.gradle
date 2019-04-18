@@ -30,6 +30,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql:42.2.5'
+    runtimeOnly 'org.liquibase:liquibase-core:3.6.3'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
     testImplementation 'org.testcontainers:testcontainers:1.10.6'
