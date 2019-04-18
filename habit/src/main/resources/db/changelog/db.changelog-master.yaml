@@ -1,5 +1,17 @@
 databaseChangeLog:
   - changeSet:
+      id: strip-classpath-changelog-prefix
+      author: denniseffing
+      runAlways: true
+      runOrder: last
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            encoding: UTF-8
+            endDelimiter: \nGO
+            path: db/0-strip-classpath-changelog-prefix.sql
+            relativeToChangeLogFile: false
+  - changeSet:
       id: create-schema
       author: denniseffing
       changes:
