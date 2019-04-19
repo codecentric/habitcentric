@@ -23,3 +23,7 @@ docker volume rm auth-keycloak_postgres-data
 ```
 
 > Make sure that Keycloak is not running when deleting the volume.
+
+## Infrastructure
+The required infrastructure (e.g. the database) in the Google Cloud is managed with Terraform.
+Please refer to [terraform.md](terraform.md) for more details.
