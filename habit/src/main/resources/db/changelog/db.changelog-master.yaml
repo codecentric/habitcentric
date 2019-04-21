@@ -11,6 +11,7 @@ databaseChangeLog:
             endDelimiter: \nGO
             path: db/0-strip-classpath-changelog-prefix.sql
             relativeToChangeLogFile: false
+      rollback:
   - changeSet:
       id: create-schema
       author: denniseffing
@@ -20,4 +21,11 @@ databaseChangeLog:
             encoding: UTF-8
             endDelimiter: \nGO
             path: db/1-create-schema.sql
+            relativeToChangeLogFile: false
+      rollback:
+        - sqlFile:
+            dbms: postgresql
+            encoding: UTF-8
+            endDelimiter: \nGO
+            path: db/rollback/1-create-schema-rb.sql
             relativeToChangeLogFile: false
