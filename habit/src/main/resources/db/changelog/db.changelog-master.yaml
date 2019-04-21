@@ -16,6 +16,8 @@ databaseChangeLog:
       id: create-schema
       author: denniseffing
       changes:
+        - tagDatabase:
+            tag: version_1.0
         - sqlFile:
             dbms: postgresql
             encoding: UTF-8
