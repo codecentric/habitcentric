@@ -10,9 +10,9 @@ group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-def dbUrl = 'jdbc:postgresql://localhost:5432/'
-def dbUser = 'postgres'
-def dbPassword = 'postgres'
+def dbUrlDefault = 'jdbc:postgresql://localhost:5432/'
+def dbUserDefault = 'postgres'
+def dbPasswordDefault = 'postgres'
 
 bootRun {
     args = ["--server.port=8180"]
@@ -24,9 +24,9 @@ liquibase {
         main {
             classpath "$projectDir/src/main/resources/"
             changeLogFile '/db/changelog/db.changelog-master.yaml'
-            url dbUrl
-            username dbUser
-            password dbPassword
+            url project.hasProperty('dbUrl') ? project.property('dbUrl') : dbUrlDefault
+            username project.hasProperty('dbUser') ? project.property('dbUser') : dbUserDefault
+            password project.hasProperty('dbPassword') ? project.property('dbPassword') : dbPasswordDefault
         }
     }
 }
