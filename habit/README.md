@@ -50,3 +50,17 @@ It's also possible to start each component separately:
 
 * `docker-compose up db` to start the database
 * `docker-compose up app` or `./gradlew bootRun` to start the webservice
+
+## Database
+Liquibase is used for continuously migrating the database. 
+`src/main/resources/db/changelog/db.changelog-master.yaml` describes the migration steps. 
+When starting the application, Spring automatically detects the configuration and applies the migration steps to 
+its configured data source if they have not been run yet.
+
+You can use the Liquibase Gradle plugin to conveniently run Liquibase CLI commands. It is especially useful for 
+validating and manually applying the change log and rolling back to a previous version.
+
+> Note: You can specify database credentials for the Liquibase Gradle plugin by passing the Gradle properties `dbUrl`, 
+`dbUser` and `dbPassword` (i.e. `gradle validate -PdbUrl=<db-url> -PdbUser=<db-user> -PdbPassword=<db-password>`).
+
+Click [here](https://www.liquibase.org/documentation/command_line.html) for an overview of available commands.
