@@ -13,5 +13,3 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
-    volumes:
-      - ./src/test/resources/db:/docker-entrypoint-initdb.d
