@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-habit-frequency-check-constraint
+      author: michael.follmann@codecentric.de
+      changes:
+        - sql:
+            sql: ALTER TABLE hc_habit.habit ADD CONSTRAINT check_habit_frequency CHECK (frequency IN ('DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY'));
+        - tagDatabase:
+            tag: version_1.1
+      rollback:
+        - sql:
+            sql: ALTER TABLE hc_habit.habit DROP CONSTRAINT check_habit_frequency;

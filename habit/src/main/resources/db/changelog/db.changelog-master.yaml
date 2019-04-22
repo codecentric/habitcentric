@@ -1,33 +1,9 @@
 databaseChangeLog:
-  - changeSet:
-      id: strip-classpath-changelog-prefix
-      author: denniseffing
-      runAlways: true
-      runOrder: last
-      changes:
-        - sqlFile:
-            dbms: postgresql
-            encoding: UTF-8
-            endDelimiter: \nGO
-            path: db/0-strip-classpath-changelog-prefix.sql
-            relativeToChangeLogFile: false
-      rollback:
-  - changeSet:
-      id: create-schema
-      author: denniseffing
-      changes:
-        - tagDatabase:
-            tag: version_1.0
-        - sqlFile:
-            dbms: postgresql
-            encoding: UTF-8
-            endDelimiter: \nGO
-            path: db/1-create-schema.sql
-            relativeToChangeLogFile: false
-      rollback:
-        - sqlFile:
-            dbms: postgresql
-            encoding: UTF-8
-            endDelimiter: \nGO
-            path: db/rollback/1-create-schema-rb.sql
-            relativeToChangeLogFile: false
+  - include:
+      file: db/changelog/db.changelog-1.0-create-schema.yaml
+  - include:
+      file: db/changelog/db.changelog-1.1-add-habit-frequency-check-constraint.yaml
+  - include:
+      file: db/changelog/db.changelog-1.2-add-habit-user-id-column.yaml
+  - include:
+      file: db/changelog/db.changelog-strip-classpath-changelog-prefix.yaml

@@ -1,0 +1,44 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-schema
+      author: dennis.effing@codecentric.de
+      changes:
+        - createTable:
+            tableName: habit
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(64)
+              - column:
+                  name: repetitions
+                  type: INT
+              - column:
+                  name: frequency
+                  type: VARCHAR(12)
+        - addPrimaryKey:
+            tableName: habit
+            constraintName: habit_pkey
+            columnNames: id
+        - addUniqueConstraint:
+            tableName: habit
+            constraintName: unique_habit_name
+            columnNames: name
+        - addNotNullConstraint:
+            tableName: habit
+            columnName: name
+        - addNotNullConstraint:
+            tableName: habit
+            columnName: repetitions
+        - addNotNullConstraint:
+            tableName: habit
+            columnName: frequency
+        - createSequence:
+            sequenceName: habit_seq
+            minValue: 1
+            incrementBy: 50
+            cycle: false
+        - tagDatabase:
+            tag: version_1.0
