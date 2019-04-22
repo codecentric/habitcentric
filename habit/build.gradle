@@ -27,6 +27,7 @@ liquibase {
             url project.hasProperty('dbUrl') ? project.property('dbUrl') : dbUrlDefault
             username project.hasProperty('dbUser') ? project.property('dbUser') : dbUserDefault
             password project.hasProperty('dbPassword') ? project.property('dbPassword') : dbPasswordDefault
+            defaultSchemaName 'hc_habit'
         }
     }
 }

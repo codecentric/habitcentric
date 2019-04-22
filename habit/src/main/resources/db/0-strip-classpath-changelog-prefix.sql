@@ -1,1 +1,1 @@
-UPDATE databasechangelog SET filename = REPLACE(filename, 'classpath:', '')
+UPDATE hc_habit.databasechangelog SET filename = REPLACE(filename, 'classpath:', '')

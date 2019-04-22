@@ -64,3 +64,7 @@ validating and manually applying the change log and rolling back to a previous v
 `dbUser` and `dbPassword` (i.e. `gradle validate -PdbUrl=<db-url> -PdbUser=<db-user> -PdbPassword=<db-password>`).
 
 Click [here](https://www.liquibase.org/documentation/command_line.html) for an overview of available commands.
+
+> Prerequisite: The database schema `hc_habit` needs to exist because Liquibase is not able to create it on its own and 
+store its tables in it.
+If necessary, create the schema manually or simply start the application to let the Spring framework do it for you.
