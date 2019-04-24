@@ -48,3 +48,19 @@ It's also possible to start each component separately:
 
 * `docker-compose up db` to start the database
 * `docker-compose up app` or `./gradlew bootRun` to start the webservice (Gradle will start the service on port 8209)
+
+## Database
+Flyway is used for continuously migrating the database.
+The folder `src/main/resources/db/migration` contains SQL migration scripts. Every migration must comply a specific 
+[naming pattern](https://flywaydb.org/documentation/migrations#naming) to be picked up by Flyway.
+When starting the application, Spring automatically detects the SQL scripts and applies the migration steps to its 
+configured data source if they have not been run yet.
+
+You can use the Flyway Gradle plugin to conveniently run Flyway CLI commands. It is especially useful for printing 
+status information about migrations, validating applied migrations against the ones available on the classpath and 
+manually migrating the database.
+
+> Note: You can specify database credentials for the Flyway Gradle plugin by passing the Gradle properties `dbUrl`, 
+`dbUser` and `dbPassword` (i.e. `gradle flywayInfo -PdbUrl=<db-url> -PdbUser=<db-user> -PdbPassword=<db-password>`).
+
+Click [here](https://flywaydb.org/documentation/commandline/#commands) for an overview of available commands.

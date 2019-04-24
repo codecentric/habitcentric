@@ -1,5 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'org.flywaydb.flyway' version '5.2.4'
     id 'java'
 }
 
@@ -9,14 +10,27 @@ group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
+def dbUrlDefault = 'jdbc:postgresql://localhost:5432/'
+def dbUserDefault = 'postgres'
+def dbPasswordDefault = 'postgres'
+
 bootRun {
     environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: 'local'
+}
+
+flyway {
+    url = project.hasProperty('dbUrl') ? project.property('dbUrl') : dbUrlDefault
+    user = project.hasProperty('dbUser') ? project.property('dbUser') : dbUserDefault
+    password = project.hasProperty('dbPassword') ? project.property('dbPassword') : dbPasswordDefault
+    schemas = [ 'hc_track' ]
+    configurations = [ 'compile', 'flywayMigration' ]
 }
 
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    flywayMigration
 }
 
 repositories {
@@ -30,6 +44,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql:42.2.5'
+    runtimeOnly 'org.flywaydb:flyway-core:5.2.4'
+    flywayMigration 'org.postgresql:postgresql:42.2.5'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
     testImplementation 'org.testcontainers:testcontainers:1.10.6'
