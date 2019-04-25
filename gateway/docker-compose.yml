@@ -19,8 +19,6 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
-    volumes:
-      - ../hc-habit/src/test/resources/db:/docker-entrypoint-initdb.d
   track:
     build: ../hc-track
     depends_on:
@@ -32,8 +30,6 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
-    volumes:
-      - ../hc-track/src/test/resources/db:/docker-entrypoint-initdb.d
   ui:
     build: ../hc-ui
     environment:
