@@ -36,7 +36,7 @@ import static org.springframework.http.HttpStatus.OK;
 
 public class HabitControllerTest extends RestAssuredTest {
 
-    private static final String TABLE_NAME = "HABIT";
+    private static final String TABLE_NAME = "hc_habit.HABIT";
     private static final Header DEFAULT_USER_ID_HEADER = new Header(USER_ID_HEADER_NAME, "default");
     private static final Schedule DEFAULT_SCHEDULE = new Schedule(1, DAILY);
 

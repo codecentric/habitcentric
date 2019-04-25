@@ -12,11 +12,6 @@ Create a `Namespace` for habitcentric if it does not exist yet:
 kubectl create namespace habitcentric
 ```
 
-Create a `ConfigMap` that provides the database initialization script for the database deployment:
-```bash
-kubectl create configmap habit-db-init-config -n habitcentric --from-file src/test/resources/db
-```
-
 Deploy the service:
 ```bash
 kubectl apply -f k8s/

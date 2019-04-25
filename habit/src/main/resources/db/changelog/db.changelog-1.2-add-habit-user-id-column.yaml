@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-habit-user-id-column
+      author: michael.follmann@codecentric.de
+      changes:
+        - addColumn:
+            tableName: habit
+            columns:
+              - column:
+                  name: user_id
+                  type: VARCHAR(64)
+        - tagDatabase:
+            tag: version_1.2

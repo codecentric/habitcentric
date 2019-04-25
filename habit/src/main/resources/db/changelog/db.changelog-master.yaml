@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/db.changelog-1.0-create-schema.yaml
+  - include:
+      file: db/changelog/db.changelog-1.1-add-habit-frequency-check-constraint.yaml
+  - include:
+      file: db/changelog/db.changelog-1.2-add-habit-user-id-column.yaml
+  - include:
+      file: db/changelog/db.changelog-strip-classpath-changelog-prefix.yaml

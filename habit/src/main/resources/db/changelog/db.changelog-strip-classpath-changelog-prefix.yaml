@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: strip-classpath-changelog-prefix
+      author: dennis.effing@codecentric.de
+      runAlways: true
+      runOrder: last
+      changes:
+        - sql:
+            sql: UPDATE hc_habit.databasechangelog SET filename = REPLACE(filename, 'classpath:', '');
+      comment: strip classpath file name prefix to enable Liquibase CLI and Spring Liquibase integration interoperability
+      rollback:
