@@ -63,3 +63,17 @@ helm template install/kubernetes/helm/istio --name istio --namespace istio-syste
 ```
 
 > If you want to customize your Istio installation, you can find detailed installation options [here](https://istio.io/docs/reference/config/installation-options/).
+
+## Optional telemetry gateway configuration
+You can apply `telemetry-gateway.yaml` and `telemetry-routes.yaml` to enable routing to Istio's telemetry services.
+
+`kubectl apply -f telemetry-gateway.yaml && kubectl apply -f telemetry-routes.yaml`
+
+You can access the services on the URIs shown below.
+
+| Service    | URI                    |
+|------------|------------------------|
+| Kiali      | http://kiali.demo      |
+| Grafana    | http://grafana.demo    |
+| Prometheus | http://prometheus.demo |
+| Jaeger     | http://jaeger.demo     |
