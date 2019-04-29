@@ -65,11 +65,24 @@ helm template install/kubernetes/helm/istio --name istio --namespace istio-syste
 > If you want to customize your Istio installation, you can find detailed installation options [here](https://istio.io/docs/reference/config/installation-options/).
 
 ## Optional telemetry gateway configuration
+
 You can apply `telemetry-gateway.yaml` and `telemetry-routes.yaml` to enable routing to Istio's telemetry services.
 
 `kubectl apply -f telemetry-gateway.yaml && kubectl apply -f telemetry-routes.yaml`
 
-You can access the services on the URIs shown below.
+## Accessing services
+
+Istio secures traffic entering the service mesh using load balanced ingress gateways. To access Istio enabled services inside the mesh you must configure ingress route rules using Istio's `Gateway` and `VirtualService` resource.
+
+To retrieve the external IP of your Istio ingress gateway load balancer run:
+
+```bash
+kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+```
+
+> Note: Minikube does not automatically assign external IPs to load balanced services. To enable this functionality, run `minikube tunnel` on the command line beforehand.
+
+### Service URIs
 
 | Service    | URI                    |
 |------------|------------------------|
@@ -77,3 +90,5 @@ You can access the services on the URIs shown below.
 | Grafana    | http://grafana.demo    |
 | Prometheus | http://prometheus.demo |
 | Jaeger     | http://jaeger.demo     |
+
+We recommend adding these URIs to your machine's host file using the IP of your ingress gateway load balancer.
