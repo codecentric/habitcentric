@@ -1,7 +1,7 @@
 package de.codecentric.hc.habit;
 
 import de.codecentric.hc.habit.Habit.ModificationRequest;
-import de.codecentric.hc.habit.validation.UserId;
+import de.codecentric.hc.habit.jwt.User;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataAccessException;
@@ -19,6 +19,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.net.URI;
 
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -29,7 +30,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 @Slf4j
 public class HabitController {
 
-    protected static final String USER_ID_HEADER_NAME = "X-User-ID";
+    protected static final String AUTHORIZATION_HEADER_NAME = "Authorization";
 
     private final HabitRepository repository;
 
@@ -39,25 +40,25 @@ public class HabitController {
 
     @GetMapping("/habits")
     @ResponseBody
-    public Iterable<Habit> getHabits(@RequestHeader(USER_ID_HEADER_NAME) @UserId String userId) {
-        return repository.findAllByUserIdOrderByNameAsc(userId);
+    public Iterable<Habit> getHabits(@RequestHeader(AUTHORIZATION_HEADER_NAME) @NotNull @Valid User user) {
+        return repository.findAllByUserIdOrderByNameAsc(user.getUserId());
     }
 
     @GetMapping("/habits/{id}")
     @ResponseBody
     public Habit getHabit(@PathVariable Long id,
-                          @RequestHeader(USER_ID_HEADER_NAME) @UserId String userId) {
-        return repository.findByIdAndUserId(id, userId).orElseThrow(
+                          @RequestHeader(AUTHORIZATION_HEADER_NAME) @NotNull @Valid User user) {
+        return repository.findByIdAndUserId(id, user.getUserId()).orElseThrow(
                 () -> new ResponseStatusException(NOT_FOUND, String.format("Habit '%s' could not be found.", id))
         );
     }
 
     @PostMapping("/habits")
     public ResponseEntity createHabit(@RequestBody @Valid ModificationRequest modificationRequest,
-                                      @RequestHeader(USER_ID_HEADER_NAME) @UserId String userId) {
+                                      @RequestHeader(AUTHORIZATION_HEADER_NAME) @NotNull @Valid User user) {
 
         try {
-            Habit habit = repository.save(Habit.from(modificationRequest, userId));
+            Habit habit = repository.save(Habit.from(modificationRequest, user.getUserId()));
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
@@ -72,8 +73,8 @@ public class HabitController {
 
     @DeleteMapping("/habits/{id}")
     public ResponseEntity deleteHabit(@PathVariable Long id,
-                                      @RequestHeader(USER_ID_HEADER_NAME) @UserId String userId) {
-        Long deletedRecords = repository.deleteByIdAndUserId(id, userId);
+                                      @RequestHeader(AUTHORIZATION_HEADER_NAME) @NotNull @Valid User user) {
+        Long deletedRecords = repository.deleteByIdAndUserId(id, user.getUserId());
         if (deletedRecords < 1) {
             throw new ResponseStatusException(NOT_FOUND, String.format("Habit '%s' could not be found.", id));
         }

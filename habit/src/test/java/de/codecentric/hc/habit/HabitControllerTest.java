@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 
 import static de.codecentric.hc.habit.Habit.Schedule.Frequency.DAILY;
 import static de.codecentric.hc.habit.Habit.Schedule.Frequency.WEEKLY;
-import static de.codecentric.hc.habit.HabitController.USER_ID_HEADER_NAME;
+import static de.codecentric.hc.habit.HabitController.AUTHORIZATION_HEADER_NAME;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +37,8 @@ import static org.springframework.http.HttpStatus.OK;
 public class HabitControllerTest extends RestAssuredTest {
 
     private static final String TABLE_NAME = "hc_habit.HABIT";
-    private static final Header DEFAULT_USER_ID_HEADER = new Header(USER_ID_HEADER_NAME, "default");
+    private static final Header DEFAULT_AUTHORIZATION_HEADER = new Header(AUTHORIZATION_HEADER_NAME, "Bearer " +
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZWZhdWx0In0.2E88ZlFE4Tor8d5gRU2451WrLtDavGfgbFf8ZuKBRxM");
     private static final Schedule DEFAULT_SCHEDULE = new Schedule(1, DAILY);
 
     @ClassRule
@@ -59,7 +60,7 @@ public class HabitControllerTest extends RestAssuredTest {
 
         Stream.of(inserted).forEach(name -> insertHabit(name));
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                 .when().get("/habits")
                 .then().statusCode(200)
                 .body("name", contains(expected))
@@ -74,7 +75,7 @@ public class HabitControllerTest extends RestAssuredTest {
 
         Stream.of(inserted).forEach(name -> insertHabit(name));
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                 .when().get("/habits")
                 .then().statusCode(200)
                 .body("name", contains(expected))
@@ -91,7 +92,7 @@ public class HabitControllerTest extends RestAssuredTest {
 
         assertThat(numberOfHabits()).isZero();
 
-        String location = given().header(DEFAULT_USER_ID_HEADER)
+        String location = given().header(DEFAULT_AUTHORIZATION_HEADER)
                 .contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(CREATED.value()).body(isEmptyOrNullString())
@@ -99,7 +100,7 @@ public class HabitControllerTest extends RestAssuredTest {
 
         assertThat(numberOfHabits()).isOne();
 
-        Habit habit = given().header(DEFAULT_USER_ID_HEADER)
+        Habit habit = given().header(DEFAULT_AUTHORIZATION_HEADER)
                 .when().get(location)
                 .then().statusCode(OK.value())
                 .extract().body().as(Habit.class);
@@ -137,7 +138,7 @@ public class HabitControllerTest extends RestAssuredTest {
                 .schedule(DEFAULT_SCHEDULE)
                 .build();
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                 .contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(BAD_REQUEST.value())
@@ -156,7 +157,7 @@ public class HabitControllerTest extends RestAssuredTest {
                 .schedule(DEFAULT_SCHEDULE)
                 .build();
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                 .contentType(JSON).body(body)
                 .when().post("/habits")
                 .then().statusCode(CREATED.value())
@@ -208,7 +209,7 @@ public class HabitControllerTest extends RestAssuredTest {
 
         assertThat(numberOfHabits()).isOne();
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                 .when().delete(location)
                 .then().statusCode(OK.value())
                 .body(isEmptyOrNullString());
@@ -218,7 +219,7 @@ public class HabitControllerTest extends RestAssuredTest {
 
     @Test
     public void deleteHabitNotFound() {
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                 .when().delete("/habits/{id}", 999)
                 .then().statusCode(NOT_FOUND.value())
                 .body("message", equalTo("Habit '999' could not be found."));
@@ -231,7 +232,7 @@ public class HabitControllerTest extends RestAssuredTest {
                 .schedule(DEFAULT_SCHEDULE)
                 .build();
 
-        return given().header(DEFAULT_USER_ID_HEADER)
+        return given().header(DEFAULT_AUTHORIZATION_HEADER)
                 .contentType(JSON).body(habit)
                 .when().post("/habits")
                 .then().statusCode(CREATED.value())
