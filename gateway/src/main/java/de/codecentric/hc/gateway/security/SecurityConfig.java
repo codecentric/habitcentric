@@ -6,6 +6,8 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
 import java.util.List;
@@ -20,12 +22,18 @@ public class SecurityConfig {
 
     @Bean
     public MapReactiveUserDetailsService userDetailsService() {
-        List<UserDetails> users = Stream.of(ApplicationUser.values()).map(
-                user -> User.withDefaultPasswordEncoder()
-                        .username(user.getName())
-                        .password(user.getPassword())
-                        .roles(user.getRole().name())
-                        .build()).collect(Collectors.toList());
+        List<UserDetails> users = Stream.of(ApplicationUser.values())
+                .map(userDetails -> User.withUsername(userDetails.getUsername())
+                        .password(passwordEncoder().encode(userDetails.getPassword()))
+                        .roles(userDetails.getRole().name())
+                        .build()
+                ).collect(Collectors.toList());
+        users.addAll(ApplicationUser.lptUsers.stream()
+                .map(username -> User.withUsername(username)
+                        .password(passwordEncoder().encode(username))
+                        .roles(USER.name())
+                        .build()
+                ).collect(Collectors.toList()));
         return new MapReactiveUserDetailsService(users);
     }
 
@@ -41,5 +49,10 @@ public class SecurityConfig {
                 .pathMatchers("/ui/**").hasRole(USER.name())
                 .and().httpBasic();
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
