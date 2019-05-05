@@ -19,3 +19,6 @@ spring:
         # https://github.com/spring-projects/spring-boot/issues/12007#issuecomment-370774241
         jdbc.lob.non_contextual_creation: true
   liquibase.defaultSchema: hc_habit
+logging:
+  level:
+    liquibase.executor: WARN
