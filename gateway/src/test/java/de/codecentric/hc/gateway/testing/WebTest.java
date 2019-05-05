@@ -62,6 +62,6 @@ public abstract class WebTest extends GatewayTest {
     }
 
     private String plainCredentials(ApplicationUser user) {
-        return String.format("%s:%s", user.getName(), user.getPassword());
+        return String.format("%s:%s", user.getUsername(), user.getPassword());
     }
 }

@@ -12,7 +12,7 @@ public class MonitoringTest extends RestAssuredTest {
     @Test
     public void getActuatorShouldReturnOk() {
         ApplicationUser user = ApplicationUser.MONITORING;
-        given().auth().basic(user.getName(), user.getPassword())
+        given().auth().basic(user.getUsername(), user.getPassword())
                 .when().get("/actuator")
                 .then().statusCode(200).body("_links.self.href", containsString("http://localhost"));
     }

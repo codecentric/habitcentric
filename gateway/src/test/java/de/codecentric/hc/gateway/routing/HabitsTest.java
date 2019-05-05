@@ -13,7 +13,7 @@ public class HabitsTest extends RestAssuredTest {
     @Test
     public void getHabitsShouldReturnHabits() {
         ApplicationUser user = ApplicationUser.DEFAULT;
-        given().auth().basic(user.getName(), user.getPassword())
+        given().auth().basic(user.getUsername(), user.getPassword())
                 .when().get("/habits")
                 .then().statusCode(200)
                 .body("name", contains("Jogging", "Meditate", "Play guitar"));
@@ -22,7 +22,7 @@ public class HabitsTest extends RestAssuredTest {
     @Test
     public void postHabitsShouldReturnCreated() {
         ApplicationUser user = ApplicationUser.DEFAULT;
-        given().auth().basic(user.getName(), user.getPassword())
+        given().auth().basic(user.getUsername(), user.getPassword())
                 .contentType(JSON)
                 .body("{\"name\": \"Jogging\"}")
                 .when().post("/habits")
@@ -32,7 +32,7 @@ public class HabitsTest extends RestAssuredTest {
     @Test
     public void deleteHabitsShouldReturnOk() {
         ApplicationUser user = ApplicationUser.DEFAULT;
-        given().auth().basic(user.getName(), user.getPassword())
+        given().auth().basic(user.getUsername(), user.getPassword())
                 .when().delete("/habits/123")
                 .then().statusCode(200);
     }
