@@ -1,0 +1,15 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop-flawed-unique-habit-name-constraint
+      author: michael.follmann@codecentric.de
+      changes:
+        - dropUniqueConstraint:
+            tableName: habit
+            constraintName: unique_habit_name
+        - tagDatabase:
+            tag: version_1.3
+      rollback:
+        - addUniqueConstraint:
+            tableName: habit
+            constraintName: unique_habit_name
+            columnNames: name
