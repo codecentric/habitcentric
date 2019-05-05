@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-fixed-unique-habit-name-constraint
+      author: michael.follmann@codecentric.de
+      changes:
+        - addUniqueConstraint:
+            tableName: habit
+            constraintName: unique_habit_name
+            columnNames: name, user_id
+        - tagDatabase:
+            tag: version_1.4
