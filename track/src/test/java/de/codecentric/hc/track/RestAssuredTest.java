@@ -13,12 +13,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public abstract class RestAssuredTest {
 
-    @LocalServerPort
-    private int port;
+  @LocalServerPort private int port;
 
-    @Before
-    public void configureRestAssured() {
-        RestAssured.port = port;
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-    }
+  @Before
+  public void configureRestAssured() {
+    RestAssured.port = port;
+    RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+  }
 }
