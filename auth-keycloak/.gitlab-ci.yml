@@ -26,6 +26,8 @@ plan:
     - terraform validate
     - terraform plan
     - terraform plan -destroy
+  only:
+    - master
 
 apply:
   stage: apply
