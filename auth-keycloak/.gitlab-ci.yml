@@ -1,0 +1,43 @@
+stages:
+  - validate
+  - plan
+  - apply
+  - destroy
+
+image:
+  name: hashicorp/terraform:0.11.13
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+variables:
+  GOOGLE_APPLICATION_CREDENTIALS: $CI_PROJECT_DIR/credentials/gcp-account-key-terraform.json
+
+before_script:
+  - rm -rf .terraform
+  - terraform --version
+  - mkdir -p ./credentials
+  - echo $GCP_ACCOUNT_KEY | base64 -d > $GOOGLE_APPLICATION_CREDENTIALS
+  - terraform init
+
+plan:
+  stage: plan
+  script:
+    - terraform validate
+    - terraform plan
+    - terraform plan -destroy
+
+apply:
+  stage: apply
+  script:
+    - terraform apply -auto-approve
+  when: manual
+
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve -target google_sql_database.keycloak
+    - terraform destroy -auto-approve -target google_sql_user.users
+  only:
+    variables:
+      - $TERRAFORM_ACTION == "destroy"
