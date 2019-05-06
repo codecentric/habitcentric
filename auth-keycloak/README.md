@@ -19,7 +19,7 @@ docker-compose down
 The Postgres database is persisted using a Docker volume. If you want to delete your existing Keycloak configuration to start from scratch run:
 
 ```bash
-docker volume rm auth-keycloak_postgres-data
+docker volume rm auth-keycloak_keycloak-db-data
 ```
 
 > Make sure that Keycloak is not running when deleting the volume.
