@@ -1,7 +1,7 @@
-package de.codecentric.hc.habit;
+package de.codecentric.hc.habit.habits;
 
-import de.codecentric.hc.habit.Habit.ModificationRequest;
-import de.codecentric.hc.habit.Habit.Schedule;
+import de.codecentric.hc.habit.habits.Habit.ModificationRequest;
+import de.codecentric.hc.habit.habits.Habit.Schedule;
 import de.codecentric.hc.habit.testing.RestAssuredTest;
 import io.restassured.http.Header;
 import org.apache.commons.lang3.StringUtils;
@@ -18,9 +18,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import java.sql.SQLException;
 import java.util.stream.Stream;
 
-import static de.codecentric.hc.habit.Habit.Schedule.Frequency.DAILY;
-import static de.codecentric.hc.habit.Habit.Schedule.Frequency.WEEKLY;
-import static de.codecentric.hc.habit.HabitController.AUTHORIZATION_HEADER_NAME;
+import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.DAILY;
+import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.WEEKLY;
+import static de.codecentric.hc.habit.habits.HabitController.AUTHORIZATION_HEADER_NAME;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;

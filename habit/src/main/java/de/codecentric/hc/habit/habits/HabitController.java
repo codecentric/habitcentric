@@ -1,6 +1,6 @@
-package de.codecentric.hc.habit;
+package de.codecentric.hc.habit.habits;
 
-import de.codecentric.hc.habit.Habit.ModificationRequest;
+import de.codecentric.hc.habit.habits.Habit.ModificationRequest;
 import de.codecentric.hc.habit.jwt.User;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
