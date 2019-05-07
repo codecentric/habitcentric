@@ -7,10 +7,20 @@ To install Istio on your Kubernetes cluster you can choose between two installat
 - automatic install using provided shell scripts *(convenient, recommended for beginners)*
 - manual install using Kubernetes Helm package manager *(configurable, recommended for advanced users)*
 
-Prerequisites:
+### Prerequisites
 
 - Running Kubernetes cluster
 - Properly configured Kubernetes client `kubectl` to administrate your cluster
+
+#### GKE specific
+
+If you are using Google Kubernetes Engine (GKE), you have to grant cluster administrator permissions to the current user. To grant cluster admin permissions, you must assign the role `Kubernetes Engine Admin` to your user in the [Google Cloud Console](https://console.cloud.google.com/iam-admin/iam).
+
+```bash
+kubectl create clusterrolebinding cluster-admin-binding \
+    --clusterrole=cluster-admin \
+    --user=$(gcloud config get-value core/account)
+```
 
 ### Automatic Installation using shell scripts
 
