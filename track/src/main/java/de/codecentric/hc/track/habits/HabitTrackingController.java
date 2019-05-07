@@ -65,29 +65,10 @@ public class HabitTrackingController {
         return extractDates(repository.findByIdUserIdAndIdHabitId(userId, habitId));
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    ResponseEntity<ApiErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
-        Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
-        ApiErrorResponse body = new ApiErrorResponse(
-                violations.stream()
-                        .map(HabitTrackingController::toApiError)
-                        .collect(Collectors.toList()));
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
-    }
-
     protected List<LocalDate> extractDates(List<HabitTracking> trackRecords) {
         return trackRecords.stream()
                 .map(tracking -> tracking.getId().getTrackDate())
                 .sorted()
                 .collect(Collectors.toList());
-    }
-
-    private static ApiError toApiError(ConstraintViolation<?> violation) {
-        String annotationName = violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName();
-        return ApiError.builder()
-                .code(String.format("ConstraintViolation.%s", annotationName))
-                .detail(violation.getMessage())
-                .build();
     }
 }
