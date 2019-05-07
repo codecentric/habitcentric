@@ -35,12 +35,28 @@ public class HabitTrackingController {
     }
 
     @Transactional
+    @PutMapping("/track/habits/{habitId}")
+    @ResponseBody
+    public List<LocalDate> putHabitTrackingRecordsWithJwt(@UserId String userId, @PathVariable @HabitId Long habitId,
+                                                          @RequestBody Set<LocalDate> dates) {
+        return putHabitTrackingRecords(userId, habitId, dates);
+    }
+
+    @Transactional
     @PutMapping("/track/users/{userId}/habits/{habitId}")
     @ResponseBody
-    public List<LocalDate> putHabitTrackingRecords(@PathVariable @UserId String userId, @PathVariable @HabitId Long habitId, @RequestBody Set<LocalDate> dates) {
+    public List<LocalDate> putHabitTrackingRecords(@PathVariable @UserId String userId, @PathVariable @HabitId Long habitId,
+                                                   @RequestBody Set<LocalDate> dates) {
         repository.deleteByIdHabitId(habitId);
         Set<HabitTracking> trackRecords = dates.stream().map(date -> new HabitTracking(userId, habitId, date)).collect(Collectors.toSet());
         return extractDates(repository.saveAll(trackRecords));
+    }
+
+    @GetMapping("/track/habits/{habitId}")
+    @ResponseBody
+    public Iterable<LocalDate> getHabitTrackingRecordsWithJwt(@UserId String userId,
+                                                              @PathVariable @HabitId Long habitId) {
+        return getHabitTrackingRecords(userId, habitId);
     }
 
     @GetMapping("/track/users/{userId}/habits/{habitId}")

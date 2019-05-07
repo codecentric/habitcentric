@@ -1,7 +1,7 @@
 package de.codecentric.hc.track.habits;
 
 import de.codecentric.hc.track.RestAssuredTest;
-import de.codecentric.hc.track.errors.ApiError;
+import de.codecentric.hc.track.errors.ApiErrorExpectations;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.ClassRule;
@@ -27,16 +27,6 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
     private final String urlTemplate = "/track/users/{userId}/habits/{habitId}";
     private final String userId = "abc.def";
     private final Long habitId = 123L;
-
-    private final ApiError expectedUserIdViolation = ApiError.builder()
-            .code("ConstraintViolation.UserId")
-            .detail("must not be blank and size must be between 5 and 64")
-            .build();
-
-    private final ApiError expectedHabitIdViolation = ApiError.builder()
-            .code("ConstraintViolation.HabitId")
-            .detail("must be greater than 0")
-            .build();
 
     @ClassRule
     public static JdbcDatabaseContainer database = new PostgreSQLContainer();
@@ -132,7 +122,7 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
         given()
                 .when().get(urlTemplate, "     ", habitId)
                 .then().statusCode(400).contentType(JSON)
-                .body(hasApiErrors(expectedUserIdViolation));
+                .body(hasApiErrors(ApiErrorExpectations.EXPECTED_USER_ID_VIOLATION));
     }
 
     @Test
@@ -140,7 +130,7 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
         given()
                 .when().get(urlTemplate, StringUtils.repeat("a", 65), habitId)
                 .then().statusCode(400).contentType(JSON)
-                .body(hasApiErrors(expectedUserIdViolation));
+                .body(hasApiErrors(ApiErrorExpectations.EXPECTED_USER_ID_VIOLATION));
     }
 
     @Test
@@ -148,31 +138,31 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
         given()
                 .when().get(urlTemplate, userId, 0)
                 .then().statusCode(400).contentType(JSON)
-                .body(hasApiErrors(expectedHabitIdViolation));
+                .body(hasApiErrors(ApiErrorExpectations.EXPECTED_HABIT_ID_VIOLATION));
     }
 
     @Test
     public void shouldRejectPutRequestsWithInvalidUserId() {
         given().contentType(JSON).body(new LocalDate[0])
-                .when().put(urlTemplate, "     ", habitId)
-                .then().statusCode(400).contentType(JSON)
-                .body(hasApiErrors(expectedUserIdViolation));
+               .when().put(urlTemplate, "     ", habitId)
+               .then().statusCode(400).contentType(JSON)
+               .body(hasApiErrors(ApiErrorExpectations.EXPECTED_USER_ID_VIOLATION));
     }
 
     @Test
     public void shouldRejectPutRequestsWithUserIdLongerThan64Characters() {
         given().contentType(JSON).body(new LocalDate[0])
-                .when().put(urlTemplate, StringUtils.repeat("a", 65), habitId)
-                .then().statusCode(400).contentType(JSON)
-                .body(hasApiErrors(expectedUserIdViolation));
+               .when().put(urlTemplate, StringUtils.repeat("a", 65), habitId)
+               .then().statusCode(400).contentType(JSON)
+               .body(hasApiErrors(ApiErrorExpectations.EXPECTED_USER_ID_VIOLATION));
     }
 
     @Test
     public void shouldRejectPutRequestsWithoutPositiveHabitId() {
         given().contentType(JSON).body(new LocalDate[0])
-                .when().put(urlTemplate, userId, 0)
-                .then().statusCode(400).contentType(JSON)
-                .body(hasApiErrors(expectedHabitIdViolation));
+               .when().put(urlTemplate, userId, 0)
+               .then().statusCode(400).contentType(JSON)
+               .body(hasApiErrors(ApiErrorExpectations.EXPECTED_HABIT_ID_VIOLATION));
     }
 
     @Test
