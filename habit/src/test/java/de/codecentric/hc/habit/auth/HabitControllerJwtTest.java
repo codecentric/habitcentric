@@ -1,6 +1,6 @@
-package de.codecentric.hc.habit.habits;
+package de.codecentric.hc.habit.auth;
 
-import de.codecentric.hc.habit.common.HttpHeaders;
+import de.codecentric.hc.habit.habits.Habit;
 import de.codecentric.hc.habit.habits.Habit.ModificationRequest;
 import de.codecentric.hc.habit.habits.Habit.Schedule;
 import de.codecentric.hc.habit.testing.RestAssuredTest;
@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.testcontainers.containers.JdbcDatabaseContainer;
@@ -21,24 +22,17 @@ import java.util.stream.Stream;
 import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.DAILY;
 import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.WEEKLY;
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.contains;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.greaterThan;
-import static org.hamcrest.Matchers.isEmptyOrNullString;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
+import static org.hamcrest.Matchers.*;
+import static org.springframework.http.HttpStatus.*;
 
-public class HabitControllerTest extends RestAssuredTest {
+// TODO: Add integration tests covering invalid or missing Authorization header
+public class HabitControllerJwtTest extends RestAssuredTest {
 
     private static final String TABLE_NAME = "hc_habit.HABIT";
-    private static final Header DEFAULT_USER_ID_HEADER = new Header(HttpHeaders.USER_ID, "default");
+    private static final Header DEFAULT_AUTHORIZATION_HEADER = new Header(HttpHeaders.AUTHORIZATION, "Bearer " +
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZWZhdWx0In0.2E88ZlFE4Tor8d5gRU2451WrLtDavGfgbFf8ZuKBRxM");
     private static final Schedule DEFAULT_SCHEDULE = new Schedule(1, DAILY);
 
     @ClassRule
@@ -60,9 +54,9 @@ public class HabitControllerTest extends RestAssuredTest {
 
         Stream.of(inserted).forEach(name -> insertHabit(name));
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                .when().get("/habits")
-               .then().statusCode(200)
+               .then().statusCode(OK.value())
                .body("name", contains(expected))
                .body("id", everyItem(greaterThan(0)));
     }
@@ -75,9 +69,9 @@ public class HabitControllerTest extends RestAssuredTest {
 
         Stream.of(inserted).forEach(name -> insertHabit(name));
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                .when().get("/habits")
-               .then().statusCode(200)
+               .then().statusCode(OK.value())
                .body("name", contains(expected))
                .body("id", everyItem(greaterThan(0)));
     }
@@ -92,7 +86,7 @@ public class HabitControllerTest extends RestAssuredTest {
 
         assertThat(numberOfHabits()).isZero();
 
-        String location = given().header(DEFAULT_USER_ID_HEADER)
+        String location = given().header(DEFAULT_AUTHORIZATION_HEADER)
                                  .contentType(JSON).body(body)
                                  .when().post("/habits")
                                  .then().statusCode(CREATED.value()).body(isEmptyOrNullString())
@@ -100,7 +94,7 @@ public class HabitControllerTest extends RestAssuredTest {
 
         assertThat(numberOfHabits()).isOne();
 
-        Habit habit = given().header(DEFAULT_USER_ID_HEADER)
+        Habit habit = given().header(DEFAULT_AUTHORIZATION_HEADER)
                              .when().get(location)
                              .then().statusCode(OK.value())
                              .extract().body().as(Habit.class);
@@ -110,13 +104,12 @@ public class HabitControllerTest extends RestAssuredTest {
 
     @Test
     public void createHabitWithBlankName() {
-
         ModificationRequest body = ModificationRequest.builder()
                                                       .name("   ")
                                                       .schedule(DEFAULT_SCHEDULE)
                                                       .build();
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                .contentType(JSON).body(body)
                .when().post("/habits")
                .then().statusCode(BAD_REQUEST.value())
@@ -129,7 +122,6 @@ public class HabitControllerTest extends RestAssuredTest {
 
     @Test
     public void createHabitWithDuplicateName() {
-
         String habitName = "ABC";
 
         insertHabit(habitName);
@@ -139,7 +131,7 @@ public class HabitControllerTest extends RestAssuredTest {
                                                       .schedule(DEFAULT_SCHEDULE)
                                                       .build();
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                .contentType(JSON).body(body)
                .when().post("/habits")
                .then().statusCode(BAD_REQUEST.value())
@@ -150,7 +142,6 @@ public class HabitControllerTest extends RestAssuredTest {
 
     @Test
     public void createHabitWith64CharacterName() {
-
         String habitName = StringUtils.repeat("a", 64);
 
         ModificationRequest body = ModificationRequest.builder()
@@ -158,7 +149,7 @@ public class HabitControllerTest extends RestAssuredTest {
                                                       .schedule(DEFAULT_SCHEDULE)
                                                       .build();
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                .contentType(JSON).body(body)
                .when().post("/habits")
                .then().statusCode(CREATED.value())
@@ -169,7 +160,6 @@ public class HabitControllerTest extends RestAssuredTest {
 
     @Test
     public void createHabitWith65CharacterName() {
-
         String habitName = StringUtils.repeat("a", 65);
 
         ModificationRequest body = ModificationRequest.builder()
@@ -177,7 +167,7 @@ public class HabitControllerTest extends RestAssuredTest {
                                                       .schedule(DEFAULT_SCHEDULE)
                                                       .build();
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                .contentType(JSON).body(body)
                .when().post("/habits")
                .then().statusCode(BAD_REQUEST.value())
@@ -194,7 +184,7 @@ public class HabitControllerTest extends RestAssuredTest {
                                                       .name("Jogging")
                                                       .build();
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                .contentType(JSON).body(body)
                .when().post("/habits")
                .then().statusCode(BAD_REQUEST.value())
@@ -212,7 +202,7 @@ public class HabitControllerTest extends RestAssuredTest {
 
         assertThat(numberOfHabits()).isOne();
 
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                .when().delete(location)
                .then().statusCode(OK.value())
                .body(isEmptyOrNullString());
@@ -222,19 +212,10 @@ public class HabitControllerTest extends RestAssuredTest {
 
     @Test
     public void deleteHabitNotFound() {
-        given().header(DEFAULT_USER_ID_HEADER)
+        given().header(DEFAULT_AUTHORIZATION_HEADER)
                .when().delete("/habits/{id}", 999)
                .then().statusCode(NOT_FOUND.value())
                .body("message", equalTo("Habit '999' could not be found."));
-    }
-
-    @Test
-    public void deleteHabitWithoutAuthShouldFail() {
-        when()
-                .delete("/habits/{id}", 123)
-                .then()
-                .statusCode(INTERNAL_SERVER_ERROR.value()) // TODO: HTTP 400 or 401 would be more appropriate
-                .body("message", equalTo("deleteHabit.userId: must not be blank and size must be between 5 and 64"));
     }
 
     private String insertHabit(String name) {
@@ -244,7 +225,7 @@ public class HabitControllerTest extends RestAssuredTest {
                                                        .schedule(DEFAULT_SCHEDULE)
                                                        .build();
 
-        return given().header(DEFAULT_USER_ID_HEADER)
+        return given().header(DEFAULT_AUTHORIZATION_HEADER)
                       .contentType(JSON).body(habit)
                       .when().post("/habits")
                       .then().statusCode(CREATED.value())

@@ -1,6 +1,5 @@
-package de.codecentric.hc.habit.jwt;
+package de.codecentric.hc.habit.auth;
 
-import de.codecentric.hc.habit.jwt.InsecureJwtDecoder;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.oauth2.jwt.Jwt;

@@ -1,4 +1,4 @@
-package de.codecentric.hc.habit.jwt;
+package de.codecentric.hc.habit.auth;
 
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTParser;
