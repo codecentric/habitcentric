@@ -8,15 +8,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-        properties = {
-                "gateway.target.uri.habit=http://localhost:${wiremock.server.port}",
-                "gateway.target.uri.track=http://localhost:${wiremock.server.port}",
-                "gateway.target.uri.ui=http://localhost:${wiremock.server.port}"
-        })
+    webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+    properties = {
+      "gateway.target.uri.habit=http://localhost:${wiremock.server.port}",
+      "gateway.target.uri.track=http://localhost:${wiremock.server.port}",
+      "gateway.target.uri.ui=http://localhost:${wiremock.server.port}"
+    })
 @AutoConfigureWireMock(port = 0)
 public abstract class GatewayTest {
 
-    @LocalServerPort
-    protected int port;
+  @LocalServerPort protected int port;
 }
