@@ -64,3 +64,16 @@ manually migrating the database.
 `dbUser` and `dbPassword` (i.e. `gradle flywayInfo -PdbUrl=<db-url> -PdbUser=<db-user> -PdbPassword=<db-password>`).
 
 Click [here](https://flywaydb.org/documentation/commandline/#commands) for an overview of available commands.
+
+## Code Format
+
+The [Spotless Gradle plugin](https://github.com/diffplug/spotless/tree/master/plugin-gradle) is used the format the 
+source code using [Google Java Format](https://github.com/google/google-java-format). It's recommended to install and 
+use the Google Format plugin in your IDE as well.
+
+`gradlew build` will check the code automatically and fail in case of violations.
+If necessary, you can fix the code as follows:
+
+```bash
+./gradlew spotlessApply
+```

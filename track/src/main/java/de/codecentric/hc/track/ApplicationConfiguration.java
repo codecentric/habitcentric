@@ -2,6 +2,8 @@ package de.codecentric.hc.track;
 
 import de.codecentric.hc.track.jwt.AuthHeaderArgumentResolver;
 import de.codecentric.hc.track.jwt.InsecureJwtDecoder;
+import java.util.List;
+import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,27 +13,23 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 
-import java.util.List;
-import java.util.Locale;
-
 @Configuration
 public class ApplicationConfiguration implements WebMvcConfigurer {
 
-    @Autowired
-    private AuthHeaderArgumentResolver authHeaderArgumentResolver;
+  @Autowired private AuthHeaderArgumentResolver authHeaderArgumentResolver;
 
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(authHeaderArgumentResolver);
-    }
+  @Override
+  public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+    resolvers.add(authHeaderArgumentResolver);
+  }
 
-    @Bean
-    public LocaleResolver localeResolver() {
-        return new FixedLocaleResolver(Locale.US);
-    }
+  @Bean
+  public LocaleResolver localeResolver() {
+    return new FixedLocaleResolver(Locale.US);
+  }
 
-    @Bean
-    public JwtDecoder jwtDecoder() {
-        return new InsecureJwtDecoder();
-    }
+  @Bean
+  public JwtDecoder jwtDecoder() {
+    return new InsecureJwtDecoder();
+  }
 }

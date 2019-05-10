@@ -1,11 +1,10 @@
 package de.codecentric.hc.track.errors;
 
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 /**
  * Response returned when problems encounter while performing an operation.
@@ -18,5 +17,5 @@ import java.util.List;
 @Setter
 public class ApiErrorResponse {
 
-    private List<ApiError> errors;
+  private List<ApiError> errors;
 }
