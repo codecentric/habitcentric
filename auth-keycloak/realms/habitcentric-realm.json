@@ -1,6 +1,10 @@
 {
   "realm": "habitcentric",
   "enabled": true,
+  "loginTheme": "codecentric",
+  "accountTheme": "codecentric",
+  "adminTheme": "codecentric",
+  "emailTheme": "codecentric",
   "accessTokenLifespan": 60,
   "accessCodeLifespan": 60,
   "accessCodeLifespanUserAction": 300,
