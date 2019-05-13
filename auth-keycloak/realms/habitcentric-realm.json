@@ -56,7 +56,7 @@
   "clients": [
     {
       "clientId": "gateway",
-      "standardFlowEnabled": false,
+      "standardFlowEnabled": true,
       "directAccessGrantsEnabled": true,
       "enabled": true,
       "adminUrl": "/",
