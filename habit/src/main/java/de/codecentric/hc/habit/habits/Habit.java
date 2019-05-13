@@ -1,4 +1,4 @@
-package de.codecentric.hc.habit;
+package de.codecentric.hc.habit.habits;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -70,7 +70,7 @@ public class Habit {
         @NotNull
         private Frequency frequency;
 
-        enum Frequency {DAILY, WEEKLY, MONTHLY, YEARLY}
+        public enum Frequency {DAILY, WEEKLY, MONTHLY, YEARLY}
     }
 
     public static Habit from(ModificationRequest modificationRequest, String userId) {
