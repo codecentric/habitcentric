@@ -1,6 +1,6 @@
 package de.codecentric.habitcentric.track.habit;
 
-import static de.codecentric.habitcentric.track.error.ApiErrorMatcher.hasApiErrors;
+import static de.codecentric.habitcentric.track.error.ApiErrorResponseMatcher.hasApiErrors;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;

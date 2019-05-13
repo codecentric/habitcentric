@@ -3,6 +3,7 @@ package de.codecentric.habitcentric.track.error;
 import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import de.codecentric.habitcentric.track.error.ApiErrorResponse.Error;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -15,11 +16,11 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-public class ApiErrorMatcher extends TypeSafeMatcher<String> {
+public class ApiErrorResponseMatcher extends TypeSafeMatcher<String> {
 
-  private final List<ApiError> expected;
+  private final List<Error> expected;
 
-  private ApiErrorMatcher(List<ApiError> expected) {
+  private ApiErrorResponseMatcher(List<Error> expected) {
     this.expected = expected;
   }
 
@@ -27,7 +28,7 @@ public class ApiErrorMatcher extends TypeSafeMatcher<String> {
   protected boolean matchesSafely(String body) {
     try {
       ApiErrorResponse response = new ObjectMapper().readValue(body, ApiErrorResponse.class);
-      List<ApiErrorResponse.Error> actual = response.getErrors();
+      List<Error> actual = response.getErrors();
       if (!Objects.equals(expected.size(), actual.size())) {
         return false;
       }
@@ -50,16 +51,16 @@ public class ApiErrorMatcher extends TypeSafeMatcher<String> {
     description.appendText(toString(expected));
   }
 
-  private static String toString(List<ApiError> errors) {
+  private static String toString(List<Error> errors) {
     return String.format(
         "{\"errors\":[%s]}",
         errors.stream()
             .filter(Objects::nonNull)
-            .map(ApiErrorMatcher::toString)
+            .map(ApiErrorResponseMatcher::toString)
             .collect(Collectors.joining(",")));
   }
 
-  private static String toString(ApiError error) {
+  private static String toString(Error error) {
     ToStringBuilder builder = new ToStringBuilder(error, JSON_STYLE);
     if (error.getCode() != null) builder.append("code", error.getCode());
     if (error.getTitle() != null) builder.append("title", error.getTitle());
@@ -67,7 +68,7 @@ public class ApiErrorMatcher extends TypeSafeMatcher<String> {
     return builder.build();
   }
 
-  public static Matcher<String> hasApiErrors(ApiError... expected) {
-    return new ApiErrorMatcher(Arrays.asList(expected));
+  public static Matcher<String> hasApiErrors(Error... expected) {
+    return new ApiErrorResponseMatcher(Arrays.asList(expected));
   }
 }
