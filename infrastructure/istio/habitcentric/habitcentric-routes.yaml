@@ -1,0 +1,46 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: habitcentric-routes
+  namespace: habitcentric
+spec:
+  hosts:
+  - habitcentric.demo
+  gateways:
+  - habitcentric-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /habits
+    route:
+    - destination:
+        host: habitcentric-habit.habitcentric.svc.cluster.local
+        port:
+          number: 8080
+  - match:
+    - uri:
+        prefix: /track
+    route:
+    - destination:
+        host: habitcentric-track.habitcentric.svc.cluster.local
+        port:
+          number: 8080
+  - match:
+    - uri:
+        prefix: /ui
+    route:
+    - destination:
+        host: habitcentric-ui.habitcentric.svc.cluster.local
+  - match:
+    - uri:
+        prefix: /auth
+    route:
+    - destination:
+        host: habitcentric-keycloa-http.habitcentric.svc.cluster.local
+        port:
+          number: 80
+  - match:
+    - uri:
+        prefix: /
+    redirect:
+      uri: /ui

@@ -1,6 +1,6 @@
-# Istio
+# Istio Service Mesh Configuration for habitcentric
 
-## Installation
+## Istio Installation
 
 To install Istio on your Kubernetes cluster you can choose between two installation methods:
 
@@ -64,17 +64,34 @@ helm template install/kubernetes/helm/istio --name istio --namespace istio-syste
 
 > If you want to customize your Istio installation, you can find detailed installation options [here](https://istio.io/docs/reference/config/installation-options/).
 
-## Optional telemetry gateway configuration
+## habitcentric Deployment
 
-You can apply `telemetry-gateway.yaml` and `telemetry-routes.yaml` to enable routing to Istio's telemetry services.
+TODO
 
-`kubectl apply -f telemetry-gateway.yaml && kubectl apply -f telemetry-routes.yaml`
-
-## Accessing services
+## Routing Configuration
 
 Istio secures traffic entering the service mesh using load balanced ingress gateways. To access Istio enabled services inside the mesh you must configure ingress route rules using Istio's `Gateway` and `VirtualService` resource.
 
-To retrieve the external IP of your Istio ingress gateway load balancer run:
+### Telemetry Services
+
+The provided Istio installation comes with several telemetry services to observe the configuration and behavior of the service mesh.
+You can apply `telemetry-gateway.yaml` and `telemetry-routes.yaml` to enable routing to these services.
+
+```bash
+kubectl apply -f telemetry-gateway.yaml && kubectl apply -f telemetry-routes.yaml
+```
+
+### habitcentric Services
+
+You can apply `habitcentric/habitcentric-gateway.yaml` and `habitcentric/habitcentric-routes.yaml` to enable routing to habitcentric's services.
+
+```bash
+kubectl apply -f habitcentric/habitcentric-gateway.yaml && kubectl apply -f habitcentric/habitcentric-routes.yaml
+```
+
+## Service Access
+
+The Istio ingress gateway listens on several hostnames and routes your requests accordingly. To retrieve the external IP of your Istio ingress gateway load balancer run:
 
 ```bash
 kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
@@ -82,13 +99,21 @@ kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.l
 
 > Note: Minikube does not automatically assign external IPs to load balanced services. To enable this functionality, run `minikube tunnel` on the command line beforehand.
 
-### Service URIs
+To access the services deployed in the mesh, add the service hostnames (see below) to your machine's host file using the IP of your ingress gateway load balancer.
 
-| Service    | URI                    |
+### Service Hostnames
+
+#### Telemetry
+
+| Service    | Hostname               |
 |------------|------------------------|
 | Kiali      | http://kiali.demo      |
 | Grafana    | http://grafana.demo    |
 | Prometheus | http://prometheus.demo |
 | Jaeger     | http://jaeger.demo     |
 
-We recommend adding these URIs to your machine's host file using the IP of your ingress gateway load balancer.
+#### habitcentric
+| Service    | Hostname                         |
+|------------|----------------------------------|
+| UI         | http://habitcentric.demo         |
+| Keycloak   | http://habitcentric.demo/auth    |
