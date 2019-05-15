@@ -1,13 +1,13 @@
 package de.codecentric.habitcentric.track.habit.jwt;
 
-import static de.codecentric.habitcentric.track.error.ApiErrorResponseMatcher.hasApiErrors;
+import static de.codecentric.habitcentric.track.error.matcher.ApiErrorMatcher.hasHabitIdViolationError;
+import static de.codecentric.habitcentric.track.error.matcher.ApiErrorMatcher.hasUserIdViolationError;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import de.codecentric.habitcentric.track.RestAssuredTest;
-import de.codecentric.habitcentric.track.error.ApiErrorExpectations;
 import io.restassured.specification.RequestSpecification;
 import java.time.LocalDate;
 import org.junit.After;
@@ -177,7 +177,7 @@ public class HabitTrackingControllerJwtRestAssuredTest extends RestAssuredTest {
         .then()
         .statusCode(400)
         .contentType(JSON)
-        .body(hasApiErrors(ApiErrorExpectations.EXPECTED_USER_ID_VIOLATION));
+        .body(hasUserIdViolationError());
   }
 
   @Test
@@ -188,7 +188,7 @@ public class HabitTrackingControllerJwtRestAssuredTest extends RestAssuredTest {
         .then()
         .statusCode(400)
         .contentType(JSON)
-        .body(hasApiErrors(ApiErrorExpectations.EXPECTED_USER_ID_VIOLATION));
+        .body(hasUserIdViolationError());
   }
 
   @Test
@@ -199,7 +199,7 @@ public class HabitTrackingControllerJwtRestAssuredTest extends RestAssuredTest {
         .then()
         .statusCode(400)
         .contentType(JSON)
-        .body(hasApiErrors(ApiErrorExpectations.EXPECTED_HABIT_ID_VIOLATION));
+        .body(hasHabitIdViolationError());
   }
 
   @Test
@@ -212,7 +212,7 @@ public class HabitTrackingControllerJwtRestAssuredTest extends RestAssuredTest {
         .then()
         .statusCode(400)
         .contentType(JSON)
-        .body(hasApiErrors(ApiErrorExpectations.EXPECTED_USER_ID_VIOLATION));
+        .body(hasUserIdViolationError());
   }
 
   @Test
@@ -225,7 +225,7 @@ public class HabitTrackingControllerJwtRestAssuredTest extends RestAssuredTest {
         .then()
         .statusCode(400)
         .contentType(JSON)
-        .body(hasApiErrors(ApiErrorExpectations.EXPECTED_USER_ID_VIOLATION));
+        .body(hasUserIdViolationError());
   }
 
   @Test
@@ -238,7 +238,7 @@ public class HabitTrackingControllerJwtRestAssuredTest extends RestAssuredTest {
         .then()
         .statusCode(400)
         .contentType(JSON)
-        .body(hasApiErrors(ApiErrorExpectations.EXPECTED_HABIT_ID_VIOLATION));
+        .body(hasHabitIdViolationError());
   }
 
   @Test

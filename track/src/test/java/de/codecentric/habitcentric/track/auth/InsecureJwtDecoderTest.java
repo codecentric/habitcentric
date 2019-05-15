@@ -1,17 +1,20 @@
 package de.codecentric.habitcentric.track.auth;
 
+import static de.codecentric.habitcentric.track.auth.AuthError.JWT_TOKEN_DECODING_ERROR;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
+import de.codecentric.habitcentric.track.error.ApiError;
+import de.codecentric.habitcentric.track.error.ApiErrorException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import org.assertj.core.api.Condition;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.JwtException;
 
 public class InsecureJwtDecoderTest {
 
@@ -70,8 +73,9 @@ public class InsecureJwtDecoderTest {
         "dfsdf.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ"
             + ".5mhBHqs5_DTLdINd9p5m7ZJ6XD0Xc55kIaCRY5r6HRA";
 
-    assertThatExceptionOfType(JwtException.class)
-        .isThrownBy(() -> jwtDecoder.decode(malformedHeaderToken));
+    assertThatExceptionOfType(ApiErrorException.class)
+        .isThrownBy(() -> jwtDecoder.decode(malformedHeaderToken))
+        .has(expectedError(JWT_TOKEN_DECODING_ERROR));
   }
 
   @Test
@@ -80,7 +84,13 @@ public class InsecureJwtDecoderTest {
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.fdsfsd"
             + ".MZZ7UbJRJH9hFRdBUQHpMjU4TK4XRrYP5UxcAkEHvxE";
 
-    assertThatExceptionOfType(JwtException.class)
-        .isThrownBy(() -> jwtDecoder.decode(malformedPayloadToken));
+    assertThatExceptionOfType(ApiErrorException.class)
+        .isThrownBy(() -> jwtDecoder.decode(malformedPayloadToken))
+        .has(expectedError(JWT_TOKEN_DECODING_ERROR));
+  }
+
+  private static Condition<ApiErrorException> expectedError(ApiError error) {
+    return new Condition<>(
+        e -> e.getError().equals(error), "error code %s (%s)", error.getCode(), error.getTitle());
   }
 }

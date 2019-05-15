@@ -1,5 +1,8 @@
 package de.codecentric.habitcentric.track.habit.validation;
 
+import static de.codecentric.habitcentric.track.habit.HabitTrackingError.CONSTRAINT_VIOLATION;
+
+import de.codecentric.habitcentric.track.error.ApiErrorExceptionHandler;
 import de.codecentric.habitcentric.track.error.ApiErrorResponse;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -12,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class ConstraintViolationExceptionHandler {
+public class ConstraintViolationExceptionHandler extends ApiErrorExceptionHandler {
 
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(ConstraintViolationException.class)
@@ -24,11 +27,6 @@ public class ConstraintViolationExceptionHandler {
   }
 
   private ApiErrorResponse.Error toResponseError(ConstraintViolation<?> violation) {
-    String annotationName =
-        violation.getConstraintDescriptor().getAnnotation().annotationType().getSimpleName();
-    return ApiErrorResponse.Error.builder()
-        .code(String.format("ConstraintViolation.%s", annotationName))
-        .detail(violation.getMessage())
-        .build();
+    return toResponseError(CONSTRAINT_VIOLATION, violation.getMessage());
   }
 }

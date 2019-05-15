@@ -1,5 +1,7 @@
 package de.codecentric.habitcentric.track.auth;
 
+import static de.codecentric.habitcentric.track.auth.AuthError.JWT_TOKEN_MISSING;
+
 import de.codecentric.habitcentric.track.habit.validation.UserId;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +36,7 @@ public class AuthHeaderArgumentResolver implements HandlerMethodArgumentResolver
       MethodParameter parameter,
       ModelAndViewContainer mavContainer,
       NativeWebRequest webRequest,
-      WebDataBinderFactory binderFactory)
-      throws Exception {
+      WebDataBinderFactory binderFactory) {
     HttpServletRequest httpRequest = (HttpServletRequest) webRequest.getNativeRequest();
     String authorizationHeader = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
 
@@ -43,7 +44,9 @@ public class AuthHeaderArgumentResolver implements HandlerMethodArgumentResolver
       String token = extractTokenFrom(authorizationHeader);
       Jwt decodedJwt = jwtDecoder.decode(token);
       return getUserIdOf(decodedJwt);
-    } else return null;
+    }
+
+    throw new AuthErrorException(JWT_TOKEN_MISSING);
   }
 
   private boolean isBearerToken(String authorizationHeader) {
