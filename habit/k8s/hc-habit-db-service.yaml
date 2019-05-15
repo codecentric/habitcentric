@@ -5,7 +5,7 @@ metadata:
   name: habit-db
 spec:
   ports:
-    - name: http-hchabitdb
+    - name: tcp-hchabitdb
       port: 5432
       targetPort: 5432
   selector:
