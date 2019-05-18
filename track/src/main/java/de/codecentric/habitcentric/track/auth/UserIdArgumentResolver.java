@@ -23,7 +23,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * JWT.
  */
 @Component
-public class AuthHeaderArgumentResolver implements HandlerMethodArgumentResolver {
+public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
   @Autowired private JwtDecoder jwtDecoder;
 
   @Override
