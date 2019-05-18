@@ -5,7 +5,7 @@ metadata:
   name: track-db
 spec:
   ports:
-    - name: http-hctrackdb
+    - name: tcp-hctrackdb
       port: 5432
       targetPort: 5432
   selector:
