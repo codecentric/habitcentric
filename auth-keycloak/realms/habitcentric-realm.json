@@ -61,7 +61,10 @@
       "enabled": true,
       "adminUrl": "/",
       "baseUrl": "/",
-      "secret": "password"
+      "secret": "password",
+      "redirectUris": [
+        "http://habitcentric.demo/ui/auth/callback"
+      ]
     }
   ]
 }
