@@ -1,0 +1,3 @@
+[submodule "cc-theme"]
+	path = themes/codecentric
+	url = git@gitlab.codecentric.de:codecentric/keycloak-theme-codecentric.git
