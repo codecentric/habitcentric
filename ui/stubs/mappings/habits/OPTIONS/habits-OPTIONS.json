@@ -7,7 +7,7 @@
   "response": {
     "status": 200,
     "headers": {
-      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Headers": "Authorization",
       "Access-Control-Allow-Origin": "*"
     },
     "fixedDelayMilliseconds": 100
