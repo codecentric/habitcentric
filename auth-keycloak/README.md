@@ -27,7 +27,3 @@ docker volume rm auth-keycloak_keycloak-db-data
 ## Realm
 
 habitcentric users can log in here: http://localhost:8080/auth/realms/habitcentric/account
-
-## Infrastructure
-The required infrastructure (e.g. the database) in the Google Cloud is managed with Terraform.
-Please refer to [terraform.md](terraform.md) for more details.

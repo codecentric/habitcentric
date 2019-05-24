@@ -1,7 +1,3 @@
-### Terraform ###
-credentials/*
-.terraform/*
-
 ### STS ###
 .apt_generated
 .classpath
