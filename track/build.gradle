@@ -55,7 +55,10 @@ dependencies {
     runtimeOnly 'org.flywaydb:flyway-core:5.2.4'
     flywayMigration 'org.postgresql:postgresql:42.2.5'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
     testImplementation 'org.testcontainers:testcontainers:1.10.6'
     testImplementation 'org.testcontainers:postgresql:1.10.6'
+    testImplementation 'org.reflections:reflections:0.9.11'
 }

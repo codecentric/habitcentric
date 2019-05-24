@@ -1,7 +1,7 @@
 package de.codecentric.habitcentric.track;
 
-import de.codecentric.habitcentric.track.auth.AuthHeaderArgumentResolver;
 import de.codecentric.habitcentric.track.auth.InsecureJwtDecoder;
+import de.codecentric.habitcentric.track.auth.UserIdArgumentResolver;
 import java.util.List;
 import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,11 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver;
 @Configuration
 public class ApplicationConfiguration implements WebMvcConfigurer {
 
-  @Autowired private AuthHeaderArgumentResolver authHeaderArgumentResolver;
+  @Autowired private UserIdArgumentResolver userIdArgumentResolver;
 
   @Override
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-    resolvers.add(authHeaderArgumentResolver);
+    resolvers.add(userIdArgumentResolver);
   }
 
   @Bean
