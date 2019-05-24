@@ -5,6 +5,9 @@ services:
     environment:
       HABIT_HOST: http://localhost:8419/
       TRACKING_HOST: http://localhost:8419/
+      OIDC_AUTH: enabled
+      OIDC_AUTHORITY_HOST: http://localhost:8080/auth/realms/habitcentric/.well-known/openid-configuration
+      OIDC_CLIENT_ID: gateway
     depends_on:
       - stubs
     ports:
