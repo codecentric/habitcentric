@@ -1,0 +1,30 @@
+stages:
+  - build image
+  - publish image
+
+services:
+  - docker:dind
+
+variables:
+  DOCKER_HOST: "tcp://docker:2375"
+  DOCKER_DRIVER: overlay2
+  DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/$CI_PROJECT_NAME
+
+build image:
+  stage: build image
+  image: docker:stable
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+
+publish image:
+  stage: publish image
+  image: docker:stable
+  script:
+    - docker login -u $DOCKER_HUB_REGISTRY_USER -p $DOCKER_HUB_REGISTRY_PASSWORD $DOCKER_HUB_REGISTRY
+    - docker build -t $DOCKER_HUB_REGISTRY_IMAGE:latest -t $DOCKER_HUB_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
+    - docker push $DOCKER_HUB_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest
+  only:
+    - master
