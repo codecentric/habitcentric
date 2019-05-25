@@ -65,13 +65,23 @@ manually migrating the database.
 
 Click [here](https://flywaydb.org/documentation/commandline/#commands) for an overview of available commands.
 
-## Test Code Coverage
+## Unit Testing
+```
+./gradlew clean test
+```
+
+### Test Code Coverage
 The code (not) covered by tests is measured with [JaCoCo](https://github.com/jacoco/jacoco).
 
 You can call the following command to generate a HTML coverage report under `build/reports/jacoco/test/html`
 and verify the compliance with coverage rules:
 ```
 ./gradlew clean test jacocoTestReport jacocoTestCoverageVerification
+```
+
+## Integration Testing
+```
+./gradlew clean intTest
 ```
 
 ## Code Format
