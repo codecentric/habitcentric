@@ -3,7 +3,6 @@ package de.codecentric.hc.habit.auth;
 import de.codecentric.hc.habit.common.HttpHeaders;
 import de.codecentric.hc.habit.validation.UserId;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -21,8 +20,12 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * header is invalid or missing entirely, {@link HttpHeaders#USER_ID} is used instead.
  */
 @Component
-public class AuthHeaderArgumentResolver implements HandlerMethodArgumentResolver {
-  @Autowired private JwtDecoder jwtDecoder;
+public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
+  private final JwtDecoder jwtDecoder;
+
+  public UserIdArgumentResolver(JwtDecoder jwtDecoder) {
+    this.jwtDecoder = jwtDecoder;
+  }
 
   @Override
   public boolean supportsParameter(MethodParameter parameter) {
@@ -34,8 +37,7 @@ public class AuthHeaderArgumentResolver implements HandlerMethodArgumentResolver
       MethodParameter parameter,
       ModelAndViewContainer mavContainer,
       NativeWebRequest webRequest,
-      WebDataBinderFactory binderFactory)
-      throws Exception {
+      WebDataBinderFactory binderFactory) {
     HttpServletRequest httpRequest = (HttpServletRequest) webRequest.getNativeRequest();
     String authorizationHeader = httpRequest.getHeader(HttpHeaders.AUTHORIZATION);
     String userIdHeader = httpRequest.getHeader(HttpHeaders.USER_ID);

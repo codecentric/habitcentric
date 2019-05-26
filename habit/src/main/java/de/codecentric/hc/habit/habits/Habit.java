@@ -31,8 +31,12 @@ import lombok.ToString;
 @Getter
 @EqualsAndHashCode
 @ToString
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = "name", name = "unique_habit_name"))
+@Table(
+    uniqueConstraints =
+        @UniqueConstraint(columnNames = "name", name = Habit.CONSTRAINT_NAME_UNIQUE_NAME))
 public class Habit {
+
+  public static final String CONSTRAINT_NAME_UNIQUE_NAME = "unique_habit_name";
 
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habit_id_generator")

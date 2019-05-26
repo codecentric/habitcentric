@@ -11,7 +11,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 0.0
+                minimum = 0.9
             }
             excludes = ['de.codecentric.hc.habit.Application']
         }
@@ -20,7 +20,7 @@ jacocoTestCoverageVerification {
             limit {
                 counter = 'BRANCH'
                 value = 'COVEREDRATIO'
-                minimum = 0.0
+                minimum = 1.0
             }
         }
     }
