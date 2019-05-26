@@ -6,7 +6,6 @@ import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -17,7 +16,6 @@ import de.codecentric.hc.habit.habits.Habit;
 import de.codecentric.hc.habit.habits.Habit.Schedule;
 import de.codecentric.hc.habit.habits.Habit.Schedule.Frequency;
 import de.codecentric.hc.habit.habits.HabitRepository;
-import io.restassured.http.Header;
 import java.util.Arrays;
 import java.util.List;
 import javax.validation.ConstraintViolationException;
@@ -50,11 +48,12 @@ public class AuthTest {
               .userId(DEFAULT_USER)
               .schedule(DEFAULT_SCHEDULE)
               .build());
-  private static final Header DEFAULT_AUTHORIZATION_HEADER =
-      new Header(
-          AUTHORIZATION,
-          "Bearer "
-              + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZWZhdWx0In0.2E88ZlFE4Tor8d5gRU2451WrLtDavGfgbFf8ZuKBRxM");
+  private static final HttpHeaders DEFAULT_HEADERS = new HttpHeaders();
+
+  static {
+    DEFAULT_HEADERS.setBearerAuth(
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZWZhdWx0In0.2E88ZlFE4Tor8d5gRU2451WrLtDavGfgbFf8ZuKBRxM");
+  }
 
   @MockBean private HabitRepository repository;
 
@@ -78,9 +77,7 @@ public class AuthTest {
             get("/habits")
                 .accept(APPLICATION_JSON)
                 .header(HttpHeaders.USER_ID, "other user")
-                .header(
-                    DEFAULT_AUTHORIZATION_HEADER.getName(),
-                    DEFAULT_AUTHORIZATION_HEADER.getValue()))
+                .headers(DEFAULT_HEADERS))
         .andExpect(status().isOk())
         .andExpect(jsonPath("*.name", containsInAnyOrder("ABC")));
     verify(repository).findAllByUserIdOrderByNameAsc(DEFAULT_USER);
@@ -90,12 +87,7 @@ public class AuthTest {
   public void getHabitsWithJwtShouldReturnOk() throws Exception {
     given(this.repository.findAllByUserIdOrderByNameAsc(eq(DEFAULT_USER)))
         .willReturn(DEFAULT_HABITS);
-    mvc.perform(
-            get("/habits")
-                .accept(APPLICATION_JSON)
-                .header(
-                    DEFAULT_AUTHORIZATION_HEADER.getName(),
-                    DEFAULT_AUTHORIZATION_HEADER.getValue()))
+    mvc.perform(get("/habits").accept(APPLICATION_JSON).headers(DEFAULT_HEADERS))
         .andExpect(status().isOk())
         .andExpect(jsonPath("*.name", containsInAnyOrder("ABC")));
   }

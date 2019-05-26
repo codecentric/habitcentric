@@ -6,6 +6,7 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply from: 'gradle/intTest.gradle'
 
 group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
@@ -63,7 +64,8 @@ dependencies {
     liquibaseRuntime("ch.qos.logback:logback-core:1.2.3")
     liquibaseRuntime("ch.qos.logback:logback-classic:1.2.3")
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'io.rest-assured:rest-assured:3.3.0'
-    testImplementation 'org.testcontainers:testcontainers:1.10.6'
-    testImplementation 'org.testcontainers:postgresql:1.10.6'
+    intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+    intTestImplementation 'io.rest-assured:rest-assured:3.3.0'
+    intTestImplementation 'org.testcontainers:testcontainers:1.10.6'
+    intTestImplementation 'org.testcontainers:postgresql:1.10.6'
 }

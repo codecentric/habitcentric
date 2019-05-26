@@ -34,7 +34,7 @@ import org.springframework.test.jdbc.JdbcTestUtils;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-public class HabitControllerTest extends RestAssuredTest {
+public class HabitControllerIntTest extends RestAssuredTest {
 
   private static final String TABLE_NAME = "hc_habit.HABIT";
   private static final Header DEFAULT_USER_ID_HEADER = new Header(HttpHeaders.USER_ID, "default");

@@ -1,4 +1,4 @@
-package de.codecentric.hc.habit.auth;
+package de.codecentric.hc.habit.habits;
 
 import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.DAILY;
 import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.WEEKLY;
@@ -8,7 +8,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.http.HttpStatus.*;
 
-import de.codecentric.hc.habit.habits.Habit;
 import de.codecentric.hc.habit.habits.Habit.ModificationRequest;
 import de.codecentric.hc.habit.habits.Habit.Schedule;
 import de.codecentric.hc.habit.testing.RestAssuredTest;
@@ -27,7 +26,7 @@ import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 // TODO: Add integration tests covering invalid or missing Authorization header
-public class HabitControllerJwtTest extends RestAssuredTest {
+public class HabitControllerJwtIntTest extends RestAssuredTest {
 
   private static final String TABLE_NAME = "hc_habit.HABIT";
   private static final Header DEFAULT_AUTHORIZATION_HEADER =
