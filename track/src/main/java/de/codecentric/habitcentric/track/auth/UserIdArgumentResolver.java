@@ -4,6 +4,8 @@ import static de.codecentric.habitcentric.track.auth.AuthError.JWT_TOKEN_MISSING
 
 import de.codecentric.habitcentric.track.habit.validation.UserId;
 import javax.servlet.http.HttpServletRequest;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -21,13 +23,10 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  * If {@link HttpHeaders#AUTHORIZATION} is present, user ID is extracted from potentially existing
  * JWT.
  */
+@Setter
 @Component
 public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
-  private final JwtDecoder jwtDecoder;
-
-  public UserIdArgumentResolver(JwtDecoder jwtDecoder) {
-    this.jwtDecoder = jwtDecoder;
-  }
+  @Autowired private JwtDecoder jwtDecoder;
 
   @Override
   public boolean supportsParameter(MethodParameter parameter) {

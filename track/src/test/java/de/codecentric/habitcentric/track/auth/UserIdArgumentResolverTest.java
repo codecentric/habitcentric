@@ -21,10 +21,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class UserIdArgumentResolverTest {
 
-  private UserIdArgumentResolver resolver = new UserIdArgumentResolver(new InsecureJwtDecoder());
+  private UserIdArgumentResolver resolver;
 
   @Before
-  public void beforeEach() {}
+  public void beforeEach() {
+    resolver = new UserIdArgumentResolver();
+    resolver.setJwtDecoder(new InsecureJwtDecoder());
+  }
 
   @Test
   public void shouldSupportParametersWithUserIdAnnotation() {
