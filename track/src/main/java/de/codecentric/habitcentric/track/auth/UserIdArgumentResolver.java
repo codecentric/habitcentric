@@ -4,7 +4,6 @@ import static de.codecentric.habitcentric.track.auth.AuthError.JWT_TOKEN_MISSING
 
 import de.codecentric.habitcentric.track.habit.validation.UserId;
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -24,7 +23,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
  */
 @Component
 public class UserIdArgumentResolver implements HandlerMethodArgumentResolver {
-  @Autowired private JwtDecoder jwtDecoder;
+  private final JwtDecoder jwtDecoder;
+
+  public UserIdArgumentResolver(JwtDecoder jwtDecoder) {
+    this.jwtDecoder = jwtDecoder;
+  }
 
   @Override
   public boolean supportsParameter(MethodParameter parameter) {
