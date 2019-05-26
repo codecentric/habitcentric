@@ -14,13 +14,14 @@ variables:
 build:
   stage: build
   image: openjdk:11-jre-slim
-  script: "./gradlew clean build"
+  script: "./gradlew clean build jacocoTestReport jacocoTestCoverageVerification"
   artifacts:
     when: always
     name: "${CI_BUILD_STAGE}_${CI_BUILD_REF_NAME}"
     expire_in: 1 week
     paths:
       - build/libs/hc-habit-*.jar
+      - build/reports/jacoco/test/html/
       - build/reports/tests/
       - build/test-results/test/TEST-*.xml
     reports:

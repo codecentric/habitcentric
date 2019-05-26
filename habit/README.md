@@ -68,3 +68,35 @@ Click [here](https://www.liquibase.org/documentation/command_line.html) for an o
 > Prerequisite: The database schema `hc_habit` needs to exist because Liquibase is not able to create it on its own and 
 store its tables in it.
 If necessary, create the schema manually or simply start the application to let the Spring framework do it for you.
+
+## Unit Testing
+```bash
+./gradlew clean test
+```
+
+### Test Code Coverage
+The code (not) covered by tests is measured with [JaCoCo](https://github.com/jacoco/jacoco).
+
+You can call the following command to generate a HTML coverage report under `build/reports/jacoco/test/html`
+and verify the compliance with coverage rules:
+```bash
+./gradlew clean test jacocoTestReport jacocoTestCoverageVerification
+```
+
+## Integration Testing
+```bash
+./gradlew clean intTest
+```
+
+## Code Format
+
+The [Spotless Gradle plugin](https://github.com/diffplug/spotless/tree/master/plugin-gradle) is used the format the 
+source code using [Google Java Format](https://github.com/google/google-java-format). It's recommended to install and 
+use the Google Format plugin in your IDE as well.
+
+`gradlew build` will check the code automatically and fail in case of violations.
+If necessary, you can fix the code as follows:
+
+```bash
+./gradlew spotlessApply
+```

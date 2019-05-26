@@ -7,6 +7,7 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 apply from: 'gradle/intTest.gradle'
+apply from: 'gradle/jacoco.gradle'
 
 group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
