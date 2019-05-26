@@ -61,7 +61,7 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok'
     intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
     intTestImplementation 'io.rest-assured:rest-assured:3.3.0'
-    intTestImplementation 'org.testcontainers:testcontainers:1.10.6'
-    intTestImplementation 'org.testcontainers:postgresql:1.10.6'
+    intTestImplementation 'org.testcontainers:testcontainers:1.11.3'
+    intTestImplementation 'org.testcontainers:postgresql:1.11.3'
     testImplementation 'org.reflections:reflections:0.9.11'
 }
