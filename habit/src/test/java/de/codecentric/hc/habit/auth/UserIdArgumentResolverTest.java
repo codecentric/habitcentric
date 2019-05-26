@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import de.codecentric.hc.habit.common.HttpHeaders;
 import de.codecentric.hc.habit.validation.UserId;
 import javax.servlet.http.HttpServletRequest;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -15,7 +16,13 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 public class UserIdArgumentResolverTest {
 
-  private UserIdArgumentResolver resolver = new UserIdArgumentResolver(new InsecureJwtDecoder());
+  private UserIdArgumentResolver resolver;
+
+  @Before
+  public void beforeEach() {
+    resolver = new UserIdArgumentResolver();
+    resolver.setJwtDecoder(new InsecureJwtDecoder());
+  }
 
   @Test
   public void shouldSupportParametersWithUserIdAnnotation() {
