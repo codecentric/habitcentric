@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
-public class ApiErrorExceptionHandlerTest {
+public class ApiErrorExceptionHandlerTest implements ApiErrorResponseAssertion {
 
   private ApiErrorExceptionHandler handler;
 
@@ -80,14 +80,5 @@ public class ApiErrorExceptionHandlerTest {
     assertThat(response.getStatusCodeValue()).isEqualTo(error.getStatusCode());
     assertThat(response.getBody().getErrors()).hasSize(1);
     assertEquals(error, response.getBody().getErrors().get(0), templateProperties);
-  }
-
-  private static void assertEquals(
-      ApiError expected, ApiErrorResponse.Error actual, Object... templateProperties) {
-    assertThat(expected.getCode()).isEqualTo(actual.getCode());
-    assertThat(expected.getTitle()).isEqualTo(actual.getTitle());
-    if (expected.getDetailTemplate().isPresent()) {
-      assertThat(expected.getDetail(templateProperties).get()).isEqualTo(actual.getDetail());
-    }
   }
 }

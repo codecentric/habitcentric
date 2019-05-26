@@ -6,6 +6,7 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply from: 'gradle/intTest.gradle'
 apply from: 'gradle/jacoco.gradle'
 
 group = 'de.codecentric'
@@ -58,8 +59,9 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testAnnotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
-    testImplementation 'io.rest-assured:rest-assured:3.3.0'
-    testImplementation 'org.testcontainers:testcontainers:1.10.6'
-    testImplementation 'org.testcontainers:postgresql:1.10.6'
+    intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+    intTestImplementation 'io.rest-assured:rest-assured:3.3.0'
+    intTestImplementation 'org.testcontainers:testcontainers:1.11.3'
+    intTestImplementation 'org.testcontainers:postgresql:1.11.3'
     testImplementation 'org.reflections:reflections:0.9.11'
 }
