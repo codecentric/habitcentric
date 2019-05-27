@@ -1,8 +1,8 @@
 import { createLocalVue, shallowMount } from "@vue/test-utils";
-import AuthCallback from "../../src/auth/AuthCallback";
-import AuthService from "../../src/auth/AuthService";
 import VueRouter from "vue-router";
-jest.mock("../../src/auth/AuthService");
+import AuthCallback from "../../../src/auth/AuthCallback";
+import AuthService from "../../../src/auth/AuthService";
+jest.mock("../../../src/auth/AuthService");
 
 describe("AuthCallback", () => {
   let localVue;
