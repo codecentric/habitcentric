@@ -3,8 +3,8 @@ services:
   ui:
     build: .
     environment:
-      HABIT_SERVICE_HOST: http://localhost:8419/
-      TRACKING_SERVICE_HOST: http://localhost:8419/
+      HABIT_HOST: http://localhost:8419/
+      TRACKING_HOST: http://localhost:8419/
     depends_on:
       - stubs
     ports:
