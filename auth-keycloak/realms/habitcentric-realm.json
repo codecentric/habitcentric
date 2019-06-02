@@ -56,6 +56,22 @@
   "clients": [
     {
       "clientId": "gateway",
+      "publicClient": false,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "enabled": true,
+      "adminUrl": "/",
+      "baseUrl": "/",
+      "secret": "357638792F423F4528472B4B6250655368566D597133743677397A2443264629",
+      "redirectUris": [
+        "http://gateway/login/oauth2/code/keycloak",
+        "http://habitcentric.demo/gateway/login/oauth2/code/keycloak",
+        "http://localhost:8419/login/oauth2/code/keycloak",
+        "http://localhost:8431/login/oauth2/code/keycloak"
+      ]
+    },
+    {
+      "clientId": "ui",
       "publicClient": true,
       "standardFlowEnabled": true,
       "directAccessGrantsEnabled": true,
