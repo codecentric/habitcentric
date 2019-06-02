@@ -10,7 +10,7 @@ spring:
             - Path=/habits/**
           filters:
             - AddRequestHeaderUserId
-            - RemoveRequestHeader=Authorization
+            - TokenRelay
         - id: track_route
           uri: ${gateway.target.uri.track}
           predicates:
@@ -18,7 +18,7 @@ spring:
           filters:
             - RewriteTrackPathWithUserId
             - AddRequestHeaderUserId
-            - RemoveRequestHeader=Authorization
+            - TokenRelay
         - id: ui_route
           uri: ${gateway.target.uri.ui}
           predicates:

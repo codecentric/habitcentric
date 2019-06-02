@@ -11,13 +11,38 @@ public class SecurityConfigTest extends WebTest {
 
   @Test
   public void requestsWithoutAuthShouldBeUnauthorized() {
-    get("/actuator").expectStatus().isUnauthorized();
-    get("/habits").expectStatus().isUnauthorized();
-    post("/habits", "{}").expectStatus().isUnauthorized();
-    delete("/habits/123").expectStatus().isUnauthorized();
-    get("/track").expectStatus().isUnauthorized();
-    put("/track", "{}").expectStatus().isUnauthorized();
-    get("/ui/").expectStatus().isUnauthorized();
+    String expectedLocation = "/oauth2/authorization/keycloak";
+    get("/actuator")
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueMatches("Location", expectedLocation);
+    get("/habits")
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueMatches("Location", expectedLocation);
+    post("/habits", "{}")
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueMatches("Location", expectedLocation);
+    delete("/habits/123")
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueMatches("Location", expectedLocation);
+    get("/track")
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueMatches("Location", expectedLocation);
+    put("/track", "{}")
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueMatches("Location", expectedLocation);
+    get("/ui/").expectStatus().isFound().expectHeader().valueMatches("Location", expectedLocation);
   }
 
   @Test

@@ -33,6 +33,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'org.springframework.cloud:spring-cloud-starter-security'
     testImplementation 'io.rest-assured:rest-assured:3.3.0'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation('org.springframework.cloud:spring-cloud-starter-contract-stub-runner') {

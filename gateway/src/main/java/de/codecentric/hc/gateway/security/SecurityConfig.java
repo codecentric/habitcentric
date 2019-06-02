@@ -60,7 +60,7 @@ public class SecurityConfig {
         .pathMatchers("/ui/**")
         .hasRole(USER)
         .and()
-        .httpBasic();
+        .oauth2Login();
     return http.build();
   }
 
