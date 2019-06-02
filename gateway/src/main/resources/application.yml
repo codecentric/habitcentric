@@ -14,3 +14,5 @@ spring:
   profiles: local
 server:
   port: 8431
+  error:
+    include-stacktrace: ALWAYS
