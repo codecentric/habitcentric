@@ -7,9 +7,6 @@ gateway:
       habit: ${HABIT_URI:http://localhost:8180}
       track: ${TRACK_URI:http://localhost:8219}
       ui: ${UI_URI:http://localhost:8171}
-logging:
-  level:
-    org.springframework.cloud.gateway: TRACE
 
 ---
 
