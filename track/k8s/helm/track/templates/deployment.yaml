@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "track.fullname" . }}
+  labels:
+    app: {{ template "track.name" . }}
+    chart: {{ template "track.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: {{ .Values.updateStrategyType }}
+  selector:
+    matchLabels:
+      app: {{ template "track.name" . }}
+      release: {{ .Release.Name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "track.name" . }}
+        chart: {{ template "track.chart" . }}
+        release: {{ .Release.Name | quote }}
+        heritage: {{ .Release.Service | quote }}
+      {{- with .Values.podLabels -}}
+{{ toYaml . | indent 8 }}
+      {{- end -}}
+      {{- with .Values.podAnnotations -}}
+      annotations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    spec:
+      {{- if .Values.serviceAccount.enabled }}
+      serviceAccountName: {{ default (include "track.fullname" . ) .Values.serviceAccount.name }}
+      {{- end }}
+      {{- if .Values.persistence.deployPostgres }}
+      initContainers:
+        - name: wait-for-postgresql
+          image: {{ template "track.init.image" . }}
+          imagePullPolicy: {{ .Values.init.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - |
+              until printf "." && nc -z -w 2 {{ template "track.postgresql.fullname" . }} {{ .Values.postgresql.service.port }}; do
+                  sleep 2;
+              done;
+
+              echo 'PostgreSQL OK ✓'
+      {{- end }}
+      containers:
+        - name: {{ template "track.fullname" . }}
+          image: {{ template "track.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http-track
+              containerPort: 8080
+          env:
+{{- include "track.persistence.vars" .  | indent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http-track
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
