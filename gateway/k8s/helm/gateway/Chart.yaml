@@ -1,0 +1,20 @@
+apiVersion: v1
+name: gateway
+version: 0.1.0
+appVersion: latest
+description: Chart for the gateway service of habitcentric, habitcentric's API gateway
+keywords:
+  - habitcentric
+  - gateway
+  - microservices
+home: https://confluence.codecentric.de/display/HAB/habitcentric
+sources:
+  - https://gitlab.com/habitcentric/hc-gateway
+maintainers:
+  - name: Michael Follmann
+    email: michael.follmann@codecentric.de
+    url: http://gitlab.com/michael.follmann
+  - name: Dennis Effing
+    email: dennis.effing@codecentric.de
+    url: http://gitlab.com/denniseffing
+engine: gotpl

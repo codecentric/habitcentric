@@ -1,0 +1,94 @@
+image:
+  registry: docker.io
+  repository: habitcentric/gateway
+  tag: latest
+  ## Specifies an imagePullPolicy
+  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  pullPolicy: Always
+
+## habitcentric gateway service configuration
+service:
+  ## Additional service annotations which may be required
+  annotations: {}
+
+  ## ServiceType
+  ## ref: https://kubernetes.io/docs/user-guide/services/#publishing-services---service-types
+  type: NodePort
+
+  ## Internal service port
+  port: 8419
+
+  ## nodePort value for the LoadBalancer and NodePort service types
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
+  # nodePort:
+
+## Pod Service Account
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+serviceAccount:
+  enabled: false
+
+  ## Name of an already existing service account. Setting this value disables the automatic service account creation.
+  # name:
+
+## Configure extra options for liveness and readiness probes
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 20
+  periodSeconds: 120
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 40
+  periodSeconds: 120
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+## Ingress configuration
+## ref: https://kubernetes.io/docs/user-guide/ingress/
+ingress:
+  enabled: false
+  path: /
+
+  ## Additional ingress labels which may be required
+  labels: {}
+
+  ## Additional ingress annotations which may be required
+  annotations: {}
+
+  ## List of hosts for the ingress
+  hosts:
+    - habitcentric.demo
+
+  ## TLS configuration
+  tls: []
+#    - hosts:
+#        - habitcentric.example.com
+#      secretName: tls-gateway
+
+## URI of habit service
+habitUri: http://habitcentric-habit:8080
+
+## URI of track service
+trackUri: http://habitcentric-track:8080
+
+## URI of UI service
+uiUri: http://habitcentric-ui
+
+## Number of service instances
+replicas: 1
+
+## Additional pod labels which may be required
+podLabels: {}
+
+## Additional pod annotations which may be required
+podAnnotations: {}
+
+## updateStrategyType for habitcentric gateway Deployment
+## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+updateStrategyType: RollingUpdate

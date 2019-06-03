@@ -1,0 +1,44 @@
+{{- $ingress := .Values.ingress -}}
+{{- if $ingress.enabled -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "gateway.fullname" . }}
+  labels:
+    app: {{ template "gateway.name" . }}
+    chart: {{ template "gateway.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+  {{- with $ingress.labels }}
+{{ toYaml . | indent 4 }}
+  {{- end }}
+  {{- with $ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+  {{- end }}
+spec:
+  {{- if $ingress.tls }}
+  tls:
+    {{- range $ingress.tls }}
+    - hosts:
+        {{- range .hosts }}
+        - {{ . }}
+      {{- end }}
+      secretName: {{ .secretName }}
+  {{- end }}
+  {{- end }}
+  rules:
+    {{- range $ingress.hosts }}
+    - host: {{ . }}
+      http:
+        paths:
+          - path: {{ $ingress.path }}
+            backend:
+              serviceName: {{ template "gateway.fullname" $ }}
+              servicePort: http-gateway
+          - path: {{ $ingress.path }}*
+            backend:
+              serviceName: {{ template "gateway.fullname" $ }}
+              servicePort: http-gateway
+  {{- end }}
+{{- end -}}

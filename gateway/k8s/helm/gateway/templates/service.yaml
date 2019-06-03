@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "gateway.fullname" . }}
+  labels:
+    app: {{ template "gateway.name" . }}
+    chart: {{ template "gateway.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+{{- with .Values.service.annotations -}}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http-gateway
+      port: {{ .Values.service.port }}
+      targetPort: http-gateway
+  selector:
+    app: {{ template "gateway.name" . }}
+    release: {{ .Release.Name | quote }}
