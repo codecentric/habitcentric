@@ -24,3 +24,6 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### Helm chart dependencies
+/k8s/helm/**/charts

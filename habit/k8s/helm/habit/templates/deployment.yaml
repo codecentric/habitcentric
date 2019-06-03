@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "habit.fullname" . }}
+  labels:
+    app: {{ template "habit.name" . }}
+    chart: {{ template "habit.chart" . }}
+    release: {{ .Release.Name | quote }}
+    heritage: {{ .Release.Service | quote }}
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: {{ .Values.updateStrategyType }}
+  selector:
+    matchLabels:
+      app: {{ template "habit.name" . }}
+      release: {{ .Release.Name | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "habit.name" . }}
+        chart: {{ template "habit.chart" . }}
+        release: {{ .Release.Name | quote }}
+        heritage: {{ .Release.Service | quote }}
+      {{- with .Values.podLabels -}}
+{{ toYaml . | indent 8 }}
+      {{- end -}}
+      {{- with .Values.podAnnotations -}}
+      annotations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    spec:
+      {{- if .Values.serviceAccount.enabled }}
+      serviceAccountName: {{ default (include "habit.fullname" . ) .Values.serviceAccount.name }}
+      {{- end }}
+      {{- if .Values.persistence.deployPostgres }}
+      initContainers:
+        - name: wait-for-postgresql
+          image: {{ template "habit.init.image" . }}
+          imagePullPolicy: {{ .Values.init.image.pullPolicy }}
+          command:
+            - sh
+            - -c
+            - |
+              until printf "." && nc -z -w 2 {{ template "habit.postgresql.fullname" . }} {{ .Values.postgresql.service.port }}; do
+                  sleep 2;
+              done;
+
+              echo 'PostgreSQL OK ✓'
+      {{- end }}
+      containers:
+        - name: {{ template "habit.fullname" . }}
+          image: {{ template "habit.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http-habit
+              containerPort: 8080
+          env:
+{{- include "habit.persistence.vars" .  | indent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http-habit
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: {{ .Values.service.port }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
