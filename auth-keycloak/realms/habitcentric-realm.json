@@ -39,6 +39,27 @@
           "realm-admin"
         ]
       }
+    },
+    {
+      "username": "monitoring",
+      "enabled": true,
+      "email": "monitoring@habitcentric.de",
+      "firstName": "Monitoring",
+      "lastName": "Monitoring",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "monitoring"
+        }
+      ],
+      "realmRoles": [
+        "admin"
+      ],
+      "clientRoles": {
+        "realm-management": [
+          "realm-admin"
+        ]
+      }
     }
   ],
   "roles": {
