@@ -15,7 +15,7 @@ services:
     environment:
       DB_HOST: habit-db
   habit-db:
-    image: postgres
+    image: postgres:9.6
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
@@ -26,7 +26,7 @@ services:
     environment:
       DB_HOST: track-db
   track-db:
-    image: postgres
+    image: postgres:9.6
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
