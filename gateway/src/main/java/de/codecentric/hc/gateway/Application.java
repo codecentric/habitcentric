@@ -1,8 +1,7 @@
 package de.codecentric.hc.gateway;
 
-import static de.codecentric.hc.gateway.filters.UserIdFilters.REWRITE_TRACK_PATH_WITH_USER_ID;
-import static de.codecentric.hc.gateway.filters.UserIdFilters.SET_USER_ID_HEADER;
-
+import de.codecentric.hc.gateway.filters.UserIdHeaderFilter;
+import de.codecentric.hc.gateway.filters.UserIdTrackPathFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,17 +22,19 @@ public class Application {
   private String uiUri;
 
   @Bean
-  public RouteLocator routeLocator(RouteLocatorBuilder builder) {
+  public RouteLocator routeLocator(
+      RouteLocatorBuilder builder,
+      UserIdHeaderFilter userIdHeaderFilter,
+      UserIdTrackPathFilter userIdTrackPathFilter) {
     return builder
         .routes()
-        .route(r -> r.path("/habits/**").filters(f -> f.filter(SET_USER_ID_HEADER)).uri(habitUri))
+        .route(r -> r.path("/habits/**").filters(f -> f.filter(userIdHeaderFilter)).uri(habitUri))
         .route(
             r ->
                 r.path("/track/**")
-                    .filters(
-                        f -> f.filter(REWRITE_TRACK_PATH_WITH_USER_ID).filter(SET_USER_ID_HEADER))
+                    .filters(f -> f.filter(userIdTrackPathFilter).filter(userIdHeaderFilter))
                     .uri(trackUri))
-        .route(r -> r.path("/ui/**").filters(f -> f.filter(SET_USER_ID_HEADER)).uri(uiUri))
+        .route(r -> r.path("/ui/**").filters(f -> f.filter(userIdHeaderFilter)).uri(uiUri))
         .build();
   }
 
