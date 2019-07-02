@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.StringUtils;
@@ -31,7 +30,7 @@ public final class UserIdFilters {
         return chain.filter(exchange.mutate().request(request).build());
       };
 
-  public static GlobalFilter SET_USER_ID_HEADER =
+  public static GatewayFilter SET_USER_ID_HEADER =
       (exchange, chain) -> {
         Optional<String> userId = extractUserId(exchange.getRequest());
         if (!userId.isPresent()) {
