@@ -1,6 +1,7 @@
 package de.codecentric.hc.gateway;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.containsString;
 
 import de.codecentric.hc.gateway.security.ApplicationUser;
@@ -20,5 +21,10 @@ public class MonitoringTest extends RestAssuredTest {
         .then()
         .statusCode(200)
         .body("_links.self.href", containsString("http://localhost"));
+  }
+
+  @Test
+  public void getActuatorHealthShouldReturnOk() {
+    when().get("/actuator/health").then().statusCode(200).body("status", containsString("UP"));
   }
 }
