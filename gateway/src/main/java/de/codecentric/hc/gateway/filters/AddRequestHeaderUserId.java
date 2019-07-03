@@ -30,13 +30,7 @@ public class AddRequestHeaderUserId extends AbstractGatewayFilterFactory<Config>
     if (StringUtils.isEmpty(userId)) {
       return exchange;
     }
-    ServerHttpRequest request =
-        exchange
-            .getRequest()
-            .mutate()
-            .header("X-User-ID", userId)
-            .headers(httpHeaders -> httpHeaders.remove("Authorization"))
-            .build();
+    ServerHttpRequest request = exchange.getRequest().mutate().header("X-User-ID", userId).build();
     return exchange.mutate().request(request).build();
   }
 
