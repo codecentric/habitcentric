@@ -1,8 +1,8 @@
 package de.codecentric.hc.gateway.filters;
 
-import java.nio.charset.StandardCharsets;
+import de.codecentric.hc.gateway.filters.AddRequestHeaderUserId.Config;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
@@ -10,40 +10,34 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.util.UriUtils;
 import reactor.core.publisher.Mono;
 
 @Component
-public class UserIdTrackPathFilter implements GatewayFilter {
+public class AddRequestHeaderUserId extends AbstractGatewayFilterFactory<Config> {
 
-  @Override
-  public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-    return userId()
-        .flatMap(userId -> chain.filter(mutateTrackRequestWithUserIdPath(exchange, userId)));
+  public AddRequestHeaderUserId() {
+    super(Config.class);
   }
 
-  private ServerWebExchange mutateTrackRequestWithUserIdPath(
+  @Override
+  public GatewayFilter apply(Config config) {
+    return (exchange, chain) ->
+        userId().flatMap(userId -> chain.filter(mutateRequestWithUserIdHeader(exchange, userId)));
+  }
+
+  private ServerWebExchange mutateRequestWithUserIdHeader(
       ServerWebExchange exchange, String userId) {
     if (StringUtils.isEmpty(userId)) {
-      throw new UserIdMissingException();
+      return exchange;
     }
     ServerHttpRequest request =
         exchange
             .getRequest()
             .mutate()
-            .path(
-                exchange
-                    .getRequest()
-                    .getPath()
-                    .value()
-                    .replaceFirst("/track/", trackPathWithUserId(userId)))
+            .header("X-User-ID", userId)
+            .headers(httpHeaders -> httpHeaders.remove("Authorization"))
             .build();
     return exchange.mutate().request(request).build();
-  }
-
-  private String trackPathWithUserId(String userId) {
-    return String.format(
-        "/track/users/%s/", UriUtils.encodePath(userId, StandardCharsets.UTF_8.toString()));
   }
 
   private Mono<String> userId() {
@@ -51,4 +45,6 @@ public class UserIdTrackPathFilter implements GatewayFilter {
         .map(SecurityContext::getAuthentication)
         .map(Authentication::getName);
   }
+
+  public static class Config {}
 }

@@ -1,6 +1,28 @@
 spring:
   application:
     name: hc-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: habit_route
+          uri: ${gateway.target.uri.habit}
+          predicates:
+            - Path=/habits/**
+          filters:
+            - AddRequestHeaderUserId
+        - id: track_route
+          uri: ${gateway.target.uri.track}
+          predicates:
+            - Path=/track/**
+          filters:
+            - RewriteTrackPathWithUserId
+            - AddRequestHeaderUserId
+        - id: ui_route
+          uri: ${gateway.target.uri.ui}
+          predicates:
+            - Path=/ui/**
+          filters:
+            - AddRequestHeaderUserId
 gateway:
   target:
     uri:
