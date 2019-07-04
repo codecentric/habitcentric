@@ -1,10 +1,11 @@
 package de.codecentric.hc.gateway.security;
 
-import static de.codecentric.hc.gateway.security.ApplicationUser.DEFAULT;
-import static de.codecentric.hc.gateway.security.ApplicationUser.MONITORING;
+import static de.codecentric.hc.gateway.security.ApplicationUser.Role.MONITORING;
+import static de.codecentric.hc.gateway.security.ApplicationUser.Role.USER;
 
 import de.codecentric.hc.gateway.testing.WebTest;
 import org.junit.Test;
+import org.springframework.security.test.context.support.WithMockUser;
 
 public class SecurityConfigTest extends WebTest {
 
@@ -26,13 +27,19 @@ public class SecurityConfigTest extends WebTest {
   }
 
   @Test
+  @WithMockUser(roles = USER)
+  public void actuatorRequestsWithInvalidUserRoleShouldBeForbidden() {
+    get("/actuator").expectStatus().isForbidden();
+  }
+
+  @Test
+  @WithMockUser(roles = MONITORING)
   public void requestsWithInvalidUserRoleShouldBeForbidden() {
-    get("/actuator", DEFAULT).expectStatus().isForbidden();
-    get("/habits", MONITORING).expectStatus().isForbidden();
-    post("/habits", MONITORING, "{}").expectStatus().isForbidden();
-    delete("/habits/123", MONITORING).expectStatus().isForbidden();
-    get("/track", MONITORING).expectStatus().isForbidden();
-    put("/track", MONITORING, "{}").expectStatus().isForbidden();
-    get("/ui/", MONITORING).expectStatus().isForbidden();
+    get("/habits").expectStatus().isForbidden();
+    post("/habits", "{}").expectStatus().isForbidden();
+    delete("/habits/123").expectStatus().isForbidden();
+    get("/track").expectStatus().isForbidden();
+    put("/track", "{}").expectStatus().isForbidden();
+    get("/ui/").expectStatus().isForbidden();
   }
 }
