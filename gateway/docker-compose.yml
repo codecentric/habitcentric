@@ -1,8 +1,35 @@
 version: '3.1'
 services:
+  auth-keycloak:
+    image: habitcentric/auth-keycloak
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: postgres
+      DB_ADDR: auth-keycloak-db
+      DB_USER: keycloak
+      DB_PASSWORD: password
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/auth"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    depends_on:
+      - auth-keycloak-db
+    ports:
+      - 8080:8080
+  auth-keycloak-db:
+    image: postgres:9.6
+    environment:
+      PGDATA: /var/lib/postgresql/data/keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    volumes:
+      - auth-keycloak-db-data:/var/lib/postgresql/data
   gateway:
     build: .
     environment:
+      AUTH_URI: http://auth-keycloak:8080
       HABIT_URI: http://habit:8080
       TRACK_URI: http://track:8080
       UI_URI: http://ui
@@ -35,3 +62,5 @@ services:
     environment:
       HABIT_SERVICE_HOST: http://localhost:8419/
       TRACKING_SERVICE_HOST: http://localhost:8419/
+volumes:
+  auth-keycloak-db-data:
