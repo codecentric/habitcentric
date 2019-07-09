@@ -1,18 +1,21 @@
 package de.codecentric.hc.gateway.routing;
 
-import static de.codecentric.hc.gateway.security.ApplicationUser.DEFAULT;
+import static de.codecentric.hc.gateway.security.ApplicationUser.Role.USER;
+import static de.codecentric.hc.gateway.security.ApplicationUser.Username.DEFAULT;
 import static org.hamcrest.Matchers.hasItems;
 
 import de.codecentric.hc.gateway.testing.WebTest;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
+import org.springframework.security.test.context.support.WithMockUser;
 
 public class TrackTest extends WebTest {
 
   @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
   public void getTrackRecordsShouldReturnTrackRecordsForHabits() {
-    get("/track/habits/123", DEFAULT)
+    get("/track/habits/123")
         .expectStatus()
         .isOk()
         .expectBody()
@@ -21,8 +24,9 @@ public class TrackTest extends WebTest {
   }
 
   @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
   public void putTrackRecordsShouldUpsertTrackRecordsForHabits() {
     List<String> dates = Arrays.asList("2019-03-19", "2019-03-20", "2019-03-21");
-    put("/track/habits/123", DEFAULT, dates).expectStatus().isOk();
+    put("/track/habits/123", dates).expectStatus().isOk();
   }
 }

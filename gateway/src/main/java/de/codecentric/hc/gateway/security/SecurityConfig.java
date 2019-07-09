@@ -1,7 +1,7 @@
 package de.codecentric.hc.gateway.security;
 
-import static de.codecentric.hc.gateway.security.ApplicationUserRole.MONITORING;
-import static de.codecentric.hc.gateway.security.ApplicationUserRole.USER;
+import static de.codecentric.hc.gateway.security.ApplicationUser.Role.MONITORING;
+import static de.codecentric.hc.gateway.security.ApplicationUser.Role.USER;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +27,7 @@ public class SecurityConfig {
                 userDetails ->
                     User.withUsername(userDetails.getUsername())
                         .password(passwordEncoder().encode(userDetails.getPassword()))
-                        .roles(userDetails.getRole().name())
+                        .roles(userDetails.getRole())
                         .build())
             .collect(Collectors.toList());
     users.addAll(
@@ -36,7 +36,7 @@ public class SecurityConfig {
                 username ->
                     User.withUsername(username)
                         .password(passwordEncoder().encode(username))
-                        .roles(USER.name())
+                        .roles(USER)
                         .build())
             .collect(Collectors.toList()));
     return new MapReactiveUserDetailsService(users);
@@ -50,15 +50,15 @@ public class SecurityConfig {
         .pathMatchers("/actuator/health/**")
         .permitAll()
         .pathMatchers("/actuator/**")
-        .hasRole(MONITORING.name())
+        .hasRole(MONITORING)
         .pathMatchers("/favicon.ico")
         .permitAll()
         .pathMatchers("/habits/**")
-        .hasRole(USER.name())
+        .hasRole(USER)
         .pathMatchers("/track/**")
-        .hasRole(USER.name())
+        .hasRole(USER)
         .pathMatchers("/ui/**")
-        .hasRole(USER.name())
+        .hasRole(USER)
         .and()
         .httpBasic();
     return http.build();

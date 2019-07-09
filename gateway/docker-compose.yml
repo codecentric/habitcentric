@@ -9,29 +9,29 @@ services:
     ports:
       - 8419:8080
   habit:
-    build: ../hc-habit
+    image: habitcentric/habit
     depends_on:
       - habit-db
     environment:
       DB_HOST: habit-db
   habit-db:
-    image: postgres
+    image: postgres:9.6
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
   track:
-    build: ../hc-track
+    image: habitcentric/track
     depends_on:
       - track-db
     environment:
       DB_HOST: track-db
   track-db:
-    image: postgres
+    image: postgres:9.6
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
   ui:
-    build: ../hc-ui
+    image: habitcentric/ui
     environment:
       HABIT_SERVICE_HOST: http://localhost:8419/
       TRACKING_SERVICE_HOST: http://localhost:8419/

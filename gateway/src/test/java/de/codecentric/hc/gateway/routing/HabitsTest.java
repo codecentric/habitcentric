@@ -1,22 +1,22 @@
 package de.codecentric.hc.gateway.routing;
 
+import static de.codecentric.hc.gateway.security.ApplicationUser.Role.USER;
+import static de.codecentric.hc.gateway.security.ApplicationUser.Username.DEFAULT;
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.when;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.contains;
 
-import de.codecentric.hc.gateway.security.ApplicationUser;
 import de.codecentric.hc.gateway.testing.RestAssuredTest;
 import org.junit.Test;
+import org.springframework.security.test.context.support.WithMockUser;
 
 public class HabitsTest extends RestAssuredTest {
 
   @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
   public void getHabitsShouldReturnHabits() {
-    ApplicationUser user = ApplicationUser.DEFAULT;
-    given()
-        .auth()
-        .basic(user.getUsername(), user.getPassword())
-        .when()
+    when()
         .get("/habits")
         .then()
         .statusCode(200)
@@ -24,11 +24,9 @@ public class HabitsTest extends RestAssuredTest {
   }
 
   @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
   public void postHabitsShouldReturnCreated() {
-    ApplicationUser user = ApplicationUser.DEFAULT;
     given()
-        .auth()
-        .basic(user.getUsername(), user.getPassword())
         .contentType(JSON)
         .body("{\"name\": \"Jogging\"}")
         .when()
@@ -38,14 +36,8 @@ public class HabitsTest extends RestAssuredTest {
   }
 
   @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
   public void deleteHabitsShouldReturnOk() {
-    ApplicationUser user = ApplicationUser.DEFAULT;
-    given()
-        .auth()
-        .basic(user.getUsername(), user.getPassword())
-        .when()
-        .delete("/habits/123")
-        .then()
-        .statusCode(200);
+    when().delete("/habits/123").then().statusCode(200);
   }
 }

@@ -1,15 +1,37 @@
 spring:
   application:
     name: hc-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: habit_route
+          uri: ${gateway.target.uri.habit}
+          predicates:
+            - Path=/habits/**
+          filters:
+            - AddRequestHeaderUserId
+            - RemoveRequestHeader=Authorization
+        - id: track_route
+          uri: ${gateway.target.uri.track}
+          predicates:
+            - Path=/track/**
+          filters:
+            - RewriteTrackPathWithUserId
+            - AddRequestHeaderUserId
+            - RemoveRequestHeader=Authorization
+        - id: ui_route
+          uri: ${gateway.target.uri.ui}
+          predicates:
+            - Path=/ui/**
+          filters:
+            - AddRequestHeaderUserId
+            - RemoveRequestHeader=Authorization
 gateway:
   target:
     uri:
       habit: ${HABIT_URI:http://localhost:8180}
       track: ${TRACK_URI:http://localhost:8219}
       ui: ${UI_URI:http://localhost:8171}
-logging:
-  level:
-    org.springframework.cloud.gateway: TRACE
 
 ---
 
@@ -17,3 +39,5 @@ spring:
   profiles: local
 server:
   port: 8431
+  error:
+    include-stacktrace: ALWAYS
