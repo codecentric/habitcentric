@@ -1,13 +1,8 @@
-import axios from "axios";
+import { ApiService } from "../api/ApiService";
 
-export default class HabitService {
-  constructor(habitServiceHost = process.env.VUE_APP_HABIT_SERVICE_HOST) {
-    this.http = axios.create({
-      baseURL: habitServiceHost,
-      headers: {
-        Accept: "application/json"
-      }
-    });
+export default class HabitService extends ApiService {
+  constructor(host = process.env.VUE_APP_HABIT_SERVICE_HOST) {
+    super(host);
   }
 
   getHabits() {

@@ -5736,6 +5736,11 @@ jest-config@^23.6.0:
     micromatch "^2.3.11"
     pretty-format "^23.6.0"
 
+jest-deep-mock@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/jest-deep-mock/-/jest-deep-mock-0.3.5.tgz#385b5b88f1ec0f7e086125bbc1b7b5d2c6f6f72d"
+  integrity sha512-tSYxu4CBHLaPcpaHHlG9Be2ZzGJe/rQTVolYLK1p8ZVcvOwfiCUGMWc9zHeXuu4jnnVUjYtgSlc5SGvAbDEYSQ==
+
 jest-diff@^23.6.0:
   version "23.6.0"
   resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-23.6.0.tgz#1500f3f16e850bb3d71233408089be099f610c7d"
@@ -7199,6 +7204,11 @@ obuf@^1.0.0, obuf@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
+
+oidc-client@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/oidc-client/-/oidc-client-1.7.1.tgz#8b9d8d50fd7f878968b1cda17712c1747eef9a54"
+  integrity sha512-qsPBQVa/BY6AmdY89erANJbfDXrX1dqu9lKgvYZzkVDzIj5mmw6wGjFeQuV2HDm4TiJA0VT5HSTWOWnXZUYu0g==
 
 on-finished@~2.3.0:
   version "2.3.0"
