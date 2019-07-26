@@ -7,8 +7,8 @@
   "response": {
     "status": 200,
     "headers": {
-      "Access-Control-Allow-Headers": "Authorization",
-      "Access-Control-Allow-Methods": "DELETE",
+      "Access-Control-Allow-Headers": "Accept, Authorization, Content-Type",
+      "Access-Control-Allow-Methods": "DELETE, OPTIONS, PUT",
       "Access-Control-Allow-Origin": "*"
     },
     "fixedDelayMilliseconds": 100
