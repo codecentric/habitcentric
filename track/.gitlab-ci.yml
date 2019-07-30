@@ -14,7 +14,7 @@ services:
 
 build:
   stage: build
-  image: openjdk:11-jre-slim
+  image: openjdk:11.0.4-jdk-slim-buster@sha256:aa55d9c3be02f2710d5fb5fef87d5c07c9f7ad2c481105a891a4bdd485b2e2bd
   script: "./gradlew clean build jacocoTestReport jacocoTestCoverageVerification"
   artifacts:
     when: always
