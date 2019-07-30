@@ -13,7 +13,7 @@ services:
     ports:
       - 8171:80
   stubs:
-    image: rodolpheche/wiremock:2.20.0-alpine
+    image: rodolpheche/wiremock:2.24.0-alpine@sha256:6eb67902cfd1dc216a2d6cfca318baaecd916a6b134027c3b12320ee68beb8f8
     command: --verbose
     restart: always
     ports:
