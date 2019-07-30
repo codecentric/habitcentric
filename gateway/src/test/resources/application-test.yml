@@ -1,0 +1,3 @@
+gateway:
+  auth:
+    type: OAUTH_2_LOGIN

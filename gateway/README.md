@@ -26,6 +26,11 @@ It's recommend to use `docker-compose` to start the gateway on port 8419:
 docker-compose up --build
 ```
 
+To enable the login via Keycloak, an entry needs to be added in `/etc/hosts` (C:\Windows\System32\Drivers\etc\hosts on Windows).
+```
+127.0.0.1   auth-keycloak
+```
+
 `Dockerfile` describes the application's Docker image and expects an existing JAR ([see Build](#build)).
 `--build` makes sure that this Docker image is build each time and changes become effective.
 
