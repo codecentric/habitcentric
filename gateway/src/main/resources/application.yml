@@ -44,6 +44,8 @@ spring:
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             scope: openid
 gateway:
+  auth:
+    type: ${AUTH_TYPE:HTTP_BASIC}
   target:
     uri:
       auth: ${AUTH_URI:http://localhost:8080}

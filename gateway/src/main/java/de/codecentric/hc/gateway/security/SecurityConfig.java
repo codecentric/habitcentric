@@ -3,9 +3,11 @@ package de.codecentric.hc.gateway.security;
 import static de.codecentric.hc.gateway.security.ApplicationUser.Role.MONITORING;
 import static de.codecentric.hc.gateway.security.ApplicationUser.Role.USER;
 
+import de.codecentric.hc.gateway.security.GatewayAuthConfig.GatewayAuthType;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
@@ -16,8 +18,11 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+@AllArgsConstructor
 @EnableWebFluxSecurity
 public class SecurityConfig {
+
+  private GatewayAuthConfig authConfig;
 
   @Bean
   public MapReactiveUserDetailsService userDetailsService() {
@@ -44,7 +49,20 @@ public class SecurityConfig {
 
   @Bean
   public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
-    http.csrf()
+    configureAuthorization(http);
+    return http.build();
+  }
+
+  private void configureAuthorization(ServerHttpSecurity http) {
+    if (GatewayAuthType.OAUTH_2_LOGIN.equals(authConfig.getType())) {
+      commonConfig(http).oauth2Login();
+    } else {
+      commonConfig(http).httpBasic();
+    }
+  }
+
+  private ServerHttpSecurity commonConfig(ServerHttpSecurity http) {
+    return http.csrf()
         .disable()
         .authorizeExchange()
         .pathMatchers("/actuator/health/**")
@@ -59,9 +77,7 @@ public class SecurityConfig {
         .hasRole(USER)
         .pathMatchers("/ui/**")
         .hasRole(USER)
-        .and()
-        .oauth2Login();
-    return http.build();
+        .and();
   }
 
   @Bean
