@@ -29,6 +29,7 @@ services:
   gateway:
     build: .
     environment:
+      AUTH_TYPE: OAUTH_2_LOGIN
       AUTH_URI: http://auth-keycloak:8080
       HABIT_URI: http://habit:8080
       TRACK_URI: http://track:8080
