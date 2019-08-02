@@ -28,7 +28,7 @@ docker-compose up --build
 
 To enable the login via Keycloak, an entry needs to be added in `/etc/hosts` (C:\Windows\System32\Drivers\etc\hosts on Windows).
 ```
-127.0.0.1   auth-keycloak
+127.0.0.1   habitcentric.demo
 ```
 
 `Dockerfile` describes the application's Docker image and expects an existing JAR ([see Build](#build)).

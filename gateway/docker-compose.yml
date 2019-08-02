@@ -18,6 +18,10 @@ services:
       - auth-keycloak-db
     ports:
       - 8080:8080
+    networks:
+      habitcentric-net:
+        aliases:
+          - habitcentric.demo
   auth-keycloak-db:
     image: postgres:9.6
     environment:
@@ -26,42 +30,58 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - auth-keycloak-db-data:/var/lib/postgresql/data
+    networks:
+      - habitcentric-net
   gateway:
     build: .
     environment:
       AUTH_TYPE: OAUTH_2_LOGIN
-      AUTH_URI: http://auth-keycloak:8080
+      AUTH_URI: http://habitcentric.demo:8080
       HABIT_URI: http://habit:8080
       TRACK_URI: http://track:8080
       UI_URI: http://ui
     ports:
       - 8419:8080
+    networks:
+      - habitcentric-net
   habit:
     image: habitcentric/habit
     depends_on:
       - habit-db
     environment:
       DB_HOST: habit-db
+    networks:
+      - habitcentric-net
   habit-db:
     image: postgres:9.6
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
+    networks:
+      - habitcentric-net
   track:
     image: habitcentric/track
     depends_on:
       - track-db
     environment:
       DB_HOST: track-db
+    networks:
+      - habitcentric-net
   track-db:
     image: postgres:9.6
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
+    networks:
+      - habitcentric-net
   ui:
     image: habitcentric/ui
     environment:
       HABIT_SERVICE_HOST: http://localhost:8419/
       TRACKING_SERVICE_HOST: http://localhost:8419/
+    networks:
+      - habitcentric-net
 volumes:
   auth-keycloak-db-data:
+networks:
+  habitcentric-net:
