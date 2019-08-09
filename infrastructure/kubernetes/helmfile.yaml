@@ -19,7 +19,7 @@ releases:
         args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
       - events: [ "presync" ]
         command: "kubectl"
-        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled" ]
+        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite" ]
       {{- end }}
   - name: habit
     namespace: hc-habit
@@ -33,7 +33,7 @@ releases:
         args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
       - events: [ "presync" ]
         command: "kubectl"
-        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled" ]
+        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite"]
       {{- end }}
   - name: track
     namespace: hc-track
@@ -47,7 +47,7 @@ releases:
         args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
       - events: [ "presync" ]
         command: "kubectl"
-        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled" ]
+        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite" ]
       {{- end }}
   {{- if ne .Environment.Name "istio" }}
   - name: gateway
