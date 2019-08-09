@@ -1,0 +1,59 @@
+repositories:
+  - name: codecentric
+    url: https://codecentric.github.io/helm-charts
+
+environments:
+  default:
+  istio:
+
+releases:
+  - name: ui
+    namespace: hc-ui
+    chart: ../hc-ui/k8s/helm/ui
+    values:
+      - ./ui-values.yaml.gotmpl
+    hooks:
+      {{- if eq .Environment.Name "istio" }}     
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled" ]
+      {{- end }}
+  - name: habit
+    namespace: hc-habit
+    chart: ../hc-habit/k8s/helm/habit
+    values:
+      - ./habit-values.yaml.gotmpl
+    hooks:
+      {{- if eq .Environment.Name "istio" }}     
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled" ]
+      {{- end }}
+  - name: track
+    namespace: hc-track
+    chart: ../hc-track/k8s/helm/track
+    values:
+      - ./track-values.yaml.gotmpl
+    hooks:
+      {{- if eq .Environment.Name "istio" }}     
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled" ]
+      {{- end }}
+  {{- if ne .Environment.Name "istio" }}
+  - name: gateway
+    namespace: hc-gateway
+    chart: ../hc-gateway/k8s/helm/gateway
+    values:
+      - ./gateway-values.yaml.gotmpl
+  {{- end }}  
+  

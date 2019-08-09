@@ -1,0 +1,14 @@
+fullnameOverride: ui
+image:
+  repository: denniseffing/hc-ui
+  pullPolicy: Always
+
+oidc:
+  {{- if eq .Environment.Name "istio" }}
+  enabled: true
+  authorityUri: http://habitcentric.demo/auth/realms/habitcentric/.well-known/openid-configuration
+  {{- else }}
+  enabled: false
+  authorityUri: http://keycloak.demo/auth/realms/habitcentric/.well-known/openid-configuration
+  {{- end }}
+  clientId: ui
