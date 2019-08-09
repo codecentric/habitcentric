@@ -11,7 +11,7 @@ releases:
     namespace: hc-ui
     chart: ../hc-ui/k8s/helm/ui
     values:
-      - ./ui-values.yaml.gotmpl
+      - ./helmfile-templates/ui-values.yaml.gotmpl
     hooks:
       {{- if eq .Environment.Name "istio" }}     
       - events: [ "presync" ]
@@ -25,7 +25,7 @@ releases:
     namespace: hc-habit
     chart: ../hc-habit/k8s/helm/habit
     values:
-      - ./habit-values.yaml.gotmpl
+      - ./helmfile-templates/habit-values.yaml.gotmpl
     hooks:
       {{- if eq .Environment.Name "istio" }}     
       - events: [ "presync" ]
@@ -39,7 +39,7 @@ releases:
     namespace: hc-track
     chart: ../hc-track/k8s/helm/track
     values:
-      - ./track-values.yaml.gotmpl
+      - ./helmfile-templates/track-values.yaml.gotmpl
     hooks:
       {{- if eq .Environment.Name "istio" }}     
       - events: [ "presync" ]
@@ -54,6 +54,6 @@ releases:
     namespace: hc-gateway
     chart: ../hc-gateway/k8s/helm/gateway
     values:
-      - ./gateway-values.yaml.gotmpl
+      - ./helmfile-templates/gateway-values.yaml.gotmpl
   {{- end }}  
   
