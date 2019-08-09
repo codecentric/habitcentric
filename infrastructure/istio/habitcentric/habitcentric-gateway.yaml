@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: habitcentric-gateway
-  namespace: habitcentric
+  namespace: istio-system
 spec:
   selector:
     istio: ingressgateway # use istio default controller

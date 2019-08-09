@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: habitcentric-routes
-  namespace: habitcentric
+  namespace: istio-system
 spec:
   hosts:
   - habitcentric.demo
@@ -14,7 +14,7 @@ spec:
         prefix: /habits
     route:
     - destination:
-        host: habitcentric-habit.habitcentric.svc.cluster.local
+        host: habit.hc-habit.svc.cluster.local
         port:
           number: 8080
   - match:
@@ -22,7 +22,7 @@ spec:
         prefix: /track
     route:
     - destination:
-        host: habitcentric-track.habitcentric.svc.cluster.local
+        host: track.hc-track.svc.cluster.local
         port:
           number: 8080
   - match:
@@ -30,13 +30,13 @@ spec:
         prefix: /ui
     route:
     - destination:
-        host: habitcentric-ui.habitcentric.svc.cluster.local
+        host: ui.hc-ui.svc.cluster.local
   - match:
     - uri:
         prefix: /auth
     route:
     - destination:
-        host: habitcentric-keycloa-http.habitcentric.svc.cluster.local
+        host: keycloak-http.hc-keycloak.svc.cluster.local
         port:
           number: 80
   - match:
