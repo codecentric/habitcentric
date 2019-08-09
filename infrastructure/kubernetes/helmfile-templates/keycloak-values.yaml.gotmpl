@@ -1,0 +1,22 @@
+keycloak:
+  image:
+    repository: denniseffing/auth-keycloak
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    port: 80
+  {{- if eq .Environment.Name "istio" }}
+  ingress:
+    enabled: false
+  {{- else }}
+  ingress:
+    enabled: true
+  {{- end }}
+  password: keycloak
+  persistence:
+    deployPostgres: true
+    dbVendor: postgres
+postgresql:
+  postgresqlPassword: postgresql
+  service:
+    port: 5432

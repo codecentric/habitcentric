@@ -49,6 +49,20 @@ releases:
         command: "kubectl"
         args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite" ]
       {{- end }}
+  {{- if eq .Environment.Name "istio" }}     
+  - name: keycloak
+    namespace: hc-keycloak
+    chart: codecentric/keycloak
+    values:
+      - ./helmfile-templates/keycloak-values.yaml.gotmpl
+    hooks:
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite" ]
+  {{- end }}
   {{- if ne .Environment.Name "istio" }}
   - name: gateway
     namespace: hc-gateway
