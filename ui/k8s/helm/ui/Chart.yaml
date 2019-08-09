@@ -1,0 +1,20 @@
+apiVersion: v1
+name: ui
+version: 0.1.0
+appVersion: latest
+description: Chart for the ui service of habitcentric, a service to deliver the frontend web app
+keywords:
+  - habitcentric
+  - ui
+  - microservices
+home: https://confluence.codecentric.de/display/HAB/habitcentric
+sources:
+  - https://gitlab.com/habitcentric/hc-ui
+maintainers:
+  - name: Michael Follmann
+    email: michael.follmann@codecentric.de
+    url: http://gitlab.com/michael.follmann
+  - name: Dennis Effing
+    email: dennis.effing@codecentric.de
+    url: http://gitlab.com/denniseffing
+engine: gotpl
