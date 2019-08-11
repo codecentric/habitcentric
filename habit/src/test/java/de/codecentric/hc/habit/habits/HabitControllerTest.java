@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import org.hibernate.exception.ConstraintViolationException;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
@@ -44,7 +44,7 @@ public class HabitControllerTest {
   private static final ModificationRequest DEFAULT_MODIFICATION =
       new ModificationRequest(DEFAULT_HABIT.getName(), DEFAULT_HABIT.getSchedule());
 
-  @Before
+  @BeforeEach
   public void beforeEach() {
     repository = mock(HabitRepository.class);
     controller = new HabitController(repository);

@@ -2,15 +2,15 @@ package de.codecentric.hc.habit.api.doc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import springfox.documentation.spring.web.plugins.Docket;
 
 public class SwaggerConfigTest {
 
   private SwaggerConfig config;
 
-  @Before
+  @BeforeEach
   public void beforeEach() {
     config = new SwaggerConfig();
   }
