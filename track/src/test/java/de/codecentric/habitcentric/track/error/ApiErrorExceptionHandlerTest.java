@@ -7,15 +7,15 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 import de.codecentric.habitcentric.track.error.dummy.DummyError;
 import de.codecentric.habitcentric.track.error.dummy.DummyErrorException;
 import java.util.Optional;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 public class ApiErrorExceptionHandlerTest implements ApiErrorResponseAssertion {
 
   private ApiErrorExceptionHandler handler;
 
-  @Before
+  @BeforeEach
   public void beforeEach() {
     handler = new ApiErrorExceptionHandler();
   }

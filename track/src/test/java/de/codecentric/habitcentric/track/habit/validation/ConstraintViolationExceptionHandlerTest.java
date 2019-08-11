@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ConstraintViolationExceptionHandlerTest implements ApiErrorResponseAssertion {
 

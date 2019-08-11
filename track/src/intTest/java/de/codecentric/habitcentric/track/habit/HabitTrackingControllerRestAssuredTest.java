@@ -12,26 +12,28 @@ import static org.hamcrest.Matchers.startsWith;
 import de.codecentric.habitcentric.track.RestAssuredTest;
 import java.time.LocalDate;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+@Testcontainers
 public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
 
   private final String urlTemplate = "/track/users/{userId}/habits/{habitId}";
   private final String userId = "abc.def";
   private final Long habitId = 123L;
 
-  @ClassRule public static JdbcDatabaseContainer database = new PostgreSQLContainer();
+  @Container public static final JdbcDatabaseContainer DATABASE = new PostgreSQLContainer();
 
   @Autowired private JdbcTemplate jdbcTemplate;
 
-  @After
+  @AfterEach
   public void cleanUp() {
     String[] tableNames = {"HC_TRACK.HABIT_TRACKING"};
     JdbcTestUtils.deleteFromTables(jdbcTemplate, tableNames);

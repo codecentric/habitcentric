@@ -19,4 +19,8 @@ task intTest(type: Test) {
     shouldRunAfter test
 }
 
+intTest {
+    useJUnitPlatform()
+}
+
 check.dependsOn intTest

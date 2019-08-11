@@ -3,11 +3,12 @@ package de.codecentric.habitcentric.track.error.matcher;
 import static de.codecentric.habitcentric.track.error.matcher.ApiErrorMatcher.hasHabitIdViolationError;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.hamcrest.Description;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ApiErrorMatcherTest {
 
@@ -30,9 +31,9 @@ public class ApiErrorMatcherTest {
     assertThat(multipleErrorsResponse, not(hasHabitIdViolationError()));
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void hasErrorShouldThrowExceptionWhenResponsesAreInvalid() {
-    assertThat("", hasHabitIdViolationError());
+    assertThrows(IllegalArgumentException.class, () -> assertThat("", hasHabitIdViolationError()));
   }
 
   @Test

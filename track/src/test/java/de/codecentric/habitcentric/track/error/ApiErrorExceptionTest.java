@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.codecentric.habitcentric.track.error.dummy.DummyError;
 import de.codecentric.habitcentric.track.error.dummy.DummyErrorException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ApiErrorExceptionTest {
 

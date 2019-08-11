@@ -11,8 +11,8 @@ import de.codecentric.habitcentric.track.error.ApiErrorException;
 import de.codecentric.habitcentric.track.habit.validation.UserId;
 import javax.servlet.http.HttpServletRequest;
 import org.assertj.core.api.Condition;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -23,7 +23,7 @@ public class UserIdArgumentResolverTest {
 
   private UserIdArgumentResolver resolver;
 
-  @Before
+  @BeforeEach
   public void beforeEach() {
     resolver = new UserIdArgumentResolver();
     resolver.setJwtDecoder(new InsecureJwtDecoder());
