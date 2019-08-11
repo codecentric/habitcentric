@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import org.assertj.core.api.Condition;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 
@@ -20,7 +20,7 @@ public class InsecureJwtDecoderTest {
 
   private JwtDecoder jwtDecoder;
 
-  @Before
+  @BeforeEach
   public void setup() {
     this.jwtDecoder = new InsecureJwtDecoder();
   }

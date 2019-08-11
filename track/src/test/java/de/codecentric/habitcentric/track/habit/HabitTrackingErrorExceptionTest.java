@@ -4,7 +4,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.codecentric.habitcentric.track.error.ApiError;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HabitTrackingErrorExceptionTest {
 

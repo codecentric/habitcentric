@@ -15,19 +15,19 @@ import de.codecentric.habitcentric.track.habit.HabitTracking;
 import de.codecentric.habitcentric.track.habit.HabitTrackingRepository;
 import java.time.LocalDate;
 import java.util.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @WebMvcTest
 public class HabitTrackingControllerJwtWebMvcTest {
 
@@ -50,7 +50,7 @@ public class HabitTrackingControllerJwtWebMvcTest {
 
   @MockBean private JwtDecoder jwtDecoder;
 
-  @Before
+  @BeforeEach
   public void beforeEach() {
     mockJwtDecoderWithValidUserId();
   }

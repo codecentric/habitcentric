@@ -6,7 +6,7 @@ import static org.mockito.Mockito.mock;
 import de.codecentric.habitcentric.track.auth.InsecureJwtDecoder;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ApplicationConfigurationTest {
 

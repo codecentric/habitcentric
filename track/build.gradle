@@ -46,6 +46,16 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useJUnitPlatform()
+}
+
+configurations {
+    testImplementation {
+        exclude group: 'junit', module: 'junit'
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -56,6 +66,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql:42.2.5'
     runtimeOnly 'org.flywaydb:flyway-core:5.2.4'
     flywayMigration 'org.postgresql:postgresql:42.2.5'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testAnnotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
