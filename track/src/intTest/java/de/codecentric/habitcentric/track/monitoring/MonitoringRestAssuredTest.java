@@ -4,7 +4,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 import de.codecentric.habitcentric.track.RestAssuredTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class MonitoringRestAssuredTest extends RestAssuredTest {
 

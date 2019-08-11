@@ -70,9 +70,10 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testAnnotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
+    intTestImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
     intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
     intTestImplementation 'io.rest-assured:rest-assured:3.3.0'
-    intTestImplementation 'org.testcontainers:testcontainers:1.11.3'
+    intTestImplementation 'org.testcontainers:junit-jupiter:1.11.3'
     intTestImplementation 'org.testcontainers:postgresql:1.11.3'
     testImplementation 'org.reflections:reflections:0.9.11'
 }
