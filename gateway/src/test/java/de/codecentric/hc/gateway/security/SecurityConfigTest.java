@@ -4,7 +4,7 @@ import static de.codecentric.hc.gateway.security.ApplicationUser.Role.MONITORING
 import static de.codecentric.hc.gateway.security.ApplicationUser.Role.USER;
 
 import de.codecentric.hc.gateway.testing.WebTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
 public class SecurityConfigTest extends WebTest {
