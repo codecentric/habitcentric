@@ -7,13 +7,16 @@ jacoco {
 jacocoTestCoverageVerification {
     violationRules {
         rule {
-            element = 'CLASS'
+            element = 'METHOD'
             limit {
                 counter = 'LINE'
                 value = 'COVEREDRATIO'
-                minimum = 0.9
+                minimum = 1.0
             }
-            excludes = ['de.codecentric.hc.habit.Application']
+            excludes = [
+                    'de.codecentric.hc.habit.Application.main(java.lang.String[])',
+                    'de.codecentric.hc.habit.habits.HabitController.createHabit(de.codecentric.hc.habit.habits.Habit.ModificationRequest, java.lang.String)'
+            ]
         }
         rule {
             element = 'CLASS'
