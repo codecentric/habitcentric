@@ -2,51 +2,61 @@ package de.codecentric.hc.habit.provider.verification;
 
 import au.com.dius.pact.provider.junit.Provider;
 import au.com.dius.pact.provider.junit.State;
-import au.com.dius.pact.provider.junit.TargetRequestFilter;
 import au.com.dius.pact.provider.junit.loader.PactFolder;
-import au.com.dius.pact.provider.junit.target.Target;
-import au.com.dius.pact.provider.junit.target.TestTarget;
-import au.com.dius.pact.provider.spring.SpringRestPactRunner;
-import au.com.dius.pact.provider.spring.target.SpringBootHttpTarget;
+import au.com.dius.pact.provider.junit5.HttpTestTarget;
+import au.com.dius.pact.provider.junit5.PactVerificationContext;
+import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import de.codecentric.hc.habit.habits.Habit.Schedule.Frequency;
 import org.apache.http.HttpRequest;
-import org.junit.After;
-import org.junit.ClassRule;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestTemplate;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @ActiveProfiles("intTest")
-@RunWith(SpringRestPactRunner.class)
+@ExtendWith(PactVerificationInvocationContextProvider.class)
 @PactFolder("pacts")
 @Provider("hc-habit")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@Testcontainers
 public class UiPactVerificationTest {
+
+  @LocalServerPort protected int port;
 
   private static final String USER_ID = "default";
   private static final String TABLE_NAME = "hc_habit.HABIT";
   private static final String INSERT_STATEMENT =
       "INSERT INTO hc_habit.habit (id, name, repetitions, frequency, user_id) VALUES (?, ? , ?, ?, ?)";
 
-  @ClassRule public static final JdbcDatabaseContainer DATABASE = new PostgreSQLContainer();
+  @Container public static final JdbcDatabaseContainer DATABASE = new PostgreSQLContainer();
 
   @Autowired private JdbcTemplate jdbcTemplate;
 
-  @TestTarget public final Target target = new SpringBootHttpTarget();
-
-  @After
-  public void cleanUp() {
-    JdbcTestUtils.deleteFromTables(jdbcTemplate, TABLE_NAME);
+  @TestTemplate
+  @ExtendWith(PactVerificationInvocationContextProvider.class)
+  void pactVerificationTestTemplate(PactVerificationContext context, HttpRequest request) {
+    request.addHeader("X-User-ID", USER_ID);
+    context.verifyInteraction();
   }
 
-  @TargetRequestFilter
-  public void exampleRequestFilter(HttpRequest request) {
-    request.addHeader("X-User-ID", USER_ID);
+  @BeforeEach
+  void before(PactVerificationContext context) {
+    context.setTarget(new HttpTestTarget("localhost", port, "/"));
+  }
+
+  @AfterEach
+  public void cleanUp() {
+    JdbcTestUtils.deleteFromTables(jdbcTemplate, TABLE_NAME);
   }
 
   @State("habits 'Jogging', 'Meditate' and 'Play guitar' exist")

@@ -15,17 +15,19 @@ import io.restassured.http.Header;
 import java.sql.SQLException;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.ClassRule;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
 import org.testcontainers.containers.JdbcDatabaseContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 // TODO: Add integration tests covering invalid or missing Authorization header
+@Testcontainers
 public class HabitControllerJwtIntTest extends RestAssuredTest {
 
   private static final String TABLE_NAME = "hc_habit.HABIT";
@@ -36,11 +38,11 @@ public class HabitControllerJwtIntTest extends RestAssuredTest {
               + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZWZhdWx0In0.2E88ZlFE4Tor8d5gRU2451WrLtDavGfgbFf8ZuKBRxM");
   private static final Schedule DEFAULT_SCHEDULE = new Schedule(1, DAILY);
 
-  @ClassRule public static JdbcDatabaseContainer database = new PostgreSQLContainer();
+  @Container public static final JdbcDatabaseContainer DATABASE = new PostgreSQLContainer();
 
   @Autowired private JdbcTemplate jdbcTemplate;
 
-  @After
+  @AfterEach
   public void cleanUp() throws SQLException {
     JdbcTestUtils.deleteFromTables(jdbcTemplate, TABLE_NAME);
   }
