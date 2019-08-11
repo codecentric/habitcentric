@@ -7,7 +7,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 
 import de.codecentric.hc.habit.testing.RestAssuredTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ApiDocIntTest extends RestAssuredTest {
 

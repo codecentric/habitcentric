@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.codecentric.hc.habit.habits.Habit.ModificationRequest;
 import de.codecentric.hc.habit.habits.Habit.Schedule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class HabitTest {
 

@@ -7,8 +7,8 @@ import static org.mockito.Mockito.when;
 import de.codecentric.hc.habit.common.HttpHeaders;
 import de.codecentric.hc.habit.validation.UserId;
 import javax.servlet.http.HttpServletRequest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -18,7 +18,7 @@ public class UserIdArgumentResolverTest {
 
   private UserIdArgumentResolver resolver;
 
-  @Before
+  @BeforeEach
   public void beforeEach() {
     resolver = new UserIdArgumentResolver();
     resolver.setJwtDecoder(new InsecureJwtDecoder());
