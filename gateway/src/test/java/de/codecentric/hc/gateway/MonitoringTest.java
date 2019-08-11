@@ -5,7 +5,7 @@ import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.containsString;
 
 import de.codecentric.hc.gateway.testing.RestAssuredTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
 public class MonitoringTest extends RestAssuredTest {

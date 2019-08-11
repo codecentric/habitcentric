@@ -24,6 +24,8 @@ build:
       - build/libs/hc-gateway-*.jar
       - build/reports/tests/test/
       - build/test-results/test/TEST-*.xml
+    reports:
+      junit: build/test-results/*/TEST-*.xml
 
 build image:
   stage: build image

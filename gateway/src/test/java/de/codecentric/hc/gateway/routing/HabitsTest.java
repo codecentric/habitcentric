@@ -8,7 +8,7 @@ import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.contains;
 
 import de.codecentric.hc.gateway.testing.RestAssuredTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
 public class HabitsTest extends RestAssuredTest {
