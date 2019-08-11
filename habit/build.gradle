@@ -81,7 +81,13 @@ dependencies {
     intTestImplementation 'au.com.dius:pact-jvm-provider-junit5_2.12:3.6.12'
     intTestImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
     intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
-    intTestImplementation 'io.rest-assured:rest-assured:3.3.0'
+    intTestImplementation 'io.rest-assured:json-path:4.0.0'
+    intTestImplementation('io.rest-assured:rest-assured:4.0.0') {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+    }
+    intTestImplementation('io.rest-assured:xml-path:4.0.0') {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+    }
     intTestImplementation 'org.testcontainers:junit-jupiter:1.12.0'
     intTestImplementation 'org.testcontainers:postgresql:1.12.0'
 }
