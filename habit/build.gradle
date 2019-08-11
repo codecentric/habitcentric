@@ -82,6 +82,6 @@ dependencies {
     intTestImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
     intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
     intTestImplementation 'io.rest-assured:rest-assured:3.3.0'
-    intTestImplementation 'org.testcontainers:junit-jupiter:1.11.3'
-    intTestImplementation 'org.testcontainers:postgresql:1.11.3'
+    intTestImplementation 'org.testcontainers:junit-jupiter:1.12.0'
+    intTestImplementation 'org.testcontainers:postgresql:1.12.0'
 }
