@@ -6,6 +6,7 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 import de.codecentric.hc.habit.habits.Habit.ModificationRequest;
 import de.codecentric.hc.habit.validation.UserId;
+import io.swagger.annotations.ApiOperation;
 import java.net.URI;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Controller
 @Slf4j
@@ -29,15 +31,17 @@ public class HabitController {
     this.repository = repository;
   }
 
+  @ApiOperation(value = "Find all habits of a given user")
   @GetMapping("/habits")
   @ResponseBody
-  public Iterable<Habit> getHabits(@UserId String userId) {
+  public Iterable<Habit> getHabits(@ApiIgnore @UserId String userId) {
     return repository.findAllByUserIdOrderByNameAsc(userId);
   }
 
+  @ApiOperation(value = "Find habit by id")
   @GetMapping("/habits/{id}")
   @ResponseBody
-  public Habit getHabit(@PathVariable Long id, @UserId String userId) {
+  public Habit getHabit(@PathVariable Long id, @ApiIgnore @UserId String userId) {
     return repository
         .findByIdAndUserId(id, userId)
         .orElseThrow(
@@ -46,9 +50,11 @@ public class HabitController {
                     NOT_FOUND, String.format("Habit '%s' could not be found.", id)));
   }
 
+  @ApiOperation(value = "Create a new habit")
   @PostMapping("/habits")
   public ResponseEntity createHabit(
-      @RequestBody @Valid ModificationRequest modificationRequest, @UserId String userId) {
+      @RequestBody @Valid ModificationRequest modificationRequest,
+      @ApiIgnore @UserId String userId) {
 
     try {
       Habit habit = repository.save(Habit.from(modificationRequest, userId));
@@ -65,8 +71,9 @@ public class HabitController {
     }
   }
 
+  @ApiOperation(value = "Delete habit by id")
   @DeleteMapping("/habits/{id}")
-  public ResponseEntity deleteHabit(@PathVariable Long id, @UserId String userId) {
+  public ResponseEntity deleteHabit(@PathVariable Long id, @ApiIgnore @UserId String userId) {
     Long deletedRecords = repository.deleteByIdAndUserId(id, userId);
     if (deletedRecords < 1) {
       throw new ResponseStatusException(
