@@ -10,7 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
-public class TrackTest extends WebTest {
+public class TrackIntTest extends WebTest {
 
   @Test
   @WithMockUser(username = DEFAULT, roles = USER)

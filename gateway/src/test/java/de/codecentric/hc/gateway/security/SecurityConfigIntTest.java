@@ -7,7 +7,7 @@ import de.codecentric.hc.gateway.testing.WebTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
-public class SecurityConfigTest extends WebTest {
+public class SecurityConfigIntTest extends WebTest {
 
   @Test
   public void requestsWithoutAuthShouldBeUnauthorized() {
