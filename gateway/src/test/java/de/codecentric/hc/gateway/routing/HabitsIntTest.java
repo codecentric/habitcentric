@@ -11,7 +11,7 @@ import de.codecentric.hc.gateway.testing.RestAssuredTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
-public class HabitsTest extends RestAssuredTest {
+public class HabitsIntTest extends RestAssuredTest {
 
   @Test
   @WithMockUser(username = DEFAULT, roles = USER)

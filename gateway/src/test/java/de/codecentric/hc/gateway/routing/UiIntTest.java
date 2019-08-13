@@ -7,7 +7,7 @@ import de.codecentric.hc.gateway.testing.WebTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
-public class UiTest extends WebTest {
+public class UiIntTest extends WebTest {
 
   @Test
   @WithMockUser(username = DEFAULT, roles = USER)

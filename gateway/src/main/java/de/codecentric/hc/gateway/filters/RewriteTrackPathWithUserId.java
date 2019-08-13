@@ -24,27 +24,22 @@ public class RewriteTrackPathWithUserId extends AbstractGatewayFilterFactory<Con
   @Override
   public GatewayFilter apply(Config config) {
     return (exchange, chain) ->
-        userId()
-            .flatMap(userId -> chain.filter(mutateTrackRequestWithUserIdPath(exchange, userId)));
+        userId().flatMap(userId -> chain.filter(mutateExchange(exchange, userId)));
   }
 
-  private ServerWebExchange mutateTrackRequestWithUserIdPath(
-      ServerWebExchange exchange, String userId) {
+  protected ServerWebExchange mutateExchange(ServerWebExchange exchange, String userId) {
     if (StringUtils.isEmpty(userId)) {
       throw new UserIdMissingException();
     }
-    ServerHttpRequest request =
-        exchange
-            .getRequest()
-            .mutate()
-            .path(
-                exchange
-                    .getRequest()
-                    .getPath()
-                    .value()
-                    .replaceFirst("/track/", trackPathWithUserId(userId)))
-            .build();
-    return exchange.mutate().request(request).build();
+    return exchange.mutate().request(mutateRequest(exchange.getRequest(), userId)).build();
+  }
+
+  private ServerHttpRequest mutateRequest(ServerHttpRequest request, String userId) {
+    return request.mutate().path(mutatePath(request.getPath().value(), userId)).build();
+  }
+
+  private String mutatePath(String path, String userId) {
+    return path.replaceFirst("/track/", trackPathWithUserId(userId));
   }
 
   private String trackPathWithUserId(String userId) {
@@ -52,7 +47,7 @@ public class RewriteTrackPathWithUserId extends AbstractGatewayFilterFactory<Con
         "/track/users/%s/", UriUtils.encodePath(userId, StandardCharsets.UTF_8.toString()));
   }
 
-  private Mono<String> userId() {
+  protected Mono<String> userId() {
     return ReactiveSecurityContextHolder.getContext()
         .map(SecurityContext::getAuthentication)
         .map(Authentication::getName);

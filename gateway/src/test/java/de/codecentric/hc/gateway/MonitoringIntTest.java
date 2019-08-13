@@ -8,7 +8,7 @@ import de.codecentric.hc.gateway.testing.RestAssuredTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;
 
-public class MonitoringTest extends RestAssuredTest {
+public class MonitoringIntTest extends RestAssuredTest {
 
   @Test
   @WithMockUser(roles = MONITORING)

@@ -6,6 +6,7 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
+apply from: 'gradle/jacoco.gradle'
 
 group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
@@ -47,6 +48,11 @@ dependencies {
         exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
     }
     testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.1'
+    testImplementation 'org.junit.platform:junit-platform-engine:1.5.1'
+    testImplementation 'org.junit.platform:junit-platform-commons:1.5.1'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit', module: 'junit'
     }
