@@ -7,7 +7,7 @@ import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ActiveProfiles("test")
+@ActiveProfiles("intTest")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
@@ -16,7 +16,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
       "gateway.target.uri.track=http://localhost:${wiremock.server.port}",
       "gateway.target.uri.ui=http://localhost:${wiremock.server.port}"
     })
-@AutoConfigureWireMock(port = 0)
+@AutoConfigureWireMock(
+    port = 0,
+    stubs = "file:src/intTest/resources/mappings",
+    files = "file:src/intTest/resources")
 public abstract class GatewayTest {
 
   @LocalServerPort protected int port;

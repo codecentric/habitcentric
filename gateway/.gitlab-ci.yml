@@ -23,7 +23,7 @@ build:
     paths:
       - build/libs/hc-gateway-*.jar
       - build/reports/jacoco/test/html/
-      - build/reports/tests/test/
+      - build/reports/tests/
       - build/test-results/test/TEST-*.xml
     reports:
       junit: build/test-results/*/TEST-*.xml

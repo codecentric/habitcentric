@@ -1,0 +1,45 @@
+sourceSets {
+    intTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    intTestImplementation.extendsFrom implementation
+    intTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+task intTest(type: Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.intTest.output.classesDirs
+    classpath = sourceSets.intTest.runtimeClasspath
+    shouldRunAfter test
+}
+
+intTest {
+    useJUnitPlatform()
+}
+
+check.dependsOn intTest
+
+dependencies {
+    intTestImplementation 'io.rest-assured:json-path:4.0.0'
+    intTestImplementation('io.rest-assured:rest-assured:4.0.0') {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+    }
+    intTestImplementation('io.rest-assured:xml-path:4.0.0') {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+    }
+    intTestImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
+    intTestImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit'
+    }
+    intTestImplementation('org.springframework.cloud:spring-cloud-starter-contract-stub-runner') {
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-web'
+    }
+    intTestImplementation 'org.springframework.security:spring-security-test'
+}
