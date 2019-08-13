@@ -1,4 +1,4 @@
-package de.codecentric.hc.gateway;
+package de.codecentric.hc.gateway.monitoring;
 
 import static de.codecentric.hc.gateway.security.ApplicationUser.Role.MONITORING;
 import static io.restassured.RestAssured.when;
