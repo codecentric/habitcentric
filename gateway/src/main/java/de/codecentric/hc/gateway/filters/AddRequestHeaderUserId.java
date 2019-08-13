@@ -15,6 +15,8 @@ import reactor.core.publisher.Mono;
 @Component
 public class AddRequestHeaderUserId extends AbstractGatewayFilterFactory<Config> {
 
+  protected static final String USER_ID_HEADER_NAME = "X-User-ID";
+
   public AddRequestHeaderUserId() {
     super(Config.class);
   }
@@ -22,19 +24,21 @@ public class AddRequestHeaderUserId extends AbstractGatewayFilterFactory<Config>
   @Override
   public GatewayFilter apply(Config config) {
     return (exchange, chain) ->
-        userId().flatMap(userId -> chain.filter(mutateRequestWithUserIdHeader(exchange, userId)));
+        userId().flatMap(userId -> chain.filter(mutateExchange(exchange, userId)));
   }
 
-  private ServerWebExchange mutateRequestWithUserIdHeader(
-      ServerWebExchange exchange, String userId) {
+  protected ServerWebExchange mutateExchange(ServerWebExchange exchange, String userId) {
     if (StringUtils.isEmpty(userId)) {
       return exchange;
     }
-    ServerHttpRequest request = exchange.getRequest().mutate().header("X-User-ID", userId).build();
-    return exchange.mutate().request(request).build();
+    return exchange.mutate().request(mutateRequest(exchange.getRequest(), userId)).build();
   }
 
-  private Mono<String> userId() {
+  private ServerHttpRequest mutateRequest(ServerHttpRequest request, String userId) {
+    return request.mutate().header(USER_ID_HEADER_NAME, userId).build();
+  }
+
+  protected Mono<String> userId() {
     return ReactiveSecurityContextHolder.getContext()
         .map(SecurityContext::getAuthentication)
         .map(Authentication::getName);
