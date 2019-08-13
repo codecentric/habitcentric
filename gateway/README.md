@@ -6,6 +6,15 @@
 ./gradlew test
 ```
 
+### Test Code Coverage
+The code (not) covered by tests is measured with [JaCoCo](https://github.com/jacoco/jacoco).
+
+You can call the following command to generate a HTML coverage report under `build/reports/jacoco/test/html`
+and verify the compliance with coverage rules:
+```
+./gradlew test jacocoTestReport jacocoTestCoverageVerification
+```
+
 ## Build
 
 You can created a fat JAR that contains all dependencies and a Tomcat server to run the application as follows: 

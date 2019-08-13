@@ -1,0 +1,27 @@
+apply plugin: JacocoPlugin
+
+jacoco {
+    toolVersion = '0.8.4'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            element = 'CLASS'
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.9
+            }
+            excludes = ['de.codecentric.hc.gateway.Application']
+        }
+        rule {
+            element = 'CLASS'
+            limit {
+                counter = 'BRANCH'
+                value = 'COVEREDRATIO'
+                minimum = 0.5
+            }
+        }
+    }
+}
