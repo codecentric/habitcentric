@@ -13,7 +13,8 @@ Deploys habitcentric without its Spring API gateway and makes it accessible usin
 
 - Running Kubernetes cluster
 - Properly configured Kubernetes client `kubectl` to administrate your cluster
-- Locally installed [helmfile CLI](https://github.com/roboll/helmfile#installation)
+- Locally installed [helmfile CLI](https://github.com/roboll/helmfile#installation) 
+- Locally installed [Helm CLI](https://helm.sh/docs/using_helm/#install-helm) with [Helm Diff](https://github.com/databus23/helm-diff#install) plugin
 - *Optional for Istio environment: Existing Istio installation on Kubernetes cluster*  
   *Detailed instructions on how to install Istio on your Kubernetes cluster and additional example configurations are located [here](https://gitlab.com/habitcentric/istio).*
 
