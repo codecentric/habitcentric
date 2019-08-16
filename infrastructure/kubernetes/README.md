@@ -30,3 +30,15 @@ helmfile apply
 ```bash
 helmfile --environment istio apply
 ```
+
+## How To Destroy
+
+```bash
+helmfile destroy
+```
+
+### Istio environment
+
+```bash
+helmfile --environment istio destroy
+```
