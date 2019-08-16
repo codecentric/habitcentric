@@ -5,6 +5,8 @@ keycloak:
     pullPolicy: IfNotPresent
   service:
     port: 80
+  serviceAccount:
+    create: true
   {{- if eq .Environment.Name "istio" }}
   ingress:
     enabled: false
