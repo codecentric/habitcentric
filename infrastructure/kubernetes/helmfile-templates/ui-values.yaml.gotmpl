@@ -4,7 +4,7 @@ image:
   pullPolicy: Always
 
 oidc:
-  {{- if eq .Environment.Name "istio" }}
+  {{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") }}
   enabled: true
   authorityUri: http://habitcentric.demo/auth/realms/habitcentric/.well-known/openid-configuration
   {{- else }}

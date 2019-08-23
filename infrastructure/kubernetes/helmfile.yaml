@@ -5,6 +5,7 @@ repositories:
 environments:
   default:
   istio:
+  linkerd:
 
 releases:
   - name: ui
@@ -21,6 +22,14 @@ releases:
         command: "kubectl"
         args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite" ]
       {{- end }}
+      {{- if eq .Environment.Name "linkerd" }}     
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "annotate", "ns", "{{`{{ .Release.Namespace }}`}}", "linkerd.io/inject=enabled", "--overwrite" ]
+      {{- end }}
   - name: habit
     namespace: hc-habit
     chart: ../hc-habit/k8s/helm/habit
@@ -34,6 +43,14 @@ releases:
       - events: [ "presync" ]
         command: "kubectl"
         args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite"]
+      {{- end }}
+      {{- if eq .Environment.Name "linkerd" }}     
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "annotate", "ns", "{{`{{ .Release.Namespace }}`}}", "linkerd.io/inject=enabled", "--overwrite" ]
       {{- end }}
   - name: track
     namespace: hc-track
@@ -49,21 +66,37 @@ releases:
         command: "kubectl"
         args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite" ]
       {{- end }}
-  {{- if eq .Environment.Name "istio" }}     
+      {{- if eq .Environment.Name "linkerd" }}     
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "annotate", "ns", "{{`{{ .Release.Namespace }}`}}", "linkerd.io/inject=enabled", "--overwrite" ]
+      {{- end }}
   - name: keycloak
     namespace: hc-keycloak
     chart: codecentric/keycloak
     values:
       - ./helmfile-templates/keycloak-values.yaml.gotmpl
     hooks:
+      {{- if eq .Environment.Name "istio" }}     
       - events: [ "presync" ]
         command: "sh"
         args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
       - events: [ "presync" ]
         command: "kubectl"
         args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite" ]
-  {{- end }}
-  {{- if ne .Environment.Name "istio" }}
+      {{- end }}
+      {{- if eq .Environment.Name "linkerd" }}     
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "annotate", "ns", "{{`{{ .Release.Namespace }}`}}", "linkerd.io/inject=enabled", "--overwrite" ]
+      {{- end }}
+  {{- if eq .Environment.Name "default" }}
   - name: gateway
     namespace: hc-gateway
     chart: ../hc-gateway/k8s/helm/gateway
