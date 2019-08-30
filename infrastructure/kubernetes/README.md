@@ -9,6 +9,9 @@ Deploys habitcentric using its own Spring API gateway and makes it accessible us
 **Istio environment**  
 Deploys habitcentric without its Spring API gateway and makes it accessible using the Istio service mesh.
 
+**Linkerd environment**  
+Deploys habitcentric without its Spring API gateway and makes it accessible using the Linkerd 2 service mesh.
+
 ## Prerequisites
 
 - Running Kubernetes cluster
@@ -17,6 +20,8 @@ Deploys habitcentric without its Spring API gateway and makes it accessible usin
 - Locally installed [Helm CLI](https://helm.sh/docs/using_helm/#install-helm) with [Helm Diff](https://github.com/databus23/helm-diff#install) plugin
 - *Optional for Istio environment: Existing Istio installation on Kubernetes cluster*  
   *Detailed instructions on how to install Istio on your Kubernetes cluster and additional example configurations are located [here](https://gitlab.com/habitcentric/istio).*
+- *Optional for Linkerd environment: Existing Linkerd installation on Kubernetes cluster*  
+  *Detailed instructions on how to install Linkerd on your Kubernetes cluster and additional example configurations are located [here](https://gitlab.com/habitcentric/linkerd).*
 
 ## How To Deploy
 
@@ -32,6 +37,12 @@ helmfile apply
 helmfile --environment istio apply
 ```
 
+### Linkerd environment
+
+```bash
+helmfile --environment linkerd apply
+```
+
 ## How To Destroy
 
 ```bash
@@ -42,4 +53,10 @@ helmfile destroy
 
 ```bash
 helmfile --environment istio destroy
+```
+
+### Linkerd environment
+
+```bash
+helmfile --environment linkerd destroy
 ```

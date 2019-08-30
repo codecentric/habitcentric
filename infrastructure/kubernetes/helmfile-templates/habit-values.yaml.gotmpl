@@ -52,7 +52,7 @@ persistence:
 ## Pod Service Account
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
 serviceAccount:
-{{- if eq .Environment.Name "istio" }}
+{{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") }}
   enabled: true
 {{ else }}
   enabled: false

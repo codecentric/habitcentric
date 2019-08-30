@@ -7,7 +7,7 @@ habitUri: http://habit.hc-habit.svc.cluster.local:8080
 trackUri: http://track.hc-track.svc.cluster.local:8080
 uiUri: http://ui.hc-ui.svc.cluster.local
 
-{{- if eq .Environment.Name "istio" }}
+{{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") }}
 ingress:
   enabled: false
 {{- else }}
