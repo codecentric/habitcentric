@@ -38,8 +38,8 @@ linkerd dashboard
 
 ## Add the Ingress Controller to the Service Mesh
 
-To add services to the service mesh, either the namespace, deployment or the pods themselves
-need to receive the annotation `linkerd.io/inject: enabled`. More information on this can be
+To add services to the service mesh, either the namespace or pod
+needs to receive the annotation `linkerd.io/inject: enabled`. More information on this can be
 found in the documentation: https://linkerd.io/2/tasks/adding-your-service/.
 
 The deployment of our demo application will take care of this by adding the annotation to
@@ -62,18 +62,18 @@ another namespace or with another name, please adjust the commands accordingly.
 
 If you are using minikube, the addon manager will probably rollback any changes to the
 ingress controller again. In this case, please deactivate the addon manager addon.
-Please keep in mind to enable it again if you want to create a new minikube cluster or
+Keep in mind to enable it again if you want to create a new minikube cluster or
 change addons in the existing one.
 
 ## habitcentric Deployment
 
 After installing Linkerd, the cluster is now ready to install our demo application:
-habitcentric. To do so, follow the instruction in the
+habitcentric. To do so, follow the instructions in the
 [corresponding repository](https://gitlab.com/habitcentric-infrastructure/hc-kubernetes)
 and choose the `linkerd` environment.
 
 Once the deployment has finished, deploy the necessary ingress resources to access the application
-by running the following command:
+by running the following command from this directory:
 
 ```bash
 kubectl apply -f ingresses.yaml
