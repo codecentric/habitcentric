@@ -18,7 +18,7 @@ do
     set +e
     result=$(kubectl get crds --ignore-not-found | grep 'istio.io\|certmanager.k8s.io' | wc -l)
     set -e
-    if [ $result == '53' ]
+    if [ $result == '23' ]
     then
         break
     fi

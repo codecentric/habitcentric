@@ -43,7 +43,7 @@ Please install the Helm CLI before continuing. Look up installation steps in the
 Download Istio and change into download directory
 
 ```bash
-curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.1.4 sh - && cd istio-1.1.4
+curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.3.0 sh - && cd istio-1.3.0
 ```
 
 Create a namespace for the Istio control plane:
@@ -63,7 +63,7 @@ Verify the installation of Istio's CRDs:
 ```bash
 kubectl get crds | grep -c 'istio.io\|certmanager.k8s.io'
 ```
-The result should be `53`. If not, wait a few seconds and try again.
+The result should be `23`. If not, wait a few seconds and try again.
 
 Install Istio:
 

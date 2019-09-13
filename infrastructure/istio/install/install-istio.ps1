@@ -13,7 +13,7 @@ kubectl apply -f $PSScriptRoot/istio-crds.yaml | Out-Null
 Write-Progress -Activity $activity -CurrentOperation 'Verifying CRD installation (might take a while)...' -Status $status -PercentComplete 75
 while ($true) {
     $result = kubectl get crds --ignore-not-found | grep -c 'istio.io\|certmanager.k8s.io'
-    if ($result -eq 53) {
+    if ($result -eq 23) {
         break
     }
     Start-Sleep -s 5
