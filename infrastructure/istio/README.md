@@ -106,6 +106,14 @@ You can apply `habitcentric/habitcentric-gateway.yaml` and `habitcentric/habitce
 kubectl apply -f habitcentric/habitcentric-gateway.yaml && kubectl apply -f habitcentric/habitcentric-routes.yaml
 ```
 
+## Authentication & Authorization Configuration
+
+Istio provides several security features like strong identities, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect services and data.
+
+### Authentication via mTLS
+
+To activate Istio's mesh-wide TLS encryption, apply `habitcentric/habitcentric-authn.yaml` to your cluster. This provides every service with a strong identity based on the service accounts of the habitcentric services and enables automatic network traffic encryption between sidecars. 
+
 ## Service Access
 
 The Istio ingress gateway listens on several hostnames and routes your requests accordingly. To retrieve the external IP of your Istio ingress gateway load balancer run:
@@ -123,14 +131,14 @@ To access the services deployed in the mesh, add the service hostnames (see belo
 #### Telemetry
 
 | Service    | Hostname               |
-|------------|------------------------|
+| ---------- | ---------------------- |
 | Kiali      | http://kiali.demo      |
 | Grafana    | http://grafana.demo    |
 | Prometheus | http://prometheus.demo |
 | Jaeger     | http://jaeger.demo     |
 
 #### habitcentric
-| Service    | Hostname                         |
-|------------|----------------------------------|
-| UI         | http://habitcentric.demo         |
-| Keycloak   | http://habitcentric.demo/auth    |
+| Service  | Hostname                      |
+| -------- | ----------------------------- |
+| UI       | http://habitcentric.demo      |
+| Keycloak | http://habitcentric.demo/auth |
