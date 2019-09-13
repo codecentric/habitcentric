@@ -12745,7 +12745,7 @@ data:
   config: |-
     policy: enabled
     template: |-
-      rewriteAppHTTPProbe: false
+      rewriteAppHTTPProbe: true
       initContainers:
       [[ if ne (annotation .ObjectMeta `sidecar.istio.io/interceptionMode` .ProxyConfig.InterceptionMode) "NONE" ]]
       - name: istio-init
