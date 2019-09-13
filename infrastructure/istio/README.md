@@ -69,7 +69,14 @@ The result should be `53`. If not, wait a few seconds and try again.
 Install Istio:
 
 ```bash
-helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml --set kiali.dashboard.grafanaURL="http://grafana.demo" --set kiali.dashboard.jaegerURL="http://jaeger.demo" | kubectl apply -f -
+helm template install/kubernetes/helm/istio \
+  --name istio \
+  --namespace istio-system \
+  --values install/kubernetes/helm/istio/values-istio-demo.yaml \
+  --set kiali.dashboard.grafanaURL="http://grafana.demo" \
+  --set kiali.dashboard.jaegerURL="http://jaeger.demo" \
+  --set sidecarInjectorWebhook.rewriteAppHTTPProbe=true \
+  | kubectl apply -f -
 ```
 
 > If you want to customize your Istio installation, you can find detailed installation options [here](https://istio.io/docs/reference/config/installation-options/).
