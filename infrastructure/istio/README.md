@@ -40,7 +40,6 @@ Linux:
 
 Please install the Helm CLI before continuing. Look up installation steps in the [Helm documenation](https://helm.sh/docs/using_helm/#installing-helm)
 
-
 Download Istio and change into download directory
 
 ```bash
@@ -110,9 +109,13 @@ kubectl apply -f habitcentric/habitcentric-gateway.yaml && kubectl apply -f habi
 
 Istio provides several security features like strong identities, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect services and data.
 
-### Authentication via mTLS
+### Authentication of services via mTLS
 
-To activate Istio's mesh-wide TLS encryption, apply `habitcentric/habitcentric-authn.yaml` to your cluster. This provides every service with a strong identity based on the service accounts of the habitcentric services and enables automatic network traffic encryption between sidecars. 
+To activate Istio's mesh-wide TLS encryption, apply `habitcentric/habitcentric-authn.yaml` to your cluster. This provides every service with a strong identity based on the service accounts of the habitcentric services and enables automatic network traffic encryption between sidecars.
+
+### HTTPS endpoint for ingress gateway
+
+To activate the HTTPS endpoint for the ingress gateway, apply `habitcentric/habitcentric-gateway-secure.yaml` to your cluster. This replaces the existing HTTP gateway with an HTTPS gateway.
 
 ## Service Access
 
