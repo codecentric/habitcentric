@@ -4,8 +4,8 @@
 
 To install Istio on your Kubernetes cluster you can choose between two installation methods:
 
-- automatic install using provided shell scripts *(convenient, recommended for beginners)*
-- manual install using Kubernetes Helm package manager *(configurable, recommended for advanced users)*
+- automatic install using provided shell scripts _(convenient, recommended for beginners)_
+- manual install using Kubernetes Helm package manager _(configurable, recommended for advanced users)_
 
 ### Prerequisites
 
@@ -63,6 +63,7 @@ Verify the installation of Istio's CRDs:
 ```bash
 kubectl get crds | grep -c 'istio.io\|certmanager.k8s.io'
 ```
+
 The result should be `23`. If not, wait a few seconds and try again.
 
 Install Istio:
@@ -117,6 +118,10 @@ To activate Istio's mesh-wide TLS encryption, apply `habitcentric/habitcentric-a
 
 To activate the HTTPS endpoint for the ingress gateway, apply `habitcentric/habitcentric-gateway-secure.yaml` to your cluster. This replaces the existing HTTP gateway with an HTTPS gateway.
 
+### Authentication of end users
+
+To activate the authentication of end users using the JWT of Keycloak, apply `habitcentric/habitcentric-oidc.yaml` to your cluser. This activates JWT verification policies for the services `habit` and `track`. Requests without valid JWT in the HTTP `Authorization` header will fail with HTTP code `401` and message `Origin authentication failed`.
+
 ## Service Access
 
 The Istio ingress gateway listens on several hostnames and routes your requests accordingly. To retrieve the external IP of your Istio ingress gateway load balancer run:
@@ -141,6 +146,7 @@ To access the services deployed in the mesh, add the service hostnames (see belo
 | Jaeger     | http://jaeger.demo     |
 
 #### habitcentric
+
 | Service  | Hostname                      |
 | -------- | ----------------------------- |
 | UI       | http://habitcentric.demo      |

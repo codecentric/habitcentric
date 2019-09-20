@@ -1,0 +1,68 @@
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: "keycloak-internal-mtls-disabled-policy"
+  namespace: hc-keycloak
+spec:
+  targets:
+  - name: "keycloak-headless"
+  peers:
+  - mtls:
+      mode: PERMISSIVE
+---
+apiVersion: authentication.istio.io/v1alpha1
+kind: Policy
+metadata:
+  name: "keycloak-http-internal-mtls-disabled-policy"
+  namespace: hc-keycloak
+spec:
+  targets:
+  - name: "keycloak-http"
+  peers:
+  - mtls:
+      mode: PERMISSIVE
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "keycloak-internal-mtls-disabled-rule"
+  namespace: istio-system
+spec:
+  host: "keycloak-http.hc-keycloak.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+---
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: hc-habit-oidc
+  namespace: hc-habit
+spec:
+  targets:
+    - name: habit
+  peers:
+    - mtls: {}
+  origins:
+    - jwt:
+        issuer: https://habitcentric.demo/auth/realms/habitcentric
+        jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
+  principalBinding: USE_ORIGIN
+---
+apiVersion: "authentication.istio.io/v1alpha1"
+kind: "Policy"
+metadata:
+  name: hc-track-oidc
+  namespace: hc-track
+spec:
+  targets:
+    - name: track
+  peers:
+    - mtls: {}
+  origins:
+    - jwt:
+        issuer: https://habitcentric.demo/auth/realms/habitcentric
+        jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
+  principalBinding: USE_ORIGIN
+---
+
