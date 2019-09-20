@@ -101,7 +101,8 @@
       "baseUrl": "/",
       "secret": "password",
       "redirectUris": [
-        "http://habitcentric.demo/ui/auth/callback"
+        "http://habitcentric.demo/ui/auth/callback",
+        "https://habitcentric.demo/ui/auth/callback"
       ]
     }
   ]
