@@ -90,14 +90,14 @@ postgresql:
   nameOverride: track-postgresql
 
   ## PostgreSQL user to create
-  postgresUser: track
+  postgresqlUsername: track
 
   ## PostgreSQL password for the new user
   ## If not set, a random 10 characters password will be used
-  # postgresPassword: ""
+  # postgresqlPassword: ""
 
   ## PostgreSQL database to create
-  postgresDatabase: track
+  postgresqlDatabase: track
 
   persistence:
     ## Enable PostgreSQL persistence using persistent volume claims
