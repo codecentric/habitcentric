@@ -138,16 +138,16 @@ To access the services deployed in the mesh, add the service hostnames (see belo
 
 #### Telemetry
 
-| Service    | Hostname               |
-| ---------- | ---------------------- |
-| Kiali      | http://kiali.demo      |
-| Grafana    | http://grafana.demo    |
-| Prometheus | http://prometheus.demo |
-| Jaeger     | http://jaeger.demo     |
+| Service    | Hostname               | Credentials   |
+| ---------- | ---------------------- | ------------- |
+| Kiali      | http://kiali.demo      | admin / admin |
+| Grafana    | http://grafana.demo    |               |
+| Prometheus | http://prometheus.demo |               |
+| Jaeger     | http://jaeger.demo     |               |
 
 #### habitcentric
 
-| Service  | Hostname                      |
-| -------- | ----------------------------- |
-| UI       | http://habitcentric.demo      |
-| Keycloak | http://habitcentric.demo/auth |
+| Service  | Hostname                      | Credentials                     |
+| -------- | ----------------------------- | ------------------------------- |
+| UI       | http://habitcentric.demo      | default / default (or register) |
+| Keycloak | http://habitcentric.demo/auth |                                 |
