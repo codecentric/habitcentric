@@ -42,6 +42,28 @@ spec:
 apiVersion: "networking.istio.io/v1alpha3"
 kind: "DestinationRule"
 metadata:
+  name: "prometheus-mtls-disabled"
+  namespace: "istio-system"
+spec:
+  host: "prometheus.istio-system.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
+  name: "tracing-mtls-disabled"
+  namespace: "istio-system"
+spec:
+  host: "tracing.istio-system.svc.cluster.local"
+  trafficPolicy:
+    tls:
+      mode: DISABLE
+---
+apiVersion: "networking.istio.io/v1alpha3"
+kind: "DestinationRule"
+metadata:
   name: "grafana-mtls-disabled"
   namespace: "istio-system"
 spec:
