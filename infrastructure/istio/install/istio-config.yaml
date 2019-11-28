@@ -1,0 +1,14 @@
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  profile: demo
+  defaultNamespace: istio-system
+
+  # global Helm settings
+  values:
+    kiali:
+      dashboard:
+        grafanaURL: http://grafana.demo
+        jaegerURL: http://jaeger.demo
+    sidecarInjectorWebhook:
+      rewriteAppHTTPProbe: true
