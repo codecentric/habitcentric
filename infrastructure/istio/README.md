@@ -88,7 +88,7 @@ helm template install/kubernetes/helm/istio \
 
 ## habitcentric Deployment
 
-TODO
+Please refer to the [helmfile deployment configuration](https://gitlab.com/habitcentric-infrastructure/hc-kubernetes). To deploy habitcentric for Istio, please use the provided helmfile Istio environment.
 
 ## Routing Configuration
 
