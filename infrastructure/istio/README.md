@@ -155,4 +155,4 @@ To access the services deployed in the mesh, add the service hostnames (see belo
 | Service  | Hostname                      | Credentials                     |
 | -------- | ----------------------------- | ------------------------------- |
 | UI       | http://habitcentric.demo      | default / default (or register) |
-| Keycloak | http://habitcentric.demo/auth |                                 |
+| Keycloak | http://habitcentric.demo/auth | keycloak / keycloak             |
