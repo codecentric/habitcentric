@@ -1,18 +1,20 @@
 # Istio Service Mesh Configuration for habitcentric
 
-## Istio Installation
-
-To install Istio on your Kubernetes cluster you can choose between two installation methods:
-
-- automatic install using provided shell scripts _(convenient, recommended for beginners)_
-- manual install using Kubernetes Helm package manager _(configurable, recommended for advanced users)_
-
-### Prerequisites
+## Prerequisites
 
 - Running Kubernetes cluster
 - Properly configured Kubernetes client `kubectl` to administrate your cluster
 
-#### GKE specific
+> This guide is based on Istio 1.4.0
+
+## Istio Installation
+
+To install Istio on your Kubernetes cluster you can choose between two installation methods:
+
+- automatic install using `istioctl` command line tool _(recommended)_
+- manual install using Kubernetes Helm package manager _(soon to be deprecated)_
+
+### GKE specific
 
 If you are using Google Kubernetes Engine (GKE), you have to grant cluster administrator permissions to the current user. To grant cluster admin permissions, you must assign the role `Kubernetes Engine Admin` to your user in the [Google Cloud Console](https://console.cloud.google.com/iam-admin/iam).
 
@@ -22,28 +24,31 @@ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-### Automatic Installation using shell scripts
+### Installation using istioctl
 
-Windows:
-
-```powershell
-powershell -executionpolicy bypass -File install/install-istio.ps1
-```
-
-Linux:
+Install the Istio CLI:
 
 ```bash
-./install/install-istio.sh
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.4.0 sh - && cd istio-1.4.0
+export PATH=$PWD/bin:$PATH
 ```
 
-### Manual Installation using Helm
+Run the installation:
+
+```bash
+istioctl manifest apply -f install/istio-config.yaml
+```
+
+> If you want to customize your Istio installation, you can find detailed istioctl installation options [here](https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/).
+
+### Installation using Helm
 
 Please install the Helm CLI before continuing. Look up installation steps in the [Helm documenation](https://helm.sh/docs/using_helm/#installing-helm)
 
 Download Istio and change into download directory
 
 ```bash
-curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.3.0 sh - && cd istio-1.3.0
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.4.0 sh - && cd istio-1.4.0
 ```
 
 Create a namespace for the Istio control plane:
@@ -79,7 +84,7 @@ helm template install/kubernetes/helm/istio \
   | kubectl apply -f -
 ```
 
-> If you want to customize your Istio installation, you can find detailed installation options [here](https://istio.io/docs/reference/config/installation-options/).
+> If you want to customize your Istio installation, you can find detailed Helm installation options [here](https://istio.io/docs/reference/config/installation-options/).
 
 ## habitcentric Deployment
 
