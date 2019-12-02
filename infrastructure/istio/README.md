@@ -96,7 +96,7 @@ Istio secures traffic entering the service mesh using load balanced ingress gate
 
 ### Telemetry Services
 
-The provided Istio installation comes with several telemetry services to observe the configuration and behavior of the service mesh.
+The provided Istio installation comes with multiple telemetry services ([Prometheus](https://prometheus.io/), [Kiali](https://kiali.io/), [Grafana](https://grafana.com/) and [Jaeger](https://www.jaegertracing.io/)) to observe the configuration and behavior of the service mesh.
 You can apply `telemetry-gateway.yaml` and `telemetry-routes.yaml` to enable routing to these services.
 
 ```bash
@@ -119,17 +119,33 @@ Istio provides several security features like strong identities, transparent TLS
 
 To activate Istio's mesh-wide TLS encryption, apply `habitcentric/habitcentric-authn.yaml` to your cluster. This provides every service with a strong identity based on the service accounts of the habitcentric services and enables automatic network traffic encryption between sidecars.
 
+```bash
+kubectl apply -f habitcentric/habitcentric-authn.yaml
+```
+
 ### HTTPS endpoint for ingress gateway
 
-To activate the HTTPS endpoint for the ingress gateway, apply `habitcentric/habitcentric-gateway-secure.yaml` to your cluster. This replaces the existing HTTP gateway with an HTTPS gateway.
+To activate the HTTPS endpoint for the ingress gateway, apply `habitcentric/habitcentric-gateway-secure.yaml` to your cluster.
+This replaces the existing HTTP gateway with an HTTPS gateway.
+
+```bash
+kubectl apply -f habitcentric/habitcentric-gateway-secure.yaml
+```
 
 ### Authentication of end users
 
-To activate the authentication of end users using the JWT of Keycloak, apply `habitcentric/habitcentric-oidc.yaml` to your cluser. This activates JWT verification policies for the services `habit` and `track`. Requests without valid JWT in the HTTP `Authorization` header will fail with HTTP code `401` and message `Origin authentication failed`.
+To activate the authentication of end users using the JWT of Keycloak, apply `habitcentric/habitcentric-oidc.yaml` to your cluser.
+This activates JWT verification policies for the services `habit` and `track`.
+Requests without valid JWT in the HTTP `Authorization` header will fail with HTTP code `401` and message `Origin authentication failed`.
+
+```bash
+kubectl apply -f habitcentric/habitcentric-oidc.yaml
+```
 
 ## Service Access
 
-The Istio ingress gateway listens on several hostnames and routes your requests accordingly. To retrieve the external IP of your Istio ingress gateway load balancer run:
+The Istio ingress gateway listens on several hostnames and routes your requests accordingly. 
+To retrieve the external IP of your Istio ingress gateway load balancer run:
 
 ```bash
 kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
