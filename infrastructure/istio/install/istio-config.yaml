@@ -6,6 +6,10 @@ spec:
 
   # global Helm settings
   values:
+    gateways:
+      istio-ingressgateway:
+        sds:
+          enabled: true
     kiali:
       dashboard:
         grafanaURL: http://grafana.demo
