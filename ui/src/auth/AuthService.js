@@ -1,4 +1,5 @@
 import { UserManager, WebStorageStateStore } from "oidc-client";
+import { loadProtocol } from "./LoadProtocol";
 
 let instance = null;
 
@@ -12,7 +13,7 @@ export default class AuthService {
 
     this.settings = {
       userStore: new WebStorageStateStore(),
-      authority: process.env.VUE_APP_OIDC_AUTHORITY_HOST,
+      authority: loadProtocol(process.env.VUE_APP_OIDC_AUTHORITY_HOST),
       client_id: process.env.VUE_APP_OIDC_CLIENT_ID,
       redirect_uri:
         window.location.origin + process.env.VUE_APP_UI_PATH + "/auth/callback",
