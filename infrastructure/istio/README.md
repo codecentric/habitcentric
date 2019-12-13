@@ -142,6 +142,14 @@ Requests without valid JWT in the HTTP `Authorization` header will fail with HTT
 kubectl apply -f habitcentric/habitcentric-oidc.yaml
 ```
 
+### Restricting Access to Services
+
+To restrict access between services, apply `habitcentric/habitcentric-authz.yaml` to your cluster. This sets up AuthorizationPolicies that define access rules for habitcentric's pods based on service accounts. Unauthorized requests will fail with HTTP code `403` and a message `RBAC: access denied`.
+
+```bash
+kubectl apply -f habitcentric/habitcentric-authz.yaml
+```
+
 ## Service Access
 
 The Istio ingress gateway listens on several hostnames and routes your requests accordingly. 

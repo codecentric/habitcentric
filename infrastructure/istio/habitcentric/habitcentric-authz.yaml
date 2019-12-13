@@ -1,0 +1,112 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: ui-authz
+ namespace: hc-ui
+spec:
+  selector:
+    matchLabels:
+      app: ui
+      release: ui
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: habit-authz
+ namespace: hc-habit
+spec:
+  selector:
+    matchLabels:
+      app: habit
+      release: habit
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: habit-postgresql-authz
+ namespace: hc-habit
+spec:
+  selector:
+    matchLabels:
+      app: postgresql
+      release: habit
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/hc-habit/sa/habit
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: track-authz
+ namespace: hc-track
+spec:
+  selector:
+    matchLabels:
+      app: track
+      release: track
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: track-postgresql-authz
+ namespace: hc-track
+spec:
+  selector:
+    matchLabels:
+      app: postgresql
+      release: track
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/hc-track/sa/track
+
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: keycloak-authz
+ namespace: hc-keycloak
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: keycloak
+      app.kubernetes.io/instance: keycloak
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: keycloak-postgresql-authz
+ namespace: hc-keycloak
+spec:
+  selector:
+    matchLabels:
+      app: postgresql
+      release: keycloak
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/hc-keycloak/sa/keycloak
