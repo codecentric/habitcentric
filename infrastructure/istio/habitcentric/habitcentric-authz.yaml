@@ -90,10 +90,18 @@ spec:
       app.kubernetes.io/name: keycloak
       app.kubernetes.io/instance: keycloak
   rules:
+  # rule to allow unrestricted access only for the ingress gateway
   - from:
     - source:
         principals:
         - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+  # allow access to JWKS URL for all sources (required for OIDC configuration)
+  - to:
+    - operation:
+        methods:
+        - GET
+        paths:
+        - /auth/realms/habitcentric/protocol/openid-connect/certs
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
