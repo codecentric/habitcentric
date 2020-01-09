@@ -23,7 +23,6 @@ describe("Router", () => {
 
   beforeEach(() => {
     localVue = createLocalVue();
-    router = createRouter(localVue);
   });
 
   afterEach(() => {
@@ -36,6 +35,7 @@ describe("Router", () => {
   describe("with enabled OIDC", () => {
     beforeEach(() => {
       process.env.VUE_APP_OIDC_AUTH = "enabled";
+      router = createRouter(localVue);
     });
 
     describe("on secured route", () => {
@@ -129,6 +129,7 @@ describe("Router", () => {
   describe("with disabled OIDC", () => {
     beforeEach(() => {
       process.env.VUE_APP_OIDC_AUTH = "disabled";
+      router = createRouter(localVue);
     });
 
     describe("on secured route", () => {

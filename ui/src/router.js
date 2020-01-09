@@ -46,7 +46,7 @@ const routes = [
 
 export function createRouter(
   vueInstance = Vue,
-  authService = new AuthService()
+  authService = _oidcIsEnabled() ? new AuthService() : null
 ) {
   vueInstance.use(Router);
 
