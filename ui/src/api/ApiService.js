@@ -10,7 +10,7 @@ export class ApiService {
       }
     });
 
-    if (oidcStatus && oidcStatus === "disabled") {
+    if (!oidcStatus || oidcStatus === "disabled") {
       return;
     }
 

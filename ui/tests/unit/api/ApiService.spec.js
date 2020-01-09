@@ -30,4 +30,12 @@ describe("ApiService", () => {
 
     expect(axiosInstanceMock.interceptors.request.use).toHaveBeenCalledTimes(0);
   });
+
+  it("should not add http request interceptor when oidc is undefined", () => {
+    delete process.env.VUE_APP_OIDC_AUTH;
+
+    new ApiService("_");
+
+    expect(axiosInstanceMock.interceptors.request.use).toHaveBeenCalledTimes(0);
+  });
 });
