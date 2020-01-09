@@ -7,7 +7,7 @@ services:
       TRACKING_HOST: http://localhost:8419/
       OIDC_AUTH: enabled
       OIDC_AUTHORITY_HOST: http://localhost:8080/auth/realms/habitcentric/.well-known/openid-configuration
-      OIDC_CLIENT_ID: gateway
+      OIDC_CLIENT_ID: ui
     depends_on:
       - stubs
     ports:
