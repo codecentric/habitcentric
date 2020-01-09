@@ -3,7 +3,6 @@ import AuthService from "../auth/AuthService";
 
 export class ApiService {
   constructor(host, oidcStatus = process.env.VUE_APP_OIDC_AUTH) {
-    this.authService = new AuthService();
     this.http = axios.create({
       baseURL: host,
       headers: {
@@ -15,6 +14,7 @@ export class ApiService {
       return;
     }
 
+    this.authService = new AuthService();
     this.http.interceptors.request.use(
       async config => {
         const accessToken = await this.authService.getAccessToken();
