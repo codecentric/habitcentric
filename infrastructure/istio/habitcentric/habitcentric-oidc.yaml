@@ -22,17 +22,6 @@ spec:
   - mtls:
       mode: PERMISSIVE
 ---
-apiVersion: "networking.istio.io/v1alpha3"
-kind: "DestinationRule"
-metadata:
-  name: "keycloak-internal-mtls-disabled-rule"
-  namespace: istio-system
-spec:
-  host: "keycloak-http.hc-keycloak.svc.cluster.local"
-  trafficPolicy:
-    tls:
-      mode: DISABLE
----
 apiVersion: "authentication.istio.io/v1alpha1"
 kind: "Policy"
 metadata:
