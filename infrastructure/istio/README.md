@@ -5,7 +5,7 @@
 - Running Kubernetes cluster
 - Properly configured Kubernetes client `kubectl` to administrate your cluster
 
-> This guide is based on Istio 1.4.0
+> This guide is based on Istio 1.4.3
 
 ## Istio Installation
 
@@ -29,7 +29,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
 Install the Istio CLI:
 
 ```bash
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.4.0 sh - && cd istio-1.4.0
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.4.3 sh - && cd istio-1.4.3
 export PATH=$PWD/bin:$PATH
 ```
 
@@ -48,7 +48,7 @@ Please install the Helm CLI before continuing. Look up installation steps in the
 Download Istio and change into download directory
 
 ```bash
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.4.0 sh - && cd istio-1.4.0
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.4.3 sh - && cd istio-1.4.3
 ```
 
 Create a namespace for the Istio control plane:
@@ -152,7 +152,7 @@ kubectl apply -f habitcentric/habitcentric-authz.yaml
 
 ## Service Access
 
-The Istio ingress gateway listens on several hostnames and routes your requests accordingly. 
+The Istio ingress gateway listens on several hostnames and routes your requests accordingly.
 To retrieve the external IP of your Istio ingress gateway load balancer run:
 
 ```bash
