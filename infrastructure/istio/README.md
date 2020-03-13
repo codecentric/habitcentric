@@ -41,51 +41,6 @@ istioctl manifest apply -f install/istio-config.yaml
 
 > If you want to customize your Istio installation, you can find detailed istioctl installation options [here](https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/).
 
-### Installation using Helm
-
-Please install the Helm CLI before continuing. Look up installation steps in the [Helm documenation](https://helm.sh/docs/using_helm/#installing-helm)
-
-Download Istio and change into download directory
-
-```bash
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.5.0 sh - && cd istio-1.5.0
-```
-
-Create a namespace for the Istio control plane:
-
-```bash
-kubectl create namespace istio-system
-```
-
-Install Istio's Custom Resource Definitions (CRDs)
-
-```bash
-helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-```
-
-Verify the installation of Istio's CRDs:
-
-```bash
-kubectl get crds | grep -c 'istio.io\|certmanager.k8s.io'
-```
-
-The result should be `23`. If not, wait a few seconds and try again.
-
-Install Istio:
-
-```bash
-helm template install/kubernetes/helm/istio \
-  --name istio \
-  --namespace istio-system \
-  --values install/kubernetes/helm/istio/values-istio-demo.yaml \
-  --set kiali.dashboard.grafanaURL="http://grafana.demo" \
-  --set kiali.dashboard.jaegerURL="http://jaeger.demo" \
-  --set sidecarInjectorWebhook.rewriteAppHTTPProbe=true \
-  | kubectl apply -f -
-```
-
-> If you want to customize your Istio installation, you can find detailed Helm installation options [here](https://istio.io/docs/reference/config/installation-options/).
-
 ## habitcentric Deployment
 
 Please refer to the [helmfile deployment configuration](https://gitlab.com/habitcentric-infrastructure/hc-kubernetes). To deploy habitcentric for Istio, please use the provided helmfile Istio environment.
