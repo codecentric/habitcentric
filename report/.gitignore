@@ -1,0 +1,5 @@
+.gradle
+build.gradle.kts
+settings.gradle.kts
+
+.idea
