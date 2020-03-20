@@ -3,3 +3,8 @@ build.gradle.kts
 settings.gradle.kts
 
 .idea
+
+build
+gradle
+gradlew
+gradlew.bat
