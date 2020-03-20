@@ -1,9 +1,10 @@
 package de.codecentric.hc.report
 
 import org.junit.jupiter.api.Test
+import org.openapitools.Application
 import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+@SpringBootTest(classes = [Application::class])
 class ReportApplicationTests {
 
 	@Test
