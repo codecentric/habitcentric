@@ -1,0 +1,58 @@
+openapi: 3.0.2
+info:
+  version: 1.0.0
+  title: habitcentric Reporting
+
+paths:
+  /report:
+    get:
+      tags:
+        - reports
+      summary: Retrieve a report of habit achievement progress
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Report"
+        401:
+          description: Unauthorized
+        500:
+          description: Internal Server Error
+        503:
+          description: Service Unavailable
+
+components:
+  schemas:
+    Report:
+      type: object
+      properties:
+        day:
+          type: object
+          properties:
+            percentage:
+              type: integer
+              minimum: 0
+              maximum: 100
+        week:
+          type: object
+          properties:
+            percentage:
+              type: integer
+              minimum: 0
+              maximum: 100
+        month:
+          type: object
+          properties:
+            percentage:
+              type: integer
+              minimum: 0
+              maximum: 100
+        quarter:
+          type: object
+          properties:
+            percentage:
+              type: integer
+              minimum: 0
+              maximum: 100
