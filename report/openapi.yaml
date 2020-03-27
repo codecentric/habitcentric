@@ -29,30 +29,17 @@ components:
       type: object
       properties:
         day:
-          type: object
-          properties:
-            percentage:
-              type: integer
-              minimum: 0
-              maximum: 100
+          $ref: "#/components/schemas/Stats"
         week:
-          type: object
-          properties:
-            percentage:
-              type: integer
-              minimum: 0
-              maximum: 100
+          $ref: "#/components/schemas/Stats"
         month:
-          type: object
-          properties:
-            percentage:
-              type: integer
-              minimum: 0
-              maximum: 100
+          $ref: "#/components/schemas/Stats"
         quarter:
-          type: object
-          properties:
-            percentage:
-              type: integer
-              minimum: 0
-              maximum: 100
+          $ref: "#/components/schemas/Stats"
+    Stats:
+      type: object
+      properties:
+        percentage:
+          type: integer
+          minimum: 0
+          maximum: 100
