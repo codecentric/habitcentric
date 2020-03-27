@@ -1,11 +1,13 @@
 package de.codecentric.hc.report
 
 import de.codecentric.hc.report.api.ReportController
+import org.hamcrest.core.Is.`is`
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @WebMvcTest(controllers = [ReportController::class])
@@ -16,6 +18,10 @@ internal class ReportControllerIntegrationTest {
 
     @Test
     internal fun `should return report`() {
-        mockMvc.perform((get("/report"))).andExpect(status().isOk())
+        mockMvc.perform((get("/report")))
+                .andExpect {
+                    status().isOk()
+                    jsonPath("$.day.percentage", `is`("42"))
+                }
     }
 }
