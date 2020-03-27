@@ -55,7 +55,7 @@ dependencies {
     }
     testImplementation("io.projectreactor:reactor-test")
 
-    testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+    testImplementation("io.mockk:mockk:1.9.3")
 }
 
 tasks.withType<Test> {

@@ -1,49 +1,40 @@
 package de.codecentric.hc.report
 
-import com.nhaarman.mockitokotlin2.whenever
+import io.mockk.every
+import io.mockk.impl.annotations.InjectMockKs
+import io.mockk.impl.annotations.MockK
+import io.mockk.junit5.MockKExtension
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
-import org.mockito.InjectMocks
-import org.mockito.Mock
-import org.mockito.junit.jupiter.MockitoExtension
 import org.springframework.web.client.RestTemplate
+import org.springframework.web.client.getForObject
 
-@ExtendWith(MockitoExtension::class)
+@ExtendWith(MockKExtension::class)
 internal class HabitServiceTest {
 
-    @Mock
+    @MockK
     lateinit var restTemplate: RestTemplate
 
-    @Mock
+    @MockK
     lateinit var properties: HabitProperties
 
-    @InjectMocks
+    @InjectMockKs
     lateinit var subject: HabitService
 
     @BeforeEach
     internal fun setUp() {
-        whenever(properties.serviceUrl).thenReturn("url")
+        every { properties.serviceUrl } returns "url"
     }
 
     @Test
-    internal fun `should call habit endpoint`() {
+    fun `should call habit endpoint`() {
         val habit = Habit(1, Schedule(1, Frequency.WEEKLY))
 
-        whenever(restTemplate.getForObject("url", Array<Habit>::class.java))
-                .thenReturn(arrayOf(habit))
+        every { restTemplate.getForObject<List<Habit>>("url") } returns listOf(habit)
 
         val habits = subject.getHabits()
         assertThat(habits).isEqualTo(listOf(habit))
-    }
-
-    @Test
-    internal fun `should return empty list on null return value from rest template`() {
-        whenever(restTemplate.getForObject("url", Array<Habit>::class.java))
-                .thenReturn(null)
-
-        val habits = subject.getHabits()
-        assertThat(habits).isEqualTo(emptyList<Habit>())
     }
 }
