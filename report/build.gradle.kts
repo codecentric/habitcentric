@@ -22,8 +22,13 @@ configurations {
 sourceSets {
     main {
         java {
-
+            srcDir("$rootDir/src/main/kotlin")
             srcDir("$buildDir/generated-sources/src/main/kotlin")
+        }
+    }
+    test {
+        java {
+            srcDir("$rootDir/src/test/kotlin")
         }
     }
 }
@@ -70,4 +75,7 @@ openApiGenerate {
     apiPackage.set("de.codecentric.hc.report.api")
     modelPackage.set("de.codecentric.hc.report.api.model")
     outputDir.set("$buildDir/generated-sources")
+    library.set("spring-boot")
+    configOptions.put("basePackage", "de.codecentric.hc.report")
+    configOptions.put("interfaceOnly", "true")
 }
