@@ -27,6 +27,11 @@ components:
   schemas:
     Report:
       type: object
+      required:
+        - day
+        - week
+        - month
+        - quarter
       properties:
         day:
           $ref: "#/components/schemas/Stats"
@@ -38,6 +43,8 @@ components:
           $ref: "#/components/schemas/Stats"
     Stats:
       type: object
+      required:
+        - percentage
       properties:
         percentage:
           type: integer

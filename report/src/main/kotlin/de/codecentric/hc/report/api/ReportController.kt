@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 class ReportController : ReportsApi {
 
     override fun reportGet(): ResponseEntity<Report> {
-        val report = Report(day = Stats(42))
+        val report = Report(Stats(42), Stats(42), Stats(42), Stats(42))
         return ResponseEntity.ok(report)
     }
 }
