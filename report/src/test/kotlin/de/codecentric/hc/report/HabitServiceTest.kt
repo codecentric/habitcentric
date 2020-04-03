@@ -32,7 +32,7 @@ internal class HabitServiceTest {
     fun `should call habit endpoint`() {
         val habit = Habit(1, Schedule(1, Frequency.WEEKLY))
 
-        every { restTemplate.getForObject<List<Habit>>("url") } returns listOf(habit)
+        every { restTemplate.getForObject<List<Habit>>("url/habits") } returns listOf(habit)
 
         val habits = subject.getHabits()
         assertThat(habits).isEqualTo(listOf(habit))
