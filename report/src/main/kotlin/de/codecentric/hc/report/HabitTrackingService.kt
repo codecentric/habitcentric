@@ -10,6 +10,6 @@ class HabitTrackingService(
         val habitTrackingProperties: HabitTrackingProperties,
         val restTemplate: RestTemplate) {
 
-    fun getTrackingDates(): List<LocalDate> =
-            restTemplate.getForObject(habitTrackingProperties.serviceUrl)
+    fun getTrackingDates(habitId: Long): List<LocalDate> =
+            restTemplate.getForObject("${habitTrackingProperties.serviceUrl}/habits/${habitId}")
 }

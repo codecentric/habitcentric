@@ -30,11 +30,11 @@ internal class HabitTrackingServiceTest {
     }
 
     @Test
-    fun `should call habit tracking endpoint`() {
+    fun `should call habit tracking endpoint with habit ID`() {
         val trackDate = LocalDate.of(2020, 1, 1)
-        every { restTemplate.getForObject<List<LocalDate>>("url") } returns listOf(trackDate)
+        every { restTemplate.getForObject<List<LocalDate>>("url/habits/1") } returns listOf(trackDate)
 
-        val trackingDates = subject.getTrackingDates()
+        val trackingDates = subject.getTrackingDates(1)
 
         assertThat(trackingDates).isEqualTo(listOf(trackDate))
     }
