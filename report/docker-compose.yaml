@@ -1,0 +1,9 @@
+version: '3'
+services:
+  wiremock:
+    image: rodolpheche/wiremock:2.26.3-alpine
+    volumes:
+      - ./stubs:/home/wiremock
+    ports:
+      - 8081:8080
+    command: --global-response-templating
