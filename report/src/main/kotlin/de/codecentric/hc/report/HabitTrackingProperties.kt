@@ -5,4 +5,4 @@ import org.springframework.stereotype.Component
 
 @Component
 @ConfigurationProperties(prefix = "track")
-data class HabitTrackingProperties(val serviceUrl: String)
+data class HabitTrackingProperties(var serviceUrl: String = "")
