@@ -4,18 +4,18 @@ info:
   title: habitcentric Reporting
 
 paths:
-  /report:
+  /report/achievement:
     get:
       tags:
         - reports
-      summary: Retrieve a report of habit achievement progress
+      summary: Retrieve habit achievement progress of the last 7 and 30 days
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Report"
+                $ref: "#/components/schemas/AchievementRate"
         401:
           description: Unauthorized
         500:
@@ -25,28 +25,19 @@ paths:
 
 components:
   schemas:
-    Report:
+    AchievementRate:
       type: object
       required:
-        - day
         - week
         - month
-        - quarter
       properties:
-        day:
-          $ref: "#/components/schemas/Stats"
         week:
-          $ref: "#/components/schemas/Stats"
+          type: number
+          format: float
+          minimum: 0
+          maximum: 100
         month:
-          $ref: "#/components/schemas/Stats"
-        quarter:
-          $ref: "#/components/schemas/Stats"
-    Stats:
-      type: object
-      required:
-        - percentage
-      properties:
-        percentage:
-          type: integer
+          type: number
+          format: float
           minimum: 0
           maximum: 100
