@@ -3,9 +3,10 @@ package de.codecentric.hc.report.date
 import java.time.LocalDate
 
 class DateIterator(
-        startDate: LocalDate,
-        val endDateInclusive: LocalDate,
-        val stepDays: Long = 1) : Iterator<LocalDate> {
+    startDate: LocalDate,
+    val endDateInclusive: LocalDate,
+    val stepDays: Long = 1
+) : Iterator<LocalDate> {
 
     var currentDate = startDate
 

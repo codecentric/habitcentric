@@ -53,17 +53,20 @@ internal class DateIteratorTest {
         @Test
         fun `given day step of 2 and second call, returns two days after start day`() {
             val subject = createDateIterator(
-                    startDate = "2020-01-01",
-                    endDateInclusive = "2020-01-03",
-                    stepDays = 2)
+                startDate = "2020-01-01",
+                endDateInclusive = "2020-01-03",
+                stepDays = 2
+            )
             subject.next()
             val result = subject.next()
             assertThat(result).isEqualTo(LocalDate.of(2020, 1, 3))
         }
     }
 
-    fun createDateIterator(startDate: String = "2020-01-01",
-                           endDateInclusive: String = "2020-01-02",
-                           stepDays: Long = 1) =
-            DateIterator(LocalDate.parse(startDate), LocalDate.parse(endDateInclusive), stepDays)
+    fun createDateIterator(
+        startDate: String = "2020-01-01",
+        endDateInclusive: String = "2020-01-02",
+        stepDays: Long = 1
+    ) =
+        DateIterator(LocalDate.parse(startDate), LocalDate.parse(endDateInclusive), stepDays)
 }
