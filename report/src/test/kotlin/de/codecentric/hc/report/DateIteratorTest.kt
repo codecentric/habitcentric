@@ -2,6 +2,7 @@ package de.codecentric.hc.report
 
 import de.codecentric.hc.report.date.DateIterator
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatExceptionOfType
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import java.time.LocalDate
@@ -53,13 +54,23 @@ internal class DateIteratorTest {
         @Test
         fun `given day step of 2 and second call, returns two days after start day`() {
             val subject = createDateIterator(
-                startDate = "2020-01-01",
-                endDateInclusive = "2020-01-03",
-                stepDays = 2
+                    startDate = "2020-01-01",
+                    endDateInclusive = "2020-01-03",
+                    stepDays = 2
             )
             subject.next()
             val result = subject.next()
             assertThat(result).isEqualTo(LocalDate.of(2020, 1, 3))
+        }
+
+        @Test
+        fun `should throw NoSuchElementException when inclusive end date was exceeded`() {
+            val subject = createDateIterator(
+                    startDate = "2020-01-01",
+                    endDateInclusive = "2020-01-01"
+            )
+            subject.next()
+            assertThatExceptionOfType(NoSuchElementException::class.java).isThrownBy { subject.next() }
         }
     }
 
