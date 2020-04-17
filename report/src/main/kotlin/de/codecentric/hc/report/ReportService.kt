@@ -1,18 +1,19 @@
 package de.codecentric.hc.report
 
-class ReportService {
+import de.codecentric.hc.report.date.DateService
+import org.springframework.stereotype.Service
 
-    // repetitions = anzahl gewünschte repititions in zeitraum ermitteln
-    //   zeitraum:
-    // tracks = anzahl tracks in zeitraum ermitteln
-    // percentage im zeitraum = tracks/ repetitions
+@Service
+class ReportService(
+    val dateService: DateService,
+    val achievementService: AchievementService
+) {
 
-    // Angelegt: 1.4.
-    // Heute: 2.4.
-    // Repititions: 10
-
-    // Statistik
-    // - Zeitraum: 3.3. - 2.4. (30 Tage)
-    // - Repititions (10) / 30 Tage = 0,33
-    // - Track: 0
+    fun calculateAchievementRates(): AchievementRates {
+        val today = dateService.today()
+        return AchievementRates(
+            achievementService.calculateRateOfPeriod(today, today.minusDays(7)),
+            achievementService.calculateRateOfPeriod(today, today.minusDays(30))
+        )
+    }
 }
