@@ -16,9 +16,8 @@ class TrackedHabit(val habit: Habit, val tracks: Collection<LocalDate>) {
         }
     }
 
-    fun getTrackedRepetitionsForPeriod(beginDate: LocalDate, endDate: LocalDate): Int {
-        TODO("Not yet implemented")
-    }
+    fun getTrackedRepetitionsForPeriod(beginDate: LocalDate, endDate: LocalDate): Int =
+        tracks.count { it in beginDate..endDate }
 
     /*
 
