@@ -32,7 +32,7 @@ internal class HabitTrackingServiceTest {
     @Test
     fun `should call habit tracking endpoint with habit ID`() {
         val trackDate = LocalDate.of(2020, 1, 1)
-        every { restTemplate.getForObject<List<LocalDate>>("url/track/habits/1") } returns listOf(trackDate)
+        every { restTemplate.getForObject<Array<LocalDate>>("url/track/habits/1") } returns arrayOf(trackDate)
 
         val trackingDates = subject.getTrackingDates(1)
 

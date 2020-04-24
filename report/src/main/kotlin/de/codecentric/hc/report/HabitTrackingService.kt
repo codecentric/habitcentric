@@ -7,11 +7,12 @@ import java.time.LocalDate
 
 @Service
 class HabitTrackingService(
-        val habitTrackingProperties: HabitTrackingProperties,
-        val restTemplate: RestTemplate) {
+    val habitTrackingProperties: HabitTrackingProperties,
+    val restTemplate: RestTemplate
+) {
 
     private val trackEndpointUrl: String get() = "${habitTrackingProperties.serviceUrl}/track"
 
     fun getTrackingDates(habitId: Long): List<LocalDate> =
-            restTemplate.getForObject("$trackEndpointUrl/habits/$habitId")
+        restTemplate.getForObject<Array<LocalDate>>("$trackEndpointUrl/habits/$habitId").asList()
 }
