@@ -14,5 +14,5 @@ class HabitTrackingService(
     private val trackEndpointUrl: String get() = "${habitTrackingProperties.serviceUrl}/track"
 
     fun getTrackingDates(habitId: Long): List<LocalDate> =
-        restTemplate.getForObject("$trackEndpointUrl/habits/$habitId")
+        restTemplate.getForObject<Array<LocalDate>>("$trackEndpointUrl/habits/$habitId").asList()
 }

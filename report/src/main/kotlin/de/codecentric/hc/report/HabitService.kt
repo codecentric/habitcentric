@@ -13,5 +13,5 @@ class HabitService(
     private val habitsEndpointUrl: String get() = "${habitProperties.serviceUrl}/habits"
 
     fun getHabits(): List<Habit> =
-        restTemplate.getForObject(habitsEndpointUrl)
+        restTemplate.getForObject<Array<Habit>>(habitsEndpointUrl).asList()
 }
