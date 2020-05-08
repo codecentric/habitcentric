@@ -39,6 +39,7 @@ services:
       AUTH_URI: http://habitcentric.demo:8080
       HABIT_URI: http://habit:8080
       TRACK_URI: http://track:8080
+      REPORT_URI: http://report:8080
       UI_URI: http://ui
     ports:
       - 8419:8080
@@ -72,6 +73,13 @@ services:
     restart: always
     environment:
       POSTGRES_PASSWORD: postgres
+    networks:
+      - habitcentric-net
+  report:
+    image: habitcentric/report
+    environment:
+      HABIT_SERVICE_URL: http://habit:8080
+      TRACK_SERVICE_URL: http://track:8080
     networks:
       - habitcentric-net
   ui:
