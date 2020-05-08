@@ -6,7 +6,7 @@ stages:
 variables:
   DOCKER_HOST: "tcp://docker:2375"
   DOCKER_DRIVER: overlay2
-  DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/habit
+  DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/report
   DOCKER_TLS_CERTDIR: "" # workaround for https://gitlab.com/gitlab-org/gitlab-runner/issues/4501
 
 services:

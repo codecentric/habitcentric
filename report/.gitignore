@@ -1,9 +1,10 @@
 .gradle
 
+### IntelliJ IDEA ###
 .idea
+*.iws
+*.iml
+*.ipr
+/out/
 
-out
 build
-gradle
-gradlew
-gradlew.bat
