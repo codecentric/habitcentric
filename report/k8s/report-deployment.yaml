@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: habitcentric
+  name: report
+  labels:
+    app: habitcentric
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: habitcentric
+      component: report
+  template:
+    metadata:
+      labels:
+        app: habitcentric
+        component: report
+    spec:
+      containers:
+        - name: report
+          image: habitcentric/report:latest
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: HABIT_SERVICE_URL
+              value: http://habit:8080
+            - name: TRACK_SERVICE_URL
+              value: http://track:8080
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 120
+          livenessProbe:
+            tcpSocket:
+              port: http
+            initialDelaySeconds: 40
+            periodSeconds: 120
+      restartPolicy: Always
