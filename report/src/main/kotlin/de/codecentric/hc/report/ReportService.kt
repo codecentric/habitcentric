@@ -34,6 +34,9 @@ class ReportService(
         val sumOfTrackedRepetitions =
             filteredHabits.sumBy { it.getTrackedRepetitionsForPeriod(reportDateRange) }
 
-        return sumOfTrackedRepetitions.toDouble() / sumOfScheduledRepetitions.toDouble()
+        return when {
+            sumOfScheduledRepetitions == 0 -> 0.0
+            else -> sumOfTrackedRepetitions.toDouble() / sumOfScheduledRepetitions.toDouble()
+        }
     }
 }

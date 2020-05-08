@@ -74,6 +74,13 @@ internal class ReportServiceTest {
 
             assertThat(result.week).isEqualTo(1.0)
         }
+
+        @Test
+        fun `given 1 daily habit with no tracks, should return 0`() {
+            val result = subject.calculateAchievementRates()
+
+            assertThat(result.week).isEqualTo(0.0)
+        }
     }
 
     @Nested
@@ -97,6 +104,13 @@ internal class ReportServiceTest {
             val result = subject.calculateAchievementRates()
 
             assertThat(result.month).isEqualTo(0.75)
+        }
+
+        @Test
+        fun `given 1 daily habit with no tracks, should return 0`() {
+            val result = subject.calculateAchievementRates()
+
+            assertThat(result.month).isEqualTo(0.0)
         }
     }
 
