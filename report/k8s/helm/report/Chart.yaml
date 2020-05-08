@@ -1,0 +1,19 @@
+apiVersion: v2
+name: report
+version: 1.0.0
+appVersion: 0.1.0
+description: Chart for the report service of habitcentric
+keywords:
+  - habitcentric
+  - report
+  - microservices
+home: https://confluence.codecentric.de/display/HAB/habitcentric
+sources:
+  - https://gitlab.com/habitcentric-playground/hc-report
+maintainers:
+  - name: Dennis Effing
+    email: dennis.effing@codecentric.de
+    url: http://gitlab.com/denniseffing
+  - name: Roman Seyffarth
+    email: roman.seyffarth@codecentric.de
+    url: http://gitlab.com/romansey

@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "report.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ template "report.name" . }}
+    app.kubernetes.io/component: report
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: {{ template "report.chart" . }}
+    helm.sh/release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: {{ .Values.updateStrategyType }}
+  selector:
+    matchLabels:
+      app: {{ template "report.name" . }}
+      release: {{ .Release.Name | quote }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ template "report.name" . }}
+        app.kubernetes.io/component: report
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion }}
+        helm.sh/chart: {{ template "report.chart" . }}
+        helm.sh/release: {{ .Release.Name }}
+      {{- with .Values.podLabels }}
+      {{ toYaml . | indent 2 }}
+      {{- end }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+    {{ toYaml . | indent 2 }}
+    {{- end }}
+    spec:
+      {{- if .Values.serviceAccount.enabled }}
+      serviceAccountName: {{ default (include "report.fullname" . ) .Values.serviceAccount.name }}
+      {{- end }}
+      containers:
+        - name: {{ template "report.fullname" . }}
+          image: {{ template "report.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http-report
+              containerPort: 8080
+          env:
+            - name: HABIT_SERVICE_URL
+              value: {{ .Values.report.habitServiceUrl }}
+            - name: TRACK_SERVICE_URL
+              value: {{ .Values.report.trackServiceUrl }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http-report
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          livenessProbe:
+            tcpSocket:
+              port: http-report
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
