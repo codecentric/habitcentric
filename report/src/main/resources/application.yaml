@@ -1,5 +1,5 @@
 habit:
-  service-url:
+  service-url: http://localhost:8081
 
 track:
-  service-url:
+  service-url: http://localhost:8081

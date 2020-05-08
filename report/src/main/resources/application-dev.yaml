@@ -1,5 +1,0 @@
-habit:
-  service-url: http://localhost:8081
-
-track:
-  service-url: http://localhost:8081

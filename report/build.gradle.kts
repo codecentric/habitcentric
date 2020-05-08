@@ -6,6 +6,7 @@ plugins {
     id("org.springframework.boot") version "2.2.5.RELEASE"
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     kotlin("jvm") version "1.3.61"
+    kotlin("kapt") version "1.3.72"
     kotlin("plugin.spring") version "1.3.61"
 }
 
@@ -39,6 +40,7 @@ repositories {
 
 dependencies {
     implementation("com.squareup.moshi:moshi:1.9.2")
+    kapt("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
