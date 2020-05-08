@@ -14,6 +14,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
     properties = {
       "gateway.target.uri.habit=http://localhost:${wiremock.server.port}",
       "gateway.target.uri.track=http://localhost:${wiremock.server.port}",
+      "gateway.target.uri.report=http://localhost:${wiremock.server.port}",
       "gateway.target.uri.ui=http://localhost:${wiremock.server.port}"
     })
 @AutoConfigureWireMock(
