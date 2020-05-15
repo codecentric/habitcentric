@@ -16,8 +16,9 @@ spec:
     type: {{ .Values.updateStrategyType }}
   selector:
     matchLabels:
-      app: {{ template "report.name" . }}
-      release: {{ .Release.Name | quote }}
+      app.kubernetes.io/name: {{ template "report.name" . }}
+      app.kubernetes.io/component: report
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:

@@ -21,5 +21,6 @@ spec:
       port: {{ .Values.service.port }}
       targetPort: http-report
   selector:
-    app: {{ template "report.name" . }}
-    release: {{ .Release.Name | quote }}
+    app.kubernetes.io/name: {{ template "report.name" . }}
+    app.kubernetes.io/component: report
+    app.kubernetes.io/instance: {{ .Release.Name }}
