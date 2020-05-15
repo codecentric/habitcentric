@@ -1,10 +1,14 @@
 fullnameOverride: gateway
 
 image:
+  registry: docker.io
+  repository: habitcentric/gateway
+  tag: latest
   pullPolicy: Always
 
 habitUri: http://habit.hc-habit.svc.cluster.local:8080
 trackUri: http://track.hc-track.svc.cluster.local:8080
+reportUri: http://report.hc-report.svc.cluster.local:8080
 uiUri: http://ui.hc-ui.svc.cluster.local
 
 {{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") }}
