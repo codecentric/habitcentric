@@ -74,6 +74,28 @@ releases:
         command: "kubectl"
         args: [ "annotate", "ns", "{{`{{ .Release.Namespace }}`}}", "linkerd.io/inject=enabled", "--overwrite" ]
       {{- end }}
+  - name: report
+    namespace: hc-report
+    chart: ../hc-report/k8s/helm/report
+    values:
+      - ./helmfile-templates/report-values.yaml.gotmpl
+    hooks:
+      {{- if eq .Environment.Name "istio" }}     
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite" ]
+      {{- end }}
+      {{- if eq .Environment.Name "linkerd" }}     
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "annotate", "ns", "{{`{{ .Release.Namespace }}`}}", "linkerd.io/inject=enabled", "--overwrite" ]
+      {{- end }}
   - name: keycloak
     namespace: hc-keycloak
     chart: codecentric/keycloak
