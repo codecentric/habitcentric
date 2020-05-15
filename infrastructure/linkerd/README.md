@@ -49,7 +49,7 @@ this annotation into the the ingress controller's deployment:
 
 ```bash
 # Read, modify and re-apply the YAML of the nginx controller's deployment
-kubectl get deployment -n kube-system nginx-ingress-controller -o yaml \
+kubectl get deployment -n kube-system ingress-nginx-controller -o yaml \
     | linkerd inject - \
     | kubectl apply -f -
 
