@@ -1,18 +1,18 @@
 {
   "request": {
     "method": "GET",
-    "url": "/report/achievement",
-    "headers": {
-      "Authorization": {
-        "absent": true
-      }
-    }
+    "url": "/report/achievement"
   },
   "response": {
     "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    },
     "jsonBody": {
       "week": 0.5,
       "month": 0.75
-    }
+    },
+    "fixedDelayMilliseconds": 500
   }
 }
