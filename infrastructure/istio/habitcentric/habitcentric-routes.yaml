@@ -27,6 +27,14 @@ spec:
           number: 8080
   - match:
     - uri:
+        prefix: /report
+    route:
+    - destination:
+        host: report.hc-report.svc.cluster.local
+        port:
+          number: 8080
+  - match:
+    - uri:
         prefix: /ui
     route:
     - destination:
