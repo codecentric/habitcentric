@@ -28,6 +28,8 @@ spec:
               value: http://habit:8080
             - name: TRACK_URI
               value: http://track:8080
+            - name: REPORT_URI
+              value: http://report:8080
             - name: UI_URI
               value: http://ui
           readinessProbe:

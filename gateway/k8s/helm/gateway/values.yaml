@@ -77,6 +77,9 @@ habitUri: http://habitcentric-habit:8080
 ## URI of track service
 trackUri: http://habitcentric-track:8080
 
+## URI of report service
+reportUri: http://habitcentric-report:8080
+
 ## URI of UI service
 uiUri: http://habitcentric-ui
 
