@@ -1,14 +1,16 @@
 <template>
-  <div>
-    <AchievementRate
-      caption="Last 7 days"
-      v-bind:percentage="achievementRates.week"
-    />
-    <AchievementRate
-      caption="Last 30 days"
-      v-bind:percentage="achievementRates.month"
-    />
-  </div>
+  <v-container v-if="achievementRates">
+    <v-layout align-center justify-center row fill-height>
+      <AchievementRate
+        caption="Last 7 days"
+        v-bind:percentage="achievementRates.week"
+      />
+      <AchievementRate
+        caption="Last 30 days"
+        v-bind:percentage="achievementRates.month"
+      />
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

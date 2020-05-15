@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="achievement-rate-container">
+    <div>{{ caption }}</div>
     <v-progress-circular
       v-bind:value="percentage"
       size="80"
@@ -8,7 +9,6 @@
     >
       {{ Math.round(percentage) }} %
     </v-progress-circular>
-    <span>{{ caption }}</span>
   </div>
 </template>
 
@@ -21,3 +21,9 @@ export default {
   }
 };
 </script>
+
+<style>
+.achievement-rate-container {
+  margin: 10px 40px;
+}
+</style>
