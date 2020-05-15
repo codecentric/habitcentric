@@ -42,6 +42,11 @@ public class SecurityConfigIntTest extends WebTest {
         .isFound()
         .expectHeader()
         .valueMatches("Location", expectedLocation);
+    get("/report")
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueMatches("Location", expectedLocation);
     get("/ui/").expectStatus().isFound().expectHeader().valueMatches("Location", expectedLocation);
   }
 

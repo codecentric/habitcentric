@@ -19,6 +19,12 @@ spring:
             - RewriteTrackPathWithUserId
             - AddRequestHeaderUserId
             - TokenRelay
+        - id: report_route
+          uri: ${gateway.target.uri.report}
+          predicates:
+            - Path=/report/**
+          filters:
+            - TokenRelay
         - id: ui_route
           uri: ${gateway.target.uri.ui}
           predicates:
@@ -51,6 +57,7 @@ gateway:
       auth: ${AUTH_URI:http://localhost:8080}
       habit: ${HABIT_URI:http://localhost:8180}
       track: ${TRACK_URI:http://localhost:8219}
+      report: ${REPORT_URI:http://localhost:8319}
       ui: ${UI_URI:http://localhost:8171}
 
 ---

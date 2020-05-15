@@ -75,6 +75,8 @@ public class SecurityConfig {
         .hasRole(USER)
         .pathMatchers("/track/**")
         .hasRole(USER)
+        .pathMatchers("/report/**")
+        .hasRole(USER)
         .pathMatchers("/ui/**")
         .hasRole(USER)
         .and();
