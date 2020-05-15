@@ -33,7 +33,7 @@ spec:
       {{- end }}
       {{- with .Values.podAnnotations }}
       annotations:
-    {{ toYaml . | indent 2 }}
+    {{ toYaml . | indent 4 }}
     {{- end }}
     spec:
       {{- if .Values.serviceAccount.enabled }}
