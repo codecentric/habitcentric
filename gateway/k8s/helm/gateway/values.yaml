@@ -71,6 +71,13 @@ ingress:
 #        - habitcentric.example.com
 #      secretName: tls-gateway
 
+## Auth type used for authentication
+## Possible values: OAUTH_2_LOGIN, HTTP_BASIC
+authType: HTTP_BASIC
+
+## Auth URI used for authentication type OAUTH_2_LOGIN
+authUri: http://habitcentric-keycloak:8080
+
 ## URI of habit service
 habitUri: http://habitcentric-habit:8080
 

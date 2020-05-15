@@ -41,6 +41,10 @@ spec:
             - name: http-gateway
               containerPort: 8080
           env:
+            - name: AUTH_TYPE
+              value: {{ .Values.authType }}
+            - name: AUTH_URI
+              value: {{ .Values.authUri }}
             - name: HABIT_URI
               value: {{ .Values.habitUri }}
             - name: TRACK_URI

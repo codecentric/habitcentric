@@ -24,6 +24,8 @@ spec:
           ports:
             - containerPort: 8080
           env:
+            - name: AUTH_TYPE
+              value: HTTP_BASIC
             - name: HABIT_URI
               value: http://habit:8080
             - name: TRACK_URI
