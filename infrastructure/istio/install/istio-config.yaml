@@ -1,8 +1,8 @@
 apiVersion: install.istio.io/v1alpha2
-kind: IstioControlPlane
+kind: IstioOperator
 spec:
   profile: demo
-  defaultNamespace: istio-system
+  namespace: istio-system
 
   # global Helm settings
   values:
