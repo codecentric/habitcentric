@@ -10,6 +10,7 @@ RUN yarn run build
 FROM nginx:1.16.0-alpine@sha256:270bea203d2fc3743fb9ce0193325e188b7e6233043487e3d3cf117ea4d3f337 as run
 ENV HABIT_HOST /
 ENV TRACKING_HOST /
+ENV REPORT_HOST /
 COPY --from=build /app/dist /usr/share/nginx/html/dist
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY ./docker-entrypoint.sh /

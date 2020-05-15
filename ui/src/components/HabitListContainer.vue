@@ -1,5 +1,6 @@
 <template>
   <div>
+    <ReportContainer />
     <v-container v-if="error"> <DefaultErrorState /> </v-container>
     <div v-else>
       <LoadingSpinner v-if="loading" />
@@ -25,6 +26,7 @@ import HabitForm from "@/components/HabitForm";
 import HabitList from "@/components/HabitList";
 import HabitService from "@/services/HabitService";
 import LoadingSpinner from "@/components/LoadingSpinner";
+import ReportContainer from "./ReportContainer";
 
 export default {
   name: "HabitListContainer",
@@ -32,7 +34,8 @@ export default {
     LoadingSpinner,
     DefaultErrorState,
     HabitForm,
-    HabitList
+    HabitList,
+    ReportContainer
   },
   data() {
     return {
@@ -68,7 +71,7 @@ export default {
           console.log(error);
           this.errorWhileCreating = error;
         })
-        .finally(() => this.getHabits());
+        .finally(() => this.$eventHub.$emit("habitsChanged"));
     },
     deleteHabit: async function(id) {
       this.errorWhileCreating = undefined;
@@ -80,8 +83,14 @@ export default {
           console.log(error);
           this.errorWhileDeleting = error;
         })
-        .finally(() => this.getHabits());
+        .finally(() => this.$eventHub.$emit("habitsChanged"));
     }
+  },
+  created() {
+    this.$eventHub.$on("habitsChanged", this.getHabits);
+  },
+  beforeDestroy() {
+    this.$eventHub.$off("habitsChanged");
   },
   mounted() {
     this.getHabits();
