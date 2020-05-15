@@ -1,7 +1,13 @@
 <template>
   <div>
-    <AchievementRate v-bind:percentage="achievementRates.week" />
-    <AchievementRate v-bind:percentage="achievementRates.month" />
+    <AchievementRate
+      caption="Last 7 days"
+      v-bind:percentage="achievementRates.week"
+    />
+    <AchievementRate
+      caption="Last 30 days"
+      v-bind:percentage="achievementRates.month"
+    />
   </div>
 </template>
 

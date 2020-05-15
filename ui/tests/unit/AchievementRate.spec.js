@@ -15,8 +15,15 @@ describe("AchievementRate", () => {
 
   it("renders percentage as integer", () => {
     const wrapper = mount(AchievementRate, { propsData: { percentage } });
-    expect(wrapper.find({ name: "v-progress-circular" }).text()).toMatch(
+    expect(wrapper.find({ name: "v-progress-circular" }).text()).toEqual(
       "13 %"
     );
+  });
+
+  it("renders caption", () => {
+    const wrapper = mount(AchievementRate, {
+      propsData: { caption: "caption" }
+    });
+    expect(wrapper.text()).toContain("caption");
   });
 });
