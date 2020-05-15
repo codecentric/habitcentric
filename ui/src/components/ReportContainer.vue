@@ -1,12 +1,19 @@
 <template>
-  <div>{{ achievementRates }}</div>
+  <div>
+    <AchievementRate v-bind:percentage="achievementRates.week" />
+    <AchievementRate v-bind:percentage="achievementRates.month" />
+  </div>
 </template>
 
 <script>
 import ReportService from "../report/ReportService";
+import AchievementRate from "@/components/AchievementRate";
 
 export default {
   name: "ReportContainer",
+  components: {
+    AchievementRate
+  },
   data() {
     return {
       achievementRates: null,
