@@ -45,6 +45,8 @@ spec:
               value: {{ .Values.habitUri }}
             - name: TRACK_URI
               value: {{ .Values.trackUri }}
+            - name: REPORT_URI
+              value: {{ .Values.reportUri }}
             - name: UI_URI
               value: {{ .Values.uiUri }}
           readinessProbe:
