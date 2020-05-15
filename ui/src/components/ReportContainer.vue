@@ -36,8 +36,8 @@ export default {
     getAchievementRates() {
       this.reportService
         .get()
-        .catch(error => {
-          console.log(error);
+        .catch(() => {
+          // Report service is not essential for habitcentric
         })
         .then(achievementRates => {
           this.achievementRates = achievementRates;
