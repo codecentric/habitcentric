@@ -9,6 +9,8 @@ Vue.config.productionTip = false;
 
 const router = createRouter();
 
+Vue.prototype.$eventHub = new Vue();
+
 new Vue({
   router,
   store,

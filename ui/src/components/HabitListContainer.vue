@@ -71,7 +71,7 @@ export default {
           console.log(error);
           this.errorWhileCreating = error;
         })
-        .finally(() => this.getHabits());
+        .finally(() => this.$eventHub.$emit("habitsChanged"));
     },
     deleteHabit: async function(id) {
       this.errorWhileCreating = undefined;
@@ -83,8 +83,14 @@ export default {
           console.log(error);
           this.errorWhileDeleting = error;
         })
-        .finally(() => this.getHabits());
+        .finally(() => this.$eventHub.$emit("habitsChanged"));
     }
+  },
+  created() {
+    this.$eventHub.$on("habitsChanged", this.getHabits);
+  },
+  beforeDestroy() {
+    this.$eventHub.$off("habitsChanged");
   },
   mounted() {
     this.getHabits();

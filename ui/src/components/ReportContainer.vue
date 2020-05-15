@@ -27,6 +27,12 @@ export default {
         .finally(() => (this.loading = false));
     }
   },
+  created() {
+    this.$eventHub.$on("habitsChanged", this.getAchievementRates);
+  },
+  beforeDestroy() {
+    this.$eventHub.$off("habitsChanged");
+  },
   mounted() {
     this.getAchievementRates();
   }
