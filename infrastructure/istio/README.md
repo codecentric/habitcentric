@@ -36,7 +36,7 @@ export PATH=$PWD/bin:$PATH
 Run the installation:
 
 ```bash
-istioctl manifest apply -f install/istio-config.yaml
+istioctl install -f install/istio-config.yaml
 ```
 
 > If you want to customize your Istio installation, you can find detailed istioctl installation options [here](https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/).
