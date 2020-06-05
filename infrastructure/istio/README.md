@@ -5,7 +5,7 @@
 - Running Kubernetes cluster
 - Properly configured Kubernetes client `kubectl` to administrate your cluster
 
-> This guide is based on Istio 1.5.4
+> This guide is based on Istio 1.6.1
 
 ## Install Istio
 
@@ -29,14 +29,14 @@ kubectl create clusterrolebinding cluster-admin-binding \
 Install the Istio CLI:
 
 ```bash
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.5.4 sh - && cd istio-1.5.4
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.1 sh - && cd istio-1.6.1
 export PATH=$PWD/bin:$PATH
 ```
 
 Run the installation:
 
 ```bash
-istioctl manifest apply -f install/istio-config.yaml
+istioctl install -f install/istio-config.yaml
 ```
 
 > If you want to customize your Istio installation, you can find detailed istioctl installation options [here](https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/).
@@ -69,14 +69,6 @@ kubectl apply -f habitcentric/habitcentric-gateway.yaml && kubectl apply -f habi
 ## Apply authentication & authorization
 
 Istio provides several security features like strong identities, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect services and data.
-
-### Authenticate services via mTLS
-
-To activate Istio's mesh-wide TLS encryption, apply `habitcentric/habitcentric-authn.yaml` to your cluster. This provides every service with a strong identity based on the service accounts of the habitcentric services and enables automatic network traffic encryption between sidecars.
-
-```bash
-kubectl apply -f habitcentric/habitcentric-authn.yaml
-```
 
 ### Enable HTTPS endpoint for ingress gateway
 

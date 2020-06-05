@@ -1,72 +1,95 @@
-apiVersion: authentication.istio.io/v1alpha1
-kind: Policy
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
 metadata:
-  name: "keycloak-internal-mtls-disabled-policy"
+  name: keycloak-mtls-disabled
   namespace: hc-keycloak
 spec:
-  targets:
-  - name: "keycloak-headless"
-  peers:
-  - mtls:
-      mode: PERMISSIVE
+  mtls:
+    mode: PERMISSIVE
 ---
-apiVersion: authentication.istio.io/v1alpha1
-kind: Policy
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
 metadata:
-  name: "keycloak-http-internal-mtls-disabled-policy"
-  namespace: hc-keycloak
-spec:
-  targets:
-  - name: "keycloak-http"
-  peers:
-  - mtls:
-      mode: PERMISSIVE
----
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
-metadata:
-  name: hc-habit-oidc
+  name: hc-habit-oidc-jwt
   namespace: hc-habit
 spec:
-  targets:
-    - name: habit
-  peers:
-    - mtls: {}
-  origins:
-    - jwt:
-        issuer: https://habitcentric.demo/auth/realms/habitcentric
-        jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
-  principalBinding: USE_ORIGIN
+  selector:
+    matchLabels:
+      app: habit
+  jwtRules:
+  - issuer: https://habitcentric.demo/auth/realms/habitcentric
+    jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
+    forwardOriginalToken: true
 ---
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
-  name: hc-track-oidc
+  name: hc-habit-oidc-policy
+  namespace: hc-habit
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app: habit
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: hc-track-oidc-jwt
   namespace: hc-track
 spec:
-  targets:
-    - name: track
-  peers:
-    - mtls: {}
-  origins:
-    - jwt:
-        issuer: https://habitcentric.demo/auth/realms/habitcentric
-        jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
-  principalBinding: USE_ORIGIN
+  selector:
+    matchLabels:
+      app: track
+  jwtRules:
+  - issuer: https://habitcentric.demo/auth/realms/habitcentric
+    jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
+    forwardOriginalToken: true
 ---
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: hc-track-oidc-policy
+  namespace: hc-track
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app: track
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
 metadata:
   name: hc-report-oidc
   namespace: hc-report
 spec:
-  targets:
-    - name: report
-  peers:
-    - mtls: {}
-  origins:
-    - jwt:
-        issuer: https://habitcentric.demo/auth/realms/habitcentric
-        jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
-  principalBinding: USE_ORIGIN
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: report
+  jwtRules:
+  - issuer: https://habitcentric.demo/auth/realms/habitcentric
+    jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
+    forwardOriginalToken: true
 ---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: hc-report-oidc-policy
+  namespace: hc-report
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: report
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]
