@@ -1,0 +1,16 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: report.hc-report.svc.cluster.local
+  namespace: hc-report
+spec:
+  routes:
+  - condition:
+      method: GET
+      pathRegex: /report/achievement
+    name: GET /report/achievement
+    isRetryable: true
+  retryBudget:
+    retryRatio: 0.2
+    minRetriesPerSecond: 10
+    ttl: 10s
