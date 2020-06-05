@@ -13,6 +13,8 @@ keycloak:
   {{- else }}
   ingress:
     enabled: true
+    hosts:
+      - keycloak.demo
   {{- end }}
   password: keycloak
   persistence:
