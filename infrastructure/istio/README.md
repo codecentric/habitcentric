@@ -5,7 +5,7 @@
 - Running Kubernetes cluster
 - Properly configured Kubernetes client `kubectl` to administrate your cluster
 
-> This guide is based on Istio 1.5.4
+> This guide is based on Istio 1.6.1
 
 ## Install Istio
 
@@ -29,7 +29,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
 Install the Istio CLI:
 
 ```bash
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.5.4 sh - && cd istio-1.5.4
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.1 sh - && cd istio-1.6.1
 export PATH=$PWD/bin:$PATH
 ```
 
