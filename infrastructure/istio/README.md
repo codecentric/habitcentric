@@ -7,7 +7,7 @@
 
 > This guide is based on Istio 1.5.4
 
-## Istio Installation
+## Install Istio
 
 To install Istio on your Kubernetes cluster you can choose between two installation methods:
 
@@ -41,15 +41,15 @@ istioctl manifest apply -f install/istio-config.yaml
 
 > If you want to customize your Istio installation, you can find detailed istioctl installation options [here](https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/).
 
-## habitcentric Deployment
+## Deploy habitcentric
 
 Please refer to the [helmfile deployment configuration](https://gitlab.com/habitcentric-infrastructure/hc-kubernetes). To deploy habitcentric for Istio, please use the provided helmfile Istio environment.
 
-## Routing Configuration
+## Route to telemetry and habitcentric services
 
 Istio secures traffic entering the service mesh using load balanced ingress gateways. To access Istio enabled services inside the mesh you must configure ingress route rules using Istio's `Gateway` and `VirtualService` resource.
 
-### Telemetry Services
+### Telemetry services
 
 The provided Istio installation comes with multiple telemetry services ([Prometheus](https://prometheus.io/), [Kiali](https://kiali.io/), [Grafana](https://grafana.com/) and [Jaeger](https://www.jaegertracing.io/)) to observe the configuration and behavior of the service mesh.
 You can apply `telemetry-gateway.yaml` and `telemetry-routes.yaml` to enable routing to these services.
@@ -58,7 +58,7 @@ You can apply `telemetry-gateway.yaml` and `telemetry-routes.yaml` to enable rou
 kubectl apply -f telemetry-gateway.yaml && kubectl apply -f telemetry-routes.yaml
 ```
 
-### habitcentric Services
+### habitcentric services
 
 You can apply `habitcentric/habitcentric-gateway.yaml` and `habitcentric/habitcentric-routes.yaml` to enable routing to habitcentric's services.
 
@@ -66,11 +66,11 @@ You can apply `habitcentric/habitcentric-gateway.yaml` and `habitcentric/habitce
 kubectl apply -f habitcentric/habitcentric-gateway.yaml && kubectl apply -f habitcentric/habitcentric-routes.yaml
 ```
 
-## Authentication & Authorization Configuration
+## Apply authentication & authorization
 
 Istio provides several security features like strong identities, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect services and data.
 
-### Authentication of services via mTLS
+### Authenticate services via mTLS
 
 To activate Istio's mesh-wide TLS encryption, apply `habitcentric/habitcentric-authn.yaml` to your cluster. This provides every service with a strong identity based on the service accounts of the habitcentric services and enables automatic network traffic encryption between sidecars.
 
@@ -78,7 +78,7 @@ To activate Istio's mesh-wide TLS encryption, apply `habitcentric/habitcentric-a
 kubectl apply -f habitcentric/habitcentric-authn.yaml
 ```
 
-### HTTPS endpoint for ingress gateway
+### Enable HTTPS endpoint for ingress gateway
 
 To activate the HTTPS endpoint for the ingress gateway, apply `habitcentric/habitcentric-gateway-secure.yaml` to your cluster.
 This replaces the existing HTTP gateway with an HTTPS gateway.
@@ -87,7 +87,7 @@ This replaces the existing HTTP gateway with an HTTPS gateway.
 kubectl apply -f habitcentric/habitcentric-gateway-secure.yaml
 ```
 
-### Authentication of end users
+### Authenticate end users
 
 To activate the authentication of end users using the JWT of Keycloak, apply `habitcentric/habitcentric-oidc.yaml` to your cluser.
 This activates JWT verification policies for the services `habit` and `track`.
@@ -97,7 +97,7 @@ Requests without valid JWT in the HTTP `Authorization` header will fail with HTT
 kubectl apply -f habitcentric/habitcentric-oidc.yaml
 ```
 
-### Restricting Access to Services
+### Restrict access to services
 
 To restrict access between services, apply `habitcentric/habitcentric-authz.yaml` to your cluster. This sets up AuthorizationPolicies that define access rules for habitcentric's pods based on service accounts. Unauthorized requests will fail with HTTP code `403` and a message `RBAC: access denied`.
 
@@ -105,7 +105,7 @@ To restrict access between services, apply `habitcentric/habitcentric-authz.yaml
 kubectl apply -f habitcentric/habitcentric-authz.yaml
 ```
 
-## Service Access
+## Access running services
 
 The Istio ingress gateway listens on several hostnames and routes your requests accordingly.
 To retrieve the external IP of your Istio ingress gateway load balancer run:
@@ -118,7 +118,7 @@ kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.l
 
 To access the services deployed in the mesh, add the service hostnames (see below) to your machine's host file using the IP of your ingress gateway load balancer.
 
-### Service Hostnames
+### Service hostnames
 
 #### Telemetry
 
@@ -135,3 +135,15 @@ To access the services deployed in the mesh, add the service hostnames (see belo
 | -------- | ----------------------------- | ------------------------------- |
 | UI       | http://habitcentric.demo      | default / default (or register) |
 | Keycloak | http://habitcentric.demo/auth | keycloak / keycloak             |
+
+## Uninstall Istio
+
+```bash
+istioctl manifest generate -f install/istio-config.yaml | kubectl delete -f -
+```
+
+The control plane namespace (e.g. `istio-system`) is not removed by default. If no longer needed, use the following command to remove it:
+
+```bash
+kubectl delete namespace istio-system
+```
