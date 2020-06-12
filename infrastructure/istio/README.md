@@ -9,10 +9,7 @@
 
 ## Install Istio
 
-To install Istio on your Kubernetes cluster you can choose between two installation methods:
-
-- automatic install using `istioctl` command line tool _(recommended)_
-- manual install using Kubernetes Helm package manager _(soon to be deprecated)_
+Istio provides a custom operator to install the Istio control plane.
 
 ### GKE specific
 
@@ -24,7 +21,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
     --user=$(gcloud config get-value core/account)
 ```
 
-### Installation using istioctl
+### Installation using IstioOperator
 
 Install the Istio CLI:
 
@@ -33,13 +30,19 @@ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.2 sh - && cd istio-1.
 export PATH=$PWD/bin:$PATH
 ```
 
-Run the installation:
+Install the operator:
 
 ```bash
-istioctl install -f install/istio-config.yaml
+istioctl operator init
 ```
 
-> If you want to customize your Istio installation, you can find detailed istioctl installation options [here](https://istio.io/docs/reference/config/istio.operator.v1alpha12.pb/).
+Install the pre-configured control plane:
+
+```bash
+kubectl apply -f install/istio-config.yaml
+```
+
+> If you want to customize your Istio installation, take a look at the [IstioOperator reference](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
 
 ## Deploy habitcentric
 
