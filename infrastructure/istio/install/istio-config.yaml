@@ -20,5 +20,3 @@ spec:
       istio-ingressgateway:
         sds:
           enabled: true
-    sidecarInjectorWebhook:
-      rewriteAppHTTPProbe: true
