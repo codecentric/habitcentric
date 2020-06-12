@@ -3,31 +3,24 @@ kind: Deployment
 metadata:
   name: {{ template "habit.fullname" . }}
   labels:
-    app: {{ template "habit.name" . }}
-    chart: {{ template "habit.chart" . }}
-    release: {{ .Release.Name | quote }}
-    heritage: {{ .Release.Service | quote }}
+  {{- include "habit.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
   strategy:
     type: {{ .Values.updateStrategyType }}
   selector:
     matchLabels:
-      app: {{ template "habit.name" . }}
-      release: {{ .Release.Name | quote }}
+  {{- include "habit.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ template "habit.name" . }}
-        chart: {{ template "habit.chart" . }}
-        release: {{ .Release.Name | quote }}
-        heritage: {{ .Release.Service | quote }}
+      {{- include "habit.labels" . | nindent 8 }}
       {{- with .Values.podLabels -}}
-{{ toYaml . | indent 8 }}
+      {{- toYaml . | nindent 8 }}
       {{- end -}}
-      {{- with .Values.podAnnotations -}}
+      {{- with .Values.podAnnotations }}
       annotations:
-{{ toYaml . | indent 8 }}
+    {{- toYaml . | nindent 8 }}
     {{- end }}
     spec:
       {{- if .Values.serviceAccount.enabled }}
@@ -56,7 +49,7 @@ spec:
             - name: http-habit
               containerPort: 8080
           env:
-{{- include "habit.persistence.vars" .  | indent 12 }}
+          {{- include "habit.persistence.vars" .  | indent 12 }}
           readinessProbe:
             httpGet:
               path: /actuator/health
