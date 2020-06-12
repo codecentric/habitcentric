@@ -128,7 +128,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "habit.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "habit.name" . }}
-app.kubernetes.io/component: habit
+app.kubernetes.io/name: habit
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
