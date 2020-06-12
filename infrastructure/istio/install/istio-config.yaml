@@ -8,15 +8,17 @@ spec:
   namespace: istio-system
   tag: 1.6.2
 
+  addonComponents:
+    kiali:
+      dashboard:
+        grafanaURL: http://grafana.demo
+        jaegerURL: http://jaeger.demo
+
   # global Helm settings
   values:
     gateways:
       istio-ingressgateway:
         sds:
           enabled: true
-    kiali:
-      dashboard:
-        grafanaURL: http://grafana.demo
-        jaegerURL: http://jaeger.demo
     sidecarInjectorWebhook:
       rewriteAppHTTPProbe: true
