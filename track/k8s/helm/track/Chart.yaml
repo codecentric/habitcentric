@@ -1,4 +1,4 @@
-apiVersion: v1
+apiVersion: v2
 name: track
 version: 0.1.0
 appVersion: latest
@@ -18,3 +18,9 @@ maintainers:
     email: dennis.effing@codecentric.de
     url: https://gitlab.com/denniseffing
 engine: gotpl
+
+dependencies:
+  - name: postgresql
+    version: 8.10.5
+    repository: https://charts.bitnami.com/bitnami
+    condition: persistence.deployPostgres
