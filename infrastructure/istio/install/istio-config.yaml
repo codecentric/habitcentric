@@ -13,10 +13,3 @@ spec:
       dashboard:
         grafanaURL: http://grafana.demo
         jaegerURL: http://jaeger.demo
-
-  # global Helm settings
-  values:
-    gateways:
-      istio-ingressgateway:
-        sds:
-          enabled: true
