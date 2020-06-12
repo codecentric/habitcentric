@@ -3,14 +3,11 @@ kind: Service
 metadata:
   name: {{ template "habit.fullname" . }}
   labels:
-    app: {{ template "habit.name" . }}
-    chart: {{ template "habit.chart" . }}
-    release: {{ .Release.Name | quote }}
-    heritage: {{ .Release.Service | quote }}
-{{- with .Values.service.annotations -}}
+  {{- include "habit.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
   annotations:
-{{ toYaml . | indent 4 }}
-{{- end }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -18,5 +15,4 @@ spec:
       port: {{ .Values.service.port }}
       targetPort: http-habit
   selector:
-    app: {{ template "habit.name" . }}
-    release: {{ .Release.Name | quote }}
+  {{- include "habit.selectorLabels" . | nindent 4 }}

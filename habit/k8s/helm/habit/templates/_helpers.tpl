@@ -111,3 +111,23 @@ Create environment variables for database configuration
   value: {{ .Values.persistence.dbPassword }}
 {{- end }}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "habit.labels" -}}
+helm.sh/chart: {{ include "habit.chart" . }}
+{{ include "habit.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Selector labels
+*/}}
+{{- define "habit.selectorLabels" -}}
+app.kubernetes.io/name: habit
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
