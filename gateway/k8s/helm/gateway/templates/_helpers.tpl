@@ -48,3 +48,23 @@ Also, we can't use a single if because lazy evaluation is not an option
     {{- printf "%s/%s:%s" $registryName $repositoryName $tag -}}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "gateway.labels" -}}
+helm.sh/chart: {{ include "gateway.chart" . }}
+{{ include "gateway.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Selector labels
+*/}}
+{{- define "gateway.selectorLabels" -}}
+app.kubernetes.io/name: gateway
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
