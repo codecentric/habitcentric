@@ -65,7 +65,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "gateway.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "gateway.name" . }}
-app.kubernetes.io/component: gateway
+app.kubernetes.io/name: gateway
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
