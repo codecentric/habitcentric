@@ -8,7 +8,7 @@ spec:
   namespace: istio-system
   tag: 1.6.2
 
-  addonComponents:
+  values:
     kiali:
       dashboard:
         grafanaURL: http://grafana.demo
