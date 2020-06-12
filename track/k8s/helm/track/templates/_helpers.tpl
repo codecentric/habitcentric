@@ -128,7 +128,6 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 Selector labels
 */}}
 {{- define "track.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "track.name" . }}
-app.kubernetes.io/component: track
+app.kubernetes.io/name: track
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
