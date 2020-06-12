@@ -3,14 +3,11 @@ kind: Service
 metadata:
   name: {{ template "track.fullname" . }}
   labels:
-    app: {{ template "track.name" . }}
-    chart: {{ template "track.chart" . }}
-    release: {{ .Release.Name | quote }}
-    heritage: {{ .Release.Service | quote }}
-{{- with .Values.service.annotations -}}
+  {{- include "track.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
   annotations:
-{{ toYaml . | indent 4 }}
-{{- end }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
@@ -18,5 +15,4 @@ spec:
       port: {{ .Values.service.port }}
       targetPort: http-track
   selector:
-    app: {{ template "track.name" . }}
-    release: {{ .Release.Name | quote }}
+  {{- include "track.selectorLabels" . | nindent 4 }}
