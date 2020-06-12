@@ -1,18 +1,15 @@
-apiVersion: install.istio.io/v1alpha2
+apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
+metadata:
+  name: istio-deployment
+  namespace: istio-system
 spec:
   profile: demo
   namespace: istio-system
+  tag: 1.6.2
 
-  # global Helm settings
-  values:
-    gateways:
-      istio-ingressgateway:
-        sds:
-          enabled: true
+  addonComponents:
     kiali:
       dashboard:
         grafanaURL: http://grafana.demo
         jaegerURL: http://jaeger.demo
-    sidecarInjectorWebhook:
-      rewriteAppHTTPProbe: true
