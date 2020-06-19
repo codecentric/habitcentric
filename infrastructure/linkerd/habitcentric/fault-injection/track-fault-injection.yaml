@@ -1,0 +1,12 @@
+apiVersion: split.smi-spec.io/v1alpha1
+kind: TrafficSplit
+metadata:
+  name: track-fault-injection
+  namespace: hc-track
+spec:
+  service: track
+  backends:
+  - service: track
+    weight: 500m
+  - service: track-fault-service
+    weight: 500m
