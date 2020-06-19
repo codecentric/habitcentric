@@ -1,0 +1,65 @@
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: report.hc-report.svc.cluster.local
+  namespace: hc-report
+spec:
+  routes:
+  - condition:
+      method: GET
+      pathRegex: /report/achievement
+    name: GET /report/achievement
+    isRetryable: true
+  retryBudget:
+    retryRatio: 0.2
+    minRetriesPerSecond: 10
+    ttl: 10s
+---
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: habit.hc-habit.svc.cluster.local
+  namespace: hc-habit
+spec:
+  routes:
+  - condition:
+      method: DELETE
+      pathRegex: /habits/\d+
+    name: DELETE /habits/id
+    isRetryable: true
+  - condition:
+      method: GET
+      pathRegex: /habits
+    name: GET /habits
+    isRetryable: true
+  - condition:
+      method: POST
+      pathRegex: /habits
+    name: POST /habits
+    isRetryable: true
+  retryBudget:
+    retryRatio: 0.2
+    minRetriesPerSecond: 10
+    ttl: 10s
+---
+apiVersion: linkerd.io/v1alpha2
+kind: ServiceProfile
+metadata:
+  name: track.hc-track.svc.cluster.local
+  namespace: hc-track
+spec:
+  routes:
+  - condition:
+      method: GET
+      pathRegex: /track/habits/\d+
+    name: GET /track/habits/id
+    isRetryable: true
+  - condition:
+      method: PUT
+      pathRegex: /track/habits/\d+
+    name: PUT /track/habits/id
+    isRetryable: true
+  retryBudget:
+    retryRatio: 0.2
+    minRetriesPerSecond: 10
+    ttl: 10s
