@@ -60,10 +60,7 @@ kubectl get pod -n kube-system -w
 If you are using another ingress controller or your nginx ingress controller is deployed in
 another namespace or with another name, please adjust the commands accordingly.
 
-If you are using minikube, the addon manager will probably rollback any changes to the
-ingress controller again. In this case, please deactivate the addon manager addon.
-Keep in mind to enable it again if you want to create a new minikube cluster or
-change addons in the existing one.
+If you are using minikube, the addon management may occasionally rollback changes to the nginx ingress controller. If that happens, re-inject the annotation again using the command above.
 
 ## habitcentric Deployment
 
@@ -76,11 +73,54 @@ Once the deployment has finished, deploy the necessary ingress resources to acce
 by running the following command from this directory:
 
 ```bash
-kubectl apply -f ingresses.yaml
+kubectl apply -f habitcentric/ingresses.yaml
 ```
+
 If you are not using the nginx ingress controller, please modify the
 `ingresses.yaml` file before applying. For detailed information about ingresses in Linkerd, visit
 https://linkerd.io/2/tasks/using-ingress/.
+
+### Service Profiles
+
+Linkerd allows us to create `ServiceProfiles` for existing Kubernetes
+`Services`. These `ServiceProfiles` describe individual HTTP routes of their
+corresponding `Service` so that Linkerd is then able to report per-route metrics
+in its Dashboards. Additionally, you can enable further features (like automatic
+retries) on a per-route basis.
+
+To deploy `ServiceProfiles` for the habitcentric services, execute the following command:
+
+```
+kubectl apply -f habitcentric/service-profiles.yaml
+```
+
+This enables route metrics and automatic retries for these services.
+
+### Fault Injection
+
+In Linkerd, the traffic split feature can be used to inject faults into
+services. This can be useful to test the resilience of your service ecosystem.
+
+To test fault injection using the steps below, please add at least one habit in
+the UI of habitcentric, so that the report service will perform upstream calls
+to the track service.
+
+You can deploy an nginx server that always replies with an error 500 that simulates a faulty version of habitcentric's track service:
+
+```
+kubectl apply -f habitcentric/fault-injection/track-fault-service.yaml
+```
+
+Then, you can deploy the `TrafficSplit` definition that will send 50% of all requests for the track service to the faulty service instead, resulting in a 50% success rate:
+
+```
+kubectl apply -f habitcentric/fault-injection/track-fault-injection.yaml
+```
+
+You can view the report service deployment in Linkerd's dashboard and see that
+~50% of the report service requests fail, because of the injected failure in the
+upstream track service. However, due to the retries configured in the
+`ServiceProfiles`, these errors will not be visible for the user.
 
 ## Accessing the Application and Visualizing Traffic
 
@@ -88,7 +128,6 @@ To access the application, you need to configure the following hostnames to poin
 controller's IP (in case of minikube, the IP of the minikube VM):
 
 * habitcentric.demo
-* keycloak.demo
 
 Then, access the application via the browser: http://habitcentric.demo/ui/
 
