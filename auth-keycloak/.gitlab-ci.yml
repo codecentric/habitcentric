@@ -28,4 +28,4 @@ publish image:
     - docker push $DOCKER_HUB_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
     - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest
   only:
-    - master
+    - main
