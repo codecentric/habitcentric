@@ -15,7 +15,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: habit
+      app.kubernetes.io/name: habit
   jwtRules:
   - issuer: https://habitcentric.demo/auth/realms/habitcentric
     jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
@@ -30,7 +30,7 @@ spec:
   action: ALLOW
   selector:
     matchLabels:
-      app: habit
+      app.kubernetes.io/name: habit
   rules:
   - from:
     - source:
@@ -44,7 +44,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: track
+      app.kubernetes.io/name: track
   jwtRules:
   - issuer: https://habitcentric.demo/auth/realms/habitcentric
     jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
@@ -59,7 +59,7 @@ spec:
   action: ALLOW
   selector:
     matchLabels:
-      app: track
+      app.kubernetes.io/name: track
   rules:
   - from:
     - source:
@@ -73,7 +73,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/component: report
+      app.kubernetes.io/name: report
   jwtRules:
   - issuer: https://habitcentric.demo/auth/realms/habitcentric
     jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local/auth/realms/habitcentric/protocol/openid-connect/certs
@@ -88,7 +88,7 @@ spec:
   action: ALLOW
   selector:
     matchLabels:
-      app.kubernetes.io/component: report
+      app.kubernetes.io/name: report
   rules:
   - from:
     - source:
