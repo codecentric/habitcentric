@@ -10,7 +10,7 @@ environments:
 releases:
   - name: ui
     namespace: hc-ui
-    chart: ../hc-ui/k8s/helm/ui
+    chart: ../hc-ui/helm/ui
     values:
       - ./helmfile-templates/ui-values.yaml.gotmpl
     hooks:
@@ -32,7 +32,7 @@ releases:
       {{- end }}
   - name: habit
     namespace: hc-habit
-    chart: ../hc-habit/k8s/helm/habit
+    chart: ../hc-habit/helm/habit
     values:
       - ./helmfile-templates/habit-values.yaml.gotmpl
     hooks:
@@ -54,7 +54,7 @@ releases:
       {{- end }}
   - name: track
     namespace: hc-track
-    chart: ../hc-track/k8s/helm/track
+    chart: ../hc-track/helm/track
     values:
       - ./helmfile-templates/track-values.yaml.gotmpl
     hooks:
@@ -76,7 +76,7 @@ releases:
       {{- end }}
   - name: report
     namespace: hc-report
-    chart: ../hc-report/k8s/helm/report
+    chart: ../hc-report/helm/report
     values:
       - ./helmfile-templates/report-values.yaml.gotmpl
     hooks:
@@ -121,7 +121,7 @@ releases:
   {{- if eq .Environment.Name "default" }}
   - name: gateway
     namespace: hc-gateway
-    chart: ../hc-gateway/k8s/helm/gateway
+    chart: ../hc-gateway/helm/gateway
     values:
       - ./helmfile-templates/gateway-values.yaml.gotmpl
   {{- end }}  
