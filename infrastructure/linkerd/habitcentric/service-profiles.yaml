@@ -9,6 +9,7 @@ spec:
       method: GET
       pathRegex: /report/achievement
     name: GET /report/achievement
+    timeout: 3s
     isRetryable: true
   retryBudget:
     retryRatio: 0.2
@@ -26,16 +27,19 @@ spec:
       method: DELETE
       pathRegex: /habits/\d+
     name: DELETE /habits/id
+    timeout: 300ms
     isRetryable: true
   - condition:
       method: GET
       pathRegex: /habits
     name: GET /habits
+    timeout: 300ms
     isRetryable: true
   - condition:
       method: POST
       pathRegex: /habits
     name: POST /habits
+    timeout: 300ms
     isRetryable: true
   retryBudget:
     retryRatio: 0.2
@@ -53,11 +57,13 @@ spec:
       method: GET
       pathRegex: /track/habits/\d+
     name: GET /track/habits/id
+    timeout: 300ms
     isRetryable: true
   - condition:
       method: PUT
       pathRegex: /track/habits/\d+
     name: PUT /track/habits/id
+    timeout: 300ms
     isRetryable: true
   retryBudget:
     retryRatio: 0.2
