@@ -121,8 +121,27 @@ releases:
   - name: lpt-locust
     namespace: hc-lpt-locust
     chart: ../hc-lpt-locust/helm/lpt-locust
+    labels:
+      service: lpt-locust
     values:
       - ./helmfile-templates/lpt-locust-values.yaml.gotmpl
+    hooks:
+      {{- if eq .Environment.Name "istio" }}
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "label", "ns", "{{`{{ .Release.Namespace }}`}}", "istio-injection=enabled", "--overwrite" ]
+      {{- end }}
+      {{- if eq .Environment.Name "linkerd" }}
+      - events: [ "presync" ]
+        command: "sh"
+        args: [ "-c", "kubectl create namespace {{`{{ .Release.Namespace }}`}} --dry-run -o yaml | kubectl apply -f -" ]
+      - events: [ "presync" ]
+        command: "kubectl"
+        args: [ "annotate", "ns", "{{`{{ .Release.Namespace }}`}}", "linkerd.io/inject=enabled", "--overwrite" ]
+      {{- end }}
   {{- if eq .Environment.Name "default" }}
   - name: gateway
     namespace: hc-gateway
