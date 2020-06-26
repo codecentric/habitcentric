@@ -118,6 +118,11 @@ releases:
         command: "kubectl"
         args: [ "annotate", "ns", "{{`{{ .Release.Namespace }}`}}", "linkerd.io/inject=enabled", "--overwrite" ]
       {{- end }}
+  - name: lpt-locust
+    namespace: hc-lpt-locust
+    chart: ../hc-lpt-locust/helm/lpt-locust
+    values:
+      - ./helmfile-templates/lpt-locust-values.yaml.gotmpl
   {{- if eq .Environment.Name "default" }}
   - name: gateway
     namespace: hc-gateway
