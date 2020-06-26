@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "lpt-locust.fullname" . }}-master
+  labels:
+    app.kubernetes.io/component: master
+  {{- include "lpt-locust.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.locust.master.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: master
+  {{- include "lpt-locust.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        app.kubernetes.io/component: master
+    {{- include "lpt-locust.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "lpt-locust.serviceAccountName" . }}
+      securityContext:
+      {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: locust-config
+          configMap:
+            name: {{ include "lpt-locust.fullname" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          args:
+            - -f
+            - /mnt/locust/locustfile.py
+            - --master
+            - -H
+            - {{ .Values.locust.host }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8089
+              protocol: TCP
+            - name: internal
+              containerPort: 5557
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /mnt/locust
+              name: locust-config
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+      {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+  {{- toYaml . | nindent 8 }}
+  {{- end }}
