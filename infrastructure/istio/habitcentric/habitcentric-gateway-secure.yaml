@@ -34,3 +34,4 @@ spec:
         credentialName: "ingress-credential"
       hosts:
         - "habitcentric.demo"
+        - "locust.demo"

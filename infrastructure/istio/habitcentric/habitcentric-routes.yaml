@@ -52,3 +52,23 @@ spec:
         prefix: /
     redirect:
       uri: /ui
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: habitcentric-locust-routes
+  namespace: istio-system
+spec:
+  hosts:
+  - locust.demo
+  gateways:
+  - habitcentric-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: lpt-locust-master.hc-lpt-locust.svc.cluster.local
+        port:
+          number: 80
