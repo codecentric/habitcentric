@@ -7,8 +7,8 @@ spec:
   action: ALLOW
   selector:
     matchLabels:
-      app: ui
-      release: ui
+      app.kubernetes.io/name: ui
+      app.kubernetes.io/instance: ui
   rules:
   - from:
     - source:
