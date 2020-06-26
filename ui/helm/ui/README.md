@@ -89,4 +89,4 @@ installing the chart. For example,
 $ helm install --name my-release -f values.yaml .
 ```
 
-> **Tip**: You can use the default [values.yaml](values.yaml)
+> **Tip**: You can use the default [values.yaml](helm/ui/values.yaml)
