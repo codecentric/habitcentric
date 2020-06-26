@@ -3,10 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "ui.fullname" . }}
   labels:
-    app: {{ template "ui.name" . }}
-    chart: {{ template "ui.chart" . }}
-    release: {{ .Release.Name | quote }}
-    heritage: {{ .Release.Service | quote }}
+  {{- include "ui.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicas }}
   strategy:
