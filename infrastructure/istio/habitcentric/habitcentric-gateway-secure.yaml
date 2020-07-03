@@ -23,6 +23,7 @@ spec:
         protocol: HTTP
       hosts:
         - "habitcentric.demo"
+        - "locust.demo"
       tls:
         httpsRedirect: true
     - port:
