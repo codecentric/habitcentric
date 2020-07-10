@@ -34,7 +34,6 @@ class HabitcentricUser(NoAuthRebuildHttpUser):
             )
 
         headers = {
-            'Host': 'habitcentric.demo',
             'Authorization': 'Bearer ' + json_web_token_with_user_id
         }
 
