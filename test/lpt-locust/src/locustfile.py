@@ -38,5 +38,4 @@ class HabitcentricUser(NoAuthRebuildHttpUser):
         }
 
         self.client.get(url='/habits', headers=headers, verify=False)
-        self.client.get(url='/habits', headers=headers, verify=False)
-        self.client.get(url='/habits', headers=headers, verify=False)
+        self.client.get(url='/report/achievement', headers=headers, verify=False)
