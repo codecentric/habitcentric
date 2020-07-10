@@ -23,6 +23,7 @@ spec:
         protocol: HTTP
       hosts:
         - "habitcentric.demo"
+        - "locust.demo"
       tls:
         httpsRedirect: true
     - port:
@@ -34,3 +35,5 @@ spec:
         credentialName: "ingress-credential"
       hosts:
         - "habitcentric.demo"
+        - "locust.demo"
+        - "istio-ingressgateway.istio-system.svc.cluster.local" # needed for SNI check at TLS handshake for the locust load generator
