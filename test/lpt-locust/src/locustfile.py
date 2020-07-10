@@ -4,7 +4,7 @@ from helper import NoAuthRebuildHttpUser
 
 
 class HabitcentricUser(NoAuthRebuildHttpUser):
-    wait_time = between(5, 9)
+    wait_time = between(2, 4)
 
     @task
     def index_page(self):
