@@ -43,6 +43,15 @@ spec:
             - --master
             - -H
             - {{ .Values.locust.host }}
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NAMESPACE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

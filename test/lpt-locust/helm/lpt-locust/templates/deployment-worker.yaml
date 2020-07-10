@@ -43,6 +43,15 @@ spec:
             - --worker
             - --master-host
             - {{ include "lpt-locust.fullname" . }}-master.hc-lpt-locust.svc.cluster.local
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NAMESPACE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           volumeMounts:
             - mountPath: /mnt/locust
