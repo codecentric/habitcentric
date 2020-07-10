@@ -6,7 +6,12 @@ from kubernetes import config, client
 class K8sIngressIpResolver():
 
     def __init__(self) -> None:
-        config.load_kube_config()
+        env = os.environ.get('ENV')
+        if env == 'k8s':
+            config.load_incluster_config()
+        else:
+            config.load_kube_config()
+
         self.__v1 = client.CoreV1Api()
         self.__networkingV1 = client.NetworkingV1beta1Api()
 
