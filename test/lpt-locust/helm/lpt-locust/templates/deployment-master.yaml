@@ -28,21 +28,13 @@ spec:
       serviceAccountName: {{ include "lpt-locust.serviceAccountName" . }}
       securityContext:
       {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      volumes:
-        - name: locust-config
-          configMap:
-            name: {{ include "lpt-locust.fullname" . }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
           {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           args:
-            - -f
-            - /mnt/locust/locustfile.py
             - --master
-            - -H
-            - {{ .Values.locust.host }}
           env:
             - name: POD_NAME
               valueFrom:
@@ -62,9 +54,6 @@ spec:
             - name: internal
               containerPort: 5557
               protocol: TCP
-          volumeMounts:
-            - mountPath: /mnt/locust
-              name: locust-config
           livenessProbe:
             httpGet:
               path: /
