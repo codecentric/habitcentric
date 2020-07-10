@@ -3,14 +3,14 @@ import os
 from kubernetes import config, client
 
 
-class K8sIngressIpResolver():
+class K8sIngressIpResolver:
+    """
+    Class to resolve the IP address of a Kubernetes ingress resource using the in-cluster Kubernetes
+    API.
+    """
 
     def __init__(self) -> None:
-        env = os.environ.get('ENV')
-        if env == 'k8s':
-            config.load_incluster_config()
-        else:
-            config.load_kube_config()
+        config.load_incluster_config()
 
         self.__v1 = client.CoreV1Api()
         self.__networkingV1 = client.NetworkingV1beta1Api()

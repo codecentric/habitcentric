@@ -28,9 +28,13 @@ class NoAuthRebuildHttpUser(HttpUser):
             request_failure=self.environment.events.request_failure,
         )
         session.trust_env = False
-        host_header_ssl_adapter = HostHeaderSSLAdapter(K8sIngressIpResolver())
-        session.mount('http://', host_header_ssl_adapter)
-        session.mount('https://', host_header_ssl_adapter)
+
+        env = os.environ.get('ENV')
+        if env == 'k8s':
+            host_header_ssl_adapter = HostHeaderSSLAdapter(K8sIngressIpResolver())
+            session.mount('http://', host_header_ssl_adapter)
+            session.mount('https://', host_header_ssl_adapter)
+
         self.client = session
 
 
