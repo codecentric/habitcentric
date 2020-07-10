@@ -115,9 +115,9 @@ To access the services deployed in the mesh, add the service hostnames (see belo
 
 ### Service hostnames
 
-#### Telemetry
+#### Istio telemetry
 
-| Service    | Hostname               | Credentials   |
+| Service    | URL                    | Credentials   |
 | ---------- | ---------------------- | ------------- |
 | Kiali      | http://kiali.demo      | admin / admin |
 | Grafana    | http://grafana.demo    |               |
@@ -126,10 +126,11 @@ To access the services deployed in the mesh, add the service hostnames (see belo
 
 #### habitcentric
 
-| Service  | Hostname                      | Credentials                     |
+| Service  | URL                           | Credentials                     |
 | -------- | ----------------------------- | ------------------------------- |
 | UI       | http://habitcentric.demo      | default / default (or register) |
 | Keycloak | http://habitcentric.demo/auth | keycloak / keycloak             |
+| Locust   | http://locust.demo            |                                 |
 
 ## Uninstall Istio
 
