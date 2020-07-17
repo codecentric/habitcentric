@@ -10,6 +10,8 @@ environments:
 releases:
   - name: ui
     namespace: hc-ui
+    labels:
+      service: ui
     chart: ../hc-ui/helm/ui
     values:
       - ./helmfile-templates/ui-values.yaml.gotmpl
@@ -32,6 +34,8 @@ releases:
       {{- end }}
   - name: habit
     namespace: hc-habit
+    labels:
+      service: habit
     chart: ../hc-habit/helm/habit
     values:
       - ./helmfile-templates/habit-values.yaml.gotmpl
@@ -54,6 +58,8 @@ releases:
       {{- end }}
   - name: track
     namespace: hc-track
+    labels:
+      service: track
     chart: ../hc-track/helm/track
     values:
       - ./helmfile-templates/track-values.yaml.gotmpl
@@ -76,6 +82,8 @@ releases:
       {{- end }}
   - name: report
     namespace: hc-report
+    labels:
+      service: report
     chart: ../hc-report/helm/report
     values:
       - ./helmfile-templates/report-values.yaml.gotmpl
@@ -98,6 +106,8 @@ releases:
       {{- end }}
   - name: keycloak
     namespace: hc-keycloak
+    labels:
+      service: keycloak
     chart: codecentric/keycloak
     values:
       - ./helmfile-templates/keycloak-values.yaml.gotmpl
@@ -120,9 +130,9 @@ releases:
       {{- end }}
   - name: lpt-locust
     namespace: hc-lpt-locust
-    chart: ../hc-lpt-locust/helm/lpt-locust
     labels:
       service: lpt-locust
+    chart: ../hc-lpt-locust/helm/lpt-locust
     values:
       - ./helmfile-templates/lpt-locust-values.yaml.gotmpl
     hooks:
@@ -145,6 +155,8 @@ releases:
   {{- if eq .Environment.Name "default" }}
   - name: gateway
     namespace: hc-gateway
+    labels:
+      service: gateway
     chart: ../hc-gateway/helm/gateway
     values:
       - ./helmfile-templates/gateway-values.yaml.gotmpl
