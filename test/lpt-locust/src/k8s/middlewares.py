@@ -1,18 +1,19 @@
 from requests.adapters import HTTPAdapter
 
 from k8s import K8sIngressIpResolver
+from util import BaseMiddleware
 
 
-class K8sDnsResolveAdapter(HTTPAdapter):
+class K8sDnsResolveMiddleware(BaseMiddleware):
 
     def __init__(self, ip_resolver: K8sIngressIpResolver):
         super().__init__()
         self.ip_resolver = ip_resolver
 
-    def send(self, request, **kwargs):
+    def before_send(self, request, poolmanager, *args, **kwargs):
         from urllib.parse import urlparse
 
-        connection_pool_kwargs = self.poolmanager.connection_pool_kw
+        connection_pool_kwargs = poolmanager.connection_pool_kw
 
         result = urlparse(request.url)
         resolved_ip = self.ip_resolver.resolve()
@@ -30,5 +31,3 @@ class K8sDnsResolveAdapter(HTTPAdapter):
 
         # overwrite the host header
         request.headers['Host'] = result.hostname
-
-        return super(K8sDnsResolveAdapter, self).send(request, **kwargs)

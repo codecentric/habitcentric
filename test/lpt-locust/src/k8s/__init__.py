@@ -1,2 +1,2 @@
 from .ingress_resolver import K8sIngressIpResolver
-from .http_adapters import K8sDnsResolveAdapter
+from .middlewares import K8sDnsResolveMiddleware

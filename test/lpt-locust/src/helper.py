@@ -3,7 +3,8 @@ import os
 from locust import HttpUser
 from locust.clients import HttpSession
 
-from k8s import K8sIngressIpResolver, K8sDnsResolveAdapter
+from k8s import K8sIngressIpResolver, K8sDnsResolveMiddleware
+from util import MiddlewareAdapter
 
 
 class NoRebuildAuthSession(HttpSession):
@@ -30,8 +31,9 @@ class NoAuthRebuildHttpUser(HttpUser):
 
         env = os.environ.get('ENV')
         if env == 'k8s':
-            k8s_dns_resolve_adapter = K8sDnsResolveAdapter(K8sIngressIpResolver())
-            session.mount('http://habitcentric.demo', k8s_dns_resolve_adapter)
-            session.mount('https://habitcentric.demo', k8s_dns_resolve_adapter)
+            k8s_dns_resolve_middleware = K8sDnsResolveMiddleware(K8sIngressIpResolver())
+            chain_adapter = MiddlewareAdapter([k8s_dns_resolve_middleware])
+            session.mount('http://habitcentric.demo', chain_adapter)
+            session.mount('https://habitcentric.demo', chain_adapter)
 
         self.client = session
