@@ -4,6 +4,7 @@ from locust import HttpUser
 from locust.clients import HttpSession
 
 from k8s import K8sIngressIpResolver, K8sDnsResolveMiddleware
+from oauth import OAuthMiddleware
 from util import MiddlewareAdapter
 
 
@@ -29,11 +30,31 @@ class NoAuthRebuildHttpUser(HttpUser):
         )
         session.trust_env = False
 
-        env = os.environ.get('ENV')
-        if env == 'k8s':
-            k8s_dns_resolve_middleware = K8sDnsResolveMiddleware(K8sIngressIpResolver())
-            chain_adapter = MiddlewareAdapter([k8s_dns_resolve_middleware])
-            session.mount('http://habitcentric.demo', chain_adapter)
-            session.mount('https://habitcentric.demo', chain_adapter)
+        middlewares = []
+        if self.oidc_enabled():
+            token_url, client_id, username, password = self.load_oidc_from_env()
+            middlewares.append(OAuthMiddleware(token_url=token_url, client_id=client_id, username=username, password=password))
 
+        if self.k8s_env():
+            middlewares.append(K8sDnsResolveMiddleware(K8sIngressIpResolver()))
+
+        chain_adapter = MiddlewareAdapter(middlewares)
+        session.mount('http://habitcentric.demo', chain_adapter)
+        session.mount('https://habitcentric.demo', chain_adapter)
         self.client = session
+
+    def oidc_enabled(self):
+        oidc_enabled = os.environ.get('OIDC_ENABLED')
+        return oidc_enabled == 'true'
+
+    def load_oidc_from_env(self):
+        token_url = os.environ.get('OIDC_TOKEN_URL')
+        client_id = os.environ.get('OIDC_CLIENT_ID')
+        username = os.environ.get('OIDC_USERNAME')
+        password = os.environ.get('OIDC_PASSWORD')
+
+        return token_url, client_id, username, password
+
+    def k8s_env(self):
+        env = os.environ.get('ENV')
+        return env == 'k8s'
