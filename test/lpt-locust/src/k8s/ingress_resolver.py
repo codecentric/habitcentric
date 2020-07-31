@@ -2,6 +2,8 @@ import os
 
 from kubernetes import config, client
 
+from util import Environment
+
 
 class K8sIngressIpResolver:
     """
@@ -24,7 +26,6 @@ class K8sIngressIpResolver:
             return gateway_ingress.status.load_balancer.ingress[0].ip
 
     def istio_env(self) -> bool:
-        pod_name = os.environ['POD_NAME']
-        namespace_name = os.environ['NAMESPACE_NAME']
+        pod_name, namespace_name = Environment.k8s_env_params()
         containers_spec_of_pod = self.__v1.read_namespaced_pod(pod_name, namespace_name).spec.containers
         return any(filter(lambda c: c.name == 'istio-proxy', containers_spec_of_pod))
