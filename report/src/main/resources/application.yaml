@@ -3,3 +3,7 @@ habit:
 
 track:
   service-url: http://localhost:8081
+
+spring:
+  sleuth:
+    propagation-keys: authorization
