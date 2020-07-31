@@ -5,7 +5,7 @@ from locust.clients import HttpSession
 
 from k8s import K8sIngressIpResolver, K8sDnsResolveMiddleware
 from oauth import OAuthMiddleware
-from util import MiddlewareAdapter
+from util import MiddlewareAdapter, Environment
 
 
 class NoRebuildAuthSession(HttpSession):
@@ -31,30 +31,25 @@ class NoAuthRebuildHttpUser(HttpUser):
         session.trust_env = False
 
         middlewares = []
-        if self.oidc_enabled():
-            token_url, client_id, username, password = self.load_oidc_from_env()
-            middlewares.append(OAuthMiddleware(token_url=token_url, client_id=client_id, username=username, password=password))
+        if Environment.oidc_enabled():
+            self.add_oidc_middleware(middlewares)
 
-        if self.k8s_env():
-            middlewares.append(K8sDnsResolveMiddleware(K8sIngressIpResolver()))
+        if Environment.k8s_env():
+            self.add_k8s_middleware(middlewares)
 
+        self.mount_middlewares(middlewares, session)
+        self.client = session
+
+    def add_k8s_middleware(self, middlewares):
+        middlewares.append(K8sDnsResolveMiddleware(K8sIngressIpResolver()))
+
+    def add_oidc_middleware(self, middlewares):
+        token_url, client_id, username, password = Environment.oidc_params()
+        middlewares.append(
+            OAuthMiddleware(token_url=token_url, client_id=client_id, username=username,
+                            password=password))
+
+    def mount_middlewares(self, middlewares, session):
         chain_adapter = MiddlewareAdapter(middlewares)
         session.mount('http://habitcentric.demo', chain_adapter)
         session.mount('https://habitcentric.demo', chain_adapter)
-        self.client = session
-
-    def oidc_enabled(self):
-        oidc_enabled = os.environ.get('OIDC_ENABLED')
-        return oidc_enabled == 'true'
-
-    def load_oidc_from_env(self):
-        token_url = os.environ.get('OIDC_TOKEN_URL')
-        client_id = os.environ.get('OIDC_CLIENT_ID')
-        username = os.environ.get('OIDC_USERNAME')
-        password = os.environ.get('OIDC_PASSWORD')
-
-        return token_url, client_id, username, password
-
-    def k8s_env(self):
-        env = os.environ.get('ENV')
-        return env == 'k8s'
