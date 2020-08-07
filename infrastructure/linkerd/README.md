@@ -117,3 +117,37 @@ To get insight into metrics and traces, open the Linkerd dashboard by running
 `linkerd dashboard`. Select any deployment in the "Resources" menu to start a
 live debugging session. For metrics, click on the corresponding Grafana icons in
 the dashboard.
+
+## Tracing
+
+To enable tracing in Linkerd, first enable the tracing addon to deploy tracing
+services to the cluster:
+
+```
+linkerd upgrade --addon-config tracing/addon-config.yaml | kubectl apply -f -
+```
+
+Then, you need to annotate all namespaces for which tracing should be activated
+with the following annotations:
+
+```
+linkerd.io/inject: enabled
+config.linkerd.io/trace-collector: linkerd-collector.linkerd:55678
+config.alpha.linkerd.io/trace-collector-service-account: linkerd-collector
+```
+
+Your ingress controller needs to be configured to create tracing header. This
+varies for each controller implementation. For nginx, modify its `ConfigMap` to
+include the following configuration:
+
+```
+enable-opentracing: "true"
+zipkin-collector-host: linkerd-collector.linkerd
+```
+
+Restart the ingress controller and all services in the annotated namespaces
+after applying the changes.
+
+To explore traces, port-forward to the deployed Jaeger instance with `kubectl -n
+linkerd port-forward svc/linkerd-jaeger 16686` and browse to
+http://localhost:16686.
