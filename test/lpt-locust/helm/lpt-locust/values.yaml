@@ -75,3 +75,9 @@ locust:
     replicaCount: 1
   worker:
     replicaCount: 3
+  oidc:
+    enabled: false
+    tokenUrl:
+    clientId:
+    username:
+    password:

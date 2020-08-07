@@ -48,6 +48,18 @@ spec:
                   fieldPath: metadata.namespace
             - name: ENV
               value: k8s
+            {{- if .Values.locust.oidc.enabled }}
+            - name: OIDC_ENABLED
+              value: "true"
+            - name: OIDC_TOKEN_URL
+              value: "{{ .Values.locust.oidc.tokenUrl }}"
+            - name: OIDC_CLIENT_ID
+              value: "{{ .Values.locust.oidc.clientId }}"
+            - name: OIDC_USERNAME
+              value: "{{ .Values.locust.oidc.username }}"
+            - name: OIDC_PASSWORD
+              value: "{{ .Values.locust.oidc.password }}"
+            {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           resources:
       {{- toYaml .Values.resources | nindent 12 }}
