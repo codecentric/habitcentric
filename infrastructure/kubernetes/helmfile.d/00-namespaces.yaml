@@ -1,0 +1,86 @@
+repositories:
+  - name: incubator
+    url: https://kubernetes-charts-incubator.storage.googleapis.com/
+
+environments:
+  default:
+  istio:
+  linkerd:
+
+releases:
+- name: namespaces
+  chart: incubator/raw
+  values:
+  - resources:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: hc-ui
+        {{- if eq .Environment.Name "istio" }}
+        labels:
+          "istio-injection": "enabled"
+        {{- end }}
+        {{- if eq .Environment.Name "linkerd" }}
+        annotations:
+          "linkerd.io/inject": "enabled"
+        {{- end }}
+      spec:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: hc-habit
+        {{- if eq .Environment.Name "istio" }}
+        labels:
+          "istio-injection": "enabled"
+        {{- end }}
+        {{- if eq .Environment.Name "linkerd" }}
+        annotations:
+          "linkerd.io/inject": "enabled"
+        {{- end }}
+      spec:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: hc-track
+        {{- if eq .Environment.Name "istio" }}
+        labels:
+          "istio-injection": "enabled"
+        {{- end }}
+        {{- if eq .Environment.Name "linkerd" }}
+        annotations:
+          "linkerd.io/inject": "enabled"
+        {{- end }}
+      spec:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: hc-report
+        {{- if eq .Environment.Name "istio" }}
+        labels:
+          "istio-injection": "enabled"
+        {{- end }}
+        {{- if eq .Environment.Name "linkerd" }}
+        annotations:
+          "linkerd.io/inject": "enabled"
+        {{- end }}
+      spec:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: hc-keycloak
+        {{- if eq .Environment.Name "istio" }}
+        labels:
+          "istio-injection": "enabled"
+        {{- end }}
+        {{- if eq .Environment.Name "linkerd" }}
+        annotations:
+          "linkerd.io/inject": "enabled"
+        {{- end }}
+      spec:
+    {{- if eq .Environment.Name "default" }}
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: hc-gateway
+      spec:
+    {{- end }}
