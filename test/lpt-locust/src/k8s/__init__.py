@@ -1,2 +1,0 @@
-from .ingress_resolver import K8sIngressIpResolver
-from .middlewares import K8sDnsResolveMiddleware

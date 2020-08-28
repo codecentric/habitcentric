@@ -1,9 +1,9 @@
 from locust import task, between
 
-from helper import NoAuthRebuildHttpUser
+from helper import OidcHttpUser
 
 
-class HabitcentricUser(NoAuthRebuildHttpUser):
+class HabitcentricUser(OidcHttpUser):
     wait_time = between(2, 4)
 
     @task

@@ -16,15 +16,3 @@ class Environment:
         password = os.environ.get('OIDC_PASSWORD')
 
         return token_url, client_id, username, password
-
-    @staticmethod
-    def k8s_env():
-        env = os.environ.get('ENV')
-        return env == 'k8s'
-
-    @staticmethod
-    def k8s_env_params():
-        pod_name = os.environ.get('POD_NAME')
-        namespace_name = os.environ.get('NAMESPACE_NAME')
-
-        return pod_name, namespace_name
