@@ -17,3 +17,9 @@ Load generator for habitcentric
 
 The load generator uses the password credentials grant to obtain access and refresh tokens.
 Tokens are refreshed automatically.
+
+## How to run
+
+```
+docker-compose up -d --scale workers=3 --build
+```
