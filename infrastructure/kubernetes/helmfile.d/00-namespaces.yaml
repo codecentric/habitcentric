@@ -23,6 +23,8 @@ releases:
         {{- if eq .Environment.Name "linkerd" }}
         annotations:
           "linkerd.io/inject": "enabled"
+          "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
+          "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
         {{- end }}
       spec:
     - apiVersion: v1
@@ -36,6 +38,8 @@ releases:
         {{- if eq .Environment.Name "linkerd" }}
         annotations:
           "linkerd.io/inject": "enabled"
+          "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
+          "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
         {{- end }}
       spec:
     - apiVersion: v1
@@ -49,6 +53,8 @@ releases:
         {{- if eq .Environment.Name "linkerd" }}
         annotations:
           "linkerd.io/inject": "enabled"
+          "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
+          "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
         {{- end }}
       spec:
     - apiVersion: v1
@@ -62,6 +68,8 @@ releases:
         {{- if eq .Environment.Name "linkerd" }}
         annotations:
           "linkerd.io/inject": "enabled"
+          "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
+          "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
         {{- end }}
       spec:
     - apiVersion: v1
@@ -75,6 +83,8 @@ releases:
         {{- if eq .Environment.Name "linkerd" }}
         annotations:
           "linkerd.io/inject": "enabled"
+          "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
+          "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
         {{- end }}
       spec:
     {{- if eq .Environment.Name "default" }}
