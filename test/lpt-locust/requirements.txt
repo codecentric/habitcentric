@@ -1,7 +1,7 @@
 requests~=2.24.0
 kubernetes~=11.0.0
 oauthlib~=3.1.0
-locust~=1.0.3
+locust~=1.2.2
 six~=1.15.0
 websocket-client~=0.57.0
 pip~=20.1.1
