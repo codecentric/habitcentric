@@ -1,0 +1,18 @@
+repositories:
+  - name: codecentric
+    url: https://codecentric.github.io/helm-charts
+
+environments:
+  default:
+  istio:
+  linkerd:
+
+releases:
+  - name: keycloak
+    namespace: hc-keycloak
+    labels:
+      service: keycloak
+    chart: codecentric/keycloak
+    version: 8.3.0
+    values:
+      - ../helmfile-templates/keycloak-values.yaml.gotmpl
