@@ -26,7 +26,7 @@ linkerd check --pre
 
 # If all checks pass, install Linkerd
 # (you may verify the output before piping it to kubectl, if you want)
-linkerd install | kubectl apply -f -
+linkerd install --addon-config config/addon-config.yaml | kubectl apply -f -
 
 # Perform a post-installation check that will also wait for all components
 # to start properly
@@ -120,33 +120,17 @@ the dashboard.
 
 ## Tracing
 
-To enable tracing in Linkerd, first enable the tracing addon to deploy tracing
-services to the cluster:
-
-```
-linkerd upgrade --addon-config tracing/addon-config.yaml | kubectl apply -f -
-```
-
-Then, you need to annotate all namespaces for which tracing should be activated
-with the following annotations:
-
-```
-linkerd.io/inject: enabled
-config.linkerd.io/trace-collector: linkerd-collector.linkerd:55678
-config.alpha.linkerd.io/trace-collector-service-account: linkerd-collector
-```
-
-Your ingress controller needs to be configured to create tracing header. This
-varies for each controller implementation. For nginx, modify its `ConfigMap` to
-include the following configuration:
+Linkerd and the namespaces for habitcentric are already set up for tracing.
+However, your ingress controller needs to be configured to create tracing
+headers. The configuration varies for each controller implementation. For nginx,
+modify its `ConfigMap` to include the following configuration:
 
 ```
 enable-opentracing: "true"
 zipkin-collector-host: linkerd-collector.linkerd
 ```
 
-Restart the ingress controller and all services in the annotated namespaces
-after applying the changes.
+Restart the ingress controller by deleting the pod after applying the change.
 
 To explore traces, port-forward to the deployed Jaeger instance with `kubectl -n
 linkerd port-forward svc/linkerd-jaeger 16686` and browse to
