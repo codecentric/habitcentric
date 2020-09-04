@@ -5,6 +5,8 @@ services:
     ports:
       - "8089:8089"
     command: --master -H https://habitcentric.demo
+    extra_hosts:
+      - habitcentric.demo:${HABITCENTRIC_IP}
   worker:
     build: .
     command: --worker --master-host master
@@ -14,3 +16,5 @@ services:
       OIDC_CLIENT_ID: lpt
       OIDC_USERNAME: lpt
       OIDC_PASSWORD: lpt
+    extra_hosts:
+      - habitcentric.demo:${HABITCENTRIC_IP}

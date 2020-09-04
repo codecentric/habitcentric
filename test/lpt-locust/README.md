@@ -21,5 +21,6 @@ Tokens are refreshed automatically.
 ## How to run
 
 ```
+export HABITCENTRIC_IP=<habitcentric ingress/gateway IP>
 docker-compose up -d --scale workers=3 --build
 ```
