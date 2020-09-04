@@ -1,69 +1,31 @@
-import os
+import logging
 
 from locust import HttpUser
-from locust.clients import HttpSession
-from requests.adapters import HTTPAdapter
 
-from k8s.ingressresolver import K8sIngressIpResolver
-
-
-class NoRebuildAuthSession(HttpSession):
-    # prevent stripping Authorization header on redirect with different host
-    def rebuild_auth(self, prepared_request, response):
-        pass
+from oauth import OAuthMiddleware
+from util import MiddlewareAdapter, Environment
 
 
-class NoAuthRebuildHttpUser(HttpUser):
+class OidcHttpUser(HttpUser):
     abstract = True
-
-    def on_start(self):
-        # prevent DNS request during proxy rebuild of redirect
-        os.environ['NO_PROXY'] = self.environment.host
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        session = NoRebuildAuthSession(
-            base_url=self.host,
-            request_success=self.environment.events.request_success,
-            request_failure=self.environment.events.request_failure,
-        )
-        session.trust_env = False
 
-        env = os.environ.get('ENV')
-        if env == 'k8s':
-            k8s_dns_resolve_adapter = K8sDnsResolveAdapter(K8sIngressIpResolver())
-            session.mount('http://habitcentric.demo', k8s_dns_resolve_adapter)
-            session.mount('https://habitcentric.demo', k8s_dns_resolve_adapter)
+        middlewares = []
+        if Environment.oidc_enabled():
+            logging.info('Enabling OIDC for user')
+            self.add_oidc_middleware(middlewares)
 
-        self.client = session
+        self.mount_middlewares(middlewares, self.client)
 
+    def add_oidc_middleware(self, middlewares):
+        token_url, client_id, username, password = Environment.oidc_params()
+        middlewares.append(
+            OAuthMiddleware(token_url=token_url, client_id=client_id, username=username,
+                            password=password))
 
-class K8sDnsResolveAdapter(HTTPAdapter):
-
-    def __init__(self, ip_resolver: K8sIngressIpResolver):
-        super().__init__()
-        self.ip_resolver = ip_resolver
-
-    def send(self, request, **kwargs):
-        from urllib.parse import urlparse
-
-        connection_pool_kwargs = self.poolmanager.connection_pool_kw
-
-        result = urlparse(request.url)
-        resolved_ip = self.ip_resolver.resolve()
-        request.url = request.url.replace(
-            result.hostname,
-            resolved_ip,
-        )
-
-        if result.scheme == 'https':
-            connection_pool_kwargs['server_hostname'] = result.hostname  # SNI
-            connection_pool_kwargs['assert_hostname'] = result.hostname
-        else:
-            connection_pool_kwargs.pop('server_hostname', None)
-            connection_pool_kwargs.pop('assert_hostname', None)
-
-        # overwrite the host header
-        request.headers['Host'] = result.hostname
-
-        return super(K8sDnsResolveAdapter, self).send(request, **kwargs)
+    def mount_middlewares(self, middlewares, session):
+        chain_adapter = MiddlewareAdapter(middlewares)
+        session.mount('http://habitcentric.demo', chain_adapter)
+        session.mount('https://habitcentric.demo', chain_adapter)

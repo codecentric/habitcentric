@@ -5,6 +5,16 @@ services:
     ports:
       - "8089:8089"
     command: --master -H https://habitcentric.demo
+    extra_hosts:
+      - habitcentric.demo:${HABITCENTRIC_IP}
   worker:
     build: .
     command: --worker --master-host master
+    environment:
+      OIDC_ENABLED: "true"
+      OIDC_TOKEN_URL: https://habitcentric.demo/auth/realms/habitcentric/protocol/openid-connect/token
+      OIDC_CLIENT_ID: lpt
+      OIDC_USERNAME: lpt
+      OIDC_PASSWORD: lpt
+    extra_hosts:
+      - habitcentric.demo:${HABITCENTRIC_IP}
