@@ -1,5 +1,6 @@
 from locust import task, between
 
+from habit import generate_habit, generate_track_dates
 from helper import OidcHttpUser
 
 
@@ -8,17 +9,10 @@ class HabitcentricUser(OidcHttpUser):
 
     @task
     def index_page(self):
-        habit = {
-            'name': 'Test',
-            'schedule': {
-                'repetitions': 1,
-                'frequency': 'DAILY'
-            }
-        }
-        create_response = self.client.post(url='/habits', json=habit, verify=False)
+        create_response = self.client.post(url='/habits', json=generate_habit(), verify=False)
         created_habit_id = create_response.headers['location'].split('/')[-1]
 
-        self.client.put('/track/habits/{}'.format(created_habit_id), name='/track/habits/[id]', json=['2020-09-10', '2020-09-09', '2020-09-08'])
+        self.client.put('/track/habits/{}'.format(created_habit_id), name='/track/habits/[id]', json=generate_track_dates())
 
         self.client.get(url='/habits', verify=False)
         self.client.get(url='/report/achievement', verify=False)
