@@ -86,13 +86,13 @@ If you are not using the nginx ingress controller, please modify the
 `ingresses.yaml` file before applying. For detailed information about ingresses
 in Linkerd, visit https://linkerd.io/2/tasks/using-ingress/.
 
-### Service Profiles
+### Routing and Resilience Settings
 
 Linkerd allows us to create `ServiceProfiles` for existing Kubernetes
 `Services`. These `ServiceProfiles` describe individual HTTP routes of their
 corresponding `Service` so that Linkerd is then able to report per-route metrics
 in its Dashboards. Additionally, you can enable further features like automatic
-retries and timeouts on a per-route basis.
+retries and timeouts on a per-route basis to increase resilience.
 
 To deploy `ServiceProfiles` for the habitcentric services, execute the following
 command:
@@ -102,53 +102,6 @@ kubectl apply -f habitcentric/service-profiles.yaml
 ```
 
 This enables route metrics, automatic retries and timeouts for these services.
-
-### Fault Injection
-
-In Linkerd, the traffic split feature can be used to inject faults into
-services. This can be useful to test the resilience of your service ecosystem.
-
-To test fault injection using the steps below, please add at least one habit in
-the UI of habitcentric, so that the report service will perform upstream calls
-to the track service.
-
-You can deploy an nginx server that simulates a faulty version of habitcentric's
-track service by either responding with error code 500 or by taking two seconds
-to respond.
-
-For error code 500, deploy the corresponding nginx configuration first:
-
-```
-kubectl apply -f habitcentric/fault-injection/track-fault-config-500.yaml
-```
-
-For the two second response delay, deploy the following configuration instead:
-
-```
-kubectl apply -f habitcentric/fault-injection/track-fault-config-latency.yaml
-```
-
-Afterwards, you can deploy the nginx server:
-
-```
-kubectl apply -f habitcentric/fault-injection/track-fault-service.yaml
-```
-
-Then, you can deploy the `TrafficSplit` definition that will send 50% of all
-requests for the track service to the faulty service instead, resulting in a 50%
-success rate:
-
-```
-kubectl apply -f habitcentric/fault-injection/track-fault-injection.yaml
-```
-
-You can view the report service deployment in Linkerd's dashboard and see that
-~50% of the report service requests fail (either due to a timeout or due to the
-error code), because of the injected failure in the upstream track service.
-However, due to the retries configured in the `ServiceProfiles`, these errors
-will not be visible for the user. You may modify the `ServiceProfiles` in the
-file `habitcentric/service-profiles.yaml` to experiment with this behavor. For
-example, by disabling retries and testing how habitcentric behaves.
 
 ## Accessing the Application and Visualizing Traffic
 
