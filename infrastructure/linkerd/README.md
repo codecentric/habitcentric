@@ -122,8 +122,12 @@ the dashboard.
 
 Linkerd and the namespaces for habitcentric are already set up for tracing.
 However, your ingress controller needs to be configured to create tracing
-headers. The configuration varies for each controller implementation. For nginx,
-modify its `ConfigMap` to include the following configuration:
+headers. The configuration varies for each controller implementation.
+
+For nginx, there is a `ConfigMap` that holds its configuration. When using
+minikube's ingress addon, this `ConfigMap` ist called
+`nginx-load-balancer-conf`. Modify this `ConfigMap` to include the following
+configuration:
 
 ```
 enable-opentracing: "true"
