@@ -132,6 +132,11 @@ zipkin-collector-host: linkerd-collector.linkerd
 
 Restart the ingress controller by deleting the pod after applying the change.
 
-To explore traces, port-forward to the deployed Jaeger instance with `kubectl -n
-linkerd port-forward svc/linkerd-jaeger 16686` and browse to
-http://localhost:16686.
+To explore traces, point the hostname `jaeger.demo` to your ingress controller's
+IP and deploy the corresponding ingress definition:
+
+```
+kubectl apply -f tracing-ingress.yaml
+```
+
+You are then able to access Jaeger' UI at http://jaeger.demo/.
