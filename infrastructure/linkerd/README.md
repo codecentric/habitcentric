@@ -8,7 +8,6 @@
   _You may use other ingress controllers, but this tutorial focuses on nginx.
   Pay attention to https://linkerd.io/2/tasks/using-ingress/ if your environment
   differs._
-* Tiller installed in the cluster (for Helm deployment of our demo application)
 
 ## Linkerd Installation
 
@@ -26,7 +25,7 @@ linkerd check --pre
 
 # If all checks pass, install Linkerd
 # (you may verify the output before piping it to kubectl, if you want)
-linkerd install | kubectl apply -f -
+linkerd install --addon-config config/addon-config.yaml | kubectl apply -f -
 
 # Perform a post-installation check that will also wait for all components
 # to start properly
@@ -117,3 +116,30 @@ To get insight into metrics and traces, open the Linkerd dashboard by running
 `linkerd dashboard`. Select any deployment in the "Resources" menu to start a
 live debugging session. For metrics, click on the corresponding Grafana icons in
 the dashboard.
+
+## Tracing
+
+Linkerd and the namespaces for habitcentric are already set up for tracing.
+However, your ingress controller needs to be configured to create tracing
+headers. The configuration varies for each controller implementation.
+
+For nginx, there is a `ConfigMap` that holds its configuration. When using
+minikube's ingress addon, this `ConfigMap` ist called
+`nginx-load-balancer-conf`. Modify this `ConfigMap` to include the following
+configuration:
+
+```
+enable-opentracing: "true"
+zipkin-collector-host: linkerd-collector.linkerd
+```
+
+Restart the ingress controller by deleting the pod after applying the change.
+
+To explore traces, point the hostname `jaeger.demo` to your ingress controller's
+IP and deploy the corresponding ingress definition:
+
+```
+kubectl apply -f tracing-ingress.yaml
+```
+
+You are then able to access Jaeger' UI at http://jaeger.demo/.
