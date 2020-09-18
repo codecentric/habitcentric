@@ -8,7 +8,6 @@
   _You may use other ingress controllers, but this tutorial focuses on nginx.
   Pay attention to https://linkerd.io/2/tasks/using-ingress/ if your environment
   differs._
-* Tiller installed in the cluster (for Helm deployment of our demo application)
 
 ## Linkerd Installation
 
