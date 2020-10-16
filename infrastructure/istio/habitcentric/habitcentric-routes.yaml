@@ -11,12 +11,32 @@ spec:
   http:
   - match:
     - uri:
+        prefix: /habits/actuator
+    rewrite:
+      uri: /actuator
+    route:
+      - destination:
+          host: habit.hc-habit.svc.cluster.local
+          port:
+            number: 8080
+  - match:
+    - uri:
         prefix: /habits
     route:
     - destination:
         host: habit.hc-habit.svc.cluster.local
         port:
           number: 8080
+  - match:
+      - uri:
+          prefix: /track/actuator
+    rewrite:
+      uri: /actuator
+    route:
+      - destination:
+          host: track.hc-track.svc.cluster.local
+          port:
+            number: 8080
   - match:
     - uri:
         prefix: /track
@@ -25,6 +45,16 @@ spec:
         host: track.hc-track.svc.cluster.local
         port:
           number: 8080
+  - match:
+      - uri:
+          prefix: /report/actuator
+    rewrite:
+      uri: /actuator
+    route:
+      - destination:
+          host: report.hc-report.svc.cluster.local
+          port:
+            number: 8080
   - match:
     - uri:
         prefix: /report
