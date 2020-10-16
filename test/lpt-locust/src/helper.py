@@ -20,10 +20,11 @@ class OidcHttpUser(HttpUser):
         self.mount_middlewares(middlewares, self.client)
 
     def add_oidc_middleware(self, middlewares):
-        token_url, client_id, username, password = Environment.oidc_params()
+        token_url, client_id, username, password =\
+            Environment.oidc_params(self.host)
         middlewares.append(
-            OAuthMiddleware(token_url=token_url, client_id=client_id, username=username,
-                            password=password))
+            OAuthMiddleware(token_url=token_url, client_id=client_id,
+                            username=username, password=password))
 
     def mount_middlewares(self, middlewares, session):
         chain_adapter = MiddlewareAdapter(middlewares)
