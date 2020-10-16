@@ -130,7 +130,6 @@ To access the services deployed in the mesh, add the service hostnames (see belo
 | -------- | ----------------------------- | ------------------------------- |
 | UI       | http://habitcentric.demo      | default / default (or register) |
 | Keycloak | http://habitcentric.demo/auth | keycloak / keycloak             |
-| Locust   | http://locust.demo            |                                 |
 
 ## Uninstall Istio
 
