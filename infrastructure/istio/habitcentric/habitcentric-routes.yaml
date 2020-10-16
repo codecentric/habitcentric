@@ -11,12 +11,32 @@ spec:
   http:
   - match:
     - uri:
+        prefix: /habits/actuator
+    rewrite:
+      uri: /actuator
+    route:
+      - destination:
+          host: habit.hc-habit.svc.cluster.local
+          port:
+            number: 8080
+  - match:
+    - uri:
         prefix: /habits
     route:
     - destination:
         host: habit.hc-habit.svc.cluster.local
         port:
           number: 8080
+  - match:
+      - uri:
+          prefix: /track/actuator
+    rewrite:
+      uri: /actuator
+    route:
+      - destination:
+          host: track.hc-track.svc.cluster.local
+          port:
+            number: 8080
   - match:
     - uri:
         prefix: /track
@@ -25,6 +45,16 @@ spec:
         host: track.hc-track.svc.cluster.local
         port:
           number: 8080
+  - match:
+      - uri:
+          prefix: /report/actuator
+    rewrite:
+      uri: /actuator
+    route:
+      - destination:
+          host: report.hc-report.svc.cluster.local
+          port:
+            number: 8080
   - match:
     - uri:
         prefix: /report
@@ -52,23 +82,3 @@ spec:
         prefix: /
     redirect:
       uri: /ui
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: habitcentric-locust-routes
-  namespace: istio-system
-spec:
-  hosts:
-  - locust.demo
-  gateways:
-  - habitcentric-gateway
-  http:
-  - match:
-    - uri:
-        prefix: /
-    route:
-    - destination:
-        host: lpt-locust-master.hc-lpt-locust.svc.cluster.local
-        port:
-          number: 80
