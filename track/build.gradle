@@ -65,6 +65,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql:42.2.5'
     runtimeOnly 'org.flywaydb:flyway-core:5.2.4'
+    runtimeOnly 'de.codecentric:chaos-monkey-spring-boot:2.2.0'
     flywayMigration 'org.postgresql:postgresql:42.2.5'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
