@@ -5,5 +5,7 @@ track:
   service-url: http://localhost:8081
 
 spring:
+  profiles:
+    active: chaos-monkey
   sleuth:
     propagation-keys: authorization
