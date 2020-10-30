@@ -69,6 +69,14 @@ You can apply `habitcentric/habitcentric-gateway.yaml` and `habitcentric/habitce
 kubectl apply -f habitcentric/habitcentric-gateway.yaml && kubectl apply -f habitcentric/habitcentric-routes.yaml
 ```
 
+### Routing and Resilience Settings
+
+To enable automatic retries for habitcentric services apply `habitcentric/habitcentric-routes-resilience.yaml`
+
+```bash
+kubectl apply -f habitcentric/habitcentric-routes-resilience.yaml
+```
+
 ## Apply authentication & authorization
 
 Istio provides several security features like strong identities, transparent TLS encryption, and authentication, authorization and audit (AAA) tools to protect services and data.
