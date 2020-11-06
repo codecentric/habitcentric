@@ -21,6 +21,6 @@ engine: gotpl
 
 dependencies:
   - name: postgresql
-    version: 8.10.5
+    version: 9.8.5
     repository: https://charts.bitnami.com/bitnami
     condition: persistence.deployPostgres
