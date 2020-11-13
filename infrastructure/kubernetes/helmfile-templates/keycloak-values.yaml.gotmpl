@@ -7,7 +7,7 @@ keycloak:
     port: 80
   serviceAccount:
     create: true
-  {{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") }}
+  {{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") (eq .Environment.Name "kuma") }}
   ingress:
     enabled: false
   {{- else }}

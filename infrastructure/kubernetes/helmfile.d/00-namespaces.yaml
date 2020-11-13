@@ -6,6 +6,7 @@ environments:
   default:
   istio:
   linkerd:
+  kuma:
 
 releases:
 - name: namespaces
@@ -26,6 +27,11 @@ releases:
           "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
           "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
         {{- end }}
+        {{- if eq .Environment.Name "kuma" }}
+        annotations:
+          "kuma.io/sidecar-injection": "enabled"
+          "kuma.io/mesh": "default"
+        {{- end }}
       spec:
     - apiVersion: v1
       kind: Namespace
@@ -40,6 +46,11 @@ releases:
           "linkerd.io/inject": "enabled"
           "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
           "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
+        {{- end }}
+        {{- if eq .Environment.Name "kuma" }}
+        annotations:
+          "kuma.io/sidecar-injection": "enabled"
+          "kuma.io/mesh": "default"
         {{- end }}
       spec:
     - apiVersion: v1
@@ -56,6 +67,11 @@ releases:
           "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
           "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
         {{- end }}
+        {{- if eq .Environment.Name "kuma" }}
+        annotations:
+          "kuma.io/sidecar-injection": "enabled"
+          "kuma.io/mesh": "default"
+        {{- end }}
       spec:
     - apiVersion: v1
       kind: Namespace
@@ -71,6 +87,11 @@ releases:
           "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
           "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
         {{- end }}
+        {{- if eq .Environment.Name "kuma" }}
+        annotations:
+          "kuma.io/sidecar-injection": "enabled"
+          "kuma.io/mesh": "default"
+        {{- end }}
       spec:
     - apiVersion: v1
       kind: Namespace
@@ -85,6 +106,11 @@ releases:
           "linkerd.io/inject": "enabled"
           "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
           "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
+        {{- end }}
+        {{- if eq .Environment.Name "kuma" }}
+        annotations:
+          "kuma.io/sidecar-injection": "enabled"
+          "kuma.io/mesh": "default"
         {{- end }}
       spec:
     {{- if eq .Environment.Name "default" }}
