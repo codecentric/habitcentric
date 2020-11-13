@@ -7,5 +7,3 @@ track:
 spring:
   profiles:
     active: chaos-monkey
-  sleuth:
-    propagation-keys: authorization
