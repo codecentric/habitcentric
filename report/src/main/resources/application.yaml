@@ -8,5 +8,4 @@ spring:
   profiles:
     active: chaos-monkey
   sleuth:
-    http:
-      enabled: false
+    propagation-keys: authorization

@@ -1,5 +1,6 @@
 package de.codecentric.hc.report
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -12,11 +13,18 @@ import org.springframework.web.context.annotation.RequestScope
 import javax.servlet.http.HttpServletRequest
 
 @Configuration
-class Configuration {
+class HeaderPropagationConfiguration {
+
+    @Bean
+    @ConditionalOnProperty("spring.sleuth.http.enabled", havingValue = "true", matchIfMissing = true)
+    fun restTemplate(): RestTemplate {
+        return RestTemplateBuilder().build()
+    }
 
     @Bean
     @RequestScope
-    fun restTemplate(incomingRequest: HttpServletRequest): RestTemplate {
+    @ConditionalOnProperty("spring.sleuth.http.enabled", havingValue = "false", matchIfMissing = false)
+    fun restTemplateUsingManualHeaderPropagation(incomingRequest: HttpServletRequest): RestTemplate {
         var restTemplateBuilder = RestTemplateBuilder()
         val authHeader = incomingRequest.getHeader(HttpHeaders.AUTHORIZATION)
         if (authHeader != null && authHeader.isNotEmpty()) {
