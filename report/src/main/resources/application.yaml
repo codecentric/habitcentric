@@ -7,3 +7,6 @@ track:
 spring:
   profiles:
     active: chaos-monkey
+  sleuth:
+    http:
+      enabled: false
