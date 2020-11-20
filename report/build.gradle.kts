@@ -62,6 +62,7 @@ dependencies {
 
     testImplementation("io.mockk:mockk:1.9.3")
     testImplementation("com.ninja-squad:springmockk:2.0.1")
+    testCompile("com.github.tomakehurst:wiremock-jre8:2.27.2")
 }
 
 tasks.withType<Test> {
@@ -86,4 +87,11 @@ openApiGenerate {
     library.set("spring-boot")
     configOptions.put("basePackage", "de.codecentric.hc.report")
     configOptions.put("interfaceOnly", "true")
+}
+
+tasks.named("openApiGenerate") {
+    doLast {
+        // OpenAPI generator plugin for Kotlin Spring generates a useless application class
+        File("$buildDir/generated-sources/src/main/kotlin/de/codecentric/hc/report/Application.kt").delete()
+    }
 }
