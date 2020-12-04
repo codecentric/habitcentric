@@ -1,0 +1,25 @@
+apiVersion: kuma.io/v1alpha1
+kind: Mesh
+metadata: 
+  name: default
+spec:
+# Activating mTLS causes the ingress to return bad gateway for yet unknown reasons
+#  mtls: 
+#    enabledBackend: ca-1
+#    backends: 
+#      - name: ca-1
+#        type: builtin
+#    enabled: true
+  tracing:
+    defaultBackend: jaeger-collector
+    backends:
+    - name: jaeger-collector
+      type: zipkin
+      sampling: 100.0
+      conf:
+        url: http://jaeger-collector.kuma-tracing:9411/api/v2/spans
+  metrics: 
+    enabledBackend: prometheus-1
+    backends: 
+      - name: prometheus-1
+        type: prometheus

@@ -1,0 +1,138 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: habit-ingress
+  namespace: hc-habit
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: habitcentric.demo
+    http:
+      paths:
+      - path: /habits
+        backend:
+          serviceName: habit
+          servicePort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: habit-ingress-actuator
+  namespace: hc-habit
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /actuator$1
+spec:
+  rules:
+    - host: habitcentric.demo
+      http:
+        paths:
+          - path: /habits/actuator(.*)
+            backend:
+              serviceName: habit
+              servicePort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: track-ingress
+  namespace: hc-track
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: habitcentric.demo
+    http:
+      paths:
+      - path: /track
+        backend:
+          serviceName: track
+          servicePort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: track-ingress-actuator
+  namespace: hc-track
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /actuator$1
+spec:
+  rules:
+    - host: habitcentric.demo
+      http:
+        paths:
+          - path: /track/actuator(.*)
+            backend:
+              serviceName: track
+              servicePort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: report-ingress
+  namespace: hc-report
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: habitcentric.demo
+    http:
+      paths:
+      - path: /report
+        backend:
+          serviceName: report
+          servicePort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: report-ingress-actuator
+  namespace: hc-report
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /actuator$1
+spec:
+  rules:
+    - host: habitcentric.demo
+      http:
+        paths:
+          - path: /report/actuator(.*)
+            backend:
+              serviceName: report
+              servicePort: 8080
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ui-ingress
+  namespace: hc-ui
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: habitcentric.demo
+    http:
+      paths:
+      - path: /ui
+        backend:
+          serviceName: ui
+          servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: keycloak-ingress
+  namespace: hc-keycloak
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: habitcentric.demo
+    http:
+      paths:
+      - path: /auth
+        backend:
+          serviceName: keycloak-http
+          servicePort: 80
