@@ -49,7 +49,15 @@ spec:
             - name: http-track
               containerPort: 8080
           env:
-          {{- include "track.persistence.vars" .  | indent 12 }}
+            {{- include "track.persistence.vars" .  | indent 12 }}
+            {{- range .Values.extraEnv }}
+            {{- if .name }}
+            - name: {{ .name }}
+              {{- if .value }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
           readinessProbe:
             httpGet:
               path: /actuator/health
