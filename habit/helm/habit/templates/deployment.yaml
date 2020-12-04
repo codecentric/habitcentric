@@ -49,7 +49,15 @@ spec:
             - name: http-habit
               containerPort: 8080
           env:
-          {{- include "habit.persistence.vars" .  | indent 12 }}
+            {{- include "habit.persistence.vars" .  | indent 12 }}
+            {{- range .Values.extraEnv }}
+            {{- if .name }}
+            - name: {{ .name }}
+              {{- if .value }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
           readinessProbe:
             httpGet:
               path: /actuator/health
