@@ -18,6 +18,9 @@ image:
   ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
   pullPolicy: Always
 
+## Configure extra environment variables for the container
+extraEnv: []
+
 ## habitcentric report service configuration
 service:
   ## Additional service annotations which may be required

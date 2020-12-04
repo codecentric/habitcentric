@@ -52,6 +52,14 @@ spec:
               value: {{ .Values.report.habitServiceUrl }}
             - name: TRACK_SERVICE_URL
               value: {{ .Values.report.trackServiceUrl }}
+            {{- range .Values.extraEnv }}
+            {{- if .name }}
+            - name: {{ .name }}
+              {{- if .value }}
+              value: {{ .value | quote }}
+          {{- end }}
+          {{- end }}
+          {{- end }}
           readinessProbe:
             httpGet:
               path: /actuator/health
