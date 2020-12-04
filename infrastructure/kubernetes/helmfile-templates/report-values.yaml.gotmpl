@@ -30,7 +30,12 @@ extraEnv:
 
 service:
   ## Additional service annotations which may be required
+  {{- if eq .Environment.Name "kuma" }}
+  annotations:
+    8080.service.kuma.io/protocol: http
+  {{- else }}
   annotations: {}
+  {{- end }}
 
   ## ServiceType
   ## ref: https://kubernetes.io/docs/user-guide/services/#publishing-services---service-types
