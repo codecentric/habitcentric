@@ -21,6 +21,13 @@ image:
   pullPolicy: Always
 
 ## habitcentric report service configuration
+
+{{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") }}
+extraEnv:
+  - name: SPRING_PROFILES_INCLUDE
+    value: service-mesh
+{{- end }}
+
 service:
   ## Additional service annotations which may be required
   annotations: {}
