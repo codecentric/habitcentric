@@ -11,8 +11,8 @@ chaos:
     watcher:
       rest-controller: true
       controller: true
-      repository: true
-      service: true
+      repository: false
+      service: false
       component: false
     assaults:
       exceptions-active: true
