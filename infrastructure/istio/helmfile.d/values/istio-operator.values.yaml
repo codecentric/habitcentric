@@ -1,0 +1,8 @@
+# Docker repository to pull from
+hub: docker.io/istio
+
+# Istio Operator version
+tag: 1.6.2
+
+# Namespace operator will be deployed in
+operatorNamespace: istio-operator

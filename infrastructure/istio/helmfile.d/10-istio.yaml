@@ -1,0 +1,43 @@
+repositories:
+  - name: incubator
+    url: https://charts.helm.sh/incubator
+
+releases:
+  - name: istio-control-plane
+    chart: incubator/raw
+    values:
+      - resources:
+        - apiVersion: v1
+          kind: Namespace
+          metadata:
+            name: istio-system
+        - apiVersion: install.istio.io/v1alpha1
+          kind: IstioOperator
+          metadata:
+            name: istio-deployment
+            namespace: istio-system
+          spec:
+            profile: demo
+            namespace: istio-system
+            tag: 1.6.2
+
+            addonComponents:
+              prometheus:
+                enabled: false
+              kiali:
+                enabled: false
+              grafana:
+                enabled: false
+              tracing:
+                enabled: false
+
+
+            values:
+              meshConfig:
+                enablePrometheusMerge: true
+
+              tracing:
+                enabled: false
+
+              kiali:
+                enabled: false

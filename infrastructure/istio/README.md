@@ -4,45 +4,33 @@
 
 - Running Kubernetes cluster
 - Properly configured Kubernetes client `kubectl` to administrate your cluster
+- Locally installed [helmfile CLI](https://github.com/roboll/helmfile#installation)  (version >= 0.9.3)
+- Locally installed [Helm CLI](https://helm.sh/docs/using_helm/#install-helm) (version >= 3.4.0) with [Helm Diff plugin](https://github.com/databus23/helm-diff#install) (version >= 3.1.0)
 
 > This guide is based on Istio 1.6.2
 
 ## Install Istio
 
-Istio provides a custom operator to install the Istio control plane.
+We provide a helmfile configuration to set up a pre-configured Istio control plane.
+It deploys the following components:
 
-### GKE specific
+1. Istio operator
+2. Istio control plane
+3. Addon components (e.g. Prometheus)
 
-If you are using Google Kubernetes Engine (GKE), you have to grant cluster administrator permissions to the current user. To grant cluster admin permissions, you must assign the role `Kubernetes Engine Admin` to your user in the [Google Cloud Console](https://console.cloud.google.com/iam-admin/iam).
+```bash
+helmfile apply
+```
+
+### Google Kubernetes Engine (GKE)
+
+If you are using GKE, you have to grant cluster administrator permissions to the current user. To grant cluster admin permissions, you must assign the role `Kubernetes Engine Admin` to your user in the [Google Cloud Console](https://console.cloud.google.com/iam-admin/iam).
 
 ```bash
 kubectl create clusterrolebinding cluster-admin-binding \
     --clusterrole=cluster-admin \
     --user=$(gcloud config get-value core/account)
 ```
-
-### Installation using IstioOperator
-
-Install the Istio CLI:
-
-```bash
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.6.2 sh - && cd istio-1.6.2
-export PATH=$PWD/bin:$PATH
-```
-
-Install the operator:
-
-```bash
-istioctl operator init
-```
-
-Install the pre-configured control plane:
-
-```bash
-kubectl apply -f install/istio-config.yaml
-```
-
-> If you want to customize your Istio installation, take a look at the [IstioOperator reference](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/).
 
 ## Deploy habitcentric
 
