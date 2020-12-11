@@ -39,8 +39,8 @@ kubectl port-forward svc/kuma-control-plane -n kuma-system 5681:5681
 To let the service mesh manage traffic between your ingress controller and the
 services, you need to add the ingress controller to the mesh. This is done by
 enabling sidecar injection and choosing the specific mesh via annotations. For
-ingress controllers, there is also the `kuma.io/gateway` annotation that needs to
-be set to prevent the sidecar from touching incoming traffic.
+ingress controllers, there is also the `kuma.io/gateway` annotation that needs
+to be set to prevent the sidecar from touching incoming traffic.
 
 If you are using the nginx ingress controller in minikube, you can patch the
 deployment to add those annotations to the pod:
@@ -86,8 +86,9 @@ in the `ingresses.yaml` file before applying.
 ## Metrics
 
 Metrics are already enabled via settings in the file `mesh.yaml` that we applied
-earlier. You may port-forward to port 3000 of the Grafana pod and login using
-username `admin` and password `admin`.
+earlier. You may port-forward to port 3000 of the Grafana pod, open
+[Grafana](http://localhost:3000) in a browser and login using the credentials
+`admin` / `admin`.
 
 ## Tracing
 
@@ -99,6 +100,9 @@ custom resource:
 ```sh
 kubectl apply -f trace.yaml
 ```
+
+To view traces, port-forward to to port 16686 of the Jaeger pod and open
+[Jaeger](http://localhost:16686) in a browser.
 
 For more information on tracing, see the [official
 documentation](https://kuma.io/docs/1.0.3/policies/traffic-trace/).
