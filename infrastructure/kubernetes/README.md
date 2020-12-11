@@ -12,6 +12,9 @@ Deploys habitcentric without its Spring API gateway and makes it accessible usin
 **Linkerd environment**  
 Deploys habitcentric without its Spring API gateway and makes it accessible using the Linkerd 2 service mesh.
 
+**Kuma environment**  
+Deploys habitcentric without its Spring API gateway and makes it accessible using the Kuma service mesh.
+
 ## Prerequisites
 
 - Running Kubernetes cluster
@@ -43,6 +46,12 @@ helmfile --environment istio apply
 helmfile --environment linkerd apply
 ```
 
+### Kuma environment
+
+```bash
+helmfile --environment kuma apply
+```
+
 ## How To Destroy
 
 ```bash
@@ -59,4 +68,10 @@ helmfile --environment istio destroy
 
 ```bash
 helmfile --environment linkerd destroy
+```
+
+### Kuma environment
+
+```bash
+helmfile --environment kuma destroy
 ```
