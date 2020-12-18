@@ -4,18 +4,14 @@ repositories:
 
 releases:
   - name: istio-control-plane
+    namespace: istio-system
     chart: incubator/raw
     values:
       - resources:
-        - apiVersion: v1
-          kind: Namespace
-          metadata:
-            name: istio-system
         - apiVersion: install.istio.io/v1alpha1
           kind: IstioOperator
           metadata:
             name: istio-deployment
-            namespace: istio-system
           spec:
             profile: demo
             namespace: istio-system
@@ -35,6 +31,10 @@ releases:
             values:
               meshConfig:
                 enablePrometheusMerge: true
+
+              pilot:
+                deploymentLabels:
+                  app.kubernetes.io/name: istiod
 
               tracing:
                 enabled: false
