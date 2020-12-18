@@ -83,6 +83,12 @@ kubectl apply -f habitcentric/ingresses.yaml
 If you are not using the nginx ingress controller, please modify the annotations
 in the `ingresses.yaml` file before applying.
 
+## mTLS
+
+mTLS can be activated in the mesh configuration (`mesh.yaml`). However, it is
+currently commented out since activating it will result in 502 errors for
+habitcentric. I have not yet figured out why.
+
 ## Metrics
 
 Metrics are already enabled via settings in the file `mesh.yaml` that we applied
@@ -91,6 +97,9 @@ earlier. You may port-forward to port 3000 of the Grafana pod, open
 `admin` / `admin`.
 
 ## Tracing
+
+> There are still issues with tracing. Sometimes, spans from the habitcentric
+> services will not arrive in Jaeger. I still don't know why.
 
 Tracing is already configured via settings in the file `mesh.yaml`. However, we
 still need to configure for which services traces should be collected. To
