@@ -37,6 +37,11 @@ resources:
           istio_injection_annotation: "sidecar.istio.io/inject"
           istio_sidecar_annotation: "sidecar.istio.io/status"
           url_service_version: ""
+        grafana:
+          is_core_component: false
+          enabled: true
+          in_cluster_url: http://grafana.istio-system
+          url: http://grafana.demo
         tracing:
           enabled: true
           is_core_component: false
