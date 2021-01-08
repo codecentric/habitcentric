@@ -1,9 +1,16 @@
 fullnameOverride: report
 
+{{- if eq .Environment.Name "traefik-mesh" }}
+report:
+  habitServiceUrl: http://habit.hc-habit.traefik.mesh:8080
+  trackServiceUrl: http://track.hc-track.traefik.mesh:8080
+  enableMonthlyRate: true
+{{- else }}
 report:
   habitServiceUrl: http://habit.hc-habit:9001
   trackServiceUrl: http://track.hc-track:9002
   enableMonthlyRate: true
+{{- end }}
 
 init:
   image:
@@ -23,6 +30,11 @@ image:
 
 ## habitcentric report service configuration
 
+{{- if (eq .Environment.Name "traefik-mesh") }}
+extraEnv:
+  - name: SPRING_ZIPKIN_BASEURL
+    value: http://jaeger-collector.traefik-mesh.svc.cluster.local:9411
+{{- end }}
 {{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") }}
 extraEnv:
   - name: SPRING_PROFILES_INCLUDE

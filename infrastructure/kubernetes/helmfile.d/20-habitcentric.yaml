@@ -3,6 +3,7 @@ environments:
   istio:
   linkerd:
   kuma:
+  traefik-mesh:
 
 releases:
   - name: ui
@@ -41,5 +42,5 @@ releases:
     chart: ../../hc-gateway/helm/gateway
     values:
       - ../helmfile-templates/gateway-values.yaml.gotmpl
-  {{- end }}  
-  
+  {{- end }}
+
