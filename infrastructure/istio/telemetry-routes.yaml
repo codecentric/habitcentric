@@ -81,7 +81,7 @@ spec:
         prefix: /
     route:
     - destination:
-        host: tracing.istio-system.svc.cluster.local
+        host: jaeger-query.istio-system.svc.cluster.local
         port: 
-          number: 80
+          number: 16686
           

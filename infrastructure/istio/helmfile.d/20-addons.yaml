@@ -15,3 +15,8 @@ releases:
     chart: incubator/raw
     values:
       - ./values/kiali.values.yaml
+  - name: jaeger
+    namespace: istio-system
+    chart: incubator/raw
+    values:
+      - ./values/jaeger.values.yaml
