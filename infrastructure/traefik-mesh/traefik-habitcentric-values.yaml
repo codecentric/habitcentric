@@ -1,0 +1,3 @@
+proxy:
+  additionalArguments:
+    - "--tracing.jaeger.propagation=b3"
