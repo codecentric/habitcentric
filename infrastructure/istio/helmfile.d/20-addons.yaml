@@ -3,6 +3,8 @@ repositories:
     url: https://prometheus-community.github.io/helm-charts
   - name: incubator
     url: https://charts.helm.sh/incubator
+  - name: grafana
+    url: https://grafana.github.io/helm-charts
 
 releases:
   - name: prometheus
@@ -20,3 +22,8 @@ releases:
     chart: incubator/raw
     values:
       - ./values/jaeger.values.yaml
+  - name: grafana
+    namespace: istio-system
+    chart: grafana/grafana
+    values:
+      - ./values/grafana.values.yaml
