@@ -15,18 +15,7 @@ releases:
           spec:
             profile: demo
             namespace: istio-system
-            tag: 1.6.2
-
-            addonComponents:
-              prometheus:
-                enabled: false
-              kiali:
-                enabled: false
-              grafana:
-                enabled: false
-              tracing:
-                enabled: false
-
+            tag: 1.8.1
 
             values:
               global:
@@ -40,9 +29,3 @@ releases:
                 defaultConfig:
                   tracing:
                     sampling: 100
-
-              tracing:
-                enabled: false
-
-              kiali:
-                enabled: false

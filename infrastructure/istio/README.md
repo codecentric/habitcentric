@@ -7,7 +7,7 @@
 - Locally installed [helmfile CLI](https://github.com/roboll/helmfile#installation)  (version >= 0.9.3)
 - Locally installed [Helm CLI](https://helm.sh/docs/using_helm/#install-helm) (version >= 3.4.0) with [Helm Diff plugin](https://github.com/databus23/helm-diff#install) (version >= 3.1.0)
 
-> This guide is based on Istio 1.6.2
+> This guide is based on Istio 1.8.1
 
 ## Install Istio
 
@@ -16,7 +16,7 @@ It deploys the following components:
 
 1. Istio operator
 2. Istio control plane
-3. Addon components (e.g. Prometheus)
+3. Addon components (e.g. Prometheus, Kiali, Jaeger & Grafana)
 
 ```bash
 helmfile apply
