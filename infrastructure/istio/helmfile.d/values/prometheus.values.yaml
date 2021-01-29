@@ -1,0 +1,152 @@
+rbac:
+  create: true
+
+alertmanager:
+  ## If false, alertmanager will not be installed
+  ##
+  enabled: false
+
+kubeStateMetrics:
+  ## If false, kube-state-metrics sub-chart will not be installed
+  ##
+  enabled: false
+
+nodeExporter:
+  ## If false, node-exporter will not be installed
+  ##
+  enabled: false
+
+server:
+  ## Prometheus server container name
+  ##
+  enabled: true
+  name: server
+
+  ## Prometheus server container image
+  ##
+  image:
+    repository: quay.io/prometheus/prometheus
+    tag: v2.22.1
+    pullPolicy: IfNotPresent
+
+  ## The URL prefix at which the container can be accessed. Useful in the case the '-web.external-url' includes a slug
+  ## so that the various internal URLs are still able to access as they are in the default case.
+  ## (Optional)
+  prefixURL: ""
+
+  ## External URL which can access prometheus
+  ## Maybe same with Ingress host name
+  baseURL: ""
+
+  global:
+    ## How frequently to scrape targets by default
+    ##
+    scrape_interval: 20s
+    ## How long until a scrape request times out
+    ##
+    scrape_timeout: 10s
+    ## How frequently to evaluate rules
+    ##
+    evaluation_interval: 1m
+
+  persistentVolume:
+    ## If true, Prometheus server will create/use a Persistent Volume Claim
+    ## If false, use emptyDir
+    ##
+    enabled: true
+
+    ## Prometheus server data Persistent Volume access modes
+    ## Must match those of existing PV or dynamic provisioner
+    ## Ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+    ##
+    accessModes:
+      - ReadWriteOnce
+
+    ## Prometheus server data Persistent Volume annotations
+    ##
+    annotations: {}
+
+    ## Prometheus server data Persistent Volume existing claim name
+    ## Requires server.persistentVolume.enabled: true
+    ## If defined, PVC must be created manually before volume will be bound
+    existingClaim: ""
+
+    ## Prometheus server data Persistent Volume mount root path
+    ##
+    mountPath: /data
+
+    ## Prometheus server data Persistent Volume size
+    ##
+    size: 8Gi
+
+  emptyDir:
+    ## Prometheus server emptyDir volume size limit
+    ##
+    sizeLimit: ""
+
+  ## Prometheus server readiness and liveness probe initial delay and timeout
+  ## Ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+  ##
+  readinessProbeInitialDelay: 30
+  readinessProbePeriodSeconds: 5
+  readinessProbeTimeout: 4
+  readinessProbeFailureThreshold: 3
+  readinessProbeSuccessThreshold: 1
+  livenessProbeInitialDelay: 30
+  livenessProbePeriodSeconds: 15
+  livenessProbeTimeout: 10
+  livenessProbeFailureThreshold: 3
+  livenessProbeSuccessThreshold: 1
+
+  ## Prometheus server resource requests and limits
+  ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources: {}
+    # limits:
+    #   cpu: 500m
+    #   memory: 512Mi
+    # requests:
+  #   cpu: 500m
+  #   memory: 512Mi
+
+  service:
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+
+    ## List of IP addresses at which the Prometheus server service is available
+    ## Ref: https://kubernetes.io/docs/user-guide/services/#external-ips
+    ##
+    externalIPs: []
+
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    servicePort: 80
+    sessionAffinity: None
+    type: ClusterIP
+
+    ## Enable gRPC port on service to allow auto discovery with thanos-querier
+    gRPC:
+      enabled: false
+      servicePort: 10901
+      # nodePort: 10901
+
+    ## If using a statefulSet (statefulSet.enabled=true), configure the
+    ## service to connect to a specific replica to have a consistent view
+    ## of the data.
+    statefulsetReplica:
+      enabled: false
+      replica: 0
+
+  ## Prometheus server pod termination grace period
+  ##
+  terminationGracePeriodSeconds: 300
+
+  ## Prometheus data retention period (default if not specified is 15 days)
+  ##
+  retention: "15d"
+
+pushgateway:
+  ## If false, pushgateway will not be installed
+  ##
+  enabled: false

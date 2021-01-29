@@ -42,7 +42,7 @@ spec:
     - destination:
         host: grafana.istio-system.svc.cluster.local
         port:
-          number: 3000
+          number: 80
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -60,9 +60,9 @@ spec:
         prefix: /
     route:
     - destination:
-        host: prometheus.istio-system.svc.cluster.local
+        host: prometheus-server.istio-system.svc.cluster.local
         port:
-          number: 9090
+          number: 80
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -81,7 +81,7 @@ spec:
         prefix: /
     route:
     - destination:
-        host: tracing.istio-system.svc.cluster.local
+        host: jaeger-query.istio-system.svc.cluster.local
         port: 
-          number: 80
+          number: 16686
           

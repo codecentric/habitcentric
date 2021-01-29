@@ -1,0 +1,61 @@
+image:
+  repository: grafana/grafana
+  tag: 7.3.5
+  sha: ""
+  pullPolicy: IfNotPresent
+
+# Administrator credentials when not using an existing secret (see below)
+adminUser: admin
+adminPassword: admin
+
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.istio-system.svc.cluster.local
+      access: proxy
+      isDefault: true
+
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'default'
+      orgId: 1
+      folder: ''
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/default
+
+dashboards:
+  default:
+   istio-mesh:
+     gnetId: 7639
+     revision: 47
+     datasource: Prometheus
+   istio-service:
+     gnetId: 7636
+     revision: 47
+     datasource: Prometheus
+   istio-workload:
+     gnetId: 7630
+     revision: 47
+     datasource: Prometheus
+   istio-performance:
+     gnetId: 11829
+     revision: 47
+     datasource: Prometheus
+   istio-control-plane:
+     gnetId: 7645
+     revision: 47
+     datasource: Prometheus
+
+grafana.ini:
+  auth:
+    disable_login_form: true
+  auth.anonymous:
+    enabled: true
