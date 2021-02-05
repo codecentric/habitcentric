@@ -24,8 +24,8 @@ spec:
   action: ALLOW
   selector:
     matchLabels:
-      app: postgresql
-      release: habit
+      app.kubernetes.io/name: habit-postgresql
+      app.kubernetes.io/instance: habit
   rules:
   - from:
     - source:
@@ -41,8 +41,8 @@ spec:
   action: ALLOW
   selector:
     matchLabels:
-      app: postgresql
-      release: track
+      app.kubernetes.io/name: track-postgresql
+      app.kubernetes.io/instance: track
   rules:
   - from:
     - source:
