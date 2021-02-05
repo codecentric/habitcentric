@@ -32,7 +32,7 @@ service:
   ## Additional service annotations which may be required
   {{- if eq .Environment.Name "kuma" }}
   annotations:
-    kuma.io/protocol: http
+    8080.service.kuma.io/protocol: http
   {{- else }}
   annotations: {}
   {{- end }}
