@@ -2,6 +2,7 @@ environments:
   default:
   istio:
   linkerd:
+  kuma:
 
 releases:
   - name: ui

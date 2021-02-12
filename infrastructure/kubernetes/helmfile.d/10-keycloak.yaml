@@ -6,6 +6,7 @@ environments:
   default:
   istio:
   linkerd:
+  kuma:
 
 releases:
   - name: keycloak
