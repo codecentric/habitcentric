@@ -60,7 +60,7 @@ serviceAccount:
 readinessProbe:
   enabled: true
   initialDelaySeconds: 20
-  periodSeconds: 120
+  periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 6
   successThreshold: 1
@@ -68,7 +68,7 @@ readinessProbe:
 livenessProbe:
   enabled: true
   initialDelaySeconds: 40
-  periodSeconds: 120
+  periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 6
   successThreshold: 1
