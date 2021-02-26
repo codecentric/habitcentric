@@ -14,6 +14,6 @@ class HabitcentricSpec extends Specification {
         def response = oauthHelper.get(url)
 
         then:
-        assert response.code == 301
+        response.code == 301 || response.code == 302
     }
 }
