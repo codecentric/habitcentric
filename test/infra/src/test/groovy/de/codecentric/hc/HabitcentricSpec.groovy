@@ -1,10 +1,12 @@
-package de.codecentric
+package de.codecentric.hc
 
-import de.codecentric.infra.HabitcentricOauthHelper
+import de.codecentric.hc.infra.RequestHelper
+import spock.lang.Narrative
 import spock.lang.Specification
 
+@Narrative('''Test some basic properties a habitcentric deployment should have''')
 class HabitcentricSpec extends Specification {
-    private HabitcentricOauthHelper oauthHelper = new HabitcentricOauthHelper()
+    private RequestHelper oauthHelper = new RequestHelper()
 
     def "should redirect to /ui from the root"() {
         given:

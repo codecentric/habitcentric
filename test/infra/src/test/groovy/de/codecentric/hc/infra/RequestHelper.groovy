@@ -1,4 +1,4 @@
-package de.codecentric.infra
+package de.codecentric.hc.infra
 
 import com.github.scribejava.core.builder.ServiceBuilder
 import com.github.scribejava.core.oauth.OAuth20Service
@@ -7,10 +7,10 @@ import groovy.json.JsonSlurper
 import groovy.transform.Immutable
 import okhttp3.*
 
-class HabitcentricOauthHelper {
+class RequestHelper {
     private OkHttpClient client;
 
-    HabitcentricOauthHelper() {
+    RequestHelper() {
         client = new OkHttpClient().newBuilder()
                 .followRedirects(false)
                 .followSslRedirects(false)

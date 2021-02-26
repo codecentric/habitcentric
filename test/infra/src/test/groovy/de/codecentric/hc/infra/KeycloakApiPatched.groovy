@@ -1,4 +1,4 @@
-package de.codecentric.infra
+package de.codecentric.hc.infra
 
 import com.github.scribejava.apis.KeycloakApi
 import com.github.scribejava.core.oauth2.clientauthentication.ClientAuthentication

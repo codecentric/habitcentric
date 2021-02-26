@@ -1,18 +1,14 @@
-package de.codecentric
+package de.codecentric.hc
 
-import de.codecentric.infra.HabitcentricOauthHelper
-import de.codecentric.infra.K8sHelper
+import de.codecentric.hc.infra.K8sHelper
+import de.codecentric.hc.infra.RequestHelper
 import spock.lang.Specification
 
 class SecuritySpec extends Specification {
-    private HabitcentricOauthHelper oauthHelper = new HabitcentricOauthHelper()
+    private RequestHelper oauthHelper = new RequestHelper()
     private static helperPodNamespace = "hc-ui"
     private static helperPodName = "habitcentric-pen-test"
     private static helper = new K8sHelper()
-
-    void cleanupSpec() {
-        helper.deletePod(helperPodName, helperPodNamespace)
-    }
 
     void setupSpec() {
         helper.createAlpineCmdRunnerWithPackages(
@@ -22,6 +18,10 @@ class SecuritySpec extends Specification {
                 ["curl", "postgresql"],
                 ["curl", "psql"]
         )
+    }
+
+    void cleanupSpec() {
+        helper.deletePod(helperPodName, helperPodNamespace)
     }
 
     def "should forbid request to #name service without oidc token"() {

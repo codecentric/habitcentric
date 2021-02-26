@@ -1,4 +1,4 @@
-package de.codecentric.infra
+package de.codecentric.hc.infra
 
 import groovy.transform.Immutable
 import io.kubernetes.client.Exec
