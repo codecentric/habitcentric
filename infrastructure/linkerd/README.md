@@ -25,7 +25,7 @@ linkerd check --pre
 
 # If all checks pass, install Linkerd
 # (you may verify the output before piping it to kubectl, if you want)
-linkerd install --addon-config config/addon-config.yaml | kubectl apply -f -
+linkerd install --config config/addon-config.yaml | kubectl apply -f -
 
 # Perform a post-installation check that will also wait for all components
 # to start properly
