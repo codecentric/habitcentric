@@ -6,6 +6,23 @@ import spock.lang.Specification
 
 class SecuritySpec extends Specification {
     private HabitcentricOauthHelper oauthHelper = new HabitcentricOauthHelper()
+    private static helperPodNamespace = "hc-ui"
+    private static helperPodName = "habitcentric-pen-test"
+    private static helper = new K8sHelper()
+
+    void cleanupSpec() {
+        helper.deletePod(helperPodName, helperPodNamespace)
+    }
+
+    void setupSpec() {
+        helper.createAlpineCmdRunnerWithPackages(
+                helperPodName,
+                helperPodNamespace,
+                ["istio-injection": "enabled"],
+                ["curl", "postgresql"],
+                ["curl", "psql"]
+        )
+    }
 
     def "should forbid request to #name service without oidc token"() {
         when:
@@ -39,25 +56,13 @@ class SecuritySpec extends Specification {
 
     def "should forbid access to service: #service"() {
         given:
-        def helperPodNamespace = "hc-ui"
-        def helperPodName = "habitcentric-pen-test"
-        def helper = new K8sHelper()
-
-        helper.createAlpineCmdRunnerWithPackages(
-                helperPodName,
-                helperPodNamespace,
-                ["istio-injection": "enabled"],
-                ["curl", "postgresql"],
-                ["curl", "psql"]
-        )
         helper.waitForReadyPod(helperPodName, helperPodNamespace)
 
         when:
         def result = helper.executeCommandInPod(helperPodName, helperPodNamespace, command)
 
         then:
-        assert result.stdout == expectedOutput || result.stderr == expectedOutput
-        helper.deletePod(helperPodName, helperPodNamespace)
+        result.stdout == expectedOutput || result.stderr == expectedOutput
 
         where:
         service             | command                                                                   || expectedOutput
