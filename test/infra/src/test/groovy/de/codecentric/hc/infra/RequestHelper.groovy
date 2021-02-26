@@ -23,8 +23,12 @@ class RequestHelper {
                 .url(url)
                 .build();
         try (def response = client.newCall(request).execute()) {
-            new ResponseDto(response.code(), response.body().string())
+            mapToResponse(response)
         }
+    }
+
+    private ResponseDto mapToResponse(Response response) {
+        new ResponseDto(response.code(), response.body().string(), response.headers().toMultimap())
     }
 
     ResponseDto getWithAuth(String url) {
@@ -34,7 +38,7 @@ class RequestHelper {
                 .header("Authorization", "Bearer ${getAccessToken()}")
                 .build();
         try (def response = client.newCall(request).execute()) {
-            new ResponseDto(response.code(), response.body().string())
+            mapToResponse(response)
         }
     }
 
@@ -70,5 +74,6 @@ class RequestHelper {
     class ResponseDto {
         int code
         String body
+        Map<String, List<String>> headers
     }
 }

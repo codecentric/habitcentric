@@ -17,5 +17,6 @@ class HabitcentricSpec extends Specification {
 
         then:
         response.code == 301 || response.code == 302
+        response.headers.location == ["http://habitcentric.demo/ui"]
     }
 }
