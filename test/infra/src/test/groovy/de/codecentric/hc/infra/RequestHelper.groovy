@@ -1,13 +1,18 @@
 package de.codecentric.hc.infra
 
-import com.github.scribejava.core.builder.ServiceBuilder
-import com.github.scribejava.core.oauth.OAuth20Service
-import com.github.scribejava.httpclient.okhttp.OkHttpHttpClient
 import groovy.json.JsonSlurper
 import groovy.transform.Immutable
-import okhttp3.*
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
 
 class RequestHelper {
+    private static final String OIDC_TOKEN_URL = "http://habitcentric.demo/auth/realms/habitcentric/protocol/openid-connect/token"
+    private static final String OIDC_USERNAME = "testing"
+    private static final String OIDC_PASSWORD = "testing"
+    private static final String OIDC_CLIENT_ID = "testing"
     private OkHttpClient client;
 
     RequestHelper() {
@@ -42,31 +47,22 @@ class RequestHelper {
         }
     }
 
-    String getAccessTokenLib() {
-        OAuth20Service service = new ServiceBuilder("lpt")
-                .httpClient(new OkHttpHttpClient(client))
-                .build(KeycloakApiPatched.instance("http://habitcentric.demo", "habitcentric"))
-
-        def token = service.getAccessTokenPasswordGrant("lpt", "lpt")
-        token.accessToken
-    }
-
     String getAccessToken() {
         RequestBody body = new FormBody.Builder()
-                .add("username", "lpt")
-                .add("password", "lpt")
+                .add("username", OIDC_USERNAME)
+                .add("password", OIDC_PASSWORD)
+                .add("client_id", OIDC_CLIENT_ID)
                 .add("grant_type", "password")
-                .add("client_id", "lpt")
                 .build()
 
         Request tokenRequest = new Request.Builder()
-                .url("http://habitcentric.demo/auth/realms/habitcentric/protocol/openid-connect/token")
+                .url(OIDC_TOKEN_URL)
                 .post(body)
                 .build();
 
         try (Response response = client.newCall(tokenRequest).execute()) {
-            def parse = new JsonSlurper().parse(response.body().charStream());
-            parse.access_token
+            def tokenResponse = new JsonSlurper().parse(response.body().charStream());
+            tokenResponse.access_token
         }
     }
 

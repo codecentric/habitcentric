@@ -14,8 +14,6 @@ dependencies {
     testImplementation 'org.spockframework:spock-core'
 
     testImplementation 'com.squareup.okhttp3:okhttp:4.9.0'
-    testImplementation 'com.github.scribejava:scribejava-apis:8.1.0'
-    testImplementation 'com.github.scribejava:scribejava-httpclient-okhttp:8.1.0'
     testImplementation 'io.kubernetes:client-java:11.0.0'
 }
 

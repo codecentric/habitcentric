@@ -6,11 +6,20 @@ mesh deployment delivers everything we need.
 The test suite is using [Groovy](https://groovy-lang.org/), [Spock](http://spockframework.org/) and
 [Kubernetes Java Client](https://github.com/kubernetes-client/java).
 
+# How to run?
+
+Your can run the test with gradle:
+```shell
+./gradlew test
+```
+
+or run them from your IDE.
+
 # Specs and scope
 What do we want to test?
 
-* Behaviour of certain configurations
-* Authorization Rules
+* Behaviour general Habitcentric configurations
+* Authorization rules
 
 ## Habitcentric
 
