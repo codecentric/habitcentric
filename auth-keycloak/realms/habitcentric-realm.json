@@ -60,6 +60,22 @@
           "realm-admin"
         ]
       }
+    },
+    {
+      "username": "lpt",
+      "enabled": true,
+      "email": "lpt@habitcentric.de",
+      "firstName": "Load",
+      "lastName": "Tester",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "lpt"
+        }
+      ],
+      "realmRoles": [
+        "user"
+      ]
     }
   ],
   "roles": {
@@ -104,6 +120,12 @@
         "http://habitcentric.demo/ui/auth/callback",
         "https://habitcentric.demo/ui/auth/callback"
       ]
+    },
+    {
+      "clientId": "lpt",
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "enabled": true
     }
   ]
 }
