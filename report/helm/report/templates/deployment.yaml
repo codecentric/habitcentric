@@ -52,6 +52,8 @@ spec:
               value: {{ .Values.report.habitServiceUrl }}
             - name: TRACK_SERVICE_URL
               value: {{ .Values.report.trackServiceUrl }}
+            - name: REPORT_ENABLE_MONTHLY_RATE
+              value: "{{ .Values.report.enableMonthlyRate }}"
             {{- range .Values.extraEnv }}
             {{- if .name }}
             - name: {{ .name }}

@@ -1,6 +1,7 @@
 report:
   habitServiceUrl: http://habit:8080
   trackServiceUrl: http://track:8080
+  enableMonthlyRate: false
 
 init:
   image:
