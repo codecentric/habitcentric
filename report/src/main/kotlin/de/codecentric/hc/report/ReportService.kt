@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service
 @Service
 class ReportService(
     val dateService: DateService,
-    val trackedHabitService: TrackedHabitService
+    val trackedHabitService: TrackedHabitService,
+    val reportProperties: ReportProperties
 ) {
 
     fun calculateAchievementRates(): AchievementRates {
@@ -16,9 +17,14 @@ class ReportService(
             trackedHabitService.getTrackedHabitsWith(setOf(Frequency.DAILY, Frequency.WEEKLY, Frequency.MONTHLY))
 
         val weeklyAchievementRate = calculateRateFor(trackedHabits, LAST_7_DAYS)
-        val monthlyAchievementRate = calculateRateFor(trackedHabits, LAST_30_DAYS)
 
-        return AchievementRates(weeklyAchievementRate, monthlyAchievementRate)
+        if (reportProperties.enableMonthlyRate) {
+            val monthlyAchievementRate = calculateRateFor(trackedHabits, LAST_30_DAYS)
+            return AchievementRates(weeklyAchievementRate, monthlyAchievementRate)
+        } else {
+            return AchievementRates(weeklyAchievementRate)
+        }
+
     }
 
     private fun calculateRateFor(

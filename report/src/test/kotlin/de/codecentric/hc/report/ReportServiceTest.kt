@@ -23,6 +23,9 @@ internal class ReportServiceTest {
     @MockK
     lateinit var trackedHabitService: TrackedHabitService
 
+    @MockK
+    lateinit var reportProperties: ReportProperties
+
     @InjectMockKs
     lateinit var subject: ReportService
 
@@ -30,6 +33,7 @@ internal class ReportServiceTest {
 
     @BeforeEach
     internal fun setUp() {
+        every { reportProperties.enableMonthlyRate } returns true
         every { dateService.today() } returns LocalDate.parse("2020-01-31")
         every {
             trackedHabitService.getTrackedHabitsWith(
@@ -111,6 +115,15 @@ internal class ReportServiceTest {
             val result = subject.calculateAchievementRates()
 
             assertThat(result.month).isEqualTo(0.0)
+        }
+
+        @Test
+        fun `given monthly rate deactivated, should set monthly rate to null`() {
+            every { reportProperties.enableMonthlyRate } returns false
+
+            val result = subject.calculateAchievementRates()
+
+            assertThat(result.month).isNull()
         }
     }
 

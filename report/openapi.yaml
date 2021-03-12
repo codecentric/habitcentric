@@ -29,7 +29,6 @@ components:
       type: object
       required:
         - week
-        - month
       properties:
         week:
           type: number
