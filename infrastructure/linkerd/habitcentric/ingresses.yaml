@@ -1,6 +1,29 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
+  name: redirect-to-ui
+  namespace: hc-ui
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/app-root: /ui
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
+      proxy_hide_header l5d-remote-ip;
+      proxy_hide_header l5d-server-id;
+spec:
+  rules:
+    - host: habitcentric.demo
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              serviceName: ui
+              servicePort: 80
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
   name: habit-ingress
   namespace: hc-habit
   annotations:
