@@ -76,6 +76,22 @@
       "realmRoles": [
         "user"
       ]
+    },
+    {
+      "username": "testing",
+      "enabled": true,
+      "email": "testing@habitcentric.de",
+      "firstName": "Test",
+      "lastName": "ing",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "testing"
+        }
+      ],
+      "realmRoles": [
+        "user"
+      ]
     }
   ],
   "roles": {
@@ -123,6 +139,12 @@
     },
     {
       "clientId": "lpt",
+      "publicClient": true,
+      "directAccessGrantsEnabled": true,
+      "enabled": true
+    },
+    {
+      "clientId": "testing",
       "publicClient": true,
       "directAccessGrantsEnabled": true,
       "enabled": true
