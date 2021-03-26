@@ -1,5 +1,6 @@
 package de.codecentric.hc
 
+import de.codecentric.hc.infra.Environment
 import de.codecentric.hc.infra.RequestHelper
 import spock.lang.Narrative
 import spock.lang.Specification
@@ -10,13 +11,13 @@ class HabitcentricSpec extends Specification {
 
     def "should redirect to /ui from the root"() {
         given:
-        def url = "http://habitcentric.demo"
+        def url = Environment.baseUrl
 
         when:
         def response = oauthHelper.get(url)
 
         then:
         response.code == 301 || response.code == 302
-        response.headers.location == ["http://habitcentric.demo/ui"]
+        response.headers.location == [Environment.baseUrlWithPath("/ui")]
     }
 }

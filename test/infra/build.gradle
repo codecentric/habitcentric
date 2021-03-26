@@ -18,9 +18,12 @@ dependencies {
 }
 
 test {
+    systemProperty "habitcentric.environment", System.getProperty("habitcentric.environment")
+    systemProperty "habitcentric.https", System.getProperty("habitcentric.https")
+
     useJUnitPlatform()
     jvmArgs = [
-            // there is some kind of problem with tls 1.3 between java und go
+            // there is some kind of problem with tls 1.3 between java and go
             // https://stackoverflow.com/questions/60790118/java-kubernetes-client-sslhandshakeexception-extension-5-should-not-be-present
             // https://github.com/golang/go/issues/35722
             // https://bugs.openjdk.java.net/browse/JDK-8236039

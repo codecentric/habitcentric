@@ -1,5 +1,6 @@
 package de.codecentric.hc.infra
 
+import de.codecentric.hc.infra.tls.TlsHelper
 import groovy.json.JsonSlurper
 import groovy.transform.Immutable
 import okhttp3.FormBody
@@ -9,7 +10,7 @@ import okhttp3.RequestBody
 import okhttp3.Response
 
 class RequestHelper {
-    private static final String OIDC_TOKEN_URL = "http://habitcentric.demo/auth/realms/habitcentric/protocol/openid-connect/token"
+    private static final String OIDC_TOKEN_URL = Environment.baseUrlWithPath("/auth/realms/habitcentric/protocol/openid-connect/token")
     private static final String OIDC_USERNAME = "testing"
     private static final String OIDC_PASSWORD = "testing"
     private static final String OIDC_CLIENT_ID = "testing"
@@ -19,8 +20,9 @@ class RequestHelper {
         client = new OkHttpClient().newBuilder()
                 .followRedirects(false)
                 .followSslRedirects(false)
+                .sslSocketFactory(TlsHelper.createSSLSocketFactory(), TlsHelper.trustAllCerts())
+                .hostnameVerifier(TlsHelper.trustAllHosts())
                 .build()
-
     }
 
     ResponseDto get(String url) {
@@ -37,7 +39,6 @@ class RequestHelper {
     }
 
     ResponseDto getWithAuth(String url) {
-        OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
                 .header("Authorization", "Bearer ${getAccessToken()}")
