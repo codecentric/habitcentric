@@ -1,3 +1,3 @@
 package de.codecentric.hc.report
 
-data class AchievementRates(val week: Double, val month: Double)
+data class AchievementRates(val week: Double, val month: Double? = null)

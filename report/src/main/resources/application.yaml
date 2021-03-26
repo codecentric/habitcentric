@@ -4,8 +4,13 @@ habit:
 track:
   service-url: http://localhost:8081
 
+report:
+  enable-monthly-rate: false
+
 spring:
   profiles:
     active: chaos-monkey
   sleuth:
     propagation-keys: authorization
+  jackson:
+    default-property-inclusion: NON_NULL
