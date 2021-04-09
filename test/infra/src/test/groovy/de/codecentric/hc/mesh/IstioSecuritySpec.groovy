@@ -1,10 +1,13 @@
-package de.codecentric.hc
+package de.codecentric.hc.mesh
 
+import de.codecentric.hc.infra.Environment
 import de.codecentric.hc.infra.K8sHelper
 import de.codecentric.hc.infra.RequestHelper
+import spock.lang.Requires
 import spock.lang.Specification
 
-class SecuritySpec extends Specification {
+@Requires({ Environment.Istio })
+class IstioSecuritySpec extends Specification {
     private RequestHelper oauthHelper = new RequestHelper()
     private static helperPodNamespace = "hc-ui"
     private static helperPodName = "habitcentric-pen-test"
@@ -26,7 +29,7 @@ class SecuritySpec extends Specification {
 
     def "should forbid request to #name service without oidc token"() {
         when:
-        def url = "http://habitcentric.demo${path}"
+        def url = Environment.baseUrlWithPath(path)
         def response = oauthHelper.get(url)
 
         then:
@@ -41,7 +44,7 @@ class SecuritySpec extends Specification {
 
     def "should allow request to #name service with oidc token"() {
         when:
-        def url = "http://habitcentric.demo${path}"
+        def url = Environment.baseUrlWithPath(path)
         def response = oauthHelper.getWithAuth(url)
 
         then:
