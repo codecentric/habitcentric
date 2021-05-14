@@ -9,17 +9,21 @@ services:
       KEYCLOAK_PASSWORD: admin
       DB_VENDOR: postgres
       DB_ADDR: keycloak-db
+      DB_PORT: 10003
       DB_USER: keycloak
       DB_PASSWORD: password
     depends_on:
       - keycloak-db
   keycloak-db:
-    image: postgres:9.6
+    image: bitnami/postgresql:13
     environment:
-      PGDATA: /var/lib/postgresql/data/keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: password
+      POSTGRESQL_USER: keycloak
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_PORT_NUMBER: 10003
+      POSTGRESQL_DATABASE: keycloak
+    ports:
+      - 10003
     volumes:
-      - keycloak-db-data:/var/lib/postgresql/data
+      - keycloak-db-data:/bitnami/postgresql
 volumes:
   keycloak-db-data:
