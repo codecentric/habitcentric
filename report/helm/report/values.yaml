@@ -1,6 +1,6 @@
 report:
-  habitServiceUrl: http://habit:8080
-  trackServiceUrl: http://track:8080
+  habitServiceUrl: http://habit.hc-habit:9001
+  trackServiceUrl: http://track.hc-track:9002
   enableMonthlyRate: false
 
 init:
@@ -32,7 +32,7 @@ service:
   type: ClusterIP
 
   ## Internal service port
-  port: 8080
+  port: 9003
 
   ## nodePort value for the LoadBalancer and NodePort service types
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport

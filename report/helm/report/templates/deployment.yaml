@@ -46,7 +46,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http-report
-              containerPort: 8080
+              containerPort: 9003
           env:
             - name: HABIT_SERVICE_URL
               value: {{ .Values.report.habitServiceUrl }}
