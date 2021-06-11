@@ -13,12 +13,11 @@ group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-def dbUrlDefault = 'jdbc:postgresql://localhost:5432/'
+def dbUrlDefault = 'jdbc:postgresql://localhost:10001/'
 def dbUserDefault = 'postgres'
 def dbPasswordDefault = 'postgres'
 
 bootRun {
-    args = ["--server.port=8180"]
 }
 
 liquibase {
@@ -89,6 +88,7 @@ dependencies {
     intTestImplementation('io.rest-assured:xml-path:4.0.0') {
         exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
     }
-    intTestImplementation 'org.testcontainers:junit-jupiter:1.12.0'
-    intTestImplementation 'org.testcontainers:postgresql:1.12.0'
+    intTestImplementation platform('org.testcontainers:testcontainers-bom:1.15.3')
+    intTestImplementation 'org.testcontainers:junit-jupiter'
+    intTestImplementation 'org.testcontainers:postgresql'
 }

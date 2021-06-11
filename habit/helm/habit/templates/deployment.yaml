@@ -47,7 +47,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http-habit
-              containerPort: 8080
+              containerPort: 9001
           env:
             {{- include "habit.persistence.vars" .  | indent 12 }}
             {{- range .Values.extraEnv }}
