@@ -13,12 +13,11 @@ group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
-def dbUrlDefault = 'jdbc:postgresql://localhost:5432/'
+def dbUrlDefault = 'jdbc:postgresql://localhost:10002/'
 def dbUserDefault = 'postgres'
 def dbPasswordDefault = 'postgres'
 
 bootRun {
-    environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: 'local'
 }
 
 flyway {
@@ -80,7 +79,8 @@ dependencies {
     intTestImplementation('io.rest-assured:xml-path:4.0.0') {
         exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
     }
-    intTestImplementation 'org.testcontainers:junit-jupiter:1.12.0'
-    intTestImplementation 'org.testcontainers:postgresql:1.12.0'
+    intTestImplementation platform('org.testcontainers:testcontainers-bom:1.15.3')
+    intTestImplementation 'org.testcontainers:junit-jupiter'
+    intTestImplementation 'org.testcontainers:postgresql'
     testImplementation 'org.reflections:reflections:0.9.11'
 }

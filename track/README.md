@@ -30,7 +30,7 @@ docker-compose up --build
 ```
 
 It's recommend to use `docker-compose` to start the following components on your local machine:
-* [REST webservice](http://localhost:8219/actuator/health) (port 8219)
+* [REST webservice](http://localhost:9002/actuator/health)
 * PostgreSQL database
 
 `Dockerfile` describes the application's Docker image and expects an existing JAR ([see Build](#build)).
@@ -47,7 +47,7 @@ docker-compose down
 It's also possible to start each component separately:
 
 * `docker-compose up db` to start the database
-* `docker-compose up app` or `./gradlew bootRun` to start the webservice (Gradle will start the service on port 8209)
+* `docker-compose up app` or `./gradlew bootRun` to start the webservice (Gradle will start the service on port 9002)
 
 ## Database
 Flyway is used for continuously migrating the database.
