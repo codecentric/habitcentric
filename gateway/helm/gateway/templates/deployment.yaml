@@ -32,7 +32,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http-gateway
-              containerPort: 8080
+              containerPort: 9000
           env:
             - name: AUTH_TYPE
               value: {{ .Values.authType }}

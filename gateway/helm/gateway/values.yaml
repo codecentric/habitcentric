@@ -17,7 +17,7 @@ service:
   type: NodePort
 
   ## Internal service port
-  port: 8419
+  port: 9000
 
   ## nodePort value for the LoadBalancer and NodePort service types
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
@@ -79,16 +79,16 @@ authType: HTTP_BASIC
 authUri: http://habitcentric-keycloak:8080
 
 ## URI of habit service
-habitUri: http://habitcentric-habit:8080
+habitUri: http://habitcentric-habit:9001
 
 ## URI of track service
-trackUri: http://habitcentric-track:8080
+trackUri: http://habitcentric-track:9002
 
 ## URI of report service
-reportUri: http://habitcentric-report:8080
+reportUri: http://habitcentric-report:9003
 
 ## URI of UI service
-uiUri: http://habitcentric-ui
+uiUri: http://habitcentric-ui:9004
 
 ## Number of service instances
 replicas: 1

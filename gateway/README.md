@@ -30,12 +30,12 @@ You can created a fat JAR that contains all dependencies and a Tomcat server to 
 
 ## Start Application Locally
 
-To start the gateway on port 8431 with Gradle execute:
+To start the gateway on port 9000 with Gradle execute:
 ```
 ./gradlew bootRun
 ```
 
-It's recommend to use `docker-compose` to start the gateway on port 8419:
+It's recommended to use `docker-compose` to start the gateway on port 9000:
 ```
 docker-compose up --build
 ```

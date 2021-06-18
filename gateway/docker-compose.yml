@@ -7,6 +7,7 @@ services:
       KEYCLOAK_PASSWORD: admin
       DB_VENDOR: postgres
       DB_ADDR: auth-keycloak-db
+      DB_PORT: 10003
       DB_USER: keycloak
       DB_PASSWORD: password
     healthcheck:
@@ -23,11 +24,12 @@ services:
         aliases:
           - habitcentric.demo
   auth-keycloak-db:
-    image: postgres:9.6
+    image: bitnami/postgresql:13
     environment:
-      PGDATA: /var/lib/postgresql/data/keycloak
-      POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: password
+      POSTGRESQL_USER: keycloak
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_PORT_NUMBER: 10003
+      POSTGRESQL_DATABASE: keycloak
     volumes:
       - auth-keycloak-db-data:/var/lib/postgresql/data
     networks:
@@ -37,12 +39,12 @@ services:
     environment:
       AUTH_TYPE: OAUTH_2_LOGIN
       AUTH_URI: http://habitcentric.demo:8080
-      HABIT_URI: http://habit:8080
-      TRACK_URI: http://track:8080
-      REPORT_URI: http://report:8080
-      UI_URI: http://ui
+      HABIT_URI: http://habit:9001
+      TRACK_URI: http://track:9002
+      REPORT_URI: http://report:9003
+      UI_URI: http://ui:9004
     ports:
-      - 8419:8080
+      - 9000:9000
     networks:
       - habitcentric-net
   habit:
@@ -54,10 +56,11 @@ services:
     networks:
       - habitcentric-net
   habit-db:
-    image: postgres:9.6
+    image: bitnami/postgresql:13
     restart: always
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRESQL_PASSWORD: postgres
+      POSTGRESQL_PORT_NUMBER: 10001
     networks:
       - habitcentric-net
   track:
@@ -69,24 +72,25 @@ services:
     networks:
       - habitcentric-net
   track-db:
-    image: postgres:9.6
+    image: bitnami/postgresql:13
     restart: always
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRESQL_PASSWORD: postgres
+      POSTGRESQL_PORT_NUMBER: 10002
     networks:
       - habitcentric-net
   report:
     image: habitcentric/report
     environment:
-      HABIT_SERVICE_URL: http://habit:8080
-      TRACK_SERVICE_URL: http://track:8080
+      HABIT_SERVICE_URL: http://habit:9001
+      TRACK_SERVICE_URL: http://track:9002
     networks:
       - habitcentric-net
   ui:
     image: habitcentric/ui
     environment:
-      HABIT_SERVICE_HOST: http://localhost:8419/
-      TRACKING_SERVICE_HOST: http://localhost:8419/
+      HABIT_SERVICE_HOST: http://localhost:9000/
+      TRACKING_SERVICE_HOST: http://localhost:9000/
     networks:
       - habitcentric-net
 volumes:
