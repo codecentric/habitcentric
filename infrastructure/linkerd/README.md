@@ -25,11 +25,17 @@ linkerd check --pre
 
 # If all checks pass, install Linkerd
 # (you may verify the output before piping it to kubectl, if you want)
-linkerd install --config config/addon-config.yaml | kubectl apply -f -
+linkerd install | kubectl apply -f -
 
 # Perform a post-installation check that will also wait for all components
 # to start properly
 linkerd check
+
+# Install visualization extension to deploy dashboard and Grafana
+linkerd viz install | kubectl apply -f -
+
+# Install jaeger extension to enable distributed tracing
+linkerd jaeger install | kubectl apply -f -
 
 # If you want, you can now open the Linkerd dashboard
 linkerd dashboard
@@ -130,16 +136,13 @@ configuration:
 
 ```
 enable-opentracing: "true"
-zipkin-collector-host: linkerd-collector.linkerd
+zipkin-collector-host: collector.linkerd-jaeger
 ```
 
 Restart the ingress controller by deleting the pod after applying the change.
 
-To explore traces, point the hostname `jaeger.demo` to your ingress controller's
-IP and deploy the corresponding ingress definition:
+To explore traces, run the following command:
 
+```sh
+linkerd jaeger dashboard
 ```
-kubectl apply -f tracing-ingress.yaml
-```
-
-You are then able to access Jaeger' UI at http://jaeger.demo/.
