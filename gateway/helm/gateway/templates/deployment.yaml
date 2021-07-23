@@ -57,8 +57,8 @@ spec:
             successThreshold: {{ .Values.readinessProbe.successThreshold }}
           livenessProbe:
             httpGet:
-              path: /gateway
-              port: {{ .Values.service.port }}
+              path: /actuator/health
+              port: http-gateway
             initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
             periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
