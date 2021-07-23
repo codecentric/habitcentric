@@ -77,7 +77,7 @@ Create a default fully qualified app name for the postgres requirement.
 */}}
 {{- define "track.postgresql.fullname" -}}
 {{- $postgresContext := dict "Values" .Values.postgresql "Release" .Release "Chart" (dict "Name" "postgresql") -}}
-{{ template "postgresql.fullname" $postgresContext }}
+{{ template "postgresql.primary.fullname" $postgresContext }}
 {{- end -}}
 
 {{/*
@@ -88,7 +88,7 @@ Create environment variables for database configuration
 - name: DB_HOST
   value: {{ template "track.postgresql.fullname" . }}
 - name: DB_PORT
-  value: "5432"
+  value: "10002"
 - name: DB_NAME
   value: {{ .Values.postgresql.postgresqlDatabase | quote }}
 - name: DB_USER
