@@ -18,7 +18,7 @@ spec:
       - destination:
           host: habit.hc-habit.svc.cluster.local
           port:
-            number: 8080
+            number: 9001
   - match:
     - uri:
         prefix: /habits
@@ -26,7 +26,7 @@ spec:
     - destination:
         host: habit.hc-habit.svc.cluster.local
         port:
-          number: 8080
+          number: 9001
   - match:
       - uri:
           prefix: /track/actuator
@@ -36,7 +36,7 @@ spec:
       - destination:
           host: track.hc-track.svc.cluster.local
           port:
-            number: 8080
+            number: 9002
   - match:
     - uri:
         prefix: /track
@@ -44,7 +44,7 @@ spec:
     - destination:
         host: track.hc-track.svc.cluster.local
         port:
-          number: 8080
+          number: 9002
   - match:
       - uri:
           prefix: /report/actuator
@@ -54,7 +54,7 @@ spec:
       - destination:
           host: report.hc-report.svc.cluster.local
           port:
-            number: 8080
+            number: 9003
   - match:
     - uri:
         prefix: /report
@@ -62,13 +62,15 @@ spec:
     - destination:
         host: report.hc-report.svc.cluster.local
         port:
-          number: 8080
+          number: 9003
   - match:
     - uri:
         prefix: /ui
     route:
     - destination:
         host: ui.hc-ui.svc.cluster.local
+        port:
+          number: 9004
   - match:
     - uri:
         prefix: /auth
@@ -76,7 +78,7 @@ spec:
     - destination:
         host: keycloak-http.hc-keycloak.svc.cluster.local
         port:
-          number: 80
+          number: 8080
   - match:
     - uri:
         prefix: /
