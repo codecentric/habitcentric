@@ -10,6 +10,12 @@ yarn install
 yarn run serve
 ```
 
+To start the required dependencies (habit, track, report) with wiremock run:
+
+```
+docker-compose up habit report track
+```
+
 ### Compiles and minifies for production
 ```
 yarn run build

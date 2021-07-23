@@ -1,6 +1,6 @@
 module.exports = {
   devServer: {
-    port: 8171
+    port: 9004
   },
   baseUrl: process.env.VUE_APP_UI_PATH
 };
