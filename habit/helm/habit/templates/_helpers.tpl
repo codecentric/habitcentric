@@ -88,7 +88,7 @@ Create environment variables for database configuration
 - name: DB_HOST
   value: {{ template "habit.postgresql.fullname" . }}
 - name: DB_PORT
-  value: "5432"
+  value: "10001"
 - name: DB_NAME
   value: {{ .Values.postgresql.postgresqlDatabase | quote }}
 - name: DB_USER

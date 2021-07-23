@@ -3,7 +3,7 @@ spring:
     active: chaos-monkey
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:postgres}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:10001}/${DB_NAME:postgres}
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
     initialization-mode: always
@@ -24,3 +24,5 @@ spring:
 logging:
   level:
     liquibase.executor: WARN
+server:
+  port: 9001

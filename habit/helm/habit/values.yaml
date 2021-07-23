@@ -27,7 +27,7 @@ service:
   type: ClusterIP
 
   ## Internal service port
-  port: 8080
+  port: 9001
 
   ## nodePort value for the LoadBalancer and NodePort service types
   ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
@@ -91,6 +91,10 @@ updateStrategyType: RollingUpdate
 
 postgresql:
   nameOverride: habit-postgresql
+
+  ## Default port for the hc-track db
+  service:
+    port: 10001
 
   ## PostgreSQL user to create
   postgresqlUsername: habit

@@ -1,0 +1,18 @@
+### Get all habits
+
+GET http://localhost:9001/habits
+X-User-Id: default
+
+### Create new habit
+
+POST http://localhost:9001/habits
+X-User-Id: default
+Content-Type: application/json
+
+{
+  "name": "Play guitar",
+  "schedule": {
+    "repetitions": 5,
+    "frequency": "MONTHLY"
+  }
+}

@@ -5,11 +5,14 @@ services:
     environment:
       DB_HOST: db
     ports:
-      - 8180:8080
+      - 9001:9001
     depends_on:
       - db
   db:
-    image: postgres
+    image: bitnami/postgresql:13
     restart: always
+    ports:
+      - 10001:10001
     environment:
-      POSTGRES_PASSWORD: postgres
+      POSTGRESQL_PASSWORD: postgres
+      POSTGRESQL_PORT_NUMBER: 10001
