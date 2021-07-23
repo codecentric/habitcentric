@@ -1,9 +1,26 @@
 version: '3'
 services:
-  wiremock:
-    image: rodolpheche/wiremock:2.26.3-alpine
-    volumes:
-      - ./stubs:/home/wiremock
+  app:
+    build: .
+    environment:
+      HABIT_SERVICE_URL: http://habit:9001
+      TRACK_SERVICE_URL: http://track:9002
     ports:
-      - 8081:8080
-    command: --global-response-templating
+      - 9003:9003
+    depends_on:
+      - habit
+      - track
+  habit:
+    image: rodolpheche/wiremock:2.28.1-alpine
+    volumes:
+      - ./stubs/habit:/home/wiremock/mappings
+    ports:
+      - 9001:9001
+    command: --global-response-templating --port 9001
+  track:
+    image: rodolpheche/wiremock:2.28.1-alpine
+    volumes:
+      - ./stubs/track:/home/wiremock/mappings
+    ports:
+      - 9002:9002
+    command: --global-response-templating --port 9002
