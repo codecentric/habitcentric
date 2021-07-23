@@ -55,16 +55,16 @@ gateway:
   target:
     uri:
       auth: ${AUTH_URI:http://localhost:8080}
-      habit: ${HABIT_URI:http://localhost:8180}
-      track: ${TRACK_URI:http://localhost:8219}
-      report: ${REPORT_URI:http://localhost:8319}
-      ui: ${UI_URI:http://localhost:8171}
-
+      habit: ${HABIT_URI:http://localhost:9001}
+      track: ${TRACK_URI:http://localhost:9002}
+      report: ${REPORT_URI:http://localhost:9003}
+      ui: ${UI_URI:http://localhost:9004}
+server:
+  port: 9000
 ---
 
 spring:
   profiles: local
 server:
-  port: 8431
   error:
     include-stacktrace: ALWAYS
