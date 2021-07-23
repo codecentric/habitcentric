@@ -11,7 +11,7 @@ spec:
       - path: /habits
         backend:
           serviceName: habit
-          servicePort: 8080
+          servicePort: 9001
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -29,7 +29,7 @@ spec:
           - path: /habits/actuator(.*)
             backend:
               serviceName: habit
-              servicePort: 8080
+              servicePort: 9001
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -44,7 +44,7 @@ spec:
       - path: /track
         backend:
           serviceName: track
-          servicePort: 8080
+          servicePort: 9002
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -62,7 +62,7 @@ spec:
           - path: /track/actuator(.*)
             backend:
               serviceName: track
-              servicePort: 8080
+              servicePort: 9002
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -77,7 +77,7 @@ spec:
       - path: /report
         backend:
           serviceName: report
-          servicePort: 8080
+          servicePort: 9003
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -95,7 +95,7 @@ spec:
           - path: /report/actuator(.*)
             backend:
               serviceName: report
-              servicePort: 8080
+              servicePort: 9003
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -110,7 +110,7 @@ spec:
       - path: /ui
         backend:
           serviceName: ui
-          servicePort: 80
+          servicePort: 9004
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -125,4 +125,4 @@ spec:
       - path: /auth
         backend:
           serviceName: keycloak-http
-          servicePort: 80
+          servicePort: 8080
