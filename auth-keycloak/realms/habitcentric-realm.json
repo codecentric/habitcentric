@@ -119,8 +119,8 @@
       "redirectUris": [
         "http://gateway/login/oauth2/code/keycloak",
         "http://habitcentric.demo/gateway/login/oauth2/code/keycloak",
-        "http://localhost:8419/login/oauth2/code/keycloak",
-        "http://localhost:8431/login/oauth2/code/keycloak"
+        "http://localhost:9000/login/oauth2/code/keycloak",
+        "http://habitcentric.demo:9000/login/oauth2/code/keycloak"
       ]
     },
     {
@@ -134,7 +134,8 @@
       "secret": "password",
       "redirectUris": [
         "http://habitcentric.demo/ui/auth/callback",
-        "https://habitcentric.demo/ui/auth/callback"
+        "https://habitcentric.demo/ui/auth/callback",
+        "http://localhost:9000/ui/auth/callback"
       ]
     },
     {
