@@ -32,7 +32,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http-ui
-              containerPort: 80
+              containerPort: 9004
           env:
             {{- if .Values.oidc.enabled }}
             - name: OIDC_AUTH
