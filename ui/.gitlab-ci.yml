@@ -52,4 +52,4 @@ publish image:
     - docker build -t $DOCKER_HUB_REGISTRY_IMAGE:latest .
     - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest
   only:
-    - master
+    - main
