@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: chaos-monkey
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:10002}/${DB_NAME:postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+  flyway.schemas: hc_track
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  jpa:
+    database-platform: postgres
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        default_schema: hc_track
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        jdbc:
+          lob:
+            # https://github.com/spring-projects/spring-boot/issues/12007#issuecomment-370774241
+            non_contextual_creation: true
+server:
+  port: 9002

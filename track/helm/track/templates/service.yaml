@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "track.fullname" . }}
+  labels:
+  {{- include "track.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http-track
+      port: {{ .Values.service.port }}
+      targetPort: http-track
+  selector:
+  {{- include "track.selectorLabels" . | nindent 4 }}

@@ -1,0 +1,26 @@
+apiVersion: v2
+name: track
+version: 0.1.0
+appVersion: latest
+description: Chart for the track service of habitcentric, a service to track habits
+keywords:
+  - habitcentric
+  - track
+  - microservices
+home: https://confluence.codecentric.de/display/HAB/habitcentric
+sources:
+  - https://gitlab.com/habitcentric/hc-track
+maintainers:
+  - name: Michael Follmann
+    email: michael.follmann@codecentric.de
+    url: https://gitlab.com/michael.follmann
+  - name: Dennis Effing
+    email: dennis.effing@codecentric.de
+    url: https://gitlab.com/denniseffing
+engine: gotpl
+
+dependencies:
+  - name: postgresql
+    version: 10.4.4
+    repository: https://charts.bitnami.com/bitnami
+    condition: persistence.deployPostgres

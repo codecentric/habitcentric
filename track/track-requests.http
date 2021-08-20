@@ -1,0 +1,14 @@
+### create tracks
+PUT http://localhost:9002/track/users/default/habits/1
+Content-Type: application/json
+
+["2021-07-23", "2021-07-25"]
+
+### get tracks
+GET http://localhost:9002/track/users/default/habits/1
+
+### delete all tracks
+PUT http://localhost:9002/track/users/default/habits/1
+Content-Type: application/json
+
+[]
