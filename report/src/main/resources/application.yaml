@@ -1,0 +1,18 @@
+habit:
+  service-url: http://localhost:9001
+
+track:
+  service-url: http://localhost:9002
+
+report:
+  enable-monthly-rate: false
+
+spring:
+  profiles:
+    active: chaos-monkey
+  sleuth:
+    propagation-keys: authorization
+  jackson:
+    default-property-inclusion: NON_NULL
+server:
+  port: 9003

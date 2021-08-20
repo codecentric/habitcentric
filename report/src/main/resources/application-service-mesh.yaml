@@ -1,0 +1,4 @@
+spring:
+  sleuth:
+    http:
+      enabled: false

@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "habit.service-url",
+      "type": "java.lang.String",
+      "description": "Base URL of the habit service to fetch habits from."
+    },
+    {
+      "name": "track.service-url",
+      "type": "java.lang.String",
+      "description": "Base URL of the track service to fetch tracking entries from."
+    }
+  ]
+}

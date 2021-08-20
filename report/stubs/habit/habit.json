@@ -1,0 +1,30 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/habits"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      {
+        "id": 1,
+        "name": "Jogging",
+        "schedule": {
+          "repetitions": 2,
+          "frequency": "WEEKLY"
+        }
+      },
+      {
+        "id": 2,
+        "name": "Meditate",
+        "schedule": {
+          "repetitions": 1,
+          "frequency": "DAILY"
+        }
+      }
+    ]
+  }
+}

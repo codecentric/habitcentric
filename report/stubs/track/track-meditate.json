@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/track/habits/2"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": [
+      "{{now offset='-1 days' format='yyyy-MM-dd'}}",
+      "{{now offset='-3 days' format='yyyy-MM-dd'}}",
+      "{{now offset='-5 days' format='yyyy-MM-dd'}}"
+    ]
+  }
+}
