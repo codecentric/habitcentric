@@ -6,15 +6,18 @@ unit test ui:
   image: node:10.16.0@sha256:523f767f8907f002316d3334bdb9d1154c7c6f6157c7aed3de5305726a963616
   before_script:
     - cd ui
-    - yarn config set cache-folder .yarn
     - yarn install
   script:
     - yarn run test:unit
     - yarn run lint --no-fix --max-warnings 0
   cache:
+    key: "${CI_COMMIT_REF_NAME}_ui"
+    policy: pull-push
     paths:
-      - node_modules/
-      - .yarn
+      - ui/node_modules/
+  artifacts:
+    reports:
+      cobertura: ui/coverage/cobertura-coverage.xml
 
 build ui for production:
   only:
@@ -26,11 +29,12 @@ build ui for production:
   image: node:10.16.0@sha256:523f767f8907f002316d3334bdb9d1154c7c6f6157c7aed3de5305726a963616
   before_script:
     - cd ui
-    - yarn config set cache-folder .yarn
     - yarn install
   script:
     - yarn run build
   cache:
+    key: "${CI_COMMIT_REF_NAME}_ui"
+    policy: pull
     paths:
       - node_modules/
       - .yarn
@@ -51,10 +55,6 @@ build ui image:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-  cache:
-    paths:
-      - node_modules/
-      - .yarn
 
 publish ui image:
   only:
@@ -74,5 +74,6 @@ publish ui image:
     - cd ui
   script:
     - docker login -u $DOCKER_HUB_REGISTRY_USER -p $DOCKER_HUB_REGISTRY_PASSWORD $DOCKER_HUB_REGISTRY
-    - docker build -t $DOCKER_HUB_REGISTRY_IMAGE:latest .
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_HUB_REGISTRY_IMAGE:latest
     - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest

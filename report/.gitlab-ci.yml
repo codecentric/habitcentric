@@ -1,22 +1,53 @@
+test report:
+  only:
+    changes:
+      - report/**/*
+  stage: test
+  image: openjdk:11.0.4-jdk-slim-buster@sha256:aa55d9c3be02f2710d5fb5fef87d5c07c9f7ad2c481105a891a4bdd485b2e2bd
+  before_script:
+    - cd report
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script: ./gradlew --build-cache check
+  cache:
+    key: "${CI_COMMIT_REF_NAME}_report"
+    policy: push
+    paths:
+      - report/build
+      - report/.gradle
+  artifacts:
+    when: always
+    name: "${CI_BUILD_STAGE}_report_${CI_BUILD_REF_NAME}"
+    expire_in: 1 week
+    paths:
+      - report/build/reports/tests/
+      - report/build/test-results/test/TEST-*.xml
+    reports:
+      junit: report/build/test-results/*/TEST-*.xml
+
 build report:
   only:
     changes:
       - report/**/*
+  needs:
+    - test report
   stage: build
   image: openjdk:11.0.7-jdk-slim-buster@sha256:663ad452a41122c79eb294198ad6336240c4c65b663acd91aa64c0431eaa1db5
   before_script:
     - cd report
-  script: "./gradlew clean build"
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script: ./gradlew --build-cache build
+  cache:
+    key: "${CI_COMMIT_REF_NAME}_report"
+    policy: pull
+    paths:
+      - report/build
+      - report/.gradle
   artifacts:
     when: always
     name: "${CI_BUILD_STAGE}_report_${CI_BUILD_REF_NAME}"
     expire_in: 1 week
     paths:
       - report/build/libs/report-*.jar
-      - report/build/reports/tests/
-      - report/build/test-results/test/TEST-*.xml
-    reports:
-      junit: report/build/test-results/*/TEST-*.xml
 
 build report image:
   only:
@@ -53,5 +84,6 @@ publish report image:
     - cd report
   script:
     - docker login -u $DOCKER_HUB_REGISTRY_USER -p $DOCKER_HUB_REGISTRY_PASSWORD $DOCKER_HUB_REGISTRY
-    - docker build -t $DOCKER_HUB_REGISTRY_IMAGE:latest .
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_HUB_REGISTRY_IMAGE:latest
     - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest

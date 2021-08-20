@@ -1,25 +1,55 @@
-build track:
+test track:
   only:
     changes:
       - track/**/*
-  stage: build
+  stage: test
   services:
     - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
   image: openjdk:11.0.4-jdk-slim-buster@sha256:aa55d9c3be02f2710d5fb5fef87d5c07c9f7ad2c481105a891a4bdd485b2e2bd
   before_script:
     - cd track
-  script: "./gradlew clean build jacocoTestReport jacocoTestCoverageVerification"
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script: ./gradlew --build-cache check jacocoTestReport jacocoTestCoverageVerification
+  cache:
+    key: "${CI_COMMIT_REF_NAME}_track"
+    policy: push
+    paths:
+      - track/build
+      - track/.gradle
+  artifacts:
+    when: always
+    name: "${CI_BUILD_STAGE}_track_${CI_BUILD_REF_NAME}"
+    expire_in: 1 week
+    paths:
+      - track/build/tracks/tests/
+      - track/build/test-results/test/TEST-*.xml
+    reports:
+      junit: track/build/test-results/*/TEST-*.xml
+
+build track:
+  only:
+    changes:
+      - track/**/*
+  needs:
+    - test track
+  stage: build
+  image: openjdk:11.0.4-jdk-slim-buster@sha256:aa55d9c3be02f2710d5fb5fef87d5c07c9f7ad2c481105a891a4bdd485b2e2bd
+  before_script:
+    - cd track
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script: ./gradlew --build-cache build
+  cache:
+    key: "${CI_COMMIT_REF_NAME}_track"
+    policy: pull
+    paths:
+      - track/build
+      - track/.gradle
   artifacts:
     when: always
     name: "${CI_BUILD_STAGE}_track_${CI_BUILD_REF_NAME}"
     expire_in: 1 week
     paths:
       - track/build/libs/hc-track-*.jar
-      - track/build/reports/jacoco/test/html/
-      - track/build/reports/tests/
-      - track/build/test-results/test/TEST-*.xml
-    reports:
-      junit: track/build/test-results/*/TEST-*.xml
 
 build track image:
   only:
@@ -56,5 +86,6 @@ publish track image:
     - cd track
   script:
     - docker login -u $DOCKER_HUB_REGISTRY_USER -p $DOCKER_HUB_REGISTRY_PASSWORD $DOCKER_HUB_REGISTRY
-    - docker build -t $DOCKER_HUB_REGISTRY_IMAGE:latest .
+    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_HUB_REGISTRY_IMAGE:latest
     - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest
