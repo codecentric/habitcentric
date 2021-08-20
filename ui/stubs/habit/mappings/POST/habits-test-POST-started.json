@@ -1,0 +1,22 @@
+{
+  "scenarioName": "To do list",
+  "requiredScenarioState": "Started",
+  "newScenarioState": "Test created",
+  "request": {
+    "method": "POST",
+    "url": "/habits",
+    "bodyPatterns": [
+      {
+        "contains": "Test"
+      }
+    ]
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "fixedDelayMilliseconds": 100
+  }
+}

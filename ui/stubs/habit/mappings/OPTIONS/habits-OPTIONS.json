@@ -1,0 +1,16 @@
+{
+  "scenarioName": "To do list",
+  "request": {
+    "method": "OPTIONS",
+    "url": "/habits"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Access-Control-Allow-Headers": "Accept, Authorization, Content-Type",
+      "Access-Control-Allow-Methods": "GET, OPTIONS, POST",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "fixedDelayMilliseconds": 100
+  }
+}

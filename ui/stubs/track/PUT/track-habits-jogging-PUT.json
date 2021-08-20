@@ -1,0 +1,19 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "/track/habits/1",
+    "bodyPatterns": [
+      {
+        "matches": ".*"
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "fixedDelayMilliseconds": 100
+  }
+}

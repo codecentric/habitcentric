@@ -1,0 +1,17 @@
+{
+  "scenarioName": "To do list",
+  "requiredScenarioState": "Started",
+  "newScenarioState": "Jogging and play guitar",
+  "request": {
+    "method": "DELETE",
+    "url": "/habits/101"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Access-Control-Allow-Headers": "*",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "fixedDelayMilliseconds": 100
+  }
+}

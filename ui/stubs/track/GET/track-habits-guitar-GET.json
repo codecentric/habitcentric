@@ -1,0 +1,15 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/track/habits/51"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "jsonBody": [],
+    "fixedDelayMilliseconds": 500
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "scenarioName": "To do list",
+  "requiredScenarioState": "Empty",
+  "request": {
+    "method": "GET",
+    "url": "/habits"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*"
+    },
+    "jsonBody": [],
+    "fixedDelayMilliseconds": 500
+  }
+}
