@@ -7,8 +7,8 @@
   image: docker:latest
   before_script:
     - cd "$SERVICE_FOLDER"
+    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin  $CI_REGISTRY
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
     - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
 
@@ -22,8 +22,8 @@
     - docker:dind
   before_script:
     - cd "$SERVICE_FOLDER"
+    - echo "$DOCKER_HUB_REGISTRY_PASSWORD" | docker login -u "$DOCKER_HUB_REGISTRY_USER" --password-stdin $DOCKER_HUB_REGISTRY
   script:
-    - docker login -u $DOCKER_HUB_REGISTRY_USER -p $DOCKER_HUB_REGISTRY_PASSWORD $DOCKER_HUB_REGISTRY
     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_HUB_REGISTRY_IMAGE:latest
     - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest
