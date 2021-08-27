@@ -12,6 +12,8 @@ stages:
   - publish image
 
 include:
+  - local: "/pipeline/gitlab-jvm.yml"
+  - local: "/pipeline/gitlab-docker.yml"
   - '/habit/.gitlab-ci.yml'
   - '/track/.gitlab-ci.yml'
   - '/report/.gitlab-ci.yml'

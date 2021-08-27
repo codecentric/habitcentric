@@ -1,25 +1,15 @@
 test track:
+  extends: .test
+  variables:
+    SERVICE_FOLDER: track
   only:
     changes:
       - track/**/*
-  stage: test
-  services:
-    - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
-  image: openjdk:11.0.4-jdk-slim-buster@sha256:aa55d9c3be02f2710d5fb5fef87d5c07c9f7ad2c481105a891a4bdd485b2e2bd
-  before_script:
-    - cd track
-    - export GRADLE_USER_HOME=`pwd`/.gradle
-  script: ./gradlew --build-cache check
   cache:
-    key: "${CI_COMMIT_REF_NAME}_track"
-    policy: push
     paths:
       - track/build
       - track/.gradle
   artifacts:
-    when: always
-    name: "${CI_BUILD_STAGE}_track_${CI_BUILD_REF_NAME}"
-    expire_in: 1 week
     paths:
       - track/build/tracks/tests/
       - track/build/test-results/test/TEST-*.xml
@@ -28,80 +18,51 @@ test track:
       junit: track/build/test-results/*/TEST-*.xml
 
 coverage track:
+  extends: .coverage
+  variables:
+    SERVICE_FOLDER: track
   only:
     changes:
       - track/**/*
-  stage: test
   needs:
     - test track
-  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
-  script:
-    # convert report from jacoco to cobertura, using relative project path
-    - python /opt/cover2cover.py track/build/reports/jacoco/test/jacocoTestReport.xml $CI_PROJECT_DIR/track/src/main/java/ > track/build/cobertura.xml
   artifacts:
     reports:
       cobertura: track/build/cobertura.xml
 
 build track:
+  extends: .build
+  variables:
+    SERVICE_FOLDER: track
   only:
     changes:
       - track/**/*
   needs:
     - test track
-  stage: build
-  image: openjdk:11.0.4-jdk-slim-buster@sha256:aa55d9c3be02f2710d5fb5fef87d5c07c9f7ad2c481105a891a4bdd485b2e2bd
-  before_script:
-    - cd track
-    - export GRADLE_USER_HOME=`pwd`/.gradle
-  script: ./gradlew --build-cache build
   cache:
-    key: "${CI_COMMIT_REF_NAME}_track"
-    policy: pull
     paths:
       - track/build
       - track/.gradle
   artifacts:
-    when: always
-    name: "${CI_BUILD_STAGE}_track_${CI_BUILD_REF_NAME}"
-    expire_in: 1 week
     paths:
       - track/build/libs/hc-track-*.jar
 
 build track image:
+  extends: .docker-build
+  variables:
+    SERVICE_FOLDER: track
   only:
     changes:
       - track/**/*
   needs:
     - build track
-  services:
-    - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
-  stage: build image
-  image: docker:19.03.1@sha256:5372cccaf84ae9a4d4f5c2b50ba7db6627cf3eff12785876f3354bbc2b0b57ea
-  before_script:
-    - cd track
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
 
 publish track image:
+  extends: .docker-publish
   only:
-    refs:
-      - main
     changes:
       - track/**/*
   needs:
     - build track image
   variables:
     DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/track
-  stage: publish image
-  image: docker:19.03.1@sha256:5372cccaf84ae9a4d4f5c2b50ba7db6627cf3eff12785876f3354bbc2b0b57ea
-  services:
-    - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
-  before_script:
-    - cd track
-  script:
-    - docker login -u $DOCKER_HUB_REGISTRY_USER -p $DOCKER_HUB_REGISTRY_PASSWORD $DOCKER_HUB_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_HUB_REGISTRY_IMAGE:latest
-    - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest

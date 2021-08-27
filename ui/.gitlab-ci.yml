@@ -40,40 +40,21 @@ build ui for production:
       - .yarn
 
 build ui image:
+  extends: .docker-build
+  variables:
+    SERVICE_FOLDER: ui
   only:
     changes:
       - ui/**/*
   needs:
     - build ui for production
-  stage: build image
-  image: docker:19.03.1@sha256:5372cccaf84ae9a4d4f5c2b50ba7db6627cf3eff12785876f3354bbc2b0b57ea
-  services:
-    - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
-  before_script:
-    - cd ui
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
 
 publish ui image:
+  extends: .docker-publish
   only:
-    refs:
-      - main
     changes:
       - ui/**/*
   needs:
     - build ui image
   variables:
     DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/ui
-  stage: publish image
-  image: docker:19.03.1@sha256:5372cccaf84ae9a4d4f5c2b50ba7db6627cf3eff12785876f3354bbc2b0b57ea
-  services:
-    - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
-  before_script:
-    - cd ui
-  script:
-    - docker login -u $DOCKER_HUB_REGISTRY_USER -p $DOCKER_HUB_REGISTRY_PASSWORD $DOCKER_HUB_REGISTRY
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_HUB_REGISTRY_IMAGE:latest
-    - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest
