@@ -1,8 +1,8 @@
 .test:
   stage: test
   services:
-    - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
-  image: openjdk:11.0.4-jdk-slim-buster@sha256:aa55d9c3be02f2710d5fb5fef87d5c07c9f7ad2c481105a891a4bdd485b2e2bd
+    - docker:dind
+  image: openjdk:11
   before_script:
     - cd "$SERVICE_FOLDER"
     - export GRADLE_USER_HOME=`pwd`/.gradle
@@ -28,7 +28,7 @@
 
 .build:
   stage: build
-  image: openjdk:11.0.4-jdk-slim-buster@sha256:aa55d9c3be02f2710d5fb5fef87d5c07c9f7ad2c481105a891a4bdd485b2e2bd
+  image: openjdk:11
   before_script:
     - cd "$SERVICE_FOLDER"
     - export GRADLE_USER_HOME=`pwd`/.gradle

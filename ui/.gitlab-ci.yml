@@ -3,7 +3,7 @@ unit test ui:
     changes:
       - ui/**/*
   stage: test
-  image: node:10.16.0@sha256:523f767f8907f002316d3334bdb9d1154c7c6f6157c7aed3de5305726a963616
+  image: node:10
   before_script:
     - cd ui
     - yarn install
@@ -26,7 +26,7 @@ build ui for production:
   needs:
     - unit test ui
   stage: build
-  image: node:10.16.0@sha256:523f767f8907f002316d3334bdb9d1154c7c6f6157c7aed3de5305726a963616
+  image: node:10
   before_script:
     - cd ui
     - yarn install
