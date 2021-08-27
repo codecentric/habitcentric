@@ -21,8 +21,24 @@ test report:
     paths:
       - report/build/reports/tests/
       - report/build/test-results/test/TEST-*.xml
+      - report/build/reports/jacoco/test/jacocoTestReport.xml
     reports:
       junit: report/build/test-results/*/TEST-*.xml
+
+coverage report:
+  only:
+    changes:
+      - report/**/*
+  stage: test
+  needs:
+    - test report
+  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
+  script:
+    # convert report from jacoco to cobertura, using relative project path
+    - python /opt/cover2cover.py report/build/reports/jacoco/test/jacocoTestReport.xml $CI_PROJECT_DIR/report/src/main/java/ > report/build/cobertura.xml
+  artifacts:
+    reports:
+      cobertura: report/build/cobertura.xml
 
 build report:
   only:

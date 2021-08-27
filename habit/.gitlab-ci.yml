@@ -9,7 +9,7 @@ test habit:
   before_script:
     - cd habit
     - export GRADLE_USER_HOME=`pwd`/.gradle
-  script: ./gradlew --build-cache check jacocoTestReport jacocoTestCoverageVerification
+  script: ./gradlew --build-cache check
   cache:
     key: "${CI_COMMIT_REF_NAME}_habit"
     policy: push
@@ -23,8 +23,24 @@ test habit:
     paths:
       - habit/build/reports/tests/
       - habit/build/test-results/test/TEST-*.xml
+      - habit/build/reports/jacoco/test/jacocoTestReport.xml
     reports:
       junit: habit/build/test-results/*/TEST-*.xml
+
+coverage habit:
+  only:
+    changes:
+      - habit/**/*
+  stage: test
+  needs:
+    - test habit
+  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
+  script:
+    # convert report from jacoco to cobertura, using relative project path
+    - python /opt/cover2cover.py habit/build/reports/jacoco/test/jacocoTestReport.xml $CI_PROJECT_DIR/habit/src/main/java/ > habit/build/cobertura.xml
+  artifacts:
+    reports:
+      cobertura: habit/build/cobertura.xml
 
 build habit:
   only:

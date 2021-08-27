@@ -10,6 +10,8 @@ plugins {
     kotlin("plugin.spring") version "1.3.61"
 }
 
+apply { from("../gradle/jacoco.gradle") }
+
 group = "de.codecentric.hc"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11

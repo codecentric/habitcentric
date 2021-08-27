@@ -1,0 +1,13 @@
+apply plugin: JacocoPlugin
+
+jacoco {
+    toolVersion = '0.8.4'
+}
+
+check.dependsOn "jacocoTestReport", "jacocoTestCoverageVerification"
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}

@@ -8,7 +8,7 @@ unit test ui:
     - cd ui
     - yarn install
   script:
-    - yarn run test:unit
+    - yarn run test:unit --coverage --coverageReporters=cobertura
     - yarn run lint --no-fix --max-warnings 0
   cache:
     key: "${CI_COMMIT_REF_NAME}_ui"

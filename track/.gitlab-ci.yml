@@ -9,7 +9,7 @@ test track:
   before_script:
     - cd track
     - export GRADLE_USER_HOME=`pwd`/.gradle
-  script: ./gradlew --build-cache check jacocoTestReport jacocoTestCoverageVerification
+  script: ./gradlew --build-cache check
   cache:
     key: "${CI_COMMIT_REF_NAME}_track"
     policy: push
@@ -23,8 +23,24 @@ test track:
     paths:
       - track/build/tracks/tests/
       - track/build/test-results/test/TEST-*.xml
+      - track/build/reports/jacoco/test/jacocoTestReport.xml
     reports:
       junit: track/build/test-results/*/TEST-*.xml
+
+coverage track:
+  only:
+    changes:
+      - track/**/*
+  stage: test
+  needs:
+    - test track
+  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
+  script:
+    # convert report from jacoco to cobertura, using relative project path
+    - python /opt/cover2cover.py track/build/reports/jacoco/test/jacocoTestReport.xml $CI_PROJECT_DIR/track/src/main/java/ > track/build/cobertura.xml
+  artifacts:
+    reports:
+      cobertura: track/build/cobertura.xml
 
 build track:
   only:
