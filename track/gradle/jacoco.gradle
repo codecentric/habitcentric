@@ -1,8 +1,4 @@
-apply plugin: JacocoPlugin
-
-jacoco {
-    toolVersion = '0.8.4'
-}
+apply from: '../gradle/jacoco.gradle'
 
 jacocoTestCoverageVerification {
     violationRules {

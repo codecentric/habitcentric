@@ -1,55 +1,62 @@
-stages:
-  - test
-  - build
-  - build image
-  - publish image
-
-variables:
-  DOCKER_DRIVER: overlay2
-  DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/ui
-  DOCKER_TLS_CERTDIR: "" # workaround for https://gitlab.com/gitlab-org/gitlab-runner/issues/4501
-
-services:
-  - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
-
-cache:
-  paths:
-    - node_modules/
-    - .yarn
-
-unit testing:
+unit test ui:
+  only:
+    changes:
+      - ui/**/*
   stage: test
-  image: node:10.16.0@sha256:523f767f8907f002316d3334bdb9d1154c7c6f6157c7aed3de5305726a963616
+  image: node:10
   before_script:
-    - yarn config set cache-folder .yarn
+    - cd ui
     - yarn install
   script:
-    - yarn run test:unit
+    - yarn run test:unit --coverage --coverageReporters=cobertura
     - yarn run lint --no-fix --max-warnings 0
+  cache:
+    key: "${CI_COMMIT_REF_NAME}_ui"
+    policy: pull-push
+    paths:
+      - ui/node_modules/
+  artifacts:
+    reports:
+      cobertura: ui/coverage/cobertura-coverage.xml
 
-build for production:
+build ui:
+  only:
+    changes:
+      - ui/**/*
+  needs:
+    - unit test ui
   stage: build
-  image: node:10.16.0@sha256:523f767f8907f002316d3334bdb9d1154c7c6f6157c7aed3de5305726a963616
+  image: node:10
   before_script:
-    - yarn config set cache-folder .yarn
+    - cd ui
     - yarn install
   script:
     - yarn run build
+  cache:
+    key: "${CI_COMMIT_REF_NAME}_ui"
+    policy: pull
+    paths:
+      - node_modules/
+      - .yarn
 
-build image:
-  stage: build image
-  image: docker:19.03.1@sha256:5372cccaf84ae9a4d4f5c2b50ba7db6627cf3eff12785876f3354bbc2b0b57ea
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-
-publish image:
-  stage: publish image
-  image: docker:19.03.1@sha256:5372cccaf84ae9a4d4f5c2b50ba7db6627cf3eff12785876f3354bbc2b0b57ea
-  script:
-    - docker login -u $DOCKER_HUB_REGISTRY_USER -p $DOCKER_HUB_REGISTRY_PASSWORD $DOCKER_HUB_REGISTRY
-    - docker build -t $DOCKER_HUB_REGISTRY_IMAGE:latest .
-    - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest
+build ui image:
+  extends: .docker-build
+  variables:
+    IMAGE_NAME: ui
+    SERVICE_FOLDER: ui
   only:
-    - main
+    changes:
+      - ui/**/*
+  needs:
+    - build ui
+
+publish ui image:
+  extends: .docker-publish
+  only:
+    changes:
+      - ui/**/*
+  needs:
+    - build ui image
+  variables:
+    IMAGE_NAME: ui
+    DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/ui
