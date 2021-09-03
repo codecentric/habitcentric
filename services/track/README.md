@@ -20,7 +20,7 @@
 You can created a fat JAR that contains all dependencies and a Tomcat server to run the application as follows: 
 
 ```
-./gradlew clean build
+./gradlew build
 ```
 
 ## Start Application Locally
@@ -63,11 +63,11 @@ manually migrating the database.
 > Note: You can specify database credentials for the Flyway Gradle plugin by passing the Gradle properties `dbUrl`, 
 `dbUser` and `dbPassword` (i.e. `gradle flywayInfo -PdbUrl=<db-url> -PdbUser=<db-user> -PdbPassword=<db-password>`).
 
-Click [here](https://flywaydb.org/documentation/commandline/#commands) for an overview of available commands.
+Click [here](https://flywaydb.org/documentation/usage/gradle/) for an overview of available commands.
 
 ## Unit Testing
 ```
-./gradlew clean test
+./gradlew test
 ```
 
 ### Test Code Coverage
@@ -76,12 +76,12 @@ The code (not) covered by tests is measured with [JaCoCo](https://github.com/jac
 You can call the following command to generate a HTML coverage report under `build/reports/jacoco/test/html`
 and verify the compliance with coverage rules:
 ```
-./gradlew clean test jacocoTestReport jacocoTestCoverageVerification
+./gradlew test jacocoTestReport jacocoTestCoverageVerification
 ```
 
 ## Integration Testing
 ```
-./gradlew clean intTest
+./gradlew intTest
 ```
 
 ## Code Format

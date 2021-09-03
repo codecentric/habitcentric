@@ -1,6 +1,5 @@
 package de.codecentric.hc.habit.api.doc;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static springfox.documentation.builders.PathSelectors.regex;
 
 import de.codecentric.hc.habit.common.HttpHeaders;
@@ -71,13 +70,13 @@ public class SwaggerConfig {
 
   private List<SecurityReference> securityReferences() {
     AuthorizationScope[] authorizationScopes = {new AuthorizationScope("global", "Global scope")};
-    return newArrayList(
+    return List.of(
         new SecurityReference("User-ID", authorizationScopes),
         new SecurityReference("basicAuth", authorizationScopes));
   }
 
   private List<SecurityScheme> securitySchemes() {
-    return newArrayList(
+    return List.of(
         new ApiKey("User-ID", HttpHeaders.USER_ID, In.HEADER.name()), new BasicAuth("basicAuth"));
   }
 }
