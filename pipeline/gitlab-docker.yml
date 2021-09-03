@@ -9,8 +9,8 @@
     - cd "$SERVICE_FOLDER"
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin  $CI_REGISTRY
   script:
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker build -t "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA" .
+    - docker push "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA"
 
 .docker-publish:
   only:
@@ -24,8 +24,8 @@
     - cd "$SERVICE_FOLDER"
     - echo "$DOCKER_HUB_REGISTRY_PASSWORD" | docker login -u "$DOCKER_HUB_REGISTRY_USER" --password-stdin $DOCKER_HUB_REGISTRY
   script:
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG $DOCKER_HUB_REGISTRY_IMAGE:latest
-    - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest
+    - docker pull "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA"
+    - docker tag "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA" "$CI_REGISTRY_IMAGE/$IMAGE_NAME:latest"
+    - docker push "$CI_REGISTRY_IMAGE/$IMAGE_NAME:latest"
+    - docker tag "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA" "$DOCKER_HUB_REGISTRY_IMAGE:latest"
+    - docker push "$DOCKER_HUB_REGISTRY_IMAGE:latest"

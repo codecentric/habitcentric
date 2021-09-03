@@ -18,7 +18,7 @@ test report:
       junit: report/build/test-results/*/TEST-*.xml
 
 coverage report:
-  extends: .coverage
+  extends: .convert-coverage
   variables:
     SERVICE_FOLDER: report
     MAIN_SRC: src/main/kotlin/
@@ -51,6 +51,7 @@ build report:
 build report image:
   extends: .docker-build
   variables:
+    IMAGE_NAME: report
     SERVICE_FOLDER: report
   only:
     changes:
@@ -66,4 +67,5 @@ publish report image:
   needs:
     - build report image
   variables:
+    IMAGE_NAME: report
     DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/report

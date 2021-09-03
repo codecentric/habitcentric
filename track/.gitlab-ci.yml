@@ -18,7 +18,7 @@ test track:
       junit: track/build/test-results/*/TEST-*.xml
 
 coverage track:
-  extends: .coverage
+  extends: .convert-coverage
   variables:
     SERVICE_FOLDER: track
   only:
@@ -50,6 +50,7 @@ build track:
 build track image:
   extends: .docker-build
   variables:
+    IMAGE_NAME: track
     SERVICE_FOLDER: track
   only:
     changes:
@@ -65,4 +66,5 @@ publish track image:
   needs:
     - build track image
   variables:
+    IMAGE_NAME: track
     DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/track

@@ -18,7 +18,7 @@ test habit:
       junit: habit/build/test-results/*/TEST-*.xml
 
 coverage habit:
-  extends: .coverage
+  extends: .convert-coverage
   variables:
     SERVICE_FOLDER: habit
   only:
@@ -51,6 +51,7 @@ build habit image:
   extends: .docker-build
   variables:
     SERVICE_FOLDER: habit
+    IMAGE_NAME: habit
   only:
     changes:
       - habit/**/*
@@ -65,4 +66,5 @@ publish habit image:
   needs:
     - build habit image
   variables:
+    IMAGE_NAME: habit
     DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/habit

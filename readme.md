@@ -1,6 +1,6 @@
 # Habitcentric
 
-abitcentric is a small demo application which can be used to track habits.
+habitcentric is a small demo application which can be used to track habits.
 
 TBD: Overview of services and showcases
 

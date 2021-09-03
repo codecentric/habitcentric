@@ -1,3 +1,5 @@
+apply from: '../gradle/jacoco.gradle'
+
 jacocoTestCoverageVerification {
     violationRules {
         rule {

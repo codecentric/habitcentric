@@ -19,7 +19,7 @@ unit test ui:
     reports:
       cobertura: ui/coverage/cobertura-coverage.xml
 
-build ui for production:
+build ui:
   only:
     changes:
       - ui/**/*
@@ -42,12 +42,13 @@ build ui for production:
 build ui image:
   extends: .docker-build
   variables:
+    IMAGE_NAME: ui
     SERVICE_FOLDER: ui
   only:
     changes:
       - ui/**/*
   needs:
-    - build ui for production
+    - build ui
 
 publish ui image:
   extends: .docker-publish
@@ -57,4 +58,5 @@ publish ui image:
   needs:
     - build ui image
   variables:
+    IMAGE_NAME: ui
     DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/ui
