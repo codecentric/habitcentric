@@ -6,12 +6,12 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
-apply from: 'gradle/intTest.gradle'
+apply from: '../gradle/intTest.gradle'
 apply from: 'gradle/jacoco.gradle'
 
 group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = JavaVersion.VERSION_11
 
 def dbUrlDefault = 'jdbc:postgresql://localhost:10002/'
 def dbUserDefault = 'postgres'
@@ -24,7 +24,7 @@ flyway {
     url = project.hasProperty('dbUrl') ? project.property('dbUrl') : dbUrlDefault
     user = project.hasProperty('dbUser') ? project.property('dbUser') : dbUserDefault
     password = project.hasProperty('dbPassword') ? project.property('dbPassword') : dbPasswordDefault
-    schemas = [ 'hc_track' ]
+    schemas = ['hc_track']
 }
 
 configurations {

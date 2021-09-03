@@ -16,11 +16,8 @@ task intTest(type: Test) {
 
     testClassesDirs = sourceSets.intTest.output.classesDirs
     classpath = sourceSets.intTest.runtimeClasspath
-    shouldRunAfter test
-}
-
-intTest {
     useJUnitPlatform()
+    shouldRunAfter test
 }
 
 check.dependsOn intTest

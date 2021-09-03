@@ -6,12 +6,12 @@ plugins {
 }
 
 apply plugin: 'io.spring.dependency-management'
-apply from: 'gradle/intTest.gradle'
+apply from: '../gradle/intTest.gradle'
 apply from: 'gradle/jacoco.gradle'
 
 group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = JavaVersion.VERSION_11
 
 bootRun {
     environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: 'local'
@@ -50,6 +50,23 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit', module: 'junit'
     }
+
+    intTestImplementation 'io.rest-assured:json-path:4.0.0'
+    intTestImplementation('io.rest-assured:rest-assured:4.0.0') {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+    }
+    intTestImplementation('io.rest-assured:xml-path:4.0.0') {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+    }
+    intTestImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
+    intTestImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit'
+    }
+    intTestImplementation('org.springframework.cloud:spring-cloud-starter-contract-stub-runner') {
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-web'
+    }
+    intTestImplementation 'org.springframework.security:spring-security-test'
 }
 
 dependencyManagement {
