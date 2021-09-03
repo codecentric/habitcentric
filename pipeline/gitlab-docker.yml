@@ -17,7 +17,7 @@
     refs:
       - main
   stage: publish image
-  image: docker:lastest
+  image: docker:latest
   services:
     - docker:dind
   before_script:
