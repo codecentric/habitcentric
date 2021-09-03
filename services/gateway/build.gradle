@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'java'
     id 'com.diffplug.spotless' version '5.14.3'
-    id "io.freefair.lombok" version "6.1.0"
+    id "io.freefair.lombok" version "6.2.0"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -29,36 +29,37 @@ test {
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
 }
 
 ext {
-    set('springCloudVersion', 'Greenwich.SR2')
+    springCloudVersion = 'Greenwich.SR2'
+    versions = [
+            restAssured   : '4.0.0',
+            junitJupiter  : '5.8.0',
+    ]
 }
+// override the version the spring boot dependency-management plugin would enforce
+ext['junit-jupiter.version'] = versions.junitJupiter
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
     implementation 'org.springframework.cloud:spring-cloud-starter-security'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.1'
-    testImplementation 'org.junit.platform:junit-platform-engine:1.5.1'
-    testImplementation 'org.junit.platform:junit-platform-commons:1.5.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit', module: 'junit'
     }
 
-    intTestImplementation 'io.rest-assured:json-path:4.0.0'
-    intTestImplementation('io.rest-assured:rest-assured:4.0.0') {
+    intTestImplementation "io.rest-assured:json-path:$versions.restAssured"
+    intTestImplementation("io.rest-assured:rest-assured:$versions.restAssured") {
         exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
     }
-    intTestImplementation('io.rest-assured:xml-path:4.0.0') {
+    intTestImplementation("io.rest-assured:xml-path:$versions.restAssured") {
         exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
     }
-    intTestImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
+    intTestImplementation "org.junit.jupiter:junit-jupiter"
     intTestImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit', module: 'junit'
     }

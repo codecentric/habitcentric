@@ -3,6 +3,7 @@ plugins {
     id 'org.liquibase.gradle' version '2.0.4'
     id 'java'
     id 'com.diffplug.spotless' version '5.14.3'
+    id "io.freefair.lombok" version "6.2.0"
 }
 
 apply plugin: 'io.spring.dependency-management'
@@ -54,35 +55,49 @@ configurations {
     }
 }
 
+ext {
+    versions = [
+            restAssured   : '4.0.0',
+            junitJupiter  : '5.8.0',
+            chaosMonkey   : '2.5.1',
+            testcontainers: '1.15.3',
+            postgresql    : '42.2.23',
+            springfox     : '2.9.2',
+            liquibase     : '4.4.3',
+            pactProvider  : '3.6.12',
+    ]
+}
+// override the version the spring boot dependency-management plugin would enforce
+ext['junit-jupiter.version'] = versions.junitJupiter
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    runtimeOnly 'org.postgresql:postgresql:42.2.5'
-    runtimeOnly 'org.liquibase:liquibase-core:3.6.3'
-    runtimeOnly 'de.codecentric:chaos-monkey-spring-boot:2.2.0'
-    liquibaseRuntime 'org.liquibase:liquibase-core:3.6.3'
-    liquibaseRuntime 'org.postgresql:postgresql:42.2.5'
-    liquibaseRuntime("ch.qos.logback:logback-core:1.2.3")
-    liquibaseRuntime("ch.qos.logback:logback-classic:1.2.3")
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
+    implementation "io.springfox:springfox-swagger2:$versions.springfox"
+    implementation "io.springfox:springfox-swagger-ui:$versions.springfox"
+    runtimeOnly "org.postgresql:postgresql:$versions.postgresql"
+    runtimeOnly "org.liquibase:liquibase-core:$versions.liquibase"
+    runtimeOnly "de.codecentric:chaos-monkey-spring-boot:$versions.chaosMonkey"
+    liquibaseRuntime "org.liquibase:liquibase-core:$versions.liquibase"
+    liquibaseRuntime "org.postgresql:postgresql:$versions.postgresql"
+    liquibaseRuntime "ch.qos.logback:logback-core"
+    liquibaseRuntime "ch.qos.logback:logback-classic"
+    testImplementation "org.junit.jupiter:junit-jupiter:"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    intTestImplementation 'au.com.dius:pact-jvm-provider-junit5_2.12:3.6.12'
-    intTestImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
+    intTestImplementation "au.com.dius:pact-jvm-provider-junit5_2.12:$versions.pactProvider"
+    intTestImplementation "org.junit.jupiter:junit-jupiter"
     intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
-    intTestImplementation 'io.rest-assured:json-path:4.0.0'
-    intTestImplementation('io.rest-assured:rest-assured:4.0.0') {
+    intTestImplementation "io.rest-assured:json-path:$versions.restAssured"
+    intTestImplementation("io.rest-assured:rest-assured:$versions.restAssured") {
         exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
     }
-    intTestImplementation('io.rest-assured:xml-path:4.0.0') {
+    intTestImplementation("io.rest-assured:xml-path:$versions.restAssured") {
         exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
     }
-    intTestImplementation platform('org.testcontainers:testcontainers-bom:1.15.3')
+    intTestImplementation platform("org.testcontainers:testcontainers-bom:$versions.testcontainers")
     intTestImplementation 'org.testcontainers:junit-jupiter'
     intTestImplementation 'org.testcontainers:postgresql'
 }
