@@ -36,6 +36,19 @@ Each habitcentric service runs with the same ports across all deployment options
 | keycloak          | 8080  |
 | keycloak-postgres | 10003 |
 
+# Readmes
+
+## Habitcentric Components
+- [auth-keycloak](auth-keycloak/README.md)
+- [gateway](gateway/README.md)
+- [habbit](habit/README.md)
+- [track](track/README.md)
+- [ui](ui/README.md)
+
+## Additional Tests
+- [infra-tests](test/infra/README.md)
+- [lpt-locust](test/lpt-locust/README.md)
+
 # GitLab Pipeline
 
 Runs the builds for all services in parallel jobs.
