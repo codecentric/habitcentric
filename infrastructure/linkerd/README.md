@@ -56,8 +56,8 @@ ingress controller's deployment:
 
 ```bash
 # Read, modify and re-apply the YAML of the nginx controller's deployment
-kubectl get deployment -n kube-system ingress-nginx-controller -o yaml \
-    | linkerd inject - \
+kubectl get deployment -n ingress-nginx ingress-nginx-controller -o yaml \
+    | linkerd inject --ingress - \
     | kubectl apply -f -
 
 # Verify that the ingress controller's pod has restarted with 2 containers
