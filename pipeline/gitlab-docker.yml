@@ -1,6 +1,4 @@
 .docker-build:
-  needs:
-    - cd "$SERVICE_FOLDER"
   services:
     - docker:dind
   stage: build image

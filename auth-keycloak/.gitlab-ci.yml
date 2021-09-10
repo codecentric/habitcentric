@@ -11,21 +11,22 @@ variables:
 services:
   - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
 
-build image:
-  stage: build image
-  image: docker:19.03.1@sha256:5372cccaf84ae9a4d4f5c2b50ba7db6627cf3eff12785876f3354bbc2b0b57ea
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-
-publish image:
-  stage: publish image
-  image: docker:19.03.1@sha256:5372cccaf84ae9a4d4f5c2b50ba7db6627cf3eff12785876f3354bbc2b0b57ea
-  script:
-    - docker login -u $DOCKER_HUB_REGISTRY_USER -p $DOCKER_HUB_REGISTRY_PASSWORD $DOCKER_HUB_REGISTRY
-    - docker build -t $DOCKER_HUB_REGISTRY_IMAGE:latest -t $DOCKER_HUB_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA .
-    - docker push $DOCKER_HUB_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
-    - docker push $DOCKER_HUB_REGISTRY_IMAGE:latest
+build auth-keycloak image:
+  extends: .docker-build
+  variables:
+    SERVICE_FOLDER: auth-keycloak
+    IMAGE_NAME: auth-keycloak
   only:
-    - main
+    changes:
+      - auth-keycloak/**/*
+
+publish auth-keycloak image:
+  extends: .docker-publish
+  only:
+    changes:
+      - auth-keycloak/**/*
+  needs:
+    - build auth-keycloak image
+  variables:
+    IMAGE_NAME: auth-keycloak
+    DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/auth-keycloak

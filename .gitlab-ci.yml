@@ -13,6 +13,8 @@ stages:
 include:
   - local: "/pipeline/gitlab-jvm.yml"
   - local: "/pipeline/gitlab-docker.yml"
+  - '/auth-keycloak/.gitlab-ci.yml'
+  - '/gateway/.gitlab-ci.yml'
   - '/habit/.gitlab-ci.yml'
   - '/track/.gitlab-ci.yml'
   - '/report/.gitlab-ci.yml'
