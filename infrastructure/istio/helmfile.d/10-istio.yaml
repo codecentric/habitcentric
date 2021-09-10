@@ -15,7 +15,7 @@ releases:
           spec:
             profile: demo
             namespace: istio-system
-            tag: 1.8.1
+            tag: 1.11.2
 
             values:
               global:

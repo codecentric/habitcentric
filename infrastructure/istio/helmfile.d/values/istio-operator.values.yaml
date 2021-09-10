@@ -2,7 +2,7 @@
 hub: docker.io/istio
 
 # Istio Operator version
-tag: 1.8.1
+tag: 1.11.2
 
 # Namespace operator will be deployed in
 operatorNamespace: istio-operator
