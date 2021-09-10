@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/track/users/default/habits/123",
+    "headers": {
+      "Authorization": {
+        "absent": true
+      },
+      "X-User-ID": {
+        "equalTo": "default"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": [
+      "2019-03-19",
+      "2019-03-20",
+      "2019-03-21"
+    ]
+  }
+}

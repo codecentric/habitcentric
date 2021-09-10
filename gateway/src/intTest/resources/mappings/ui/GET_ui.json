@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/ui/",
+    "headers": {
+      "Authorization": {
+        "absent": true
+      },
+      "X-User-ID": {
+        "equalTo": "default"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "text/html"
+    },
+    "bodyFileName": "ui.html"
+  }
+}

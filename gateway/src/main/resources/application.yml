@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: hc-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: habit_route
+          uri: ${gateway.target.uri.habit}
+          predicates:
+            - Path=/habits/**
+          filters:
+            - AddRequestHeaderUserId
+            - TokenRelay
+        - id: track_route
+          uri: ${gateway.target.uri.track}
+          predicates:
+            - Path=/track/**
+          filters:
+            - RewriteTrackPathWithUserId
+            - AddRequestHeaderUserId
+            - TokenRelay
+        - id: report_route
+          uri: ${gateway.target.uri.report}
+          predicates:
+            - Path=/report/**
+          filters:
+            - TokenRelay
+        - id: ui_route
+          uri: ${gateway.target.uri.ui}
+          predicates:
+            - Path=/ui/**
+          filters:
+            - AddRequestHeaderUserId
+            - RemoveRequestHeader=Authorization
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            authorization-uri: ${gateway.target.uri.auth}/auth/realms/habitcentric/protocol/openid-connect/auth
+            token-uri: ${gateway.target.uri.auth}/auth/realms/habitcentric/protocol/openid-connect/token
+            user-info-uri: ${gateway.target.uri.auth}/auth/realms/habitcentric/protocol/openid-connect/userinfo
+            user-name-attribute: sub
+            jwk-set-uri: ${gateway.target.uri.auth}/auth/realms/habitcentric/protocol/openid-connect/certs
+        registration:
+          keycloak:
+            client-id: ${OAUTH_CLIENT_ID:gateway}
+            client-secret: ${OAUTH_CLIENT_SECRET:357638792F423F4528472B4B6250655368566D597133743677397A2443264629}
+            authorization-grant-type: authorization_code
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: openid
+gateway:
+  auth:
+    type: ${AUTH_TYPE:HTTP_BASIC}
+  target:
+    uri:
+      auth: ${AUTH_URI:http://localhost:8080}
+      habit: ${HABIT_URI:http://localhost:9001}
+      track: ${TRACK_URI:http://localhost:9002}
+      report: ${REPORT_URI:http://localhost:9003}
+      ui: ${UI_URI:http://localhost:9004}
+server:
+  port: 9000
+---
+
+spring:
+  profiles: local
+server:
+  error:
+    include-stacktrace: ALWAYS

@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "gateway.fullname" . }}
+  labels:
+  {{- include "gateway.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: {{ .Values.updateStrategyType }}
+  selector:
+    matchLabels:
+  {{- include "gateway.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+      {{- include "gateway.labels" . | nindent 8 }}
+      {{- with .Values.podLabels -}}
+      {{- toYaml . | nindent 8 }}
+      {{- end -}}
+      {{- with .Values.podAnnotations }}
+      annotations:
+    {{- toYaml . | nindent 8 }}
+    {{- end }}
+    spec:
+      {{- if .Values.serviceAccount.enabled }}
+      serviceAccountName: {{ default (include "gateway.fullname" . ) .Values.serviceAccount.name }}
+      {{- end }}
+      containers:
+        - name: {{ template "gateway.fullname" . }}
+          image: {{ template "gateway.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http-gateway
+              containerPort: 9000
+          env:
+            - name: AUTH_TYPE
+              value: {{ .Values.authType }}
+            - name: AUTH_URI
+              value: {{ .Values.authUri }}
+            - name: HABIT_URI
+              value: {{ .Values.habitUri }}
+            - name: TRACK_URI
+              value: {{ .Values.trackUri }}
+            - name: REPORT_URI
+              value: {{ .Values.reportUri }}
+            - name: UI_URI
+              value: {{ .Values.uiUri }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http-gateway
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http-gateway
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}

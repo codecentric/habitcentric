@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "DELETE",
+    "url": "/habits/123",
+    "headers": {
+      "Authorization": {
+        "absent": true
+      },
+      "X-User-ID": {
+        "equalTo": "default"
+      }
+    }
+  },
+  "response": {
+    "status": 200
+  }
+}

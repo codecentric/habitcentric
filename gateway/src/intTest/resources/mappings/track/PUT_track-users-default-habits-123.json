@@ -1,0 +1,29 @@
+{
+  "request": {
+    "method": "PUT",
+    "url": "/track/users/default/habits/123",
+    "headers": {
+      "Authorization": {
+        "absent": true
+      },
+      "Content-Type": {
+        "contains": "application/json"
+      },
+      "X-User-ID": {
+        "equalTo": "default"
+      }
+    },
+    "bodyPatterns": [
+      {
+        "equalToJson": [
+          "2019-03-19",
+          "2019-03-20",
+          "2019-03-21"
+        ]
+      }
+    ]
+  },
+  "response": {
+    "status": 200
+  }
+}
