@@ -1,0 +1,87 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: telemetry-kiali
+  namespace: istio-system
+spec:
+  hosts:
+  - kiali.demo
+  gateways:
+  - telemetry-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /kiali
+    route:
+    - destination:
+        host: kiali.istio-system.svc.cluster.local
+        port:
+          number: 20001
+  - match:
+    - uri:
+        prefix: /
+    redirect:
+      uri: /kiali
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: telemetry-grafana
+  namespace: istio-system
+spec:
+  hosts:
+  - grafana.demo
+  gateways:
+  - telemetry-gateway
+  - mesh
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: grafana.istio-system.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: telemetry-prometheus
+  namespace: istio-system
+spec:
+  hosts:
+  - prometheus.demo
+  gateways:
+  - telemetry-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: prometheus-server.istio-system.svc.cluster.local
+        port:
+          number: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: telemetry-jaeger
+  namespace: istio-system
+spec:
+  hosts:
+  - jaeger.demo
+  gateways:
+  - telemetry-gateway
+  - mesh
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        host: jaeger-query.istio-system.svc.cluster.local
+        port: 
+          number: 16686
+          

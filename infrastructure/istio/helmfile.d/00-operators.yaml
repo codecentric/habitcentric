@@ -1,0 +1,21 @@
+repositories:
+  - name: kiali
+    url: https://kiali.org/helm-charts
+  - name: jaeger
+    url: https://jaegertracing.github.io/helm-charts
+
+releases:
+  - name: istio-operator
+    chart: ../charts/istio-operator
+    values:
+      - ./values/istio-operator.values.yaml
+  - name: kiali-operator
+    namespace: kiali-operator
+    chart: kiali/kiali-operator
+    values:
+      - ./values/kiali-operator.values.yaml
+  - name: jaeger-operator
+    namespace: jaeger-operator
+    chart: jaeger/jaeger-operator
+    values:
+      - ./values/jaeger-operator.values.yaml

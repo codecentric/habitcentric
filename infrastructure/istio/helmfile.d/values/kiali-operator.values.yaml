@@ -1,0 +1,6 @@
+clusterRoleCreator: true
+cr.create: false
+
+env:
+  - name: ALLOW_AD_HOC_KIALI_IMAGE
+    value: "true"

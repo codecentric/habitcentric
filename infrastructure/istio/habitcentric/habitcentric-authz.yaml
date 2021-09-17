@@ -1,0 +1,92 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: ui-authz
+ namespace: hc-ui
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ui
+      app.kubernetes.io/instance: ui
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: habit-postgresql-authz
+ namespace: hc-habit
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: habit-postgresql
+      app.kubernetes.io/instance: habit
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/hc-habit/sa/habit
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: track-postgresql-authz
+ namespace: hc-track
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: track-postgresql
+      app.kubernetes.io/instance: track
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/hc-track/sa/track
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: keycloak-authz
+ namespace: hc-keycloak
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: keycloak
+      app.kubernetes.io/instance: keycloak
+  rules:
+  # rule to allow unrestricted access from requests forwarded by the ingress gateway
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+  # allow access to JWKS URL for all sources (required for OIDC configuration)
+  - to:
+    - operation:
+        methods:
+        - GET
+        paths:
+        - /auth/realms/habitcentric/protocol/openid-connect/certs
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+ name: keycloak-postgresql-authz
+ namespace: hc-keycloak
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app: postgresql
+      release: keycloak
+  rules:
+  - from:
+    - source:
+        principals:
+        - cluster.local/ns/hc-keycloak/sa/keycloak
