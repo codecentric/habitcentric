@@ -1,11 +1,11 @@
 unit test ui:
   only:
     changes:
-      - ui/**/*
+      - services/ui/**/*
   stage: test
   image: node:10
   before_script:
-    - cd ui
+    - cd services/ui
     - yarn install
   script:
     - yarn run test:unit --coverage --coverageReporters=cobertura
@@ -14,21 +14,21 @@ unit test ui:
     key: "${CI_COMMIT_REF_NAME}_ui"
     policy: pull-push
     paths:
-      - ui/node_modules/
+      - services/ui/node_modules/
   artifacts:
     reports:
-      cobertura: ui/coverage/cobertura-coverage.xml
+      cobertura: services/ui/coverage/cobertura-coverage.xml
 
 build ui:
   only:
     changes:
-      - ui/**/*
+      - services/ui/**/*
   needs:
     - unit test ui
   stage: build
   image: node:10
   before_script:
-    - cd ui
+    - cd services/ui
     - yarn install
   script:
     - yarn run build
@@ -46,7 +46,7 @@ build ui image:
     SERVICE_FOLDER: ui
   only:
     changes:
-      - ui/**/*
+      - services/ui/**/*
   needs:
     - build ui
 
@@ -54,7 +54,7 @@ publish ui image:
   extends: .docker-publish
   only:
     changes:
-      - ui/**/*
+      - services/ui/**/*
   needs:
     - build ui image
   variables:

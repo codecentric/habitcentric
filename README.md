@@ -41,11 +41,11 @@ Each habitcentric service runs with the same ports across all deployment options
 
 ## Habitcentric Components
 
-- [auth-keycloak](auth-keycloak/README.md)
-- [gateway](gateway/README.md)
-- [habbit](habit/README.md)
-- [track](track/README.md)
-- [ui](ui/README.md)
+- [auth-keycloak](services/auth-keycloak/README.md)
+- [gateway](services/gateway/README.md)
+- [habbit](hservices/abit/README.md)
+- [track](services/track/README.md)
+- [ui](services/ui/README.md)
 
 ## Infrastructure
 

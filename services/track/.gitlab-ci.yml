@@ -4,18 +4,18 @@ test track:
     SERVICE_FOLDER: track
   only:
     changes:
-      - track/**/*
+      - services/track/**/*
   cache:
     paths:
-      - track/build
-      - track/.gradle
+      - services/track/build
+      - services/track/.gradle
   artifacts:
     paths:
-      - track/build/tracks/tests/
-      - track/build/test-results/test/TEST-*.xml
-      - track/build/reports/jacoco/test/jacocoTestReport.xml
+      - services/track/build/tracks/tests/
+      - services/track/build/test-results/test/TEST-*.xml
+      - services/track/build/reports/jacoco/test/jacocoTestReport.xml
     reports:
-      junit: track/build/test-results/*/TEST-*.xml
+      junit: services/track/build/test-results/*/TEST-*.xml
 
 coverage track:
   extends: .convert-coverage
@@ -23,12 +23,12 @@ coverage track:
     SERVICE_FOLDER: track
   only:
     changes:
-      - track/**/*
+      - services/track/**/*
   needs:
     - test track
   artifacts:
     reports:
-      cobertura: track/build/cobertura.xml
+      cobertura: services/track/build/cobertura.xml
 
 build track:
   extends: .build
@@ -36,16 +36,16 @@ build track:
     SERVICE_FOLDER: track
   only:
     changes:
-      - track/**/*
+      - services/track/**/*
   needs:
     - test track
   cache:
     paths:
-      - track/build
-      - track/.gradle
+      - services/track/build
+      - services/track/.gradle
   artifacts:
     paths:
-      - track/build/libs/hc-track-*.jar
+      - services/track/build/libs/hc-track-*.jar
 
 build track image:
   extends: .docker-build
@@ -54,7 +54,7 @@ build track image:
     SERVICE_FOLDER: track
   only:
     changes:
-      - track/**/*
+      - services/track/**/*
   needs:
     - build track
 
@@ -62,7 +62,7 @@ publish track image:
   extends: .docker-publish
   only:
     changes:
-      - track/**/*
+      - services/track/**/*
   needs:
     - build track image
   variables:

@@ -1,5 +1,8 @@
 build auth-keycloak image:
   extends: .docker-build
+  only:
+    changes:
+      - services/auth-keycloak/**/*
   variables:
     SERVICE_FOLDER: auth-keycloak
     IMAGE_NAME: auth-keycloak
@@ -11,7 +14,7 @@ publish auth-keycloak image:
   extends: .docker-publish
   only:
     changes:
-      - auth-keycloak/**/*
+      - services/auth-keycloak/**/*
   needs:
     - build auth-keycloak image
   variables:
