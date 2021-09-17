@@ -7,6 +7,7 @@ environments:
   istio:
   linkerd:
   kuma:
+  traefik-mesh:
 
 releases:
   - name: keycloak
@@ -17,3 +18,4 @@ releases:
     version: 8.3.0
     values:
       - ../helmfile-templates/keycloak-values.yaml.gotmpl
+

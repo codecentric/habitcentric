@@ -9,7 +9,7 @@ image:
   pullPolicy: Always
 
 oidc:
-  {{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") (eq .Environment.Name "kuma") }}
+  {{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") (eq .Environment.Name "kuma") (eq .Environment.Name "traefik-mesh") }}
   enabled: true
   authorityUri: habitcentric.demo/auth/realms/habitcentric/.well-known/openid-configuration
   {{- else }}

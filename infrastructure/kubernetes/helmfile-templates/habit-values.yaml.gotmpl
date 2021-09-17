@@ -17,6 +17,13 @@ image:
   pullPolicy: Always
 
 ## habitcentric habit service configuration
+
+{{- if (eq .Environment.Name "traefik-mesh") }}
+extraEnv:
+  - name: SPRING_ZIPKIN_BASEURL
+    value: http://jaeger-collector.traefik-mesh.svc.cluster.local:9411
+{{- end }}
+
 service:
   ## Additional service annotations which may be required
   {{- if eq .Environment.Name "kuma" }}

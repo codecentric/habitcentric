@@ -52,6 +52,14 @@ helmfile --environment linkerd apply
 helmfile --environment kuma apply
 ```
 
+### Traefik Mesh environment
+**Traefik Mesh does not support our current show-case.
+More information [here](https://trello.com/c/75fnCr0G/3-traefik-mesh-evaluation-first-look)**
+
+```bash
+helmfile --environment traefik-mesh apply
+```
+
 ## How To Destroy
 
 ```bash
@@ -74,4 +82,10 @@ helmfile --environment linkerd destroy
 
 ```bash
 helmfile --environment kuma destroy
+```
+
+### Traefik Mesh environment
+
+```bash
+helmfile --environment traefik-mesh destroy
 ```
