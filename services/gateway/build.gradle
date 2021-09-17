@@ -1,8 +1,8 @@
 plugins {
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'java'
-    id 'com.diffplug.gradle.spotless' version '3.22.0'
-    id 'io.freefair.lombok' version '3.8.1'
+    id 'com.diffplug.spotless' version '5.14.3'
+    id "io.freefair.lombok" version "6.1.0"
 }
 
 apply plugin: 'io.spring.dependency-management'

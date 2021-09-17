@@ -1,14 +1,16 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.openapi.generator") version "4.2.1"
+    id("org.openapi.generator") version "5.2.1"
 
     id("org.springframework.boot") version "2.2.5.RELEASE"
-    id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    kotlin("jvm") version "1.3.61"
-    kotlin("kapt") version "1.3.72"
-    kotlin("plugin.spring") version "1.3.61"
+    id("com.diffplug.spotless") version "5.14.3"
+    kotlin("jvm") version "1.5.30"
+    kotlin("kapt") version "1.5.30"
+    kotlin("plugin.spring") version "1.5.30"
 }
+
+apply(plugin = "io.spring.dependency-management")
 
 apply { from("../gradle/jacoco.gradle") }
 
@@ -64,7 +66,7 @@ dependencies {
 
     testImplementation("io.mockk:mockk:1.9.3")
     testImplementation("com.ninja-squad:springmockk:2.0.1")
-    testCompile("com.github.tomakehurst:wiremock-jre8:2.27.2")
+    testImplementation("com.github.tomakehurst:wiremock-jre8:2.27.2")
 }
 
 tasks.withType<Test> {
@@ -75,7 +77,7 @@ tasks.withType<KotlinCompile> {
     dependsOn(tasks.openApiGenerate)
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 
