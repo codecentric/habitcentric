@@ -14,6 +14,7 @@ habitcentric supports a wide range of deployment environments:
     - Istio
     - Linkerd
     - Kuma
+    - traefik-mesh (does **not** support our current show-case)
 - standalone/IDE
 
 ## Supported features/components per environment
@@ -39,13 +40,23 @@ Each habitcentric service runs with the same ports across all deployment options
 # Readmes
 
 ## Habitcentric Components
+
 - [auth-keycloak](auth-keycloak/README.md)
 - [gateway](gateway/README.md)
 - [habbit](habit/README.md)
 - [track](track/README.md)
 - [ui](ui/README.md)
 
+## Infrastructure
+
+- [istio](infrastructure/istio/README.md)
+- [kubernetes](infrastructure/kubernetes/README.md)
+- [kuma](infrastructure/kuma/README.md)
+- [linkerd](infrastructure/linkerd/README.md)
+- [traefik-mesh](infrastructure/traefik-mesh/README.md)
+
 ## Additional Tests
+
 - [infra-tests](test/infra/README.md)
 - [lpt-locust](test/lpt-locust/README.md)
 
