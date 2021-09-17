@@ -1,4 +1,8 @@
 .test:
+  only:
+    changes:
+      - .gitlab-ci.yml
+      - pipeline/gitlab-jvm.yml
   stage: test
   services:
     - docker:dind
@@ -16,6 +20,10 @@
     expire_in: 1 week
 
 .convert-coverage:
+  only:
+    changes:
+      - .gitlab-ci.yml
+      - pipeline/gitlab-jvm.yml
   stage: test
   image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
   variables:
@@ -27,6 +35,10 @@
     - python /opt/cover2cover.py build/reports/jacoco/test/jacocoTestReport.xml "$MAIN_SRC" > build/cobertura.xml
 
 .build:
+  only:
+    changes:
+      - .gitlab-ci.yml
+      - pipeline/gitlab-jvm.yml
   stage: build
   image: openjdk:11
   before_script:
