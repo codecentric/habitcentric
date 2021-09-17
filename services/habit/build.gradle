@@ -57,14 +57,15 @@ configurations {
 
 ext {
     versions = [
-            restAssured   : '4.0.0',
-            junitJupiter  : '5.8.0',
-            chaosMonkey   : '2.5.1',
-            testcontainers: '1.15.3',
-            postgresql    : '42.2.23',
-            springfox     : '2.9.2',
-            liquibase     : '4.4.3',
-            pactProvider  : '3.6.12',
+            restAssured       : '4.0.0',
+            junitJupiter      : '5.8.0',
+            chaosMonkey       : '2.5.1',
+            testcontainers    : '1.15.3',
+            postgresql        : '42.2.23',
+            springfox         : '2.9.2',
+            liquibase         : '4.4.3',
+            pactProvider      : '3.6.12',
+            springCloudVersion: 'Greenwich.SR6'
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce
@@ -78,6 +79,8 @@ dependencies {
     implementation 'org.springframework.security:spring-security-oauth2-jose'
     implementation "io.springfox:springfox-swagger2:$versions.springfox"
     implementation "io.springfox:springfox-swagger-ui:$versions.springfox"
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:$versions.springCloudVersion")
+    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
     runtimeOnly "org.postgresql:postgresql:$versions.postgresql"
     runtimeOnly "org.liquibase:liquibase-core:$versions.liquibase"
     runtimeOnly "de.codecentric:chaos-monkey-spring-boot:$versions.chaosMonkey"

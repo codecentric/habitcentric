@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: habit-ingress
@@ -9,11 +9,14 @@ spec:
     http:
       paths:
       - path: /habits
+        pathType: Prefix
         backend:
-          serviceName: habit
-          servicePort: 9001
+          service:
+            name: habit
+            port:
+              number: 9001
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: habit-ingress-actuator
@@ -27,11 +30,14 @@ spec:
       http:
         paths:
           - path: /habits/actuator(.*)
+            pathType: Prefix
             backend:
-              serviceName: habit
-              servicePort: 9001
+              service:
+                name: habit
+                port:
+                  number: 9001
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: track-ingress
@@ -42,11 +48,14 @@ spec:
     http:
       paths:
       - path: /track
+        pathType: Prefix
         backend:
-          serviceName: track
-          servicePort: 9002
+          service:
+            name: track
+            port:
+              number: 9002
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: track-ingress-actuator
@@ -60,11 +69,14 @@ spec:
       http:
         paths:
           - path: /track/actuator(.*)
+            pathType: Prefix
             backend:
-              serviceName: track
-              servicePort: 9002
+              service:
+                name: track
+                port:
+                  number: 9002
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: report-ingress
@@ -75,11 +87,14 @@ spec:
     http:
       paths:
       - path: /report
+        pathType: Prefix
         backend:
-          serviceName: report
-          servicePort: 9003
+          service:
+            name: report
+            port:
+              number: 9003
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: report-ingress-actuator
@@ -93,11 +108,14 @@ spec:
       http:
         paths:
           - path: /report/actuator(.*)
+            pathType: Prefix
             backend:
-              serviceName: report
-              servicePort: 9003
+              service:
+                name: report
+                port:
+                  number: 9003
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: ui-ingress
@@ -108,11 +126,14 @@ spec:
     http:
       paths:
       - path: /ui
+        pathType: Prefix
         backend:
-          serviceName: ui
-          servicePort: 9004
+          service:
+            name: ui
+            port:
+              number: 9004
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: keycloak-ingress
@@ -123,6 +144,9 @@ spec:
     http:
       paths:
       - path: /auth
+        pathType: Prefix
         backend:
-          serviceName: keycloak-http
-          servicePort: 8080
+          service:
+            name: keycloak-http
+            port:
+              number: 8080

@@ -56,12 +56,13 @@ configurations {
 
 ext {
     versions = [
-            restAssured   : '4.0.0',
-            junitJupiter  : '5.8.0',
-            chaosMonkey   : '2.5.1',
-            testcontainers: '1.15.3',
-            reflections   : '0.9.12',
-            postgresql    : '42.2.23',
+            restAssured       : '4.0.0',
+            junitJupiter      : '5.8.0',
+            chaosMonkey       : '2.5.1',
+            testcontainers    : '1.15.3',
+            reflections       : '0.9.12',
+            postgresql        : '42.2.23',
+            springCloudVersion: 'Greenwich.SR6'
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce
@@ -72,6 +73,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
+    implementation platform("org.springframework.cloud:spring-cloud-dependencies:$versions.springCloudVersion")
+    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
     runtimeOnly "org.postgresql:postgresql:$versions.postgresql"
     runtimeOnly 'org.flywaydb:flyway-core'
     runtimeOnly "de.codecentric:chaos-monkey-spring-boot:$versions.chaosMonkey"

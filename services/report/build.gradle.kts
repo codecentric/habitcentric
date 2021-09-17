@@ -45,11 +45,11 @@ repositories {
 }
 
 extra["chaosMonkeyVersion"] = "2.2.0"
-extra["cloudSleuthVersion"] = "2.2.3.RELEASE"
 extra["mockkVersion"] = "1.12.0"
 extra["springMockkVersion"] = "2.0.3"
 extra["wiremockVersion"] = "2.27.2"
 extra["moschiVersion"] = "1.9.2"
+extra["springCloudVersion"] = "Hoxton.SR9"
 
 dependencies {
     implementation("com.squareup.moshi:moshi:${property("moschiVersion")}")
@@ -58,7 +58,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.cloud:spring-cloud-starter-sleuth:${property("cloudSleuthVersion")}")
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}"))
+    implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
+    implementation("org.springframework.cloud:spring-cloud-starter-zipkin")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")

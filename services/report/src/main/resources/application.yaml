@@ -8,6 +8,8 @@ report:
   enable-monthly-rate: false
 
 spring:
+  application:
+    name: report
   profiles:
     active: chaos-monkey
   sleuth:
