@@ -45,7 +45,7 @@ build habit:
       - services/habit/.gradle
   artifacts:
     paths:
-      - services/habit/build/libs/hc-habit-*.jar
+      - services/habit/build/libs/habit-*.jar
 
 build habit image:
   extends: .docker-build

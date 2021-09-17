@@ -45,7 +45,7 @@ build track:
       - services/track/.gradle
   artifacts:
     paths:
-      - services/track/build/libs/hc-track-*.jar
+      - services/track/build/libs/track-*.jar
 
 build track image:
   extends: .docker-build

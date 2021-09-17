@@ -45,7 +45,7 @@ build gateway:
       - services/gateway/.gradle
   artifacts:
     paths:
-      - services/gateway/build/libs/hc-gateway-*.jar
+      - services/gateway/build/libs/gateway-*.jar
 
 build gateway image:
   extends: .docker-build
