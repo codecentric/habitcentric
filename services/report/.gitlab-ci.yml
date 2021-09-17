@@ -4,18 +4,18 @@ test report:
     SERVICE_FOLDER: report
   only:
     changes:
-      - report/**/*
+      - services/report/**/*
   cache:
     paths:
-      - report/build
-      - report/.gradle
+      - services/report/build
+      - services/report/.gradle
   artifacts:
     paths:
-      - report/build/reports/tests/
-      - report/build/test-results/test/TEST-*.xml
-      - report/build/reports/jacoco/test/jacocoTestReport.xml
+      - services/report/build/reports/tests/
+      - services/report/build/test-results/test/TEST-*.xml
+      - services/report/build/reports/jacoco/test/jacocoTestReport.xml
     reports:
-      junit: report/build/test-results/*/TEST-*.xml
+      junit: services/report/build/test-results/*/TEST-*.xml
 
 coverage report:
   extends: .convert-coverage
@@ -24,12 +24,12 @@ coverage report:
     MAIN_SRC: src/main/kotlin/
   only:
     changes:
-      - report/**/*
+      - services/report/**/*
   needs:
     - test report
   artifacts:
     reports:
-      cobertura: report/build/cobertura.xml
+      cobertura: services/report/build/cobertura.xml
 
 build report:
   extends: .build
@@ -37,16 +37,16 @@ build report:
     SERVICE_FOLDER: report
   only:
     changes:
-      - report/**/*
+      - services/report/**/*
   needs:
     - test report
   cache:
     paths:
-      - report/build
-      - report/.gradle
+      - services/report/build
+      - services/report/.gradle
   artifacts:
     paths:
-      - report/build/libs/report-*.jar
+      - services/report/build/libs/report-*.jar
 
 build report image:
   extends: .docker-build
@@ -55,7 +55,7 @@ build report image:
     SERVICE_FOLDER: report
   only:
     changes:
-      - report/**/*
+      - services/report/**/*
   needs:
     - build report
 
@@ -63,7 +63,7 @@ publish report image:
   extends: .docker-publish
   only:
     changes:
-      - report/**/*
+      - services/report/**/*
   needs:
     - build report image
   variables:

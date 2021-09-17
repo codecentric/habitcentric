@@ -4,18 +4,18 @@ test habit:
     SERVICE_FOLDER: habit
   only:
     changes:
-      - habit/**/*
+      - services/habit/**/*
   cache:
     paths:
-      - habit/build
-      - habit/.gradle
+      - services/habit/build
+      - services/habit/.gradle
   artifacts:
     paths:
-      - habit/build/reports/tests/
-      - habit/build/test-results/test/TEST-*.xml
-      - habit/build/reports/jacoco/test/jacocoTestReport.xml
+      - services/habit/build/reports/tests/
+      - services/habit/build/test-results/test/TEST-*.xml
+      - services/habit/build/reports/jacoco/test/jacocoTestReport.xml
     reports:
-      junit: habit/build/test-results/*/TEST-*.xml
+      junit: services/habit/build/test-results/*/TEST-*.xml
 
 coverage habit:
   extends: .convert-coverage
@@ -23,12 +23,12 @@ coverage habit:
     SERVICE_FOLDER: habit
   only:
     changes:
-      - habit/**/*
+      - services/habit/**/*
   needs:
     - test habit
   artifacts:
     reports:
-      cobertura: habit/build/cobertura.xml
+      cobertura: services/habit/build/cobertura.xml
 
 build habit:
   extends: .build
@@ -36,16 +36,16 @@ build habit:
     SERVICE_FOLDER: habit
   only:
     changes:
-      - habit/**/*
+      - services/habit/**/*
   needs:
     - test habit
   cache:
     paths:
-      - habit/build
-      - habit/.gradle
+      - services/habit/build
+      - services/habit/.gradle
   artifacts:
     paths:
-      - habit/build/libs/hc-habit-*.jar
+      - services/habit/build/libs/habit-*.jar
 
 build habit image:
   extends: .docker-build
@@ -54,7 +54,7 @@ build habit image:
     IMAGE_NAME: habit
   only:
     changes:
-      - habit/**/*
+      - services/habit/**/*
   needs:
     - build habit
 
@@ -62,7 +62,7 @@ publish habit image:
   extends: .docker-publish
   only:
     changes:
-      - habit/**/*
+      - services/habit/**/*
   needs:
     - build habit image
   variables:

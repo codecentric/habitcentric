@@ -8,7 +8,7 @@
     - docker:dind
   image: openjdk:11
   before_script:
-    - cd "$SERVICE_FOLDER"
+    - cd "services/$SERVICE_FOLDER"
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script: ./gradlew --build-cache check
   cache:
@@ -29,7 +29,7 @@
   variables:
     MAIN_SRC: src/main/java/
   before_script:
-    - cd "$SERVICE_FOLDER"
+    - cd "services/$SERVICE_FOLDER"
   script:
     # convert report from jacoco to cobertura, using relative project path
     - python /opt/cover2cover.py build/reports/jacoco/test/jacocoTestReport.xml "$MAIN_SRC" > build/cobertura.xml
@@ -42,7 +42,7 @@
   stage: build
   image: openjdk:11
   before_script:
-    - cd "$SERVICE_FOLDER"
+    - cd "services/$SERVICE_FOLDER"
     - export GRADLE_USER_HOME=`pwd`/.gradle
   script: ./gradlew --build-cache build
   cache:

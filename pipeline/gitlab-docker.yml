@@ -8,7 +8,7 @@
   stage: build image
   image: docker:latest
   before_script:
-    - cd "$SERVICE_FOLDER"
+    - cd "services/$SERVICE_FOLDER"
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin  $CI_REGISTRY
   script:
     - docker build -t "$CI_REGISTRY_IMAGE/$IMAGE_NAME:$CI_COMMIT_SHORT_SHA" .
@@ -26,7 +26,7 @@
   services:
     - docker:dind
   before_script:
-    - cd "$SERVICE_FOLDER"
+    - cd "services/$SERVICE_FOLDER"
     - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin  $CI_REGISTRY
     - echo "$DOCKER_HUB_REGISTRY_PASSWORD" | docker login -u "$DOCKER_HUB_REGISTRY_USER" --password-stdin $DOCKER_HUB_REGISTRY
   script:

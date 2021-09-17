@@ -4,18 +4,18 @@ test gateway:
     SERVICE_FOLDER: gateway
   only:
     changes:
-      - gateway/**/*
+      - services/gateway/**/*
   cache:
     paths:
-      - gateway/build
-      - gateway/.gradle
+      - services/gateway/build
+      - services/gateway/.gradle
   artifacts:
     paths:
-      - gateway/build/reports/tests/
-      - gateway/build/test-results/test/TEST-*.xml
-      - gateway/build/reports/jacoco/test/jacocoTestReport.xml
+      - services/gateway/build/reports/tests/
+      - services/gateway/build/test-results/test/TEST-*.xml
+      - services/gateway/build/reports/jacoco/test/jacocoTestReport.xml
     reports:
-      junit: gateway/build/test-results/*/TEST-*.xml
+      junit: services/gateway/build/test-results/*/TEST-*.xml
 
 coverage gateway:
   extends: .convert-coverage
@@ -23,12 +23,12 @@ coverage gateway:
     SERVICE_FOLDER: gateway
   only:
     changes:
-      - gateway/**/*
+      - services/gateway/**/*
   needs:
     - test gateway
   artifacts:
     reports:
-      cobertura: gateway/build/cobertura.xml
+      cobertura: services/gateway/build/cobertura.xml
 
 build gateway:
   extends: .build
@@ -36,16 +36,16 @@ build gateway:
     SERVICE_FOLDER: gateway
   only:
     changes:
-      - gateway/**/*
+      - services/gateway/**/*
   needs:
     - test gateway
   cache:
     paths:
-      - gateway/build
-      - gateway/.gradle
+      - services/gateway/build
+      - services/gateway/.gradle
   artifacts:
     paths:
-      - gateway/build/libs/hc-gateway-*.jar
+      - services/gateway/build/libs/gateway-*.jar
 
 build gateway image:
   extends: .docker-build
@@ -54,7 +54,7 @@ build gateway image:
     IMAGE_NAME: gateway
   only:
     changes:
-      - gateway/**/*
+      - services/gateway/**/*
   needs:
     - build gateway
 
@@ -62,7 +62,7 @@ publish gateway image:
   extends: .docker-publish
   only:
     changes:
-      - gateway/**/*
+      - services/gateway/**/*
   needs:
     - build gateway image
   variables:
