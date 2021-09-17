@@ -1,16 +1,3 @@
-stages:
-  - build image
-  - publish image
-
-variables:
-  DOCKER_HOST: "tcp://docker:2375"
-  DOCKER_DRIVER: overlay2
-  DOCKER_HUB_REGISTRY_IMAGE: $DOCKER_HUB_REGISTRY_ORG/$CI_PROJECT_NAME
-  DOCKER_TLS_CERTDIR: "" # workaround for https://gitlab.com/gitlab-org/gitlab-runner/issues/4501
-
-services:
-  - docker:19.03.1-dind@sha256:ffa52c7b48390439f5858cadfaf8163c8cde2104873b3dc9850d8e021dbd3f24
-
 build auth-keycloak image:
   extends: .docker-build
   variables:
