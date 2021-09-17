@@ -1,0 +1,19 @@
+fullnameOverride: ui
+image:
+  registry: docker.io
+  repository: habitcentric/ui
+  tag: latest
+  ## Specifies a imagePullPolicy
+  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  pullPolicy: Always
+
+oidc:
+  {{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") (eq .Environment.Name "kuma") (eq .Environment.Name "traefik-mesh") }}
+  enabled: true
+  authorityUri: habitcentric.demo/auth/realms/habitcentric/.well-known/openid-configuration
+  {{- else }}
+  enabled: false
+  authorityUri: keycloak.demo/auth/realms/habitcentric/.well-known/openid-configuration
+  {{- end }}
+  clientId: ui

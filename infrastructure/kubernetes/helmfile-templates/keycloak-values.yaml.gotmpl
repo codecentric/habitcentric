@@ -1,0 +1,31 @@
+keycloak:
+  image:
+    repository: habitcentric/auth-keycloak
+    tag: latest
+    pullPolicy: IfNotPresent
+  service:
+    httpPort: 8080
+  serviceAccount:
+    create: true
+  {{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") (eq .Environment.Name "kuma") }}
+  ingress:
+    enabled: false
+  {{- else }}
+  ingress:
+    enabled: true
+    hosts:
+      - keycloak.demo
+  {{- end }}
+  password: keycloak
+  persistence:
+    deployPostgres: true
+    dbVendor: postgres
+
+  extraEnv: |
+    - name: DB_PORT
+      value: "10003"
+
+postgresql:
+  postgresqlPassword: postgresql
+  service:
+    port: 10003

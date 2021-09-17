@@ -1,0 +1,22 @@
+fullnameOverride: gateway
+
+image:
+  registry: docker.io
+  repository: habitcentric/gateway
+  tag: latest
+  pullPolicy: Always
+
+authType: OAUTH_2_LOGIN
+authUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080
+habitUri: http://habit.hc-habit.svc.cluster.local:9001
+trackUri: http://track.hc-track.svc.cluster.local:9002
+reportUri: http://report.hc-report.svc.cluster.local:9003
+uiUri: http://ui.hc-ui.svc.cluster.local:9004
+
+{{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") }}
+ingress:
+  enabled: false
+{{- else }}
+ingress:
+  enabled: true
+{{- end }}

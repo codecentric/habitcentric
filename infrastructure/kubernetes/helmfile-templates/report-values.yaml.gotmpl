@@ -1,0 +1,105 @@
+fullnameOverride: report
+
+{{- if eq .Environment.Name "traefik-mesh" }}
+report:
+  habitServiceUrl: http://habit.hc-habit.traefik.mesh:8080
+  trackServiceUrl: http://track.hc-track.traefik.mesh:8080
+  enableMonthlyRate: true
+{{- else }}
+report:
+  habitServiceUrl: http://habit.hc-habit:9001
+  trackServiceUrl: http://track.hc-track:9002
+  enableMonthlyRate: true
+{{- end }}
+
+init:
+  image:
+    registry: docker.io
+    repository: alpine
+    tag: 3.8
+    pullPolicy: IfNotPresent
+
+image:
+  registry: docker.io
+  repository: habitcentric/report
+  tag: latest
+  ## Specifies an imagePullPolicy
+  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  pullPolicy: Always
+
+## habitcentric report service configuration
+
+{{- if (eq .Environment.Name "traefik-mesh") }}
+extraEnv:
+  - name: SPRING_ZIPKIN_BASEURL
+    value: http://jaeger-collector.traefik-mesh.svc.cluster.local:9411
+{{- end }}
+{{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") }}
+extraEnv:
+  - name: SPRING_PROFILES_INCLUDE
+    value: service-mesh
+{{- end }}
+
+service:
+  ## Additional service annotations which may be required
+  {{- if eq .Environment.Name "kuma" }}
+  annotations:
+    9003.service.kuma.io/protocol: http
+  {{- else }}
+  annotations: {}
+  {{- end }}
+
+  ## ServiceType
+  ## ref: https://kubernetes.io/docs/user-guide/services/#publishing-services---service-types
+  type: ClusterIP
+
+  ## Internal service port
+  port: 9003
+
+  ## nodePort value for the LoadBalancer and NodePort service types
+  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
+  # nodePort:
+
+## Pod Service Account
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+serviceAccount:
+{{- if or (eq .Environment.Name "istio") (eq .Environment.Name "linkerd") (eq .Environment.Name "kuma") }}
+  enabled: true
+{{ else }}
+  enabled: false
+{{ end }}
+
+  ## Name of an already existing service account. Setting this value disables the automatic service account creation.
+  # name:
+
+## Configure extra options for liveness and readiness probes
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-probes/#configure-probes)
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 20
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 40
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+## Number of service instances
+replicas: 3
+
+## Additional pod labels which may be required
+podLabels: {}
+
+## Additional pod annotations which may be required
+podAnnotations: {}
+
+## updateStrategy for habitcentric habit Deployment
+## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
+updateStrategyType: RollingUpdate
