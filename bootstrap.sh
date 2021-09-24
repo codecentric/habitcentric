@@ -36,8 +36,8 @@ linkerd_install() {
   linkerd check # --wait 5m0s is default
 
   echo "Patching minikube ingress"
-  kubectl get deployment -n kube-system ingress-nginx-controller -o yaml \
-    | linkerd inject - \
+  kubectl get deployment -n ingress-nginx ingress-nginx-controller -o yaml \
+    | linkerd inject --ingress - \
     | kubectl apply -f -
 }
 
@@ -139,7 +139,7 @@ if [ "$env" = "linkerd" ]; then
   habitcentric_deploy "$env"
   # wait for the ingress-controller to become available
   # otherwise the deployment of the linkerd ingresses will fail
-  wait_for_ready_replica "deployment" 1 "ingress-nginx-controller" "kube-system"
+  wait_for_ready_replica "deployment" 1 "ingress-nginx-controller" "ingress-nginx"
   linkerd_deploy_ingress
 
   echo
