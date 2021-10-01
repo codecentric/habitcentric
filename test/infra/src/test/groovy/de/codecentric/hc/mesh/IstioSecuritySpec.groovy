@@ -69,13 +69,13 @@ class IstioSecuritySpec extends Specification {
 
         where:
         service             | command                                                                   || expectedOutput
-        "ui"                | "curl ui.hc-ui/ui"                                                        || "RBAC: access denied"
-        "habit"             | "curl habit.hc-habit:8080"                                                || "RBAC: access denied"
+        "ui"                | "curl -sS ui.hc-ui/ui"                                                    || "upstream connect error or disconnect/reset before headers. reset reason: connection failure"
+        "habit"             | "curl -sS habit.hc-habit:8080"                                            || "upstream connect error or disconnect/reset before headers. reset reason: connection failure"
         "habit-postgres"    | "psql -h habit-habit-postgresql.hc-habit -p 5432 -c \"SELECT 'nope'\" -w" || "psql: error: server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
-        "track"             | "curl track.hc-track:8080"                                                || "RBAC: access denied"
+        "track"             | "curl -sS track.hc-track:8080"                                            || "upstream connect error or disconnect/reset before headers. reset reason: connection failure"
         "track-postgres"    | "psql -h track-track-postgresql.hc-track -p 5432 -c \"SELECT 'nope'\" -w" || "psql: error: server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
-        "report"            | "curl report.hc-report:8080"                                              || "RBAC: access denied"
-        "keycloak"          | "curl keycloak-http.hc-keycloak"                                          || "RBAC: access denied"
+        "report"            | "curl -sS report.hc-report:8080"                                          || "upstream connect error or disconnect/reset before headers. reset reason: connection failure"
+        "keycloak"          | "curl -sS keycloak-http.hc-keycloak"                                      || "upstream connect error or disconnect/reset before headers. reset reason: connection failure"
         "keycloak-postgres" | "psql -h keycloak-postgresql.hc-keycloak -p 5432 -c \"SELECT 'nope'\" -w" || "psql: error: server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
     }
 }
