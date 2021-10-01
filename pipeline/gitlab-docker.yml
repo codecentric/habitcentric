@@ -1,5 +1,8 @@
 .docker-build:
   only:
+    refs:
+      - merge_requests
+      - branches
     changes:
       - .gitlab-ci.yml
       - pipeline/gitlab-docker.yml

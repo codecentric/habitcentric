@@ -10,12 +10,21 @@ stages:
   - build image
   - publish image
 
+# only run pipeline for MR _or_ branch (if no MR exists) and not both.
+# see: https://docs.gitlab.com/ee/ci/yaml/index.html#switch-between-branch-pipelines-and-merge-request-pipelines
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
+      when: never
+    - if: '$CI_COMMIT_BRANCH'
+
 include:
-  - local: "/pipeline/gitlab-jvm.yml"
-  - local: "/pipeline/gitlab-docker.yml"
-  - '/services/auth-keycloak/.gitlab-ci.yml'
-  - '/services/gateway/.gitlab-ci.yml'
-  - '/services/habit/.gitlab-ci.yml'
-  - '/services/track/.gitlab-ci.yml'
-  - '/services/report/.gitlab-ci.yml'
-  - '/services/ui/.gitlab-ci.yml'
+  - local: '/pipeline/gitlab-jvm.yml'
+  - local: '/pipeline/gitlab-docker.yml'
+  - local: '/services/auth-keycloak/.gitlab-ci.yml'
+  - local: '/services/gateway/.gitlab-ci.yml'
+  - local: '/services/habit/.gitlab-ci.yml'
+  - local: '/services/track/.gitlab-ci.yml'
+  - local: '/services/report/.gitlab-ci.yml'
+  - local: '/services/ui/.gitlab-ci.yml'

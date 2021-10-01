@@ -2,9 +2,6 @@ test habit:
   extends: .test
   variables:
     SERVICE_FOLDER: habit
-  only:
-    changes:
-      - services/habit/**/*
   cache:
     paths:
       - services/habit/build
@@ -21,9 +18,6 @@ coverage habit:
   extends: .convert-coverage
   variables:
     SERVICE_FOLDER: habit
-  only:
-    changes:
-      - services/habit/**/*
   needs:
     - test habit
   artifacts:
@@ -34,9 +28,6 @@ build habit:
   extends: .build
   variables:
     SERVICE_FOLDER: habit
-  only:
-    changes:
-      - services/habit/**/*
   needs:
     - test habit
   cache:
@@ -52,17 +43,11 @@ build habit image:
   variables:
     SERVICE_FOLDER: habit
     IMAGE_NAME: habit
-  only:
-    changes:
-      - services/habit/**/*
   needs:
     - build habit
 
 publish habit image:
   extends: .docker-publish
-  only:
-    changes:
-      - services/habit/**/*
   needs:
     - build habit image
   variables:

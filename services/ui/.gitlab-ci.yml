@@ -1,7 +1,8 @@
 unit test ui:
   only:
-    changes:
-      - services/ui/**/*
+    refs:
+      - merge_requests
+      - branches
   stage: test
   image: node:10
   before_script:
@@ -21,8 +22,9 @@ unit test ui:
 
 build ui:
   only:
-    changes:
-      - services/ui/**/*
+    refs:
+      - merge_requests
+      - branches
   needs:
     - unit test ui
   stage: build
@@ -44,17 +46,11 @@ build ui image:
   variables:
     IMAGE_NAME: ui
     SERVICE_FOLDER: ui
-  only:
-    changes:
-      - services/ui/**/*
   needs:
     - build ui
 
 publish ui image:
   extends: .docker-publish
-  only:
-    changes:
-      - services/ui/**/*
   needs:
     - build ui image
   variables:

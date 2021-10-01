@@ -2,9 +2,6 @@ test report:
   extends: .test
   variables:
     SERVICE_FOLDER: report
-  only:
-    changes:
-      - services/report/**/*
   cache:
     paths:
       - services/report/build
@@ -22,9 +19,6 @@ coverage report:
   variables:
     SERVICE_FOLDER: report
     MAIN_SRC: src/main/kotlin/
-  only:
-    changes:
-      - services/report/**/*
   needs:
     - test report
   artifacts:
@@ -35,9 +29,6 @@ build report:
   extends: .build
   variables:
     SERVICE_FOLDER: report
-  only:
-    changes:
-      - services/report/**/*
   needs:
     - test report
   cache:
@@ -53,17 +44,11 @@ build report image:
   variables:
     IMAGE_NAME: report
     SERVICE_FOLDER: report
-  only:
-    changes:
-      - services/report/**/*
   needs:
     - build report
 
 publish report image:
   extends: .docker-publish
-  only:
-    changes:
-      - services/report/**/*
   needs:
     - build report image
   variables:
