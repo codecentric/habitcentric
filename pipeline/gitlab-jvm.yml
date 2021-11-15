@@ -1,8 +1,8 @@
 .test:
   only:
-    changes:
-      - .gitlab-ci.yml
-      - pipeline/gitlab-jvm.yml
+    refs:
+      - merge_requests
+      - branches
   stage: test
   services:
     - docker:dind
@@ -21,9 +21,9 @@
 
 .convert-coverage:
   only:
-    changes:
-      - .gitlab-ci.yml
-      - pipeline/gitlab-jvm.yml
+    refs:
+      - merge_requests
+      - branches
   stage: test
   image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
   variables:
@@ -36,9 +36,9 @@
 
 .build:
   only:
-    changes:
-      - .gitlab-ci.yml
-      - pipeline/gitlab-jvm.yml
+    refs:
+      - merge_requests
+      - branches
   stage: build
   image: openjdk:11
   before_script:
