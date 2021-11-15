@@ -1,14 +1,18 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.openapi.generator") version "4.2.1"
+    id("org.openapi.generator") version "5.2.1"
 
     id("org.springframework.boot") version "2.2.5.RELEASE"
-    id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    kotlin("jvm") version "1.3.61"
-    kotlin("kapt") version "1.3.72"
-    kotlin("plugin.spring") version "1.3.61"
+    id("com.diffplug.spotless") version "5.14.3"
+    kotlin("jvm") version "1.5.30"
+    kotlin("kapt") version "1.5.30"
+    kotlin("plugin.spring") version "1.5.30"
+    // we should switch to the plugin but enabling it causes warnings for the openapi generator
+    //id("io.freefair.lombok") version "6.2.0"
 }
+
+apply(plugin = "io.spring.dependency-management")
 
 apply { from("../gradle/jacoco.gradle") }
 
@@ -40,20 +44,27 @@ repositories {
     mavenCentral()
 }
 
+extra["chaosMonkeyVersion"] = "2.2.0"
+extra["cloudSleuthVersion"] = "2.2.3.RELEASE"
+extra["mockkVersion"] = "1.12.0"
+extra["springMockkVersion"] = "2.0.3"
+extra["wiremockVersion"] = "2.27.2"
+extra["moschiVersion"] = "1.9.2"
+
 dependencies {
-    implementation("com.squareup.moshi:moshi:1.9.2")
+    implementation("com.squareup.moshi:moshi:${property("moschiVersion")}")
     kapt("org.springframework.boot:spring-boot-configuration-processor")
 
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("org.springframework.cloud:spring-cloud-starter-sleuth:2.2.3.RELEASE")
+    implementation("org.springframework.cloud:spring-cloud-starter-sleuth:${property("cloudSleuthVersion")}")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    runtimeOnly("de.codecentric:chaos-monkey-spring-boot:2.2.0")
+    runtimeOnly("de.codecentric:chaos-monkey-spring-boot:${property("chaosMonkeyVersion")}")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
@@ -62,9 +73,9 @@ dependencies {
     }
     testImplementation("io.projectreactor:reactor-test")
 
-    testImplementation("io.mockk:mockk:1.9.3")
-    testImplementation("com.ninja-squad:springmockk:2.0.1")
-    testCompile("com.github.tomakehurst:wiremock-jre8:2.27.2")
+    testImplementation("io.mockk:mockk:${property("mockkVersion")}")
+    testImplementation("com.ninja-squad:springmockk:${property("springMockkVersion")}")
+    testImplementation("com.github.tomakehurst:wiremock:${property("wiremockVersion")}")
 }
 
 tasks.withType<Test> {
@@ -75,7 +86,7 @@ tasks.withType<KotlinCompile> {
     dependsOn(tasks.openApiGenerate)
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
 }
 

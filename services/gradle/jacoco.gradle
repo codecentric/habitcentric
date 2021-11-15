@@ -1,13 +1,15 @@
 apply plugin: JacocoPlugin
 
 jacoco {
-    toolVersion = '0.8.4'
+    toolVersion = '0.8.7'
 }
 
 check.dependsOn "jacocoTestReport", "jacocoTestCoverageVerification"
+// the coverage verification job can hide errors, let's make sure to run the test report before
+jacocoTestCoverageVerification.dependsOn "jacocoTestReport"
 
 jacocoTestReport {
     reports {
-        xml.enabled true
+        xml.required = true
     }
 }

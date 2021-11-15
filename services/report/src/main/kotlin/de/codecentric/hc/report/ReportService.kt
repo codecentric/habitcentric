@@ -36,9 +36,9 @@ class ReportService(
         val today = dateService.today()
         val reportDateRange = period.asDateRange(today)
         val sumOfScheduledRepetitions =
-            filteredHabits.sumBy { it.getScheduledRepetitionsForPeriod(reportDateRange) }
+            filteredHabits.sumOf { it.getScheduledRepetitionsForPeriod(reportDateRange) }
         val sumOfTrackedRepetitions =
-            filteredHabits.sumBy { it.getTrackedRepetitionsForPeriod(reportDateRange) }
+            filteredHabits.sumOf { it.getTrackedRepetitionsForPeriod(reportDateRange) }
 
         return when {
             sumOfScheduledRepetitions == 0 -> 0.0

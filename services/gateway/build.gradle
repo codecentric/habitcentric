@@ -1,17 +1,17 @@
 plugins {
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'java'
-    id 'com.diffplug.gradle.spotless' version '3.22.0'
-    id 'io.freefair.lombok' version '3.8.1'
+    id 'com.diffplug.spotless' version '5.14.3'
+    id "io.freefair.lombok" version "6.2.0"
 }
 
 apply plugin: 'io.spring.dependency-management'
-apply from: 'gradle/intTest.gradle'
+apply from: '../gradle/intTest.gradle'
 apply from: 'gradle/jacoco.gradle'
 
 group = 'de.codecentric'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = JavaVersion.VERSION_11
 
 bootRun {
     environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: 'local'
@@ -29,27 +29,45 @@ test {
 
 repositories {
     mavenCentral()
-    maven { url 'https://repo.spring.io/milestone' }
 }
 
 ext {
-    set('springCloudVersion', 'Greenwich.SR2')
+    springCloudVersion = 'Greenwich.SR2'
+    versions = [
+            restAssured   : '4.0.0',
+            junitJupiter  : '5.8.0',
+    ]
 }
+// override the version the spring boot dependency-management plugin would enforce
+ext['junit-jupiter.version'] = versions.junitJupiter
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
     implementation 'org.springframework.cloud:spring-cloud-starter-security'
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.5.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.5.1'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.5.1'
-    testImplementation 'org.junit.platform:junit-platform-engine:1.5.1'
-    testImplementation 'org.junit.platform:junit-platform-commons:1.5.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'junit', module: 'junit'
     }
+
+    intTestImplementation "io.rest-assured:json-path:$versions.restAssured"
+    intTestImplementation("io.rest-assured:rest-assured:$versions.restAssured") {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+    }
+    intTestImplementation("io.rest-assured:xml-path:$versions.restAssured") {
+        exclude group: 'com.sun.xml.bind', module: 'jaxb-osgi'
+    }
+    intTestImplementation "org.junit.jupiter:junit-jupiter"
+    intTestImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'junit', module: 'junit'
+    }
+    intTestImplementation('org.springframework.cloud:spring-cloud-starter-contract-stub-runner') {
+        exclude group: 'junit', module: 'junit'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-web'
+    }
+    intTestImplementation 'org.springframework.security:spring-security-test'
 }
 
 dependencyManagement {

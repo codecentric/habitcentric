@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class ReportController(val reportService: ReportService) : ReportsApi {
+class ReportController(val reportService: ReportService) : ReportApi {
 
     override fun reportAchievementGet(): ResponseEntity<AchievementRate> {
         val achievementRate = reportService.calculateAchievementRates().toAchievementRate()

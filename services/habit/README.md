@@ -22,7 +22,7 @@ After starting the service locally you can find the documentation here:
 You can created a fat JAR that contains all dependencies and a Tomcat server to run the application as follows: 
 
 ```
-./gradlew clean build
+./gradlew build
 ```
 
 ## Start Application Locally
@@ -71,7 +71,7 @@ If necessary, create the schema manually or simply start the application to let 
 
 ## Unit Testing
 ```bash
-./gradlew clean test
+./gradlew test
 ```
 
 ### Test Code Coverage
@@ -80,12 +80,12 @@ The code (not) covered by tests is measured with [JaCoCo](https://github.com/jac
 You can call the following command to generate a HTML coverage report under `build/reports/jacoco/test/html`
 and verify the compliance with coverage rules:
 ```bash
-./gradlew clean test jacocoTestReport jacocoTestCoverageVerification
+./gradlew check
 ```
 
 ## Integration Testing
 ```bash
-./gradlew clean intTest
+./gradlew intTest
 ```
 
 ## Code Format
