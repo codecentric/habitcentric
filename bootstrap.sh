@@ -35,6 +35,12 @@ linkerd_install() {
   echo "Installed linkerd waiting for all components to become ready"
   linkerd check # --wait 5m0s is default
 
+  echo "Patch ingress config map to enable tracing"
+  # We should do this before patching the ingress, then we don't need to restart the controller.
+  kubectl get configmaps -n ingress-nginx ingress-nginx-controller -o json \
+    | jq '.data."enable-opentracing" = "true" | .data."zipkin-collector-host" = "collector.linkerd-jaeger"' \
+    | kubectl apply -f -
+
   echo "Patching minikube ingress"
   kubectl get deployment -n ingress-nginx ingress-nginx-controller -o yaml \
     | linkerd inject - \
