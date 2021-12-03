@@ -161,6 +161,12 @@ if [ "$env" = "linkerd" ]; then
   echo "Required Hosts Entry:"
   print_minikube_hosts_patch
   #patch_hosts "$(print_minikube_hosts_patch)"
+  echo
+  echo
+  echo "Linkerd dashboard:"
+  echo " linkerd viz dashboard"
+  echo "Jaeger UI:"
+  echo " linkerd jaeger dashboard"
 fi
 
 if [ "$env" = "istio" ]; then

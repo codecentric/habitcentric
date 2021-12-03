@@ -38,7 +38,9 @@ linkerd viz install | kubectl apply -f -
 linkerd jaeger install | kubectl apply -f -
 
 # If you want, you can now open the Linkerd dashboard
-linkerd dashboard
+linkerd viz dashboard
+# or the jaeger ui
+linkerd jaeger dashboard
 ```
 
 ## Add the Ingress Controller to the Service Mesh
