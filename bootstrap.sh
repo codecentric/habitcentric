@@ -42,6 +42,15 @@ linkerd_install() {
     | kubectl apply -f -
 
   echo "Patching minikube ingress"
+  # There is an issue with the rolling update settings of the ingress controller:
+  # https://github.com/kubernetes/minikube/issues/12903
+  # The default strategy does not allow the old controller to be shut down before
+  # the new one is up an running. The new controller cannot be started because the hostPort
+  # is still used by the old controller.
+  # To work around this we'll patch the deployment to use the recreate strategy.
+  kubectl get deployment -n ingress-nginx ingress-nginx-controller -o json \
+    | jq '.spec.strategy.rollingUpdate.maxUnavailable = 1' \
+    | kubectl apply -f -
   kubectl get deployment -n ingress-nginx ingress-nginx-controller -o yaml \
     | linkerd inject - \
     | kubectl apply -f -
