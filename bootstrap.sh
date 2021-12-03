@@ -37,7 +37,7 @@ linkerd_install() {
 
   echo "Patching minikube ingress"
   kubectl get deployment -n ingress-nginx ingress-nginx-controller -o yaml \
-    | linkerd inject --ingress - \
+    | linkerd inject - \
     | kubectl apply -f -
 }
 
