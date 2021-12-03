@@ -6,10 +6,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/app-root: /ui
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   rules:
     - host: habitcentric.demo
@@ -30,10 +27,7 @@ metadata:
   namespace: hc-habit
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   rules:
   - host: habitcentric.demo
@@ -55,10 +49,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /actuator$1
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   rules:
     - host: habitcentric.demo
@@ -79,10 +70,7 @@ metadata:
   namespace: hc-track
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   rules:
   - host: habitcentric.demo
@@ -104,10 +92,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /actuator$1
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   rules:
     - host: habitcentric.demo
@@ -128,10 +113,7 @@ metadata:
   namespace: hc-report
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   rules:
   - host: habitcentric.demo
@@ -153,10 +135,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /actuator$1
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   rules:
     - host: habitcentric.demo
@@ -177,10 +156,7 @@ metadata:
   namespace: hc-ui
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   rules:
   - host: habitcentric.demo
@@ -201,10 +177,7 @@ metadata:
   namespace: hc-keycloak
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      proxy_set_header l5d-dst-override $service_name.$namespace.svc.cluster.local:$service_port;
-      proxy_hide_header l5d-remote-ip;
-      proxy_hide_header l5d-server-id;
+    nginx.ingress.kubernetes.io/service-upstream: "true"
 spec:
   rules:
   - host: habitcentric.demo

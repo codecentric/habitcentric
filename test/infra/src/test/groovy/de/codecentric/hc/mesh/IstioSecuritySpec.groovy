@@ -18,8 +18,7 @@ class IstioSecuritySpec extends Specification {
                 helperPodName,
                 helperPodNamespace,
                 ["istio-injection": "enabled"],
-                ["curl", "postgresql"],
-                ["curl", "psql"]
+                ["curl", "postgresql"]
         )
     }
 
@@ -65,17 +64,17 @@ class IstioSecuritySpec extends Specification {
         def result = helper.executeCommandInPod(helperPodName, helperPodNamespace, command)
 
         then:
-        result.stdout == expectedOutput || result.stderr == expectedOutput
+        result.stdout ==~ expectedOutput || result.stderr ==~ expectedOutput
 
         where:
         service             | command                                                                    || expectedOutput
         "ui"                | "curl ui.hc-ui:9004/ui"                                                    || "RBAC: access denied"
         "habit"             | "curl habit.hc-habit:9001"                                                 || "RBAC: access denied"
-        "habit-postgres"    | "psql -h habit-habit-postgresql.hc-habit -p 10001 -c \"SELECT 'nope'\" -w" || "psql: error: server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
+        "habit-postgres"    | "psql -h habit-habit-postgresql.hc-habit -p 10001 -c \"SELECT 'nope'\" -w" || ".*\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
         "track"             | "curl track.hc-track:9002"                                                 || "RBAC: access denied"
-        "track-postgres"    | "psql -h track-track-postgresql.hc-track -p 10002 -c \"SELECT 'nope'\" -w" || "psql: error: server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
+        "track-postgres"    | "psql -h track-track-postgresql.hc-track -p 10002 -c \"SELECT 'nope'\" -w" || ".*\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
         "report"            | "curl report.hc-report:9003"                                               || "RBAC: access denied"
         "keycloak"          | "curl keycloak-http.hc-keycloak:8080"                                      || "RBAC: access denied"
-        "keycloak-postgres" | "psql -h keycloak-postgresql.hc-keycloak -p 10003 -c \"SELECT 'nope'\" -w" || "psql: error: server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
+        "keycloak-postgres" | "psql -h keycloak-postgresql.hc-keycloak -p 10003 -c \"SELECT 'nope'\" -w" || ".*\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
     }
 }

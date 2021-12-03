@@ -17,6 +17,23 @@ habitcentric supports a wide range of deployment environments:
     - traefik-mesh (does **not** support our current show-case)
 - standalone/IDE
 
+# Quickstart
+
+There is a `bootstrap.sh` script to quickly bootstrap some environments.
+It uses minikube to bootstrap a kubernetes cluster.
+
+Supported Environments are:
+
+- Istio
+- Linkerd
+
+```shell
+# istio
+./bootstrap.sh istio
+# linkerd
+./bootstrap.sh linkerd
+```
+
 ## Supported features/components per environment
 
 TBD :)

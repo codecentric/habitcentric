@@ -14,7 +14,6 @@ import io.kubernetes.client.util.Streams
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import java.util.stream.Collectors
 
 class K8sHelper {
     private static int WAIT_LOOP_SLEEP_MS = 500
@@ -34,8 +33,7 @@ class K8sHelper {
             String podName,
             String namespace,
             Map<String, String> labels,
-            List<String> packages,
-            List<String> waitForExecutables
+            List<String> packages
     ) {
 
         V1Pod pod = new V1PodBuilder()
@@ -48,7 +46,7 @@ class K8sHelper {
                 .withNewReadinessProbe()
                 .withNewExec()
                 .withCommand("/bin/sh", "-c",
-                        waitForExecutables.stream().map({ "which ${it}" }).collect(Collectors.toList()).join(" && ")
+                        "test -f /ready"
                 )
                 .endExec()
                 .withInitialDelaySeconds(5)
@@ -57,7 +55,7 @@ class K8sHelper {
                 .withName("alpine-cli")
                 .withImage("alpine:3")
                 .withCommand("/bin/sh")
-                .withArgs("-c", "apk add --no-cache ${packages.join(' ')} && while true; do sleep 10; done")
+                .withArgs("-c", "apk add --no-cache ${packages.join(' ')} && touch /ready && while true; do sleep 10; done")
                 .endContainer()
                 .endSpec()
                 .build()
@@ -110,7 +108,7 @@ class K8sHelper {
                 command
         ]
 
-        final Process proc = exec.exec(namespace, podName, args.toArray() as String[], false, false)
+        final Process proc = exec.exec(namespace, podName, args.toArray() as String[], "alpine-cli", false, false)
 
         def pool = Executors.newFixedThreadPool(2)
         def stdoutFuture = pool.submit(new InputStreamToStringCallable(proc.getInputStream()))

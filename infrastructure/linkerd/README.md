@@ -38,7 +38,9 @@ linkerd viz install | kubectl apply -f -
 linkerd jaeger install | kubectl apply -f -
 
 # If you want, you can now open the Linkerd dashboard
-linkerd dashboard
+linkerd viz dashboard
+# or the jaeger ui
+linkerd jaeger dashboard
 ```
 
 ## Add the Ingress Controller to the Service Mesh
@@ -57,7 +59,7 @@ ingress controller's deployment:
 ```bash
 # Read, modify and re-apply the YAML of the nginx controller's deployment
 kubectl get deployment -n ingress-nginx ingress-nginx-controller -o yaml \
-    | linkerd inject --ingress - \
+    | linkerd inject - \
     | kubectl apply -f -
 
 # Verify that the ingress controller's pod has restarted with 2 containers
