@@ -1,6 +1,6 @@
 image:
   repository: jaegertracing/jaeger-operator
-  tag: 1.20.0
+  tag: 1.28.0
   pullPolicy: IfNotPresent
   imagePullSecrets: []
 

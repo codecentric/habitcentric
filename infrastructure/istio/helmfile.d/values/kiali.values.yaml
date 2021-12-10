@@ -17,7 +17,6 @@ resources:
       deployment:
         accessible_namespaces:
           - "**"
-        image_version: v1.39.0
       external_services:
         prometheus:
           url: http://prometheus-server.istio-system.svc.cluster.local
