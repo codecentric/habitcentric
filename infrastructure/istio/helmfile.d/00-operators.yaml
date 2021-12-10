@@ -5,10 +5,6 @@ repositories:
     url: https://jaegertracing.github.io/helm-charts
 
 releases:
-  - name: istio-operator
-    chart: ../charts/istio-operator
-    values:
-      - ./values/istio-operator.values.yaml
   - name: kiali-operator
     namespace: kiali-operator
     chart: kiali/kiali-operator

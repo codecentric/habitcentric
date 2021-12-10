@@ -1,0 +1,12 @@
+global:
+  tag: 1.12.1
+  tracer:
+    zipkin:
+      address: jaeger-collector.istio-system.svc.cluster.local:9411
+
+meshConfig:
+  enablePrometheusMerge: true
+  enableTracing: true
+  defaultConfig:
+    tracing:
+      sampling: 100

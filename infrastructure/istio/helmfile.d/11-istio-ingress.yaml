@@ -1,0 +1,13 @@
+repositories:
+  - name: istio
+    url: https://istio-release.storage.googleapis.com/charts
+
+releases:
+  # if we need an egress gateway we need to deploy another instance of this chart with
+  # different configuration
+  - name: istio-ingressgateway
+    namespace: istio-ingress
+    chart: istio/gateway
+    # this fails the installation because helm waits for the loadbalancer to get an ip.
+    # But the IP is not available until someone runs minikube tunnel
+    #wait: true

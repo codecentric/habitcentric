@@ -13,7 +13,7 @@ spec:
   - from:
     - source:
         principals:
-        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+        - cluster.local/ns/istio-ingress/sa/istio-ingressgateway
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
@@ -65,7 +65,7 @@ spec:
   - from:
     - source:
         principals:
-        - cluster.local/ns/istio-system/sa/istio-ingressgateway-service-account
+          - cluster.local/ns/istio-ingress/sa/istio-ingressgateway
   # allow access to JWKS URL for all sources (required for OIDC configuration)
   - to:
     - operation:
