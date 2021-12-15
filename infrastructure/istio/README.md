@@ -34,7 +34,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
 
 ## Deploy habitcentric
 
-Please refer to the [helmfile deployment configuration](https://gitlab.com/habitcentric-infrastructure/hc-kubernetes). To deploy habitcentric for Istio, please use the provided helmfile Istio environment.
+Please refer to the [kubernetes deployment readme](../kubernetes/README.md). To deploy habitcentric for Istio, please use the provided helmfile Istio environment.
 
 ## Route to telemetry and habitcentric services
 

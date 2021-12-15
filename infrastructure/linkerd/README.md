@@ -78,8 +78,7 @@ annotation again using the command above.
 
 After installing Linkerd, the cluster is now ready to install our demo
 application: habitcentric. To do so, follow the instructions in the
-[corresponding
-repository](https://gitlab.com/habitcentric-infrastructure/hc-kubernetes) and
+[kubernetes deployment readme](../kubernetes/README.md) and
 choose the `linkerd` environment.
 
 Once the deployment has finished, deploy the necessary ingress resources to

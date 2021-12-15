@@ -9,7 +9,7 @@ keywords:
   - microservices
 home: https://confluence.codecentric.de/display/HAB/habitcentric
 sources:
-  - https://gitlab.com/habitcentric/hc-gateway
+  - https://gitlab.com/habitcentric/habitcentric
 maintainers:
   - name: Michael Follmann
     email: michael.follmann@codecentric.de

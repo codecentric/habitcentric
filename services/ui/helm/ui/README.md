@@ -11,7 +11,7 @@ $ helm install .
 
 ## Introduction
 
-This chart bootstraps a [habitcentric ui](https://gitlab.com/habitcentric/hc-ui) deployment
+This chart bootstraps a [habitcentric ui](https://gitlab.com/habitcentric/habitcentric/-/tree/main/services/ui) deployment
 on a Kubernetes cluster using the Helm package manager.
 
 ## Prerequisites

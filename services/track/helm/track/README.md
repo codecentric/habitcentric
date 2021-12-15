@@ -12,7 +12,7 @@ $ helm install .
 
 ## Introduction
 
-This chart bootstraps a [habitcentric track](https://gitlab.com/habitcentric/hc-track) deployment
+This chart bootstraps a [habitcentric track](https://gitlab.com/habitcentric/habitcentric/-/tree/main/services/track) deployment
 on a Kubernetes cluster using the Helm package manager.
 
 ## Prerequisites
