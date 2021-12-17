@@ -2,8 +2,8 @@ fullnameOverride: report
 
 {{- if eq .Environment.Name "traefik-mesh" }}
 report:
-  habitServiceUrl: http://habit.hc-habit.traefik.mesh:8080
-  trackServiceUrl: http://track.hc-track.traefik.mesh:8080
+  habitServiceUrl: http://habit.hc-habit.traefik.mesh:9001
+  trackServiceUrl: http://track.hc-track.traefik.mesh:9002
   enableMonthlyRate: true
 {{- else }}
 report:

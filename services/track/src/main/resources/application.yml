@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: track
   profiles:
     active: chaos-monkey
   datasource:
