@@ -45,7 +45,7 @@ resources:
         tracing:
           enabled: true
           is_core_component: false
-          in_cluster_url: http://jaeger-query.istio-system.svc.cluster.local:16686
+          in_cluster_url: http://jaeger-query.istio-system.svc.cluster.local:16685
           namespace_selector: true
           url: http://jaeger.demo
           whitelist_istio_system: [ "jaeger-query", "istio-ingressgateway" ]
