@@ -28,6 +28,7 @@ resources:
                 is_core: true
               - app_label: istio-ingressgateway
                 is_core: true
+                namespace: istio-ingress
               - app_label: istio-egressgateway
                 is_core: false
           config_map_name: "istio"
