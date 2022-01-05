@@ -1,5 +1,18 @@
-resources:
-  - apiVersion: jaegertracing.io/v1
-    kind: Jaeger
-    metadata:
-      name: jaeger
+allInOne:
+  enabled: true
+  tag: 1.29.0
+
+storage:
+  type: none
+
+provisionDataStore:
+  cassandra: false
+
+agent:
+  enabled: false
+
+collector:
+  enabled: false
+
+query:
+  enabled: false
