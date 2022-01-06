@@ -5,7 +5,7 @@ data:
 kind: Secret
 metadata:
   name: ingress-credential
-  namespace: istio-system
+  namespace: istio-ingress
 type: kubernetes.io/tls
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -34,4 +34,3 @@ spec:
         credentialName: "ingress-credential"
       hosts:
         - "habitcentric.demo"
-        - "istio-ingressgateway.istio-system.svc.cluster.local" # needed for SNI check at TLS handshake for the locust load generator

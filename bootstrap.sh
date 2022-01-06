@@ -171,16 +171,17 @@ fi
 
 if [ "$env" = "istio" ]; then
   istio_install
-  # wait for a istiod to be ready
-  wait_for_ready_replica "deployment" 1 "istiod" "istio-system"
   habitcentric_deploy "$env"
+  # wait for keycloak before progressing, istiod needs to be able to pull the key set from keycloak
+  # https://github.com/istio/istio/issues/29436
+  wait_for_ready_replica "statefulset" 1 "keycloak" "hc-keycloak"
   istio_deploy
 
   echo
   echo "Run:"
   echo " minikube tunnel > /dev/null"
   echo "To get the IP:"
-  echo " kubectl get services istio-ingressgateway -n istio-system -o json | jq -r '.status.loadBalancer.ingress[0].ip'"
+  echo " kubectl get services istio-ingressgateway -n istio-ingress -o json | jq -r '.status.loadBalancer.ingress[0].ip'"
 fi
 
 if [ -z "$env" ]; then

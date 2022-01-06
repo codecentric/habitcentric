@@ -1,57 +1,77 @@
-resources:
-  - apiVersion: kiali.io/v1alpha1
-    kind: Kiali
-    metadata:
-      name: kiali
-      annotations:
-        ansible.operator-sdk/verbosity: "1"
-    spec:
-      api:
-        namespaces:
-          exclude:
-          - istio-operator
-          - kube.*
-          - kiali-operator
-      auth:
-        strategy: anonymous
-      deployment:
-        accessible_namespaces:
-          - "**"
-        image_version: v1.39.0
-      external_services:
-        prometheus:
-          url: http://prometheus-server.istio-system.svc.cluster.local
-        istio:
-          component_status:
-            enabled: true
-            components:
-              - app_label: istiod
-                is_core: true
-              - app_label: istio-ingressgateway
-                is_core: true
-              - app_label: istio-egressgateway
-                is_core: false
-          config_map_name: "istio"
-          envoy_admin_local_port: 15000
-          istio_identity_domain: "svc.cluster.local"
-          istio_injection_annotation: "sidecar.istio.io/inject"
-          istio_sidecar_annotation: "sidecar.istio.io/status"
-          url_service_version: ""
-        grafana:
-          is_core_component: false
-          enabled: true
-          in_cluster_url: http://grafana.istio-system
-          url: http://grafana.demo
-        tracing:
-          enabled: true
-          is_core_component: false
-          in_cluster_url: http://jaeger-query.istio-system.svc.cluster.local:16686
-          namespace_selector: true
-          url: http://jaeger.demo
-          whitelist_istio_system: [ "jaeger-query", "istio-ingressgateway" ]
-      istio_labels:
-        app_label_name: app.kubernetes.io/name
-        injection_label_name: istio-injection
-        version_label_name: app.kubernetes.io/version
-      istio_namespace: istio-system
-      version: default
+#
+# Settings that mimic the Kiali CR which are placed in the ConfigMap.
+# Note that only those values used by the Helm Chart will be here.
+#
+
+istio_namespace: istio-system
+
+api:
+  namespaces:
+    exclude:
+      - kube.*
+
+auth:
+  strategy: anonymous
+
+deployment:
+  accessible_namespaces:
+    - "**"
+  image_name: quay.io/kiali/kiali
+  image_pull_policy: "IfNotPresent"
+  image_version: v1.44.0
+  instance_name: "kiali"
+  logger:
+    log_format: "text"
+    log_level: "info"
+    time_field_format: "2006-01-02T15:04:05Z07:00"
+    sampler_rate: "1"
+  replicas: 1
+  resources:
+    requests:
+      cpu: "10m"
+      memory: "64Mi"
+    limits:
+      memory: "1Gi"
+  version_label: v1.44.0
+  view_only_mode: false
+
+external_services:
+  custom_dashboards:
+    enabled: true
+  grafana:
+    is_core_component: false
+    enabled: true
+    in_cluster_url: http://grafana.istio-system
+    url: http://grafana.demo
+  istio:
+    component_status:
+      enabled: true
+      components:
+        - app_label: istiod
+          is_core: true
+        - app_label: istio-ingressgateway
+          is_core: true
+          namespace: istio-ingress
+        - app_label: istio-egressgateway
+          is_core: false
+    config_map_name: "istio"
+    envoy_admin_local_port: 15000
+    istio_identity_domain: "svc.cluster.local"
+    istio_injection_annotation: "sidecar.istio.io/inject"
+    istio_sidecar_annotation: "sidecar.istio.io/status"
+    url_service_version: ""
+  prometheus:
+    url: http://prometheus-server.istio-system.svc.cluster.local
+  tracing:
+    enabled: true
+    is_core_component: false
+    in_cluster_url: http://jaeger-query.istio-system.svc.cluster.local:16685
+    namespace_selector: true
+    url: http://jaeger.demo
+    whitelist_istio_system: [ "jaeger-query", "istio-ingressgateway" ]
+
+istio_labels:
+  app_label_name: app.kubernetes.io/name
+  injection_label_name: istio-injection
+  version_label_name: app.kubernetes.io/version
+

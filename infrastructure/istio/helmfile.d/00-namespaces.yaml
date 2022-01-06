@@ -1,0 +1,16 @@
+repositories:
+  - name: incubator
+    url: https://charts.helm.sh/incubator
+
+releases:
+  - name: istio-ingress-namespace
+    chart: incubator/raw
+    values:
+      - resources:
+          - apiVersion: v1
+            kind: Namespace
+            metadata:
+              name: istio-ingress
+              labels:
+                "istio-injection": "enabled"
+            spec:
