@@ -1,5 +1,0 @@
-image:
-  tag: v1.44.0
-
-clusterRoleCreator: true
-cr.create: false
