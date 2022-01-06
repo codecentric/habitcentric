@@ -22,9 +22,9 @@ Deploys habitcentric without its Spring API gateway and makes it accessible usin
 - Locally installed [helmfile CLI](https://github.com/roboll/helmfile#installation)  (version >= 0.9.3)
 - Locally installed [Helm CLI](https://helm.sh/docs/using_helm/#install-helm) (version >= 3.0.0) with [Helm Diff plugin](https://github.com/databus23/helm-diff#install) (version >= 3.0.0-rc.7)
 - *Optional for Istio environment: Existing Istio installation on Kubernetes cluster*  
-  *Detailed instructions on how to install Istio on your Kubernetes cluster and additional example configurations are located [here](https://gitlab.com/habitcentric/istio).*
+  *Detailed instructions on how to install Istio on your Kubernetes cluster and additional example configurations are located [here](../istio).*
 - *Optional for Linkerd environment: Existing Linkerd installation on Kubernetes cluster*  
-  *Detailed instructions on how to install Linkerd on your Kubernetes cluster and additional example configurations are located [here](https://gitlab.com/habitcentric/linkerd).*
+  *Detailed instructions on how to install Linkerd on your Kubernetes cluster and additional example configurations are located [here](../linkerd).*
 
 ## How To Deploy
 

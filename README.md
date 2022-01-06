@@ -60,7 +60,7 @@ Each habitcentric service runs with the same ports across all deployment options
 
 - [auth-keycloak](services/auth-keycloak/README.md)
 - [gateway](services/gateway/README.md)
-- [habbit](hservices/abit/README.md)
+- [habit](services/abit/README.md)
 - [track](services/track/README.md)
 - [ui](services/ui/README.md)
 

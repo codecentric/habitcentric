@@ -11,7 +11,7 @@ $ helm install .
 
 ## Introduction
 
-This chart bootstraps a [habitcentric gateway](https://gitlab.com/habitcentric/hc-gateway) deployment
+This chart bootstraps a [habitcentric gateway](https://gitlab.com/habitcentric/habitcentric/-/tree/main/services/gateway) deployment
 on a Kubernetes cluster using the Helm package manager.
 
 ## Prerequisites

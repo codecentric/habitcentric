@@ -69,9 +69,8 @@ from Kuma.
 ## habitcentric Deployment
 
 After installing Kuma, the cluster is now ready to install our demo application:
-habitcentric. To do so, follow the instructions in the [corresponding
-repository](https://gitlab.com/habitcentric-infrastructure/hc-kubernetes) and
-choose the `kuma` environment.
+habitcentric. To do so, follow the instructions in the [kubernetes deployment readme](../kubernetes/README.md)
+and choose the `kuma` environment.
 
 Once the deployment has finished, deploy the necessary ingress resources to
 access the application by running the following command from this directory:
