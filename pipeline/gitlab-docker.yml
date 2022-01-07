@@ -2,7 +2,6 @@
   only:
     refs:
       - merge_requests
-      - branches
   services:
     - docker:dind
   stage: build image
