@@ -3,9 +3,6 @@
     refs:
       - merge_requests
       - branches
-    changes:
-      - .gitlab-ci.yml
-      - pipeline/gitlab-docker.yml
   services:
     - docker:dind
   stage: build image
@@ -21,9 +18,6 @@
   only:
     refs:
       - main
-    changes:
-      - .gitlab-ci.yml
-      - pipeline/gitlab-docker.yml
   stage: publish image
   image: docker:latest
   services:
