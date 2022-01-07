@@ -5,6 +5,12 @@ readonly  green=$(tput bold; tput setaf 2)
 readonly yellow=$(tput bold; tput setaf 3)
 readonly   blue=$(tput bold; tput setaf 6)
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  sed="gsed"
+else
+  sed="sed"
+fi
+
 function desc() {
     maybe_first_prompt
     echo "$blue# $@$reset"
@@ -24,7 +30,6 @@ function maybe_first_prompt() {
 }
 
 function backtotop() {
-    
     clear
 }
 
