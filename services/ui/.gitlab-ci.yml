@@ -2,7 +2,6 @@ unit test ui:
   only:
     refs:
       - merge_requests
-      - branches
   stage: test
   image: node:10
   before_script:
@@ -24,7 +23,6 @@ build ui:
   only:
     refs:
       - merge_requests
-      - branches
   needs:
     - unit test ui
   stage: build

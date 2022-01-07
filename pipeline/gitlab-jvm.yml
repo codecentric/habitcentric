@@ -2,7 +2,6 @@
   only:
     refs:
       - merge_requests
-      - branches
   stage: test
   services:
     - docker:dind
@@ -23,7 +22,6 @@
   only:
     refs:
       - merge_requests
-      - branches
   stage: test
   image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
   variables:
@@ -38,7 +36,6 @@
   only:
     refs:
       - merge_requests
-      - branches
   stage: build
   image: openjdk:11
   before_script:
