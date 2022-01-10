@@ -3,13 +3,6 @@ report:
   trackServiceUrl: http://track.hc-track:9002
   enableMonthlyRate: false
 
-init:
-  image:
-    registry: docker.io
-    repository: alpine
-    tag: 3.8
-    pullPolicy: IfNotPresent
-
 image:
   registry: docker.io
   repository: habitcentric/report
