@@ -53,6 +53,7 @@ default values.
 | Parameter                            | Description                                                                                                           | Default                      |
 |--------------------------------------|-----------------------------------------------------------------------------------------------------------------------|------------------------------|
 | `global.imageRegistry`               | Global Docker image registry                                                                                          | `nil`                        |
+| `stable.appVersionOverride`          | Overrides value of `app.kubernetes.io/version` label for stable deployment                                            | `nil`                        |
 | `stable.report.habitServiceUrl`      | URL to habit service for stable deployment                                                                            | `http://habit.hc-habit:9001` |
 | `stable.report.trackServiceUrl`      | URL to track service for stable deployment                                                                            | `http://track.hc-track:9002` |
 | `stable.report.enableMonthlyRate`    | Enables monthly rate in achievement report for stable deployment                                                      | `false`                      |
@@ -63,6 +64,7 @@ default values.
 | `stable.extraEnv`                    | Extra environment variables for the stable deployment container                                                       | `[]`                         |
 | `stable.replicas`                    | Number of stable report instances                                                                                     | 1                            |
 | `canary.enabled`                     | Enable canary deployment                                                                                              | `false`                      |
+| `canary.appVersionOverride`          | Overrides value of `app.kubernetes.io/version` label for canary deployment                                            | `nil`                        |
 | `canary.report.habitServiceUrl`      | URL to habit service for canary deployment                                                                            | `http://habit.hc-habit:9001` |
 | `canary.report.trackServiceUrl`      | URL to track service for canary deployment                                                                            | `http://track.hc-track:9002` |
 | `canary.report.enableMonthlyRate`    | Enables monthly rate in achievement report for canary deployment                                                      | `true`                       |

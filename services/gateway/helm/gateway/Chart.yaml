@@ -1,7 +1,7 @@
 apiVersion: v1
 name: gateway
-version: 0.2.0
-appVersion: latest
+version: 1.0.0
+appVersion: v1
 description: Chart for the gateway service of habitcentric, habitcentric's API gateway
 keywords:
   - habitcentric

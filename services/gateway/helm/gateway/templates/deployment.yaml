@@ -3,7 +3,8 @@ kind: Deployment
 metadata:
   name: {{ template "gateway.fullname" . }}
   labels:
-  {{- include "gateway.labels" . | nindent 4 }}
+    {{- include "gateway.labels" . | nindent 4 }}
+    app.kubernetes.io/version: {{ .Values.appVersionOverride | default .Chart.AppVersion | quote }}
 spec:
   replicas: {{ .Values.replicas }}
   strategy:
@@ -14,10 +15,11 @@ spec:
   template:
     metadata:
       labels:
-      {{- include "gateway.labels" . | nindent 8 }}
-      {{- with .Values.podLabels -}}
-      {{- toYaml . | nindent 8 }}
-      {{- end -}}
+        {{- include "gateway.labels" . | nindent 8 }}
+        app.kubernetes.io/version: {{ .Values.appVersionOverride | default .Chart.AppVersion | quote }}
+        {{- with .Values.podLabels -}}
+        {{- toYaml . | nindent 8 }}
+        {{- end -}}
       {{- with .Values.podAnnotations }}
       annotations:
     {{- toYaml . | nindent 8 }}
