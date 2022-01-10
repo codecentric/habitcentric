@@ -1,19 +1,39 @@
-report:
-  habitServiceUrl: http://habit.hc-habit:9001
-  trackServiceUrl: http://track.hc-track:9002
-  enableMonthlyRate: false
+stable:
+  report:
+    habitServiceUrl: http://habit.hc-habit:9001
+    trackServiceUrl: http://track.hc-track:9002
+    enableMonthlyRate: false
 
-image:
-  registry: docker.io
-  repository: habitcentric/report
-  tag: latest
-  ## Specifies an imagePullPolicy
-  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
-  pullPolicy: Always
+  image:
+    registry: docker.io
+    repository: habitcentric/report
+    tag: latest
+    pullPolicy: Always
 
-## Configure extra environment variables for the container
-extraEnv: []
+  ## Configure extra environment variables for the container
+  extraEnv: [ ]
+
+  ## Number of service instances
+  replicas: 1
+
+canary:
+  enabled: false
+  report:
+    habitServiceUrl: http://habit.hc-habit:9001
+    trackServiceUrl: http://track.hc-track:9002
+    enableMonthlyRate: true
+
+  image:
+    registry: docker.io
+    repository: habitcentric/report
+    tag: latest
+    pullPolicy: Always
+
+  ## Configure extra environment variables for the container
+  extraEnv: [ ]
+
+  ## Number of service instances
+  replicas: 1
 
 ## habitcentric report service configuration
 service:
@@ -57,8 +77,6 @@ livenessProbe:
   failureThreshold: 6
   successThreshold: 1
 
-## Number of service instances
-replicas: 1
 
 ## Additional pod labels which may be required
 podLabels: {}

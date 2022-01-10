@@ -1,7 +1,8 @@
+{{- if .Values.canary.enabled -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "report.fullname" . }}
+  name: {{ template "report.fullname" . }}-canary
   labels:
     app.kubernetes.io/name: {{ template "report.name" . }}
     app.kubernetes.io/component: report
@@ -10,8 +11,9 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion }}
     helm.sh/chart: {{ template "report.chart" . }}
     helm.sh/release: {{ .Release.Name }}
+    release: canary
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: {{ .Values.canary.replicas }}
   strategy:
     type: {{ .Values.updateStrategyType }}
   selector:
@@ -19,6 +21,7 @@ spec:
       app.kubernetes.io/name: {{ template "report.name" . }}
       app.kubernetes.io/component: report
       app.kubernetes.io/instance: {{ .Release.Name }}
+      release: canary
   template:
     metadata:
       labels:
@@ -29,6 +32,7 @@ spec:
         app.kubernetes.io/version: {{ .Chart.AppVersion }}
         helm.sh/chart: {{ template "report.chart" . }}
         helm.sh/release: {{ .Release.Name }}
+        release: canary
       {{- with .Values.podLabels }}
       {{ toYaml . | indent 2 }}
       {{- end }}
@@ -42,25 +46,25 @@ spec:
       {{- end }}
       containers:
         - name: {{ template "report.fullname" . }}
-          image: {{ template "report.image" . }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: {{ template "report.canary.image" . }}
+          imagePullPolicy: {{ .Values.canary.image.pullPolicy }}
           ports:
             - name: http-report
               containerPort: 9003
           env:
             - name: HABIT_SERVICE_URL
-              value: {{ .Values.report.habitServiceUrl }}
+              value: {{ .Values.canary.report.habitServiceUrl }}
             - name: TRACK_SERVICE_URL
-              value: {{ .Values.report.trackServiceUrl }}
+              value: {{ .Values.canary.report.trackServiceUrl }}
             - name: REPORT_ENABLE_MONTHLY_RATE
-              value: "{{ .Values.report.enableMonthlyRate }}"
-            {{- range .Values.extraEnv }}
+              value: "{{ .Values.canary.report.enableMonthlyRate }}"
+          {{- range .Values.canary.extraEnv }}
             {{- if .name }}
             - name: {{ .name }}
               {{- if .value }}
               value: {{ .value | quote }}
-          {{- end }}
-          {{- end }}
+              {{- end }}
+            {{- end }}
           {{- end }}
           readinessProbe:
             httpGet:
@@ -79,3 +83,4 @@ spec:
             timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
             failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
             successThreshold: {{ .Values.livenessProbe.successThreshold }}
+{{- end -}}
