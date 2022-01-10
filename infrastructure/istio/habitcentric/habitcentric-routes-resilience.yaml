@@ -1,13 +1,13 @@
 apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
-  name: habitcentric-routes
-  namespace: istio-system
+  name: habit-ingress-routes
+  namespace: hc-habit
 spec:
   hosts:
   - habitcentric.demo
   gateways:
-  - habitcentric-gateway
+  - istio-system/habitcentric-gateway
   http:
   - match:
     - uri:
@@ -16,7 +16,7 @@ spec:
       uri: /actuator
     route:
       - destination:
-          host: habit.hc-habit.svc.cluster.local
+          host: habit
           port:
             number: 9001
   - match:
@@ -24,7 +24,7 @@ spec:
         prefix: /habits
     route:
     - destination:
-        host: habit.hc-habit.svc.cluster.local
+        host: habit
         port:
           number: 9001
     timeout: 3s
@@ -32,6 +32,18 @@ spec:
       attempts: 3
       perTryTimeout: 1s
       retryOn: 5xx
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: track-ingress-routes
+  namespace: hc-track
+spec:
+  hosts:
+    - habitcentric.demo
+  gateways:
+    - istio-system/habitcentric-gateway
+  http:
   - match:
       - uri:
           prefix: /track/actuator
@@ -39,7 +51,7 @@ spec:
       uri: /actuator
     route:
       - destination:
-          host: track.hc-track.svc.cluster.local
+          host: track
           port:
             number: 9002
   - match:
@@ -47,7 +59,7 @@ spec:
         prefix: /track
     route:
     - destination:
-        host: track.hc-track.svc.cluster.local
+        host: track
         port:
           number: 9002
     timeout: 3s
@@ -55,6 +67,18 @@ spec:
       attempts: 3
       perTryTimeout: 1s
       retryOn: 5xx
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: report-ingress-routes
+  namespace: hc-report
+spec:
+  hosts:
+    - habitcentric.demo
+  gateways:
+    - istio-system/habitcentric-gateway
+  http:
   - match:
       - uri:
           prefix: /report/actuator
@@ -62,7 +86,7 @@ spec:
       uri: /actuator
     route:
       - destination:
-          host: report.hc-report.svc.cluster.local
+          host: report
           port:
             number: 9003
   - match:
@@ -70,7 +94,7 @@ spec:
         prefix: /report
     route:
     - destination:
-        host: report.hc-report.svc.cluster.local
+        host: report
         port:
           number: 9003
     timeout: 3s
@@ -78,42 +102,66 @@ spec:
       attempts: 3
       perTryTimeout: 1s
       retryOn: 5xx
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ui-ingress-routes
+  namespace: hc-ui
+spec:
+  hosts:
+    - habitcentric.demo
+  gateways:
+    - istio-system/habitcentric-gateway
+  http:
   - match:
     - uri:
         prefix: /ui
     route:
     - destination:
-        host: ui.hc-ui.svc.cluster.local
+        host: ui
         port:
           number: 9004
+  - match:
+      - uri:
+          prefix: /
+    redirect:
+      uri: /ui
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: keycloak-ingress-routes
+  namespace: hc-keycloak
+spec:
+  hosts:
+    - habitcentric.demo
+  gateways:
+    - istio-system/habitcentric-gateway
+  http:
   - match:
     - uri:
         prefix: /auth
     route:
     - destination:
-        host: keycloak-http.hc-keycloak.svc.cluster.local
+        host: keycloak-http
         port:
           number: 8080
-  - match:
-    - uri:
-        prefix: /
-    redirect:
-      uri: /ui
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: habitcentric-routes-track
-  namespace: istio-system
+  name: habit-host-routes
+  namespace: hc-habit
 spec:
   hosts:
-    - track.hc-track.svc.cluster.local
+    - habit
   http:
     - route:
         - destination:
-            host: track.hc-track.svc.cluster.local
+            host: habit
             port:
-              number: 9002
+              number: 9001
       timeout: 3s
       retries:
         attempts: 3
@@ -123,17 +171,17 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: habitcentric-routes-habit
-  namespace: istio-system
+  name: track-host-routes
+  namespace: hc-track
 spec:
   hosts:
-    - habit.hc-habit.svc.cluster.local
+    - track
   http:
     - route:
         - destination:
-            host: habit.hc-habit.svc.cluster.local
+            host: track
             port:
-              number: 9001
+              number: 9002
       timeout: 3s
       retries:
         attempts: 3
