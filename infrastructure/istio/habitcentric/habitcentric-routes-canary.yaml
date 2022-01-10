@@ -1,0 +1,50 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: report-ingress-routes
+  namespace: hc-report
+spec:
+  hosts:
+    - habitcentric.demo
+  gateways:
+    - istio-system/habitcentric-gateway
+  http:
+    - match:
+        - uri:
+            prefix: /report/actuator
+      rewrite:
+        uri: /actuator
+      route:
+        - destination:
+            host: report
+            port:
+              number: 9003
+    - match:
+        - uri:
+            prefix: /report
+          headers:
+            "@request.auth.claims.preferred_username":
+              exact: testing
+      route:
+        - destination:
+            host: report
+            port:
+              number: 9003
+            subset: v2
+          weight: 100
+    - match:
+        - uri:
+            prefix: /report
+      route:
+        - destination:
+            host: report
+            port:
+              number: 9003
+            subset: v1
+          weight: 90
+        - destination:
+            host: report
+            port:
+              number: 9003
+            subset: v2
+          weight: 10

@@ -38,7 +38,7 @@ Please refer to the [kubernetes deployment readme](../kubernetes/README.md). To 
 
 ## Route to telemetry and habitcentric services
 
-Istio secures traffic entering the service mesh using load balanced ingress gateways. To access Istio enabled services inside the mesh you must configure ingress route rules using Istio's `Gateway` and `VirtualService` resource.
+Istio secures traffic entering the service mesh using load balanced ingress gateways. To access Istio enabled services inside the mesh you must configure ingress route rules using Istio's `Gateway` and `VirtualService` resources.
 
 ### Telemetry services
 
@@ -51,7 +51,14 @@ kubectl apply -f telemetry-gateway.yaml && kubectl apply -f telemetry-routes.yam
 
 ### habitcentric services
 
-You can apply `habitcentric/habitcentric-gateway.yaml` and `habitcentric/habitcentric-routes.yaml` to enable routing to habitcentric's services.
+Before applying routing configurations, we have to define our endpoint subsets first. For example our report service deployment is split into two subsets: version 1 and version 2. 
+Istio does this by defining `DestinationRule` resources:
+
+```bash
+kubectl apply -f habitcentric/habitcentric-destinations.yaml
+```
+
+After you applied the subset definitions, you can apply `habitcentric/habitcentric-gateway.yaml` and `habitcentric/habitcentric-routes.yaml` to enable routing to habitcentric's services.
 
 ```bash
 kubectl apply -f habitcentric/habitcentric-gateway.yaml && kubectl apply -f habitcentric/habitcentric-routes.yaml

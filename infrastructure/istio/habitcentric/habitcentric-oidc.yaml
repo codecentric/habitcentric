@@ -10,6 +10,23 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
+  name: istio-ingress-oidc-jwt
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+    - issuer: https://habitcentric.demo/auth/realms/habitcentric
+      jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+      forwardOriginalToken: true
+    - issuer: http://habitcentric.demo/auth/realms/habitcentric
+      jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+      forwardOriginalToken: true
+---
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
   name: hc-habit-oidc-jwt
   namespace: hc-habit
 spec:

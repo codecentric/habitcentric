@@ -1,0 +1,14 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: report-subsets
+  namespace: hc-report
+spec:
+  host: report
+  subsets:
+    - name: v1
+      labels:
+        app.kubernetes.io/version: v1
+    - name: v2
+      labels:
+        app.kubernetes.io/version: v2
