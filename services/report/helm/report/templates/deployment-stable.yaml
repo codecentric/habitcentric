@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "report.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ template "report.name" . }}
+    app.kubernetes.io/component: report
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: {{ template "report.chart" . }}
+    helm.sh/release: {{ .Release.Name }}
+    release: stable
+spec:
+  replicas: {{ .Values.stable.replicas }}
+  strategy:
+    type: {{ .Values.updateStrategyType }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ template "report.name" . }}
+      app.kubernetes.io/component: report
+      app.kubernetes.io/instance: {{ .Release.Name }}
+      release: stable
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ template "report.name" . }}
+        app.kubernetes.io/component: report
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/version: {{ .Chart.AppVersion }}
+        helm.sh/chart: {{ template "report.chart" . }}
+        helm.sh/release: {{ .Release.Name }}
+        release: stable
+      {{- with .Values.podLabels }}
+      {{ toYaml . | indent 2 }}
+      {{- end }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+    {{ toYaml . | indent 4 }}
+    {{- end }}
+    spec:
+      {{- if .Values.serviceAccount.enabled }}
+      serviceAccountName: {{ default (include "report.fullname" . ) .Values.serviceAccount.name }}
+      {{- end }}
+      containers:
+        - name: {{ template "report.fullname" . }}
+          image: {{ template "report.stable.image" . }}
+          imagePullPolicy: {{ .Values.stable.image.pullPolicy }}
+          ports:
+            - name: http-report
+              containerPort: 9003
+          env:
+            - name: HABIT_SERVICE_URL
+              value: {{ .Values.stable.report.habitServiceUrl }}
+            - name: TRACK_SERVICE_URL
+              value: {{ .Values.stable.report.trackServiceUrl }}
+            - name: REPORT_ENABLE_MONTHLY_RATE
+              value: "{{ .Values.stable.report.enableMonthlyRate }}"
+          {{- range .Values.stable.extraEnv }}
+            {{- if .name }}
+            - name: {{ .name }}
+              {{- if .value }}
+              value: {{ .value | quote }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http-report
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          livenessProbe:
+            tcpSocket:
+              port: http-report
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
