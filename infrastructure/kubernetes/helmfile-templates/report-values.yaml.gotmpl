@@ -38,6 +38,7 @@ stable:
 
 canary:
   enabled: true
+  appVersionOverride: v2
   {{- if eq .Environment.Name "traefik-mesh" }}
   report:
     habitServiceUrl: http://habit.hc-habit.traefik.mesh:9001

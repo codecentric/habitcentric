@@ -1,3 +1,5 @@
+# appVersionOverride:
+
 image:
   registry: docker.io
   repository: habitcentric/ui

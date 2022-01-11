@@ -1,4 +1,5 @@
 stable:
+  # appVersionOverride:
   report:
     habitServiceUrl: http://habit.hc-habit:9001
     trackServiceUrl: http://track.hc-track:9002
@@ -18,6 +19,7 @@ stable:
 
 canary:
   enabled: false
+  # appVersionOverride:
   report:
     habitServiceUrl: http://habit.hc-habit:9001
     trackServiceUrl: http://track.hc-track:9002

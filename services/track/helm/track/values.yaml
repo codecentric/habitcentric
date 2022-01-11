@@ -1,3 +1,5 @@
+# appVersionOverride:
+
 init:
   image:
     registry: docker.io

@@ -1,7 +1,7 @@
 apiVersion: v2
 name: report
 version: 1.0.0
-appVersion: 0.1.0
+appVersion: v1
 description: Chart for the report service of habitcentric
 keywords:
   - habitcentric

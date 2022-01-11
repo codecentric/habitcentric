@@ -1,7 +1,7 @@
 apiVersion: v2
 name: track
-version: 0.1.0
-appVersion: latest
+version: 1.0.0
+appVersion: v1
 description: Chart for the track service of habitcentric, a service to track habits
 keywords:
   - habitcentric
