@@ -1,0 +1,47 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: hc-habit-oidc-policy
+  namespace: hc-habit
+spec:
+  action: DENY
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: habit
+      app.kubernetes.io/instance: habit
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: hc-track-oidc-policy
+  namespace: hc-track
+spec:
+  action: DENY
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: track
+      app.kubernetes.io/instance: track
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: hc-report-oidc-policy
+  namespace: hc-report
+spec:
+  action: DENY
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: report
+      app.kubernetes.io/instance: report
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]

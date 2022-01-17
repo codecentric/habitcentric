@@ -1,0 +1,135 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: habit-ingress-routes
+  namespace: hc-habit
+spec:
+  hosts:
+  - habitcentric.demo
+  gateways:
+  - istio-system/habitcentric-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /habits/actuator
+    rewrite:
+      uri: /actuator
+    route:
+      - destination:
+          host: habit
+          port:
+            number: 9001
+  - match:
+    - uri:
+        prefix: /habits
+    route:
+    - destination:
+        host: habit
+        port:
+          number: 9001
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: track-ingress-routes
+  namespace: hc-track
+spec:
+  hosts:
+  - habitcentric.demo
+  gateways:
+  - istio-system/habitcentric-gateway
+  http:
+  - match:
+      - uri:
+          prefix: /track/actuator
+    rewrite:
+      uri: /actuator
+    route:
+      - destination:
+          host: track
+          port:
+            number: 9002
+  - match:
+    - uri:
+        prefix: /track
+    route:
+    - destination:
+        host: track
+        port:
+          number: 9002
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: report-ingress-routes
+  namespace: hc-report
+spec:
+  hosts:
+    - habitcentric.demo
+  gateways:
+    - istio-system/habitcentric-gateway
+  http:
+  - match:
+      - uri:
+          prefix: /report/actuator
+    rewrite:
+      uri: /actuator
+    route:
+      - destination:
+          host: report
+          port:
+            number: 9003
+  - match:
+    - uri:
+        prefix: /report
+    route:
+    - destination:
+        host: report
+        port:
+          number: 9003
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: ui-ingress-routes
+  namespace: hc-ui
+spec:
+  hosts:
+    - habitcentric.demo
+  gateways:
+    - istio-system/habitcentric-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /ui
+    route:
+    - destination:
+        host: ui
+        port:
+          number: 9004
+  - match:
+    - uri:
+        prefix: /
+    redirect:
+      uri: /ui
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: keycloak-ingress-routes
+  namespace: hc-keycloak
+spec:
+  hosts:
+    - habitcentric.demo
+  gateways:
+    - istio-system/habitcentric-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /auth
+    route:
+    - destination:
+        host: keycloak-http
+        port:
+          number: 8080
+

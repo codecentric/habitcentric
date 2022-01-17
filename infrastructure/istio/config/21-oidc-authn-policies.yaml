@@ -1,11 +1,19 @@
 apiVersion: security.istio.io/v1beta1
-kind: PeerAuthentication
+kind: RequestAuthentication
 metadata:
-  name: keycloak-mtls-disabled
-  namespace: hc-keycloak
+  name: istio-ingress-oidc-jwt
+  namespace: istio-system
 spec:
-  mtls:
-    mode: PERMISSIVE
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+    - issuer: https://habitcentric.demo/auth/realms/habitcentric
+      jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+      forwardOriginalToken: true
+    - issuer: http://habitcentric.demo/auth/realms/habitcentric
+      jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+      forwardOriginalToken: true
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -26,22 +34,6 @@ spec:
     forwardOriginalToken: true
 ---
 apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: hc-habit-oidc-policy
-  namespace: hc-habit
-spec:
-  action: ALLOW
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: habit
-      app.kubernetes.io/instance: habit
-  rules:
-  - from:
-    - source:
-        requestPrincipals: ["*"]
----
-apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
 metadata:
   name: hc-track-oidc-jwt
@@ -58,22 +50,6 @@ spec:
   - issuer: http://habitcentric.demo/auth/realms/habitcentric
     jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
     forwardOriginalToken: true
----
-apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
-metadata:
-  name: hc-track-oidc-policy
-  namespace: hc-track
-spec:
-  action: ALLOW
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: track
-      app.kubernetes.io/instance: track
-  rules:
-  - from:
-    - source:
-        requestPrincipals: ["*"]
 ---
 apiVersion: security.istio.io/v1beta1
 kind: RequestAuthentication
@@ -94,17 +70,10 @@ spec:
     forwardOriginalToken: true
 ---
 apiVersion: security.istio.io/v1beta1
-kind: AuthorizationPolicy
+kind: PeerAuthentication
 metadata:
-  name: hc-report-oidc-policy
-  namespace: hc-report
+  name: keycloak-mtls-disabled
+  namespace: hc-keycloak
 spec:
-  action: ALLOW
-  selector:
-    matchLabels:
-      app.kubernetes.io/name: report
-      app.kubernetes.io/instance: report
-  rules:
-  - from:
-    - source:
-        requestPrincipals: ["*"]
+  mtls:
+    mode: PERMISSIVE
