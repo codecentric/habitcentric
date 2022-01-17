@@ -10,3 +10,6 @@ meshConfig:
   defaultConfig:
     tracing:
       sampling: 100
+
+istio_cni:
+  enabled: true
