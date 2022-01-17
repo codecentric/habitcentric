@@ -28,4 +28,4 @@ run "helmfile --environment istio apply"
 
 desc "Noch schnell Zugang zu unseren Telemetrie-Services.."
 DEMO_AUTO_RUN=y run "cd ../istio"
-run "kubectl apply -f telemetry-gateway.yaml && kubectl apply -f telemetry-routes.yaml"
+run "kubectl apply -f config/00-telemetry-gateway.yaml && kubectl apply -f config/01-telemetry-routing-rules.yaml"

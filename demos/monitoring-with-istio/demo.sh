@@ -17,10 +17,10 @@ read -s
 
 desc "Wir starten mit der Routing-Konfiguration für habitcentric"
 DEMO_AUTO_RUN=y run "cd ./infrastructure/istio"
-run "kubectl apply -f habitcentric/habitcentric-gateway-secure.yaml && kubectl apply -f habitcentric/habitcentric-routes.yaml"
+run "kubectl apply -f config/20-gateway-with-tls.yaml && kubectl apply -f config/11-routing-rules.yaml"
 
 desc "Schauen wir uns die mal im Detail an.."
-run "cat habitcentric/habitcentric-routes.yaml"
+run "cat config/11-routing-rules.yaml"
 
 desc "Okay, werfen wir einen Blick auf die UI von habitcentric"
 run "open https://habitcentric.demo"
@@ -39,7 +39,7 @@ DEMO_RUN_FAST=y run "curl -k --request POST --url https://habitcentric.demo/repo
 
 desc "Schauen wir mal, was sich durch ein paar Retries verbessern lässt"
 DEMO_AUTO_RUN=y run "cd ../../infrastructure/istio"
-run "kubectl apply -f habitcentric/habitcentric-routes-resilience.yaml"
+run "kubectl apply -f config/40-routing-rules-resilience.yaml"
 
 desc "Und zu guter letzt werfen wir noch einmal einen Blick in unsere Retry-Konfiguration"
-run "cat habitcentric/habitcentric-routes-resilience.yaml"
+run "cat config/40-routing-rules-resilience.yaml"
