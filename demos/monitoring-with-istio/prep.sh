@@ -6,7 +6,7 @@ cd ../..
 
 
 desc "Wir erstellen einen Minikube Cluster"
-DEMO_RUN_FAST=y run "minikube start --memory=8192 --cpus=6 --kubernetes-version=1.20.2" "$SUDO_USER"
+DEMO_RUN_FAST=y run "minikube start --memory=8192 --cpus=6" "$SUDO_USER"
 
 desc "Und deployen Istio"
 DEMO_AUTO_RUN=y run "cd ./infrastructure/istio"
@@ -28,4 +28,4 @@ run "helmfile --environment istio apply"
 
 desc "Noch schnell Zugang zu unseren Telemetrie-Services.."
 DEMO_AUTO_RUN=y run "cd ../istio"
-run "kubectl apply -f telemetry-gateway.yaml && kubectl apply -f telemetry-routes.yaml"
+run "kubectl apply -f config/00-telemetry-gateway.yaml && kubectl apply -f config/01-telemetry-routing-rules.yaml"
