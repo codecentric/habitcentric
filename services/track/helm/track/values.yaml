@@ -37,6 +37,8 @@ service:
 
 persistence:
   deployPostgres: true
+  ## Enable init container to wait for postgresql availability
+  enableInitContainer: true
   ## Name of custom database (if deployPostgres=false)
   # dbName:
 
