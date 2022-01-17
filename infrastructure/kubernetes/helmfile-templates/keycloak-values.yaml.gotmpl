@@ -6,6 +6,8 @@ image:
 serviceAccount:
   create: true
 
+skipInitContainers: true
+
 extraEnv: |
   - name: KEYCLOAK_USER
     value: keycloak
