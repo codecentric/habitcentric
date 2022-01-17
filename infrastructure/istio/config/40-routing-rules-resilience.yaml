@@ -40,20 +40,20 @@ metadata:
   namespace: hc-track
 spec:
   hosts:
-    - habitcentric.demo
+  - habitcentric.demo
   gateways:
-    - istio-system/habitcentric-gateway
+  - istio-system/habitcentric-gateway
   http:
   - match:
-      - uri:
-          prefix: /track/actuator
+    - uri:
+        prefix: /track/actuator
     rewrite:
       uri: /actuator
     route:
-      - destination:
-          host: track
-          port:
-            number: 9002
+    - destination:
+        host: track
+        port:
+          number: 9002
   - match:
     - uri:
         prefix: /track
@@ -75,13 +75,13 @@ metadata:
   namespace: hc-report
 spec:
   hosts:
-    - habitcentric.demo
+  - habitcentric.demo
   gateways:
-    - istio-system/habitcentric-gateway
+  - istio-system/habitcentric-gateway
   http:
   - match:
-      - uri:
-          prefix: /report/actuator
+    - uri:
+        prefix: /report/actuator
     rewrite:
       uri: /actuator
     route:
@@ -92,11 +92,37 @@ spec:
   - match:
     - uri:
         prefix: /report
+      headers:
+        "@request.auth.claims.preferred_username":
+          exact: testing
     route:
     - destination:
         host: report
         port:
           number: 9003
+        subset: v2
+      weight: 100
+    timeout: 3s
+    retries:
+      attempts: 3
+      perTryTimeout: 1s
+      retryOn: 5xx
+  - match:
+    - uri:
+        prefix: /report
+    route:
+    - destination:
+        host: report
+        port:
+          number: 9003
+        subset: v1
+      weight: 90
+    - destination:
+        host: report
+        port:
+          number: 9003
+        subset: v2
+      weight: 10
     timeout: 3s
     retries:
       attempts: 3
@@ -110,9 +136,9 @@ metadata:
   namespace: hc-ui
 spec:
   hosts:
-    - habitcentric.demo
+  - habitcentric.demo
   gateways:
-    - istio-system/habitcentric-gateway
+  - istio-system/habitcentric-gateway
   http:
   - match:
     - uri:
@@ -123,8 +149,8 @@ spec:
         port:
           number: 9004
   - match:
-      - uri:
-          prefix: /
+    - uri:
+        prefix: /
     redirect:
       uri: /ui
 ---
@@ -135,9 +161,9 @@ metadata:
   namespace: hc-keycloak
 spec:
   hosts:
-    - habitcentric.demo
+  - habitcentric.demo
   gateways:
-    - istio-system/habitcentric-gateway
+  - istio-system/habitcentric-gateway
   http:
   - match:
     - uri:
@@ -155,18 +181,18 @@ metadata:
   namespace: hc-habit
 spec:
   hosts:
-    - habit
+  - habit
   http:
-    - route:
-        - destination:
-            host: habit
-            port:
-              number: 9001
-      timeout: 3s
-      retries:
-        attempts: 3
-        perTryTimeout: 1s
-        retryOn: 5xx
+  - route:
+      - destination:
+          host: habit
+          port:
+            number: 9001
+    timeout: 3s
+    retries:
+      attempts: 3
+      perTryTimeout: 1s
+      retryOn: 5xx
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -175,15 +201,15 @@ metadata:
   namespace: hc-track
 spec:
   hosts:
-    - track
+  - track
   http:
-    - route:
-        - destination:
-            host: track
-            port:
-              number: 9002
-      timeout: 3s
-      retries:
-        attempts: 3
-        perTryTimeout: 1s
-        retryOn: 5xx
+  - route:
+      - destination:
+          host: track
+          port:
+            number: 9002
+    timeout: 3s
+    retries:
+      attempts: 3
+      perTryTimeout: 1s
+      retryOn: 5xx

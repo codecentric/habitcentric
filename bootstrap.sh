@@ -67,10 +67,12 @@ istio_install() {
 }
 
 istio_deploy() {
-  kubectl apply -f "$istio_folder/telemetry-gateway.yaml" && kubectl apply -f "$istio_folder/telemetry-routes.yaml"
-  kubectl apply -f "$istio_folder/habitcentric/habitcentric-gateway.yaml" && kubectl apply -f "$istio_folder/habitcentric/habitcentric-routes.yaml"
-  kubectl apply -f "$istio_folder/habitcentric/habitcentric-authz.yaml"
-  kubectl apply -f "$istio_folder/habitcentric/habitcentric-oidc.yaml"
+  kubectl apply -f "$istio_folder/config/00-telemetry-gateway.yaml" && kubectl apply -f "$istio_folder/config/01-telemetry-routing-rules.yaml"
+  kubectl apply -f "$istio_folder/config/10-gateway.yaml" && kubectl apply -f "$istio_folder/config/11-routing-rules.yaml"
+  kubectl apply -f "$istio_folder/config/21-oidc-authn-policies.yaml" && kubectl apply -f "$istio_folder/config/22-oidc-authz-policies.yaml"
+  kubectl apply -f "$istio_folder/config/23-mtls-authz-policies.yaml"
+  kubectl apply -f "$istio_folder/config/30-canary-workload-subsets.yaml" && kubectl apply -f "$istio_folder/config/31-routing-rules-canary.yaml"
+  kubectl apply -f "$istio_folder/config/40-routing-rules-resilience.yaml"
 }
 
 habitcentric_deploy() (
