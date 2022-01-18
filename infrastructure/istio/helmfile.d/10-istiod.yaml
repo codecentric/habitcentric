@@ -1,3 +1,7 @@
+environments:
+  default:
+  cni:
+
 repositories:
   - name: istio
     url: https://istio-release.storage.googleapis.com/charts
@@ -8,4 +12,4 @@ releases:
     chart: istio/istiod
     wait: true
     values:
-      - ./values/istiod.values.yaml
+      - ./values/istiod.values.yaml.gotmpl

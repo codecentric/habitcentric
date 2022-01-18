@@ -11,5 +11,7 @@ meshConfig:
     tracing:
       sampling: 100
 
+{{- if eq .Environment.Name "cni" }}
 istio_cni:
   enabled: true
+{{- end }}

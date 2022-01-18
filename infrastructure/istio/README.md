@@ -22,6 +22,13 @@ It deploys the following components:
 helmfile apply
 ```
 
+We also provide an optional CNI environment that installs Istio with the Istio CNI plugin enabled.
+Make sure that your Kubernetes Cluster runs a CNI first!
+
+```bash
+helmfile --environment cni apply
+```
+
 ### Google Kubernetes Engine (GKE)
 
 If you are using GKE, you have to grant cluster administrator permissions to the current user. To grant cluster admin permissions, you must assign the role `Kubernetes Engine Admin` to your user in the [Google Cloud Console](https://console.cloud.google.com/iam-admin/iam).
