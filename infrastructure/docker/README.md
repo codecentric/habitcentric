@@ -1,4 +1,4 @@
-# 🔌 Docker Compose Deployment for habitcentric
+# <img src="https://unpkg.com/simple-icons@6.7.0/icons/docker.svg" width="25"> Docker Compose Deployment for habitcentric
 
 This configuration deploys habitcentric in a minimal configuration and exposes the API Gateway on
 Port 9000 of your local machine.

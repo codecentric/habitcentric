@@ -1,4 +1,4 @@
-# helmfile Deployment Configuration for habitcentric
+# <img src="https://unpkg.com/simple-icons@6.7.0/icons/kubernetes.svg" width="25"> Kubernetes Deployment for habitcentric
 
 This repository includes a deployment configuration for habitcentric using [helmfile](https://github.com/roboll/helmfile).  
 The configuration provides two environments with different deployment configurations:
