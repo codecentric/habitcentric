@@ -10,11 +10,19 @@ services:
       OIDC_AUTHORITY_HOST: http://localhost:8080/auth/realms/habitcentric/.well-known/openid-configuration
       OIDC_CLIENT_ID: ui
     depends_on:
+      - keycloak
       - habit
       - track
       - report
     ports:
       - "9004:9004"
+  keycloak:
+    image: habitcentric/auth-keycloak
+    ports:
+      - "8080:8080"
+    environment:
+      KEYCLOAK_USER: keycloak
+      KEYCLOAK_PASSWORD: keycloak
   habit:
     image: rodolpheche/wiremock:2.28.1-alpine
     volumes:
