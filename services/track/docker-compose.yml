@@ -1,13 +1,5 @@
 version: '3.1'
 services:
-  app:
-    build: .
-    environment:
-      DB_HOST: db
-    ports:
-      - 9002:9002
-    depends_on:
-      - db
   db:
     image: bitnami/postgresql:13
     restart: always
