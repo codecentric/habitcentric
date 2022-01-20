@@ -5,8 +5,8 @@ services:
     ports:
       - 8080:8080
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_USER: keycloak
+      KEYCLOAK_PASSWORD: keycloak
       DB_VENDOR: postgres
       DB_ADDR: keycloak-db
       DB_PORT: 10003
