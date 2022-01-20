@@ -12,28 +12,28 @@ releases:
       service: ui
     chart: ../../../services/ui/helm/ui
     values:
-      - ../helmfile-templates/ui-values.yaml.gotmpl
+      - ./values/ui-values.yaml.gotmpl
   - name: habit
     namespace: hc-habit
     labels:
       service: habit
     chart: ../../../services/habit/helm/habit
     values:
-      - ../helmfile-templates/habit-values.yaml.gotmpl
+      - ./values/habit-values.yaml.gotmpl
   - name: track
     namespace: hc-track
     labels:
       service: track
-    chart: ../../../services/track/helm/track
+    chart: ./../../services/track/helm/track
     values:
-      - ../helmfile-templates/track-values.yaml.gotmpl
+      - ./values/track-values.yaml.gotmpl
   - name: report
     namespace: hc-report
     labels:
       service: report
     chart: ../../../services/report/helm/report
     values:
-      - ../helmfile-templates/report-values.yaml.gotmpl
+      - ./values/report-values.yaml.gotmpl
   {{- if eq .Environment.Name "default" }}
   - name: gateway
     namespace: hc-gateway
@@ -41,6 +41,6 @@ releases:
       service: gateway
     chart: ../../../services/gateway/helm/gateway
     values:
-      - ../helmfile-templates/gateway-values.yaml.gotmpl
+      - ./values/gateway-values.yaml.gotmpl
   {{- end }}
 
