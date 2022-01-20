@@ -1,21 +1,5 @@
 version: '3.1'
 services:
-  ui:
-    build: .
-    environment:
-      HABIT_HOST: http://localhost:9001/
-      TRACKING_HOST: http://localhost:9002/
-      REPORT_HOST: http://localhost:9003/
-      OIDC_AUTH: enabled
-      OIDC_AUTHORITY_HOST: http://localhost:8080/auth/realms/habitcentric/.well-known/openid-configuration
-      OIDC_CLIENT_ID: ui
-    depends_on:
-      - keycloak
-      - habit
-      - track
-      - report
-    ports:
-      - "9004:9004"
   keycloak:
     image: habitcentric/auth-keycloak
     ports:
