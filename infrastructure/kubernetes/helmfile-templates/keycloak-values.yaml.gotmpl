@@ -13,6 +13,8 @@ extraEnv: |
     value: keycloak
   - name: DB_PORT
     value: "10003"
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
 
 service:
   httpPort: 8080
