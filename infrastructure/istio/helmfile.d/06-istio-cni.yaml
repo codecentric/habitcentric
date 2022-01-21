@@ -7,6 +7,7 @@ repositories:
     url: https://istio-release.storage.googleapis.com/charts
 
 releases:
-  - name: istio-base
-    namespace: istio-system
-    chart: istio/base
+  - name: istio-cni
+    namespace: kube-system
+    chart: istio/cni
+    installed: {{ eq .Environment.Name "cni" | toYaml }}

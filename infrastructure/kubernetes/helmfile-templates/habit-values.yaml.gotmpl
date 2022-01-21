@@ -46,6 +46,9 @@ service:
 
 persistence:
   deployPostgres: true
+  {{- if (eq .Environment.Name "istio") }}
+  enableInitContainer: false
+  {{- end }}
   ## Name of custom database (if deployPostgres=false)
   # dbName:
 

@@ -66,6 +66,7 @@ default values.
 | `service.nodePort`                   | The node port used if the service is of type `NodePort`                                                               | `nil`                |
 | `service.annotations`                | Annotations for the habitcentric track service                                                                        | `{}`                 |
 | `persistence.deployPostgres`         | If `true`, PostgreSQL is deployed alongside the service                                                               | `{}`                 |
+| `persistence.enableInitContainer`    | If `true`, enables init container for track deployment that waits for PostgreSQL availability                         | `true`               |
 | `persistence.dbName`                 | The name of the database (if `deployPostgres=false`)                                                                  | `nil`                |
 | `persistence.dbHost`                 | The hostname of the database (if `deployPostgres=false`)                                                              | `nil`                |
 | `persistence.dbPort`                 | The port of the database (`deployPostgres=false`)                                                                     | `nil`                |

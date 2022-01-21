@@ -61,9 +61,12 @@ linkerd_deploy_ingress() {
 }
 
 istio_install() {
-  #istioctl operator init
   # run in a subshell so the don't have to reset the working dir
-  (cd "$istio_folder" && helmfile apply)
+  if [ -n "$1" ]; then
+    (cd "$istio_folder" && helmfile --environment "$1" apply)
+  else
+    (cd "$istio_folder" && helmfile apply)
+  fi
 }
 
 istio_deploy() {
@@ -76,11 +79,11 @@ istio_deploy() {
 }
 
 habitcentric_deploy() (
-    cd "$kubernetes_folder"
+    # run in a subshell so the don't have to reset the working dir
     if [ -n "$1" ]; then
-      helmfile --environment "$1" apply
+      (cd "$kubernetes_folder" && helmfile --environment "$1" apply)
     else
-      helmfile apply
+      (cd "$kubernetes_folder" && helmfile apply)
     fi
 )
 
@@ -126,34 +129,42 @@ patch_hosts() {
   fi
 }
 
+bootstrap_k8s() {
+  if [ "$2" = "enable-cni" ]; then
+    echo "Bootstrapping habitcentric with environment '$1' and k8s cni flannel..."
+    minikube start --cni flannel
+  else
+    echo "Bootstrapping habitcentric with environment '$1'..."
+    minikube start
+  fi
+}
 
-required_commands="kubectl helmfile minikube"
-case "$1" in
-  "linkerd")
-    required_commands="$required_commands linkerd"
-    env="linkerd"
-    ;;
-  "istio")
-    env="istio"
-    ;;
-  *)
-    env=""
-    ;;
-esac
+habitcentric_istio_deploy() {
+  if [ "$1" = "cni" ]; then
+    bootstrap_k8s "istio" "enable-cni"
+  else
+    bootstrap_k8s "istio"
+  fi
+  istio_install "$1"
+  habitcentric_deploy "istio"
+  # wait for keycloak before progressing, istiod needs to be able to pull the key set from keycloak
+  # https://github.com/istio/istio/issues/29436
+  wait_for_ready_replica "statefulset" 1 "keycloak" "hc-keycloak"
+  istio_deploy
 
-# we want parameter expansion here
-# shellcheck disable=SC2086
-require_commands $required_commands
-unset required_commands
+  echo
+  echo "Run:"
+  echo " minikube tunnel > /dev/null"
+  echo "To get the IP:"
+  echo " kubectl get services istio-ingressgateway -n istio-ingress -o json | jq -r '.status.loadBalancer.ingress[0].ip'"
+}
 
-echo "Bootstrapping habitcentric with environment '$env'..."
-minikube start
-
-if [ "$env" = "linkerd" ]; then
+habitcentric_linkerd_deploy() {
+  bootstrap_k8s "linkerd"
   echo "Enabling ingress Addon"
   minikube addons enable ingress
   linkerd_install
-  habitcentric_deploy "$env"
+  habitcentric_deploy "linkerd"
   # wait for the ingress-controller to become available
   # otherwise the deployment of the linkerd ingresses will fail
   wait_for_ready_replica "deployment" 1 "ingress-nginx-controller" "ingress-nginx"
@@ -169,21 +180,40 @@ if [ "$env" = "linkerd" ]; then
   echo " linkerd viz dashboard"
   echo "Jaeger UI:"
   echo " linkerd jaeger dashboard"
+}
+
+required_commands="kubectl helmfile minikube"
+case "$1" in
+  "linkerd")
+    required_commands="$required_commands linkerd"
+    env="linkerd"
+    ;;
+  "istio-cni")
+    env="istio-cni"
+    ;;
+  "istio")
+    env="istio"
+    ;;
+  *)
+    env=""
+    ;;
+esac
+
+# we want parameter expansion here
+# shellcheck disable=SC2086
+require_commands $required_commands
+unset required_commands
+
+if [ "$env" = "linkerd" ]; then
+  habitcentric_linkerd_deploy
+fi
+
+if [ "$env" = "istio-cni" ]; then
+  habitcentric_istio_deploy "cni"
 fi
 
 if [ "$env" = "istio" ]; then
-  istio_install
-  habitcentric_deploy "$env"
-  # wait for keycloak before progressing, istiod needs to be able to pull the key set from keycloak
-  # https://github.com/istio/istio/issues/29436
-  wait_for_ready_replica "statefulset" 1 "keycloak" "hc-keycloak"
-  istio_deploy
-
-  echo
-  echo "Run:"
-  echo " minikube tunnel > /dev/null"
-  echo "To get the IP:"
-  echo " kubectl get services istio-ingressgateway -n istio-ingress -o json | jq -r '.status.loadBalancer.ingress[0].ip'"
+  habitcentric_istio_deploy
 fi
 
 if [ -z "$env" ]; then

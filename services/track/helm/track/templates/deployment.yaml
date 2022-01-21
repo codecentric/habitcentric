@@ -28,7 +28,7 @@ spec:
       {{- if .Values.serviceAccount.enabled }}
       serviceAccountName: {{ default (include "track.fullname" . ) .Values.serviceAccount.name }}
       {{- end }}
-      {{- if .Values.persistence.deployPostgres }}
+      {{- if (and .Values.persistence.deployPostgres .Values.persistence.enableInitContainer) }}
       initContainers:
         - name: wait-for-postgresql
           image: {{ template "track.init.image" . }}

@@ -1,3 +1,7 @@
+environments:
+  default:
+  cni:
+
 repositories:
   - name: prometheus-community
     url: https://prometheus-community.github.io/helm-charts
@@ -15,19 +19,19 @@ releases:
     namespace: istio-system
     chart: prometheus-community/prometheus
     values:
-      - ./values/prometheus.values.yaml
+      - ./values/prometheus.values.yaml.gotmpl
   - name: kiali
     namespace: istio-system
     chart: kiali/kiali-server
     values:
-      - ./values/kiali.values.yaml
+      - ./values/kiali.values.yaml.gotmpl
   - name: jaeger
     namespace: istio-system
     chart: jaegertracing/jaeger
     values:
-      - ./values/jaeger.values.yaml
+      - ./values/jaeger.values.yaml.gotmpl
   - name: grafana
     namespace: istio-system
     chart: grafana/grafana
     values:
-      - ./values/grafana.values.yaml
+      - ./values/grafana.values.yaml.gotmpl
