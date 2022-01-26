@@ -24,7 +24,7 @@ releases:
     namespace: hc-track
     labels:
       service: track
-    chart: ./../../services/track/helm/track
+    chart: ../../../services/track/helm/track
     values:
       - ./values/track-values.yaml.gotmpl
   - name: report
