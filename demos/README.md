@@ -1,6 +1,6 @@
-# Scripted Demos
+# ⚙️ Scripted Demos
 
-- [monitoring with istio](monitoring-with-istio)
+- [A small chaos experiment with Istio](chaosexperiment-with-istio)
 
 ## Usage
 

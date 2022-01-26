@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. $(dirname ${BASH_SOURCE})/../util.sh
+. $(dirname ${BASH_SOURCE})/../demo-util.sh
 
 SOURCE_DIR=$PWD
 
