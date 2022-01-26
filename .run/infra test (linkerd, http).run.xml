@@ -2,7 +2,7 @@
   <configuration default="false" name="infra test (linkerd, http)" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
-      <option name="externalProjectPath" value="$PROJECT_DIR$/test/infra" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/test/infra-tests" />
       <option name="externalSystemIdString" value="GRADLE" />
       <option name="scriptParameters" value="" />
       <option name="taskDescriptions">
