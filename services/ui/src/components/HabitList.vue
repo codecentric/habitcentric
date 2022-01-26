@@ -9,14 +9,10 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-btn icon v-on:click="$emit('delete-habit', habit.id)">
-            <v-icon>delete</v-icon>
-          </v-btn>
+          <v-btn icon v-on:click="$emit('delete-habit', habit.id)"> <v-icon>delete</v-icon> </v-btn>
         </v-list-tile-action>
         <v-list-tile-action>
-          <v-btn icon :to="{ name: 'habit', params: habit }">
-            <v-icon>more_horiz</v-icon>
-          </v-btn>
+          <v-btn icon :to="{ name: 'habit', params: habit }"> <v-icon>more_horiz</v-icon> </v-btn>
         </v-list-tile-action>
       </v-list-tile>
     </v-list>

@@ -102,9 +102,9 @@ describe("HabitService", () => {
       }
     });
 
-    return expect(
-      Promise.resolve(service.createHabit(habit))
-    ).resolves.toMatchObject({ status: 201 });
+    return expect(Promise.resolve(service.createHabit(habit))).resolves.toMatchObject({
+      status: 201
+    });
   });
 
   it("deletes habits", async () => {
@@ -120,8 +120,8 @@ describe("HabitService", () => {
       }
     });
 
-    return expect(
-      Promise.resolve(service.deleteHabit(123))
-    ).resolves.toMatchObject({ status: 200 });
+    return expect(Promise.resolve(service.deleteHabit(123))).resolves.toMatchObject({
+      status: 200
+    });
   });
 });

@@ -1,11 +1,6 @@
 <template>
   <div class="achievement-rate-container">
-    <v-progress-circular
-      v-bind:value="percentage"
-      size="80"
-      width="7"
-      color="blue"
-    >
+    <v-progress-circular v-bind:value="percentage" size="80" width="7" color="blue">
       {{ Math.round(percentage) }} %
     </v-progress-circular>
     <div class="achievement-rate-caption">{{ caption }}</div>

@@ -48,24 +48,20 @@ export default {
       name: "",
       nameRules: [
         name => !!name || "Name is required",
-        name =>
-          (name && name.length <= 64) || "Name must be less than 64 characters",
+        name => (name && name.length <= 64) || "Name must be less than 64 characters",
         name => (this.isDuplicateHabitName(name) ? "Name must be unique" : true)
       ],
       repetitions: 1,
       repetitionsRules: [
         repetitions => !!repetitions || "Repetitions is required",
         repetitions =>
-          /^[1-9][0-9]*$/g.test(repetitions) ||
-          "Repetitions must be a positive integer"
+          /^[1-9][0-9]*$/g.test(repetitions) || "Repetitions must be a positive integer"
       ]
     };
   },
   methods: {
     isDuplicateHabitName(name) {
-      return (
-        name && this.habits && this.habits.some(habit => name === habit.name)
-      );
+      return name && this.habits && this.habits.some(habit => name === habit.name);
     },
     reset() {
       this.frequency = "DAILY";

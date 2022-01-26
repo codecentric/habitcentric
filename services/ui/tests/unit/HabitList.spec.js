@@ -34,9 +34,7 @@ describe("HabitList", () => {
 
   it("enables users to delete habits", () => {
     const wrapper = mount(HabitList, { propsData: { habits } });
-    const deleteButtonMeditate = wrapper
-      .findAll("div.v-list__tile__action button")
-      .at(1);
+    const deleteButtonMeditate = wrapper.findAll("div.v-list__tile__action button").at(1);
     deleteButtonMeditate.trigger("click");
     expect(wrapper.emitted()).toEqual({ "delete-habit": [[101]] });
   });

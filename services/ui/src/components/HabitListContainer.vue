@@ -4,11 +4,7 @@
     <v-container v-if="error"> <DefaultErrorState /> </v-container>
     <div v-else>
       <LoadingSpinner v-if="loading" />
-      <HabitList
-        v-else
-        v-bind:habits="habits"
-        v-on:delete-habit="deleteHabit"
-      />
+      <HabitList v-else v-bind:habits="habits" v-on:delete-habit="deleteHabit" />
       <v-spacer />
       <v-container v-if="errorWhileCreating || errorWhileDeleting">
         <DefaultErrorState />

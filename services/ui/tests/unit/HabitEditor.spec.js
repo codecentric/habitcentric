@@ -104,6 +104,5 @@ describe("HabitForm", () => {
 
   const findNameInput = () => wrapper.find('input[type="text"]');
   const findAddButton = () => wrapper.find("button");
-  const findClearIcon = () =>
-    wrapper.find("div.v-input__icon--clear .v-icon--link");
+  const findClearIcon = () => wrapper.find("div.v-input__icon--clear .v-icon--link");
 });
