@@ -6,9 +6,7 @@ export default class TrackingService extends ApiService {
   }
 
   get(habitId) {
-    return this.http
-      .get(`track/habits/${habitId}`)
-      .then(response => response.data);
+    return this.http.get(`track/habits/${habitId}`).then(response => response.data);
   }
 
   put(habitId, days) {

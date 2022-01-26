@@ -15,8 +15,7 @@ export default class AuthService {
       userStore: new WebStorageStateStore(),
       authority: loadProtocol(process.env.VUE_APP_OIDC_AUTHORITY_HOST),
       client_id: process.env.VUE_APP_OIDC_CLIENT_ID,
-      redirect_uri:
-        window.location.origin + process.env.VUE_APP_UI_PATH + "/auth/callback",
+      redirect_uri: window.location.origin + process.env.VUE_APP_UI_PATH + "/auth/callback",
       response_type: "code",
       scope: "openid profile address roles",
       post_logout_redirect_uri: window.location.origin + "/index.html",

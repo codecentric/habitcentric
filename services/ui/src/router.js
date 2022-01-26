@@ -91,9 +91,7 @@ export function createRouter(
 }
 
 function _oidcIsEnabled() {
-  return (
-    JSON.stringify(process.env.VUE_APP_OIDC_AUTH) === JSON.stringify("enabled")
-  );
+  return JSON.stringify(process.env.VUE_APP_OIDC_AUTH) === JSON.stringify("enabled");
 }
 
 export default createRouter;

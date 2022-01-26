@@ -9,9 +9,7 @@ describe("AuthCallback", () => {
   let routes;
   let router;
 
-  const finalizeLoginMock = jest
-    .fn()
-    .mockImplementation(() => Promise.resolve());
+  const finalizeLoginMock = jest.fn().mockImplementation(() => Promise.resolve());
   AuthService.mockImplementation(() => {
     return {
       finalizeLogin: finalizeLoginMock

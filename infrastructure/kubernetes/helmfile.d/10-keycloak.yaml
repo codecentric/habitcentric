@@ -17,5 +17,5 @@ releases:
     chart: codecentric/keycloak
     version: 16.0.5
     values:
-      - ../helmfile-templates/keycloak-values.yaml.gotmpl
+      - ./values/keycloak-values.yaml.gotmpl
 

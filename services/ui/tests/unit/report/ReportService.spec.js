@@ -11,12 +11,8 @@ describe("ReportService", () => {
   };
 
   it("returns weekly and monthly achievement rate", () => {
-    mock
-      .onGet(`http://dummy-report-service/report/achievement`)
-      .reply(200, achievementRates);
+    mock.onGet(`http://dummy-report-service/report/achievement`).reply(200, achievementRates);
 
-    return expect(Promise.resolve(service.get())).resolves.toEqual(
-      achievementRates
-    );
+    return expect(Promise.resolve(service.get())).resolves.toEqual(achievementRates);
   });
 });

@@ -135,7 +135,7 @@
       "redirectUris": [
         "http://habitcentric.demo/ui/auth/callback",
         "https://habitcentric.demo/ui/auth/callback",
-        "http://localhost:9000/ui/auth/callback"
+        "http://localhost:9004/auth/callback"
       ]
     },
     {

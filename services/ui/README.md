@@ -1,47 +1,46 @@
 # hc-ui
 
-## Project setup
-```
-yarn install
-```
+## Local development
 
-### Compiles and hot-reloads for development
-```
+```shell
+# start backend service mocks
+docker-compose up -d
+
+# install dependencies
+yarn install
+
+# start in development mode with hot-reload
 yarn run serve
 ```
 
-To start the required dependencies (habit, track, report) with wiremock run:
+You can also start the UI with OIDC enabled:
 
-```
-docker-compose up habit report track
+```shell
+# start backend service mocks with additional keycloak
+docker-compose -f docker-compose-oidc.yaml up -d
+
+# install dependencies
+yarn install
+
+# start in development oidc mode with hot-reload
+yarn run serve:oidc
 ```
 
-### Compiles and minifies for production
+### Compile and minify for production
 ```
 yarn run build
 ```
 
-### Lints and fixes files
+### Lint and fix files
 ```
 yarn run lint
 ```
 
-### Run your unit tests
+### Run unit tests
 ```
 yarn run test:unit
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-## Docker Compose
-The UI can be started locally as follows:
-```
-docker-compose up --build
-```
-WireMock is started in the background to stub backend requests.
-
-Use the following command to stop the containers again.
-```
-docker-compose down
-```

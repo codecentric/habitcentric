@@ -53,9 +53,7 @@ export default {
         .then(() => (this.loading = false));
     },
     updateTrackReords() {
-      this.trackingService
-        .put(this.$route.params.id, this.dates)
-        .catch(e => this.handleError(e));
+      this.trackingService.put(this.$route.params.id, this.dates).catch(e => this.handleError(e));
     },
     handleError(error) {
       console.log(error);

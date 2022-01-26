@@ -1,9 +1,8 @@
-# Traefik Mesh Service Mesh Configuration for habitcentric
+# <img src="../../docs/images/traefik-mesh-black.svg" width="60"> Traefik Mesh Deployment for habitcentric
 
-Used during the initial evaluation of Traefik Mesh.
+This configuration showcases Traefik Mesh's features based on a habitcentric Kubernetes deployment.
 
-**Traefik Mesh does not support our current show-case. More
-information [here](https://trello.com/c/75fnCr0G/3-traefik-mesh-evaluation-first-look)**
+> ⚠️ This showcase is not entirely finished yet.
 
 ## Prerequisites
 

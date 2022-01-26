@@ -1,4 +1,10 @@
-# Istio Service Mesh Configuration for habitcentric
+# <img align="center" src="https://unpkg.com/simple-icons@6.7.0/icons/istio.svg" width="25"> Istio Deployment for habitcentric
+
+This configuration showcases Istio's features based on a habitcentric Kubernetes deployment.
+
+<p align="center">
+  <img src="../../docs/images/services-istio.png" width="600"/>
+</p>
 
 ## Prerequisites
 
@@ -29,6 +35,9 @@ Make sure that your Kubernetes Cluster runs a CNI first!
 helmfile --environment cni apply
 ```
 
+> ℹ️ If you are using minikube, you can activate a CNI using `minikube install --cni=calico`.
+> minikube supports multiple CNIs, you can choose one you prefer.
+
 ### Google Kubernetes Engine (GKE)
 
 If you are using GKE, you have to grant cluster administrator permissions to the current user. To grant cluster admin permissions, you must assign the role `Kubernetes Engine Admin` to your user in the [Google Cloud Console](https://console.cloud.google.com/iam-admin/iam).
@@ -43,7 +52,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
 
 Please refer to the [kubernetes deployment readme](../kubernetes/README.md). To deploy habitcentric for Istio, please use the provided helmfile Istio environment.
 
-## Configure Service Mesh for habitcentric
+## Configure Istio
 
 ### Basic routing setup for ingress traffic
 
@@ -54,18 +63,19 @@ Istio supports three different ways to control ingress traffic:
 - Kubernetes Gateway API
 
 Only the Istio ingress gateway supports the full Istio feature set, which is why this demo showcase
-focuses on the Istio ingress gateway configuration. To configure the Istio ingress gateway
-deployment, we apply `Gateway` and `VirtualService` resources as described in the following
-sections.
+focuses on the Istio ingress gateway configuration.
+To configure the Istio ingress gateway deployment, we apply `Gateway` and `VirtualService` resources
+as described in the following sections.
 
 #### Step 1: Telemetry services
 
 The provided Istio installation comes with multiple telemetry services
 ([Prometheus](https://prometheus.io/), [Kiali](https://kiali.io/), [Grafana](https://grafana.com/)
 and [Jaeger](https://www.jaegertracing.io/)) to observe the configuration and behavior of the
-service mesh. To expose these services, we apply a `Gateway` that listens on specific hostnames for
-our telemetry services and apply a `VirtualService` on top of that to route requests matching these
-hostnames to our k8s workloads.
+service mesh.
+To expose these services, we apply a `Gateway` that listens on specific hostnames for our telemetry
+services and apply a `VirtualService` on top of that to route requests matching these hostnames to
+our k8s workloads.
 
 ```bash
 kubectl apply -f config/00-telemetry-gateway.yaml && kubectl apply -f config/01-telemetry-routing-rules.yaml
@@ -82,8 +92,9 @@ kubectl apply -f config/10-gateway.yaml && kubectl apply -f config/11-routing-ru
 
 This time however, we have to partition a habitcentric k8s workload into multiple subsets
 first because the habitcentric report service is actually backed by two different workloads: report
-v1 and report v2. To make Istio aware of these differences, we can apply a `DestinationRule` that
-defines multiple subsets based on label selectors:
+v1 and report v2.
+To make Istio aware of these differences, we can apply a `DestinationRule` that defines multiple
+subsets based on label selectors:
 
 ```bash
 kubectl apply -f config/30-canary-workload-subsets.yaml
@@ -111,9 +122,8 @@ kubectl apply -f config/20-gateway-with-tls.yaml
 #### Authenticate end users
 
 Next, we enable end-user authorization based on JWT issued by Keycloak.
-Before we can configure the necessary authorization rules, we have to authenticate our
-users first by adding a request principal to every request if a JWT is present in the
-`Authorization` header.
+Before we can configure the necessary authorization rules, we have to authenticate our users first
+by adding a request principal to every request if a JWT is present in the `Authorization` header.
 To do this, we apply a `RequestAuthentication` resource which defines the allowed issuers and the
 JWKS URI to verify the JWT signatures:
 
@@ -124,7 +134,7 @@ kubectl apply -f config/21-oidc-authn-policies.yaml
 After applying this, Istio rejects requests with invalid JWTs.
 However, requests **without** token are still accepted!
 Now we want to require a valid JWT for requests to our `habit`, `track` and `report` service.
-We can enable this by defining `AuthorizationPolicy` resources, that denies all requests without a
+We can enable this by defining `AuthorizationPolicy` resources, which deny all requests without a
 request principal:
 
 ```bash
@@ -163,8 +173,8 @@ kubectl apply -f config/30-canary-workload-subsets.yaml
 
 Now we want to achieve two things:
 
-- by default, 10% of requests should go to report v2, 90% of requests to report v1
-- the user with the username `testing` should always be routed to report v2
+- By default, 10% of requests should go to report v2, 90% of requests to report v1
+- The user with the username `testing` should always be routed to report v2
 
 We change the `VirtualService` resource we created earlier that is responsible for routing requests
 to our report service.
