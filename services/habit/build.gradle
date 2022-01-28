@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id 'com.diffplug.spotless' version '5.14.3'
     id "io.freefair.lombok" version "6.2.0"
+    id 'com.github.jk1.dependency-license-report' version '1.16'
 }
 
 apply plugin: 'io.spring.dependency-management'
