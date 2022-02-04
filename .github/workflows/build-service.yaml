@@ -24,6 +24,11 @@ jobs:
         with:
           arguments: build generateLicenseReport
           build-root-directory: services/${{ inputs.service_name }}
+      - name: 🔎 Upload coverage report
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./services/${{ inputs.service_name }}/build/reports/jacoco/test/jacocoTestReport.xml
+          name: habitcentric/${{ inputs.service_name }}
       - name: 🧰 Build container image
         working-directory: services/${{ inputs.service_name }}
         run: |
