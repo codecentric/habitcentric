@@ -4,11 +4,12 @@ on:
   workflow_run:
     workflows:
       - habit service
+      - track service
     types:
       - completed
 
 jobs:
-  report:
+  publish-test-results:
     runs-on: ubuntu-latest
     steps:
       - name: 📋 Parse test results
