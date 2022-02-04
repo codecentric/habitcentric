@@ -1,0 +1,20 @@
+name: 'jest test results'
+
+on:
+  workflow_run:
+    workflows:
+      - ui service
+    types:
+      - completed
+
+jobs:
+  publish-test-results:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📋 Parse test results
+        uses: dorny/test-reporter@v1
+        with:
+          artifact: test-results
+          name: Test results
+          path: '**/junit.xml'
+          reporter: jest-junit

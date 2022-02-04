@@ -1,0 +1,66 @@
+name: ui service
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - .github/workflows/parse-junit-results.yaml
+      - .github/workflows/ui.yaml
+      - services/ui
+
+jobs:
+  build:
+    name: 🔨 Build and test service
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v2
+      - name: 🏗 Setup node env
+        uses: actions/setup-node@v2
+        with:
+          # For some reason the tests hang when running node > 10 ...
+          # Using node 10 it just builds successful Òó
+          node-version: 10
+          cache: 'yarn'
+          cache-dependency-path: services/ui/yarn.lock
+      - name: 👨🏻‍💻 Install dependencies
+        working-directory: ./services/ui
+        run: yarn install
+      - name: 👀 Lint code
+        working-directory: ./services/ui
+        run: yarn run lint --no-fix --max-warnings 0
+      - name: 🧪 Run tests
+        working-directory: ./services/ui
+        run: yarn run test:unit --coverage --coverageReporters=cobertura
+      - name: 📦 Upload test results
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-results
+          path: ./services/ui/test-reports/junit.xml
+      - name: 🔎 Upload coverage report
+        uses: codecov/codecov-action@v2
+        with:
+          files: ./services/ui/coverage/cobertura-coverage.xml
+          name: habitcentric/ui
+      - name: 🏗 Build
+        working-directory: ./services/ui
+        run: yarn build
+      - name: 🧰 Build container image
+        working-directory: services/ui
+        run: |
+          docker build \
+            -t "ghcr.io/codecentric/habitcentric/ui:latest" \
+            -t "ghcr.io/codecentric/habitcentric/ui:$(git rev-parse --short HEAD)" .
+      - name: 🔑 Login to GitHub Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: ⬆️ Push container image
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker push "ghcr.io/codecentric/habitcentric/ui:latest"
+          docker push "ghcr.io/codecentric/habitcentric/ui:$(git rev-parse --short HEAD)"

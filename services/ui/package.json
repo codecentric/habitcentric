@@ -32,6 +32,7 @@
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "jest-deep-mock": "^0.3.5",
+    "jest-junit": "^13.0.0",
     "path": "^0.12.7",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
