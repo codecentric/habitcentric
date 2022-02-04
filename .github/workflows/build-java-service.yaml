@@ -1,3 +1,5 @@
+name: 'Build Java service'
+
 on:
   workflow_call:
     inputs:
@@ -24,6 +26,12 @@ jobs:
         with:
           arguments: build generateLicenseReport
           build-root-directory: services/${{ inputs.service_name }}
+      - name: 📦 Upload test results
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: test-results
+          path: ./services/${{ inputs.service_name }}/build/test-results/
       - name: 🔎 Upload coverage report
         uses: codecov/codecov-action@v2
         with:

@@ -1,15 +1,17 @@
 name: habit service
+
 on:
   push:
     branches:
-      - "**"
+      - '**'
     paths:
-      - .github/workflows/build-service.yaml
+      - .github/workflows/build-java-service.yaml
+      - .github/workflows/parse-junit-results.yaml
       - .github/workflows/habit.yaml
       - services/habit
 
 jobs:
   habit:
-    uses: ./.github/workflows/build-service.yaml
+    uses: ./.github/workflows/build-java-service.yaml
     with:
       service_name: habit
