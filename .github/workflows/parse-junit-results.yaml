@@ -5,6 +5,8 @@ on:
     workflows:
       - habit service
       - track service
+      - report service
+      - gateway service
     types:
       - completed
 

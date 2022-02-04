@@ -1,0 +1,17 @@
+name: gateway service
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - .github/workflows/build-java-service.yaml
+      - .github/workflows/parse-junit-results.yaml
+      - .github/workflows/gateway.yaml
+      - services/gateway
+
+jobs:
+  habit:
+    uses: ./.github/workflows/build-java-service.yaml
+    with:
+      service_name: gateway
