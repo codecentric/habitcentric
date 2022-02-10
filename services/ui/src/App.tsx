@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./header/Header";
-import OverviewPage from "./OverviewPage";
+import OverviewPage from "./overview/OverviewPage";
 import Footer from "./footer/Footer";
 
 function App() {
