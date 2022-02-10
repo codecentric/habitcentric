@@ -1,9 +1,7 @@
-import codecentricBlackLogo from "./cc-black-logo.svg";
-import { siGithub } from "simple-icons/icons";
+import codecentricBlackLogo from "../cc-black-logo.svg";
 import { Github } from "@icons-pack/react-simple-icons";
 
 function Header() {
-  // @ts-ignore
   return (
     <div className="flex justify-between bg-white shadow-sm">
       <div className="ml-6 flex items-center">
