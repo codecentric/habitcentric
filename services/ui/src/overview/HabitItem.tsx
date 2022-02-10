@@ -9,12 +9,12 @@ export type HabitItemProps = {
 
 export function HabitItem({ name, schedule }: HabitItemProps) {
   return (
-    <li className="flex items-center justify-between py-2">
+    <li className="flex items-center justify-between py-2 pl-2">
       <div>
         <h3 className="text-gray-800 sm:text-lg">{name}</h3>
         <p className="text-sm text-gray-400">{scheduleToString(schedule)}</p>
       </div>
-      <div className="mr-5 flex items-center gap-2">
+      <div className="flex items-center gap-2 pr-4">
         <TrackButton />
         <DeleteButton />
       </div>
