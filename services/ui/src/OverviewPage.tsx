@@ -2,9 +2,9 @@ import React from "react";
 
 function OverviewPage() {
   return (
-    <div className="mb-10 flex justify-center md:mb-20">
-      <div className="grid w-full grid-cols-1 justify-items-center xl:max-w-7xl xl:grid-cols-2">
-        <div className="mt-10 w-full max-w-md rounded-xl bg-white px-8 py-8 shadow-lg sm:max-w-xl">
+    <div className="mb-10 flex justify-center pt-10 md:mb-20">
+      <div className="grid w-full max-w-md grid-cols-1 justify-items-center gap-x-12 gap-y-10 sm:max-w-lg lg:max-w-xl xl:max-w-7xl xl:grid-cols-2">
+        <div className="w-full rounded-xl bg-white px-8 py-8 shadow-lg">
           <h1 className="text-xl font-semibold text-gray-800 sm:text-2xl">
             Completion Rate
           </h1>
@@ -32,7 +32,7 @@ function OverviewPage() {
           </div>
         </div>
 
-        <div className="mt-10 w-full max-w-md rounded-xl bg-white px-8 py-8 shadow-lg sm:max-w-xl xl:row-span-2">
+        <div className="w-full rounded-xl bg-white px-8 py-8 shadow-lg xl:row-span-2">
           <h1 className="text-xl font-semibold text-gray-800 sm:text-2xl">
             Your Habits
           </h1>
@@ -139,7 +139,7 @@ function OverviewPage() {
           </div>
         </div>
 
-        <div className="mt-10 w-full max-w-md rounded-xl bg-white p-8 shadow-lg sm:max-w-xl">
+        <div className="w-full rounded-xl bg-white p-8 shadow-lg">
           <form className="mb-6 space-y-6">
             <div>
               <label
