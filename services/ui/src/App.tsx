@@ -3,7 +3,7 @@ import Header from "./Header";
 
 function App() {
   return (
-    <div className="">
+    <div className="divide-y">
       <Header />
 
       <div className="mb-10 flex justify-center">
