@@ -2,7 +2,7 @@ import React from "react";
 
 function OverviewPage() {
   return (
-    <div className="mb-10 flex justify-center">
+    <div className="mb-10 flex justify-center md:mb-20">
       <div className="grid w-full grid-cols-1 justify-items-center xl:max-w-7xl xl:grid-cols-2">
         <div className="mt-10 w-full max-w-md rounded-xl bg-white px-8 py-8 shadow-lg sm:max-w-xl">
           <h1 className="text-xl font-semibold text-gray-800 sm:text-2xl">
