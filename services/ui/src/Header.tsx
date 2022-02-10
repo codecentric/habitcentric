@@ -1,4 +1,4 @@
-import codecentricBlackLogo from "./cc-black-logo.png";
+import codecentricBlackLogo from "./cc-black-logo.svg";
 import { siGithub } from "simple-icons/icons";
 import { Github } from "@icons-pack/react-simple-icons";
 
