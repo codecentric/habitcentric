@@ -6,29 +6,12 @@ on:
       - '**'
     paths:
       - .github/workflows/auth-keycloak.yaml
+      - .github/workflows/build-docker.yaml
       - services/auth-keycloak
 
 jobs:
   build:
-    name: 🔨 Build service
-    runs-on: ubuntu-latest
-    steps:
-      - name: ⬇️ Checkout
-        uses: actions/checkout@v2
-      - name: 🧰 Build container image
-        working-directory: services/auth-keycloak
-        run: |
-          docker build \
-            -t "ghcr.io/codecentric/habitcentric/auth-keycloak:latest" \
-            -t "ghcr.io/codecentric/habitcentric/auth-keycloak:$(git rev-parse --short HEAD)" .
-      - name: 🔑 Login to GitHub Container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: ⬆️ Push container image
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker push "ghcr.io/codecentric/habitcentric/auth-keycloak:latest"
-          docker push "ghcr.io/codecentric/habitcentric/auth-keycloak:$(git rev-parse --short HEAD)"
+    uses: ./.github/workflows/build-docker.yaml
+    with:
+      image-name: auth-keycloak
+      working-dir: ./services/auth-keycloak
