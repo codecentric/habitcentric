@@ -1,0 +1,17 @@
+name: lpt-locust
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - .github/workflows/lpt-locust.yaml
+      - .github/workflows/build-docker.yaml
+      - test/lpt-locust
+
+jobs:
+  build:
+    uses: ./.github/workflows/build-docker.yaml
+    with:
+      image-name: lpt-locust
+      working-dir: ./test/lpt-locust
