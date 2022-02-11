@@ -47,20 +47,10 @@ jobs:
       - name: 🏗 Build
         working-directory: ./services/ui
         run: yarn build
-      - name: 🧰 Build container image
-        working-directory: services/ui
-        run: |
-          docker build \
-            -t "ghcr.io/codecentric/habitcentric/ui:latest" \
-            -t "ghcr.io/codecentric/habitcentric/ui:$(git rev-parse --short HEAD)" .
-      - name: 🔑 Login to GitHub Container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: ⬆️ Push container image
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker push "ghcr.io/codecentric/habitcentric/ui:latest"
-          docker push "ghcr.io/codecentric/habitcentric/ui:$(git rev-parse --short HEAD)"
+
+  docker:
+    uses: ./.github/workflows/build-docker.yaml
+    needs: build
+    with:
+      image-name: ui
+      working-dir: ./services/ui

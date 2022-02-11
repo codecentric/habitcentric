@@ -4,11 +4,19 @@ on:
       service_name:
         required: true
         type: string
+    outputs:
+      artifact-name:
+        value: ${{ jobs.build.outputs.artifact-name }}
+      artifact-path:
+        value: ${{ jobs.build.outputs.artifact-path }}
 
 jobs:
   build:
     name: 🔨 Build and test service
     runs-on: ubuntu-latest
+    outputs:
+      artifact-name: ${{ inputs.service_name }}-jar
+      artifact-path: ./services/${{ inputs.service_name }}/build/libs/
     steps:
       - name: ⬇️ Checkout
         uses: actions/checkout@v2
@@ -24,6 +32,11 @@ jobs:
         with:
           arguments: build generateLicenseReport
           build-root-directory: services/${{ inputs.service_name }}
+      - name: 📦 Upload JAR
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ inputs.service_name }}-jar
+          path: ./services/${{ inputs.service_name }}/build/libs/${{ inputs.service_name }}-*.jar
       - name: 📦 Upload test results
         uses: actions/upload-artifact@v2
         if: always()
@@ -35,20 +48,3 @@ jobs:
         with:
           files: ./services/${{ inputs.service_name }}/build/reports/jacoco/test/jacocoTestReport.xml
           name: habitcentric/${{ inputs.service_name }}
-      - name: 🧰 Build container image
-        working-directory: services/${{ inputs.service_name }}
-        run: |
-          docker build \
-            -t "ghcr.io/codecentric/habitcentric/${{ inputs.service_name }}:latest" \
-            -t "ghcr.io/codecentric/habitcentric/${{ inputs.service_name }}:$(git rev-parse --short HEAD)" .
-      - name: 🔑 Login to GitHub Container registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: ⬆️ Push container image
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker push "ghcr.io/codecentric/habitcentric/${{ inputs.service_name }}:latest"
-          docker push "ghcr.io/codecentric/habitcentric/${{ inputs.service_name }}:$(git rev-parse --short HEAD)"

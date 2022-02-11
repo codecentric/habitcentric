@@ -11,7 +11,16 @@ on:
       - services/habit
 
 jobs:
-  habit:
+  build:
     uses: ./.github/workflows/build-java-service.yaml
     with:
       service_name: habit
+
+  docker:
+    uses: ./.github/workflows/build-docker.yaml
+    needs: build
+    with:
+      image-name: habit
+      working-dir: ./services/habit
+      artifact-name: ${{ needs.build.outputs.artifact-name }}
+      artifact-path: ${{ needs.build.outputs.artifact-path }}

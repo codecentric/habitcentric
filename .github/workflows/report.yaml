@@ -11,7 +11,16 @@ on:
       - services/report
 
 jobs:
-  habit:
+  build:
     uses: ./.github/workflows/build-java-service.yaml
     with:
       service_name: report
+
+  docker:
+    uses: ./.github/workflows/build-docker.yaml
+    needs: build
+    with:
+      image-name: report
+      working-dir: ./services/report
+      artifact-name: ${{ needs.build.outputs.artifact-name }}
+      artifact-path: ${{ needs.build.outputs.artifact-path }}

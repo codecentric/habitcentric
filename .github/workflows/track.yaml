@@ -11,7 +11,16 @@ on:
       - services/track
 
 jobs:
-  habit:
+  build:
     uses: ./.github/workflows/build-java-service.yaml
     with:
       service_name: track
+
+  docker:
+    uses: ./.github/workflows/build-docker.yaml
+    needs: build
+    with:
+      image-name: track
+      working-dir: ./services/track
+      artifact-name: ${{ needs.build.outputs.artifact-name }}
+      artifact-path: ${{ needs.build.outputs.artifact-path }}
