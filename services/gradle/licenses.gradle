@@ -1,0 +1,7 @@
+task zipLicenseReport(type: Zip, dependsOn: generateLicenseReport) {
+  archiveName "license-report.zip"
+  from generateLicenseReport.outputFolder
+}
+
+check.dependsOn generateLicenseReport
+build.dependsOn zipLicenseReport

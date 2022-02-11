@@ -15,9 +15,9 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 
 apply { from("../gradle/jacoco.gradle") }
+apply { from("../gradle/licenses.gradle") }
 
 group = "de.codecentric.hc"
-version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {

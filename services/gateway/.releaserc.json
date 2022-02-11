@@ -1,0 +1,17 @@
+{
+  "branches": [
+    "main"
+  ],
+  "commitPaths": [
+    "."
+  ],
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    ["@semantic-release/exec", {
+      "prepareCmd": "mkdir release && echo '${nextRelease.version}' > release/version.txt && echo '${nextRelease.notes}' > release/notes.md"
+    }]
+  ],
+  "skipTag": true,
+  "tagFormat": "gateway-v${version}"
+}

@@ -1,0 +1,49 @@
+on:
+  workflow_call:
+    inputs:
+      service-name:
+        required: true
+        type: string
+      version:
+        required: true
+        type: string
+      change-notes:
+        required: true
+        type: string
+      license-artifact-name:
+        required: false
+        type: string
+      license-artifact-path:
+        required: false
+        type: string
+
+jobs:
+  release:
+    name: 🎉 Release
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v2
+      - name: 📦 Download license artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{ inputs.license-artifact-name }}
+          path: ${{ inputs.license-artifact-path }}
+      - name: 🏷 Tag repository
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ inputs.service-name }}-v${{ inputs.version }}',
+              sha: context.sha
+            })
+      - name: 🚀 Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ inputs.change-notes }}
+          fail_on_unmatched_files: false
+          files: ${{ inputs.license-artifact-path }}/*
+          tag_name: ${{ inputs.service-name }}-v${{ inputs.version }}

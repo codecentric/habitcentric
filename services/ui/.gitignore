@@ -3,6 +3,8 @@ node_modules
 /dist
 /coverage
 /test-reports
+/licenses
+/licenses.txt
 
 # local env files
 .env.local

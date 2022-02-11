@@ -5,23 +5,34 @@ on:
     branches:
       - '**'
     paths:
-      - .github/workflows/parse-junit-results.yaml
+      - .github/workflows/prepare-release.yaml
+      - .github/workflows/parse-jest-results.yaml
+      - .github/workflows/build-docker.yaml
+      - .github/workflows/release.yaml
       - .github/workflows/ui.yaml
       - services/ui
 
 jobs:
+  prepare-release:
+    uses: ./.github/workflows/prepare-release.yaml
+    with:
+      working-dir: ./services/ui
+
   build:
     name: 🔨 Build and test service
     runs-on: ubuntu-latest
+    outputs:
+      license-artifact-name: license-report
+      license-artifact-path: ./services/ui/license-report
     steps:
       - name: ⬇️ Checkout
         uses: actions/checkout@v2
       - name: 🏗 Setup node env
         uses: actions/setup-node@v2
         with:
-          # For some reason the tests hang when running node > 10 ...
-          # Using node 10 it just builds successful Òó
-          node-version: 10
+          # For some reason the tests hang when running node >=16 ...
+          # Using node 14 it just builds successful Òó
+          node-version: 14
           cache: 'yarn'
           cache-dependency-path: services/ui/yarn.lock
       - name: 👨🏻‍💻 Install dependencies
@@ -47,10 +58,36 @@ jobs:
       - name: 🏗 Build
         working-directory: ./services/ui
         run: yarn build
+      - name: 📋 Generate license report
+        working-directory: ./services/ui
+        run: |
+          yarn license-report >licenses.txt
+          zip -r license-report.zip licenses licenses.txt
+      - name: 📦 Upload license report
+        uses: actions/upload-artifact@v2
+        with:
+          name: license-report
+          path: ./services/ui/license-report.zip
 
   docker:
     uses: ./.github/workflows/build-docker.yaml
-    needs: build
+    needs:
+      - prepare-release
+      - build
     with:
       image-name: ui
       working-dir: ./services/ui
+      version: ${{ needs.prepare-release.outputs.release-version }}
+
+  github-release:
+    uses: ./.github/workflows/release.yaml
+    needs:
+      - prepare-release
+      - build
+      - docker
+    with:
+      service-name: ui
+      version: ${{ needs.prepare-release.outputs.release-version }}
+      change-notes: ${{ needs.prepare-release.outputs.release-notes }}
+      license-artifact-name: ${{ needs.build.outputs.license-artifact-name }}
+      license-artifact-path: ${{ needs.build.outputs.license-artifact-path }}

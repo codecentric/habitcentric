@@ -6,12 +6,63 @@ on:
       - '**'
     paths:
       - .github/workflows/lpt-locust.yaml
+      - .github/workflows/prepare-release.yaml
       - .github/workflows/build-docker.yaml
+      - .github/workflows/release.yaml
       - test/lpt-locust
 
 jobs:
-  build:
+  prepare-release:
+    uses: ./.github/workflows/prepare-release.yaml
+    with:
+      working-dir: ./test/lpt-locust
+
+  license-report:
+    name: 📋 Generate license report
+    runs-on: ubuntu-latest
+    outputs:
+      license-artifact-name: license-report
+      license-artifact-path: ./test/lpt-locust/license-report
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v2
+      - name: 🏗 Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+          cache-dependency-path: 'test/lpt-locust/requirements.txt'
+      - name: 👨🏻‍💻 Install dependencies
+        run: pip install -r test/lpt-locust/requirements.txt
+      - name: 📋 Generate license report
+        working-directory: ./test/lpt-locust
+        run: |
+          pip-licenses --with-license-file \
+            --format html --with-notice-file --no-license-path >licenses.html
+      - name: 📦 Upload license report
+        uses: actions/upload-artifact@v2
+        with:
+          name: license-report
+          path: ./test/lpt-locust/licenses.html
+
+  docker:
     uses: ./.github/workflows/build-docker.yaml
+    needs:
+      - prepare-release
     with:
       image-name: lpt-locust
       working-dir: ./test/lpt-locust
+      version: ${{ needs.prepare-release.outputs.release-version }}
+
+  github-release:
+    uses: ./.github/workflows/release.yaml
+    needs:
+      - prepare-release
+      - license-report
+      - docker
+    with:
+      service-name: lpt-locust
+      version: ${{ needs.prepare-release.outputs.release-version }}
+      change-notes: ${{ needs.prepare-release.outputs.release-notes }}
+      license-artifact-name: ${{ needs.license-report.outputs.license-artifact-name }}
+      license-artifact-path: ${{ needs.license-report.outputs.license-artifact-path }}

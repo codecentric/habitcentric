@@ -4,6 +4,9 @@ on:
       image-name:
         required: true
         type: string
+      version:
+        required: true
+        type: string
       working-dir:
         required: true
         type: string
@@ -32,7 +35,8 @@ jobs:
         run: |
           docker build \
             -t "ghcr.io/codecentric/habitcentric/${{ inputs.image-name }}:latest" \
-            -t "ghcr.io/codecentric/habitcentric/${{ inputs.image-name }}:$(git rev-parse --short HEAD)" .
+            -t "ghcr.io/codecentric/habitcentric/${{ inputs.image-name }}:$(git rev-parse --short HEAD)" \
+            -t "ghcr.io/codecentric/habitcentric/${{ inputs.image-name }}:${{ inputs.version }}" .
       - name: 🔑 Login to GitHub Container registry
         uses: docker/login-action@v1
         with:
@@ -44,3 +48,4 @@ jobs:
         run: |
           docker push "ghcr.io/codecentric/habitcentric/${{ inputs.image-name }}:latest"
           docker push "ghcr.io/codecentric/habitcentric/${{ inputs.image-name }}:$(git rev-parse --short HEAD)"
+          docker push "ghcr.io/codecentric/habitcentric/${{ inputs.image-name }}:${{ inputs.version }}"

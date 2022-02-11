@@ -5,22 +5,48 @@ on:
     branches:
       - '**'
     paths:
+      - .github/workflows/prepare-release.yaml
       - .github/workflows/build-java-service.yaml
       - .github/workflows/parse-junit-results.yaml
+      - .github/workflows/build-docker.yaml
+      - .github/workflows/release.yaml
       - .github/workflows/report.yaml
       - services/report
 
 jobs:
+  prepare-release:
+    uses: ./.github/workflows/prepare-release.yaml
+    with:
+      working-dir: ./services/report
+
   build:
     uses: ./.github/workflows/build-java-service.yaml
+    needs: prepare-release
     with:
       service_name: report
+      version: ${{ needs.prepare-release.outputs.release-version }}
 
   docker:
     uses: ./.github/workflows/build-docker.yaml
-    needs: build
+    needs:
+      - prepare-release
+      - build
     with:
       image-name: report
       working-dir: ./services/report
-      artifact-name: ${{ needs.build.outputs.artifact-name }}
-      artifact-path: ${{ needs.build.outputs.artifact-path }}
+      version: ${{ needs.prepare-release.outputs.release-version }}
+      artifact-name: ${{ needs.build.outputs.jar-artifact-name }}
+      artifact-path: ${{ needs.build.outputs.jar-artifact-path }}
+
+  github-release:
+    uses: ./.github/workflows/release.yaml
+    needs:
+      - prepare-release
+      - build
+      - docker
+    with:
+      service-name: report
+      version: ${{ needs.prepare-release.outputs.release-version }}
+      change-notes: ${{ needs.prepare-release.outputs.release-notes }}
+      license-artifact-name: ${{ needs.build.outputs.license-artifact-name }}
+      license-artifact-path: ${{ needs.build.outputs.license-artifact-path }}

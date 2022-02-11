@@ -4,19 +4,28 @@ on:
       service_name:
         required: true
         type: string
+      version:
+        required: false
+        type: string
     outputs:
-      artifact-name:
-        value: ${{ jobs.build.outputs.artifact-name }}
-      artifact-path:
-        value: ${{ jobs.build.outputs.artifact-path }}
+      jar-artifact-name:
+        value: ${{ jobs.build.outputs.jar-artifact-name }}
+      jar-artifact-path:
+        value: ${{ jobs.build.outputs.jar-artifact-path }}
+      license-artifact-name:
+        value: ${{ jobs.build.outputs.license-artifact-name }}
+      license-artifact-path:
+        value: ${{ jobs.build.outputs.license-artifact-path }}
 
 jobs:
   build:
     name: 🔨 Build and test service
     runs-on: ubuntu-latest
     outputs:
-      artifact-name: ${{ inputs.service_name }}-jar
-      artifact-path: ./services/${{ inputs.service_name }}/build/libs/
+      jar-artifact-name: ${{ inputs.service_name }}-jar
+      jar-artifact-path: ./services/${{ inputs.service_name }}/build/libs/
+      license-artifact-name: ${{ inputs.service_name }}-license
+      license-artifact-path: ./services/${{ inputs.service_name }}/build/distributions
     steps:
       - name: ⬇️ Checkout
         uses: actions/checkout@v2
@@ -30,13 +39,18 @@ jobs:
       - name: 🏗 Build with Gradle
         uses: gradle/gradle-build-action@v2
         with:
-          arguments: build generateLicenseReport
+          arguments: build -Pversion=${{ inputs.version }} generateLicenseReport
           build-root-directory: services/${{ inputs.service_name }}
       - name: 📦 Upload JAR
         uses: actions/upload-artifact@v2
         with:
           name: ${{ inputs.service_name }}-jar
           path: ./services/${{ inputs.service_name }}/build/libs/${{ inputs.service_name }}-*.jar
+      - name: 📦 Upload license report
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ inputs.service_name }}-license
+          path: ./services/${{ inputs.service_name }}/build/distributions/license-report.zip
       - name: 📦 Upload test results
         uses: actions/upload-artifact@v2
         if: always()
