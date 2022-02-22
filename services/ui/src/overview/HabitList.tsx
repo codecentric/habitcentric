@@ -11,7 +11,7 @@ function HabitList({ habits }: HabitListProps) {
   return (
     <div className="mt-4">
       <SearchInput />
-      <ul className="mt-4 flex flex-col divide-y">
+      <ul className="mt-4 flex flex-col divide-y" aria-label="Habits">
         {habits.map((habit) => (
           <HabitItem {...habit} key={habit.id} />
         ))}
