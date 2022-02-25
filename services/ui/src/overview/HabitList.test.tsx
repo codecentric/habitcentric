@@ -1,72 +1,49 @@
 import HabitList from "./HabitList";
-import { render, screen, within } from "@testing-library/react";
-import { Habit } from "./habit";
+import { getByText, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-const habits: Array<Habit> = [
-  {
-    id: 1,
-    name: "Jogging",
-    schedule: {
-      frequency: "WEEKLY",
-      repetitions: 2,
-    },
-  },
-  {
-    id: 2,
-    name: "Programming",
-    schedule: {
-      frequency: "DAILY",
-      repetitions: 1,
-    },
-  },
-  {
-    id: 3,
-    name: "Working out",
-    schedule: {
-      frequency: "MONTHLY",
-      repetitions: 3,
-    },
-  },
-];
+it("renders loading message before showing habits", () => {
+  render(<HabitList />);
+  expect(screen.getByText("Loading...")).toBeVisible();
+});
 
-it("renders list of three habits", () => {
-  render(<HabitList habits={habits} />);
-  const list = screen.getByRole("list", { name: /habits/i });
+it("renders list of three habits", async () => {
+  render(<HabitList />);
+  const list = await screen.findByRole("list", { name: /habits/i });
   const items = within(list).getAllByRole("listitem");
   expect(items.length).toEqual(3);
 });
 
-it("renders habit titles", () => {
-  render(<HabitList habits={habits} />);
-  const items = screen.getAllByRole("listitem");
+it("renders habit titles", async () => {
+  render(<HabitList />);
+  const items = await screen.findAllByRole("listitem");
   const titles = items.map((i) => within(i).getByRole("heading").textContent);
   expect(titles).toEqual(["Jogging", "Programming", "Working out"]);
 });
 
-it("renders habit schedule", () => {
-  render(<HabitList habits={habits} />);
-  expect(screen.getByText(/once per day/i)).toBeInTheDocument();
-  expect(screen.getByText(/twice per week/i)).toBeInTheDocument();
-  expect(screen.getByText(/3 times per month/i)).toBeInTheDocument();
+it("renders habit schedule", async () => {
+  render(<HabitList />);
+  expect(await screen.findByText(/once per day/i)).toBeInTheDocument();
+  expect(await screen.findByText(/twice per week/i)).toBeInTheDocument();
+  expect(await screen.findByText(/6 times per month/i)).toBeInTheDocument();
 });
 
-it("renders habit track buttons", () => {
-  render(<HabitList habits={habits} />);
-  const buttons = screen.getAllByRole("button", { name: /track/i });
+it("renders habit track buttons", async () => {
+  render(<HabitList />);
+  const buttons = await screen.findAllByRole("button", { name: /track/i });
   buttons.forEach((b) => expect(b).toBeInTheDocument());
 });
 
-it("renders habit delete buttons", () => {
-  render(<HabitList habits={habits} />);
-  const buttons = screen.getAllByRole("button", { name: /delete/i });
+it("renders habit delete buttons", async () => {
+  render(<HabitList />);
+  const buttons = await screen.findAllByRole("button", { name: /delete/i });
   buttons.forEach((b) => expect(b).toBeInTheDocument());
 });
 
 it("filters habits by name based on search query", async () => {
-  render(<HabitList habits={habits} />);
+  render(<HabitList />);
 
-  const search = screen.getByRole("searchbox");
+  const search = await screen.findByRole("searchbox");
   await userEvent.type(search, "jog");
 
   const items = screen.queryAllByRole("listitem");
@@ -77,9 +54,9 @@ it("filters habits by name based on search query", async () => {
 });
 
 it("filters habits by schedule based on search query", async () => {
-  render(<HabitList habits={habits} />);
+  render(<HabitList />);
 
-  const search = screen.getByRole("searchbox");
+  const search = await screen.findByRole("searchbox");
   await userEvent.type(search, "twice per week");
 
   const items = screen.queryAllByRole("listitem");

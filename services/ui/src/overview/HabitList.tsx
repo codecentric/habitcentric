@@ -2,13 +2,15 @@ import { SearchIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
 import { Habit, scheduleToString } from "./habit";
 import { HabitItem } from "./HabitItem";
+import { useHabits } from "./useHabits";
 
-export type HabitListProps = {
-  habits: Array<Habit>;
-};
-
-function HabitList({ habits }: HabitListProps) {
+function HabitList() {
   const [query, setQuery] = useState("");
+  const { habits, error } = useHabits();
+
+  if (error) return <div>Failed to load</div>;
+  if (!habits) return <div>Loading...</div>;
+
   const filteredHabits = habits.filter(
     (habit) =>
       nameStartsWithQuery(habit, query) || scheduleStartsWithQuery(habit, query)

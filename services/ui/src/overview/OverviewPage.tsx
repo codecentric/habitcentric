@@ -1,35 +1,7 @@
 import React from "react";
 import Progress from "./Progress";
 import Card from "./Card";
-import { Habit } from "./habit";
 import HabitList from "./HabitList";
-
-const habits: Array<Habit> = [
-  {
-    id: 1,
-    name: "Jogging",
-    schedule: {
-      frequency: "WEEKLY",
-      repetitions: 2,
-    },
-  },
-  {
-    id: 2,
-    name: "Programming",
-    schedule: {
-      frequency: "WEEKLY",
-      repetitions: 1,
-    },
-  },
-  {
-    id: 3,
-    name: "Working out",
-    schedule: {
-      frequency: "MONTHLY",
-      repetitions: 6,
-    },
-  },
-];
 
 function OverviewPage() {
   return (
@@ -43,7 +15,7 @@ function OverviewPage() {
         </Card>
 
         <Card className="row-span-2" title="Your Habits">
-          <HabitList habits={habits} />
+          <HabitList />
         </Card>
 
         <Card>
