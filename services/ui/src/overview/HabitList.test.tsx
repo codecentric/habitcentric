@@ -1,6 +1,7 @@
 import HabitList from "./HabitList";
 import { render, screen, within } from "@testing-library/react";
 import { Habit } from "./habit";
+import userEvent from "@testing-library/user-event";
 
 const habits: Array<Habit> = [
   {
@@ -60,4 +61,30 @@ it("renders habit delete buttons", () => {
   render(<HabitList habits={habits} />);
   const buttons = screen.getAllByRole("button", { name: /delete/i });
   buttons.forEach((b) => expect(b).toBeInTheDocument());
+});
+
+it("filters habits by name based on search query", async () => {
+  render(<HabitList habits={habits} />);
+
+  const search = screen.getByRole("searchbox");
+  await userEvent.type(search, "jog");
+
+  const items = screen.queryAllByRole("listitem");
+  expect(items.length).toEqual(1);
+  expect(
+    within(items[0]).getByRole("heading", { name: "Jogging" })
+  ).toBeInTheDocument();
+});
+
+it("filters habits by schedule based on search query", async () => {
+  render(<HabitList habits={habits} />);
+
+  const search = screen.getByRole("searchbox");
+  await userEvent.type(search, "twice per week");
+
+  const items = screen.queryAllByRole("listitem");
+  expect(items.length).toEqual(1);
+  expect(
+    within(items[0]).getByRole("heading", { name: "Jogging" })
+  ).toBeInTheDocument();
 });

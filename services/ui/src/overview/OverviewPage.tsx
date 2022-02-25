@@ -17,12 +17,12 @@ const habits: Array<Habit> = [
     id: 2,
     name: "Programming",
     schedule: {
-      frequency: "DAILY",
+      frequency: "WEEKLY",
       repetitions: 1,
     },
   },
   {
-    id: 1,
+    id: 3,
     name: "Working out",
     schedule: {
       frequency: "MONTHLY",
