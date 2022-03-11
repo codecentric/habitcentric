@@ -10,3 +10,4 @@ releases:
   - name: istio-base
     namespace: istio-system
     chart: istio/base
+    version: 1.12.5

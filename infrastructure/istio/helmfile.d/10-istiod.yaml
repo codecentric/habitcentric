@@ -10,6 +10,7 @@ releases:
   - name: istiod
     namespace: istio-system
     chart: istio/istiod
+    version: 1.12.5
     wait: true
     values:
       - ./values/istiod.values.yaml.gotmpl
