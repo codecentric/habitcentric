@@ -1,6 +1,8 @@
 repositories:
   - name: codecentric
     url: https://codecentric.github.io/helm-charts
+  - name: incubator
+    url: https://charts.helm.sh/incubator
 
 environments:
   default:
@@ -10,6 +12,19 @@ environments:
   traefik-mesh:
 
 releases:
+  - name: keycloak-realm-config
+    namespace: hc-keycloak
+    chart: incubator/raw
+    values:
+      - resources:
+          - apiVersion: v1
+            kind: Secret
+            metadata:
+              name: keycloak-realm
+            stringData:
+              realm.json: |
+                {{- readFile "../../keycloak/realm.json" | nindent 16 }}
+
   - name: keycloak
     namespace: hc-keycloak
     labels:
@@ -18,4 +33,3 @@ releases:
     version: 16.0.5
     values:
       - ./values/keycloak-values.yaml.gotmpl
-

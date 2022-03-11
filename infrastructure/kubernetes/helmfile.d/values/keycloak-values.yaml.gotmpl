@@ -1,12 +1,22 @@
 image:
-  repository: docker.io/habitcentric/auth-keycloak
-  tag: latest
+  repository: jboss/keycloak
+  tag: 16.1.0
   pullPolicy: IfNotPresent
 
 serviceAccount:
   create: true
 
 skipInitContainers: true
+
+extraVolumes: |
+  - name: realm-secret
+    secret:
+      secretName: keycloak-realm
+
+extraVolumeMounts: |
+  - name: realm-secret
+    mountPath: "/realm/"
+    readOnly: true
 
 extraEnv: |
   - name: KEYCLOAK_USER
@@ -17,6 +27,8 @@ extraEnv: |
     value: "10003"
   - name: PROXY_ADDRESS_FORWARDING
     value: "true"
+  - name: KEYCLOAK_IMPORT
+    value: /realm/realm.json
 
 service:
   httpPort: 8080

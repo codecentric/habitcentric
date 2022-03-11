@@ -1,15 +1,20 @@
 version: '3.1'
 services:
   auth-keycloak:
-    image: habitcentric/auth-keycloak
+    image: jboss/keycloak:16.1.0
+    ports:
+      - "8080:8080"
     environment:
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_USER: keycloak
+      KEYCLOAK_PASSWORD: keycloak
+      KEYCLOAK_IMPORT: /realm/realm.json
       DB_VENDOR: postgres
       DB_ADDR: auth-keycloak-db
       DB_PORT: 10003
       DB_USER: keycloak
       DB_PASSWORD: password
+    volumes:
+      - ../keycloak/realm.json:/realm/realm.json
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/auth"]
       interval: 30s
@@ -17,8 +22,6 @@ services:
       retries: 3
     depends_on:
       - auth-keycloak-db
-    ports:
-      - "8080:8080"
     networks:
       habitcentric-net:
         aliases:
