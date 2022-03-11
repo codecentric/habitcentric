@@ -11,7 +11,7 @@ on:
       - .github/workflows/build-docker.yaml
       - .github/workflows/release.yaml
       - .github/workflows/gateway.yaml
-      - services/gateway
+      - services/gateway/**
 
 jobs:
   prepare-release:

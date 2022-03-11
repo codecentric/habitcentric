@@ -9,7 +9,7 @@ on:
       - .github/workflows/prepare-release.yaml
       - .github/workflows/build-docker.yaml
       - .github/workflows/release.yaml
-      - test/lpt-locust
+      - test/lpt-locust/**
 
 jobs:
   prepare-release:

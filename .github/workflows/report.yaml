@@ -11,7 +11,7 @@ on:
       - .github/workflows/build-docker.yaml
       - .github/workflows/release.yaml
       - .github/workflows/report.yaml
-      - services/report
+      - services/report/**
 
 jobs:
   prepare-release:
