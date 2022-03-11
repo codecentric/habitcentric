@@ -10,7 +10,7 @@ on:
       - .github/workflows/build-docker.yaml
       - .github/workflows/release.yaml
       - .github/workflows/ui.yaml
-      - services/ui
+      - services/ui/**
 
 jobs:
   prepare-release:
