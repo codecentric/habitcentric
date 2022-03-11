@@ -21,7 +21,7 @@ jobs:
   release:
     name: 🎉 Release
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && inputs.version != 'dev'
     steps:
       - name: ⬇️ Checkout
         uses: actions/checkout@v2

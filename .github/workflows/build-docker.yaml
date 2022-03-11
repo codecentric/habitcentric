@@ -44,7 +44,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: ⬆️ Push container image
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/main' && inputs.version != 'dev'
         run: |
           docker push "ghcr.io/codecentric/habitcentric/${{ inputs.image-name }}:latest"
           docker push "ghcr.io/codecentric/habitcentric/${{ inputs.image-name }}:$(git rev-parse --short HEAD)"

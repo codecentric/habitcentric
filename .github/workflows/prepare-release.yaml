@@ -33,6 +33,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          mkdir -p release
+          echo 'dev' > release/version.txt
+          touch release/notes.md
           npx semantic-release-plus
           version=$(cat release/version.txt)
           notes=$(cat release/notes.md)
