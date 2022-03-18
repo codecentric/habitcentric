@@ -28,7 +28,7 @@ const habits = [
 ];
 
 const achievement = {
-  week: 50.0,
+  week: 50.67,
   month: 73.34,
 };
 
