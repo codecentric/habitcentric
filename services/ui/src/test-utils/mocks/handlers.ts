@@ -44,4 +44,12 @@ export const handlers = [
   rest.get("/report/achievement", (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(achievement));
   }),
+  rest.post("/habits", (req, res, ctx) => {
+    const body = JSON.parse(req.body as string);
+    habits = [...habits, {
+      id: Math.max(...habits.map(habit => habit.id)) + 1,
+      ...body
+    }];
+    return res(ctx.status(201));
+  })
 ];
