@@ -18,6 +18,7 @@ function Progress({ title, percentage }: ProgressProps) {
           aria-valuenow={percentage}
           aria-valuemax={100}
           style={{ width: `${percentage}%` }}
+          aria-label={`${title} progress`}
         />
       </div>
     </div>

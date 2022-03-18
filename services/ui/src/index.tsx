@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 if (process.env.NODE_ENV === "development") {
-  const { worker } = require("./mocks/worker");
+  const { worker } = require("./test-utils/mocks/worker");
   worker.start();
 }
 
