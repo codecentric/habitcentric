@@ -1,6 +1,6 @@
 import { rest } from "msw";
 
-const habits = [
+let habits = [
   {
     id: 1,
     name: "Jogging",
@@ -34,6 +34,11 @@ const achievement = {
 
 export const handlers = [
   rest.get("/habits", (req, res, ctx) => {
+    return res(ctx.status(200), ctx.json(habits));
+  }),
+  rest.delete("/habits/:habitId", (req, res, ctx) => {
+    let { habitId } = req.params;
+    habits = habits.filter((habit) => habit.id !== parseInt(habitId as string));
     return res(ctx.status(200), ctx.json(habits));
   }),
   rest.get("/report/achievement", (req, res, ctx) => {

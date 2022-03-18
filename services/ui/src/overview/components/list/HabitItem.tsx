@@ -1,13 +1,16 @@
 import React from "react";
 import { Schedule, scheduleToString } from "../../api/habit";
 import { TrashIcon } from "@heroicons/react/solid";
+import { useSWRConfig } from "swr";
+import { ScopedMutator } from "swr/dist/types";
 
 export type HabitItemProps = {
+  id: number;
   name: string;
   schedule: Schedule;
 };
 
-export function HabitItem({ name, schedule }: HabitItemProps) {
+export function HabitItem({ id, name, schedule }: HabitItemProps) {
   return (
     <li className="flex items-center justify-between py-2 pl-2">
       <div>
@@ -16,7 +19,7 @@ export function HabitItem({ name, schedule }: HabitItemProps) {
       </div>
       <div className="flex items-center gap-2 pr-4">
         <TrackButton />
-        <DeleteButton />
+        <DeleteButton id={id} name={name} />
       </div>
     </li>
   );
@@ -30,13 +33,21 @@ function TrackButton() {
   );
 }
 
-function DeleteButton() {
+function DeleteButton({ id, name }: { id: number; name: string }) {
+  const { mutate } = useSWRConfig();
+
   return (
     <button
       className="h-8 rounded-md bg-cc-secondary-500 px-2 text-xs font-semibold tracking-wider text-white hover:bg-cc-secondary-600 active:bg-cc-secondary-700 sm:text-sm"
-      aria-label="delete"
+      aria-label={`Delete ${name} habit`}
+      onClick={() => deleteHabit(id, mutate)}
     >
       <TrashIcon className="w-5" aria-hidden="true" />
     </button>
   );
+}
+
+async function deleteHabit(id: number, mutate: ScopedMutator) {
+  await fetch(`/habits/${id}`, { method: "DELETE" });
+  await mutate("/habits");
 }
