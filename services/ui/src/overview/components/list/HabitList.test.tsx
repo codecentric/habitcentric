@@ -1,5 +1,5 @@
 import HabitList from "./HabitList";
-import { getByText, render, screen, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 it("renders loading message before showing habits", () => {

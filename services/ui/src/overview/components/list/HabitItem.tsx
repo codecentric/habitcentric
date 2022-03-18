@@ -1,5 +1,5 @@
 import React from "react";
-import { Schedule, scheduleToString } from "./habit";
+import { Schedule, scheduleToString } from "../../api/habit";
 import { TrashIcon } from "@heroicons/react/solid";
 
 export type HabitItemProps = {
