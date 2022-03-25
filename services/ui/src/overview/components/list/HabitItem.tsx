@@ -1,8 +1,8 @@
 import React from "react";
-import { Schedule, scheduleToString } from "../../api/habit";
+import { Schedule, scheduleToString } from "../../api/habit/habit";
 import { TrashIcon } from "@heroicons/react/solid";
 import { useSWRConfig } from "swr";
-import { ScopedMutator } from "swr/dist/types";
+import { deleteHabit } from "../../api/habit/api";
 
 export type HabitItemProps = {
   id: number;
@@ -45,9 +45,4 @@ function DeleteButton({ id, name }: { id: number; name: string }) {
       <TrashIcon className="w-5" aria-hidden="true" />
     </button>
   );
-}
-
-async function deleteHabit(id: number, mutate: ScopedMutator) {
-  await fetch(`/habits/${id}`, { method: "DELETE" });
-  await mutate("/habits");
 }

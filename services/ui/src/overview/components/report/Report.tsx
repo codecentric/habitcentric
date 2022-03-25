@@ -1,6 +1,6 @@
 import Progress from "./Progress";
 import React from "react";
-import { useAchievement } from "../../api/achievement";
+import { useAchievement } from "../../api/report/achievement";
 
 function Report() {
   const { achievement, error } = useAchievement();

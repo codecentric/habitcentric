@@ -1,8 +1,8 @@
 import { SearchIcon } from "@heroicons/react/solid";
 import React, { useState } from "react";
-import { Habit, scheduleToString } from "../../api/habit";
+import { Habit, scheduleToString } from "../../api/habit/habit";
 import { HabitItem } from "./HabitItem";
-import { useHabits } from "../../api/useHabits";
+import { useHabits } from "../../api/habit/useHabits";
 
 function HabitList() {
   const [query, setQuery] = useState("");
