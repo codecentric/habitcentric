@@ -1,8 +1,8 @@
 # appVersionOverride:
 
 image:
-  registry: docker.io
-  repository: habitcentric/gateway
+  registry: ghcr.io
+  repository: codecentric/habitcentric/gateway
   tag: latest
   ## Specifies an imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'

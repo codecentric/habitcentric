@@ -38,7 +38,7 @@ services:
     networks:
       - habitcentric-net
   gateway:
-    image: habitcentric/gateway
+    image: ghcr.io/codecentric/habitcentric/gateway
     environment:
       AUTH_TYPE: OAUTH_2_LOGIN
       AUTH_URI: http://habitcentric.demo:8080
@@ -51,7 +51,7 @@ services:
     networks:
       - habitcentric-net
   habit:
-    image: habitcentric/habit
+    image: ghcr.io/codecentric/habitcentric/habit
     depends_on:
       - habit-db
     environment:
@@ -67,7 +67,7 @@ services:
     networks:
       - habitcentric-net
   track:
-    image: habitcentric/track
+    image: ghcr.io/codecentric/habitcentric/track
     depends_on:
       - track-db
     environment:
@@ -83,14 +83,14 @@ services:
     networks:
       - habitcentric-net
   report:
-    image: habitcentric/report
+    image: ghcr.io/codecentric/habitcentric/report
     environment:
       HABIT_SERVICE_URL: http://habit:9001
       TRACK_SERVICE_URL: http://track:9002
     networks:
       - habitcentric-net
   ui:
-    image: habitcentric/ui
+    image: ghcr.io/codecentric/habitcentric/ui
     environment:
       HABIT_SERVICE_HOST: http://localhost:9000/
       TRACKING_SERVICE_HOST: http://localhost:9000/

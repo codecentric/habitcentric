@@ -6,8 +6,8 @@ stable:
     enableMonthlyRate: false
 
   image:
-    registry: docker.io
-    repository: habitcentric/report
+    registry: ghcr.io
+    repository: codecentric/habitcentric/report
     tag: latest
     pullPolicy: Always
 
@@ -26,8 +26,8 @@ canary:
     enableMonthlyRate: true
 
   image:
-    registry: docker.io
-    repository: habitcentric/report
+    registry: ghcr.io
+    repository: codecentric/habitcentric/report
     tag: latest
     pullPolicy: Always
 
