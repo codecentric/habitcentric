@@ -32,7 +32,7 @@ Return the proper habitcentric init image name
 {{- define "habit.init.image" -}}
 {{- $registryName := .Values.init.image.registry -}}
 {{- $repositoryName := .Values.init.image.repository -}}
-{{- $tag := .Values.image.tag | toString -}}
+{{- $tag := .Values.init.image.tag | toString -}}
 {{/*
 Helm 2.11 supports the assignment of a value to a variable defined in a different scope,
 but Helm 2.9 and 2.10 doesn't support it, so we need to implement this if-else logic.
