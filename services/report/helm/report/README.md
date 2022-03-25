@@ -13,7 +13,7 @@ $ helm install .
 ## Introduction
 
 This chart bootstraps
-a [habitcentric report](https://gitlab.com/habitcentric/habitcentric/-/tree/main/services/report)
+a [habitcentric report](https://github.com/codecentric/habitcentric/tree/main/services/report)
 deployment on a Kubernetes cluster using the Helm package manager.
 
 ## Prerequisites

@@ -7,16 +7,9 @@ keywords:
   - habitcentric
   - track
   - microservices
-home: https://confluence.codecentric.de/display/HAB/habitcentric
+home: https://github.com/codecentric/habitcentric/tree/main/services/track/helm/track
 sources:
-  - https://gitlab.com/habitcentric/habitcentric
-maintainers:
-  - name: Michael Follmann
-    email: michael.follmann@codecentric.de
-    url: https://gitlab.com/michael.follmann
-  - name: Dennis Effing
-    email: dennis.effing@codecentric.de
-    url: https://gitlab.com/denniseffing
+  - https://github.com/codecentric/habitcentric
 engine: gotpl
 
 dependencies:

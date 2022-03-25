@@ -7,14 +7,7 @@ keywords:
   - habitcentric
   - gateway
   - microservices
-home: https://confluence.codecentric.de/display/HAB/habitcentric
+home: https://github.com/codecentric/habitcentric/tree/main/services/gateway/helm/gateway
 sources:
-  - https://gitlab.com/habitcentric/habitcentric
-maintainers:
-  - name: Michael Follmann
-    email: michael.follmann@codecentric.de
-    url: http://gitlab.com/michael.follmann
-  - name: Dennis Effing
-    email: dennis.effing@codecentric.de
-    url: http://gitlab.com/denniseffing
+  - https://github.com/codecentric/habitcentric
 engine: gotpl
