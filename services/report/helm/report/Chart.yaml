@@ -7,13 +7,6 @@ keywords:
   - habitcentric
   - report
   - microservices
-home: https://confluence.codecentric.de/display/HAB/habitcentric
+home: https://github.com/codecentric/habitcentric/tree/main/services/report/helm/report
 sources:
-  - https://gitlab.com/habitcentric/habitcentric
-maintainers:
-  - name: Dennis Effing
-    email: dennis.effing@codecentric.de
-    url: http://gitlab.com/denniseffing
-  - name: Roman Seyffarth
-    email: roman.seyffarth@codecentric.de
-    url: http://gitlab.com/romansey
+  - https://github.com/codecentric/habitcentric
