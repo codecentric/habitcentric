@@ -3,6 +3,8 @@ import { Schedule, scheduleToString } from "../../api/habit/habit";
 import { TrashIcon } from "@heroicons/react/solid";
 import { useSWRConfig } from "swr";
 import { deleteHabit } from "../../api/habit/api";
+import CardPopover from "../CardPopover";
+import TrackDatePicker from "../TrackDatePicker";
 
 export type HabitItemProps = {
   id: number;
@@ -18,22 +20,26 @@ export function HabitItem({ id, name, schedule }: HabitItemProps) {
         <p className="text-sm text-gray-400">{scheduleToString(schedule)}</p>
       </div>
       <div className="flex items-center gap-2 pr-4">
-        <TrackButton />
+        <TrackPopover habitId={id} name={name} />
         <DeleteButton id={id} name={name} />
       </div>
     </li>
   );
 }
 
-function TrackButton() {
+type TrackPopoverProps = { habitId: number; name: string };
+
+function TrackPopover({ habitId, name }: TrackPopoverProps) {
   return (
-    <button className="h-8 rounded-md bg-cc-primary-500 px-2 text-xs font-semibold tracking-wider text-gray-900 hover:bg-cc-primary-600 active:bg-cc-primary-700 sm:text-sm">
-      Track
-    </button>
+    <CardPopover title="Track" ariaLabel={`Track ${name} habit`}>
+      <TrackDatePicker habitId={habitId} />
+    </CardPopover>
   );
 }
 
-function DeleteButton({ id, name }: { id: number; name: string }) {
+type DeleteButtonProps = { id: number; name: string };
+
+function DeleteButton({ id, name }: DeleteButtonProps) {
   const { mutate } = useSWRConfig();
 
   return (

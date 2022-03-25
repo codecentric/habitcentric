@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from "react";
 
 export type CardProps = PropsWithChildren<{
   title?: string;
-  className: string;
+  className?: string;
 }>;
 
 function Card({ title, className, children }: CardProps) {

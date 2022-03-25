@@ -1,12 +1,15 @@
 import HabitList from "./HabitList";
 import {
   screen,
+  waitFor,
   waitForElementToBeRemoved,
   within,
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import { renderWithoutSwrCache } from "../../../test-utils/swr/RenderWithoutSwrCache";
+import { trackedDatesMap } from "../../../test-utils/mocks/handlers";
+import { format, parseISO } from "date-fns";
 
 it("renders loading message before showing habits", () => {
   renderWithoutSwrCache(<HabitList />);
@@ -72,13 +75,63 @@ it("filters habits by schedule based on search query", async () => {
   ).toBeInTheDocument();
 });
 
+it("should open datepicker when track button is clicked", async () => {
+  renderWithoutSwrCache(<HabitList />);
+
+  await clickJoggingTrackButton();
+  const days = await screen.findAllByRole("option", {
+    name: /Choose/i,
+  });
+  days.forEach((day) => {
+    expect(day).toBeVisible();
+  });
+});
+
+it("should highlight already tracked dates when datepicker is open", async () => {
+  renderWithoutSwrCache(<HabitList />);
+
+  await clickJoggingTrackButton();
+  const regexForTrackedDates = `${format(
+    parseISO(trackedDatesMap.get(1)![0]),
+    "EEEE, MMMM do, yyyy"
+  )}|${format(parseISO(trackedDatesMap.get(1)![1]), "EEEE, MMMM do, yyyy")}`;
+
+  const alreadyTrackedDays = await screen.findAllByRole("option", {
+    name: new RegExp(regexForTrackedDates, "i"),
+  });
+  for (const day of alreadyTrackedDays) {
+    expect(day).toHaveClass("react-datepicker__day--highlighted");
+  }
+});
+
+it("should highlight date when date is selected", async () => {
+  renderWithoutSwrCache(<HabitList />);
+
+  await clickJoggingTrackButton();
+  let days = await screen.findAllByRole("option", {
+    name: /Choose/i,
+  });
+  await userEvent.click(days[10]);
+
+  await waitFor(() =>
+    expect(days[10]).toHaveClass("react-datepicker__day--highlighted")
+  );
+});
+
+async function clickJoggingTrackButton() {
+  const trackButton = await screen.findByRole("button", {
+    name: /track jogging habit/i,
+  });
+  await userEvent.click(trackButton);
+}
+
 it("should delete habit when delete button is clicked", async () => {
   renderWithoutSwrCache(<HabitList />);
   const button = await screen.findByRole("button", {
-    name: /delete jogging habit/i,
+    name: /delete programming habit/i,
   });
   await userEvent.click(button);
-  const jogging = screen.queryByRole("heading", { name: /jogging/i });
-  await waitForElementToBeRemoved(jogging);
-  expect(jogging).not.toBeInTheDocument();
+  const programming = screen.queryByRole("heading", { name: /programming/i });
+  await waitForElementToBeRemoved(programming);
+  expect(programming).not.toBeInTheDocument();
 });
