@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { useSWRConfig } from "swr";
 import { createHabit } from "../../api/habit/api";
+import PrimaryButton from "../PrimaryButton";
 
 type TextFieldProps = {
   label: string;
@@ -91,12 +92,7 @@ export function HabitForm() {
             </select>
           </div>
         </div>
-        <button
-          type="submit"
-          className="w-full rounded-lg bg-cc-primary-500 px-4 py-2 text-sm font-semibold tracking-wider text-gray-900 shadow-sm hover:bg-cc-primary-600 active:bg-cc-primary-700 sm:text-base"
-        >
-          Create Habit
-        </button>
+        <PrimaryButton type="submit">Create Habit</PrimaryButton>
       </form>
     </>
   );

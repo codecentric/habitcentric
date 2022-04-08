@@ -11,11 +11,6 @@ import { renderWithoutSwrCache } from "../../../test-utils/swr/RenderWithoutSwrC
 import { trackedDatesMap } from "../../../test-utils/mocks/handlers";
 import { format, parseISO } from "date-fns";
 
-it("renders loading message before showing habits", () => {
-  renderWithoutSwrCache(<HabitList />);
-  expect(screen.getByText("Loading...")).toBeVisible();
-});
-
 it("renders list of three habits", async () => {
   renderWithoutSwrCache(<HabitList />);
   const list = await screen.findByRole("list", { name: /habits/i });
@@ -47,6 +42,17 @@ it("renders habit delete buttons", async () => {
   renderWithoutSwrCache(<HabitList />);
   const buttons = await screen.findAllByRole("button", { name: /delete/i });
   buttons.forEach((b) => expect(b).toBeInTheDocument());
+});
+
+it("should delete habit when delete button is clicked", async () => {
+  renderWithoutSwrCache(<HabitList />);
+  const button = await screen.findByRole("button", {
+    name: /delete programming habit/i,
+  });
+  await userEvent.click(button);
+  const programming = screen.queryByRole("heading", { name: /programming/i });
+  await waitForElementToBeRemoved(programming);
+  expect(programming).not.toBeInTheDocument();
 });
 
 it("filters habits by name based on search query", async () => {
@@ -124,14 +130,3 @@ async function clickJoggingTrackButton() {
   });
   await userEvent.click(trackButton);
 }
-
-it("should delete habit when delete button is clicked", async () => {
-  renderWithoutSwrCache(<HabitList />);
-  const button = await screen.findByRole("button", {
-    name: /delete programming habit/i,
-  });
-  await userEvent.click(button);
-  const programming = screen.queryByRole("heading", { name: /programming/i });
-  await waitForElementToBeRemoved(programming);
-  expect(programming).not.toBeInTheDocument();
-});

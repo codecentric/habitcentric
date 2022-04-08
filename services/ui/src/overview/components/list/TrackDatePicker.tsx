@@ -3,8 +3,8 @@ import DatePicker from "react-datepicker";
 import "./TrackDatePicker.css";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
 import { format } from "date-fns";
-import { useTrackedDatesOfHabit } from "../api/track/useTrackedDates";
-import { putTrackedDates } from "../api/track/api";
+import { useTrackedDatesOfHabit } from "../../api/track/useTrackedDates";
+import { putTrackedDates } from "../../api/track/api";
 import { useSWRConfig } from "swr";
 
 export type TrackDatePickerProps = {

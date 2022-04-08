@@ -4,7 +4,7 @@ import { TrashIcon } from "@heroicons/react/solid";
 import { useSWRConfig } from "swr";
 import { deleteHabit } from "../../api/habit/api";
 import CardPopover from "../CardPopover";
-import TrackDatePicker from "../TrackDatePicker";
+import TrackDatePicker from "./TrackDatePicker";
 
 export type HabitItemProps = {
   id: number;

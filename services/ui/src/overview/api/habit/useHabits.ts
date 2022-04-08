@@ -1,11 +1,17 @@
 import useSWR, { Fetcher } from "swr";
 import { Habit } from "./habit";
+import { useAuth } from "react-oidc-context";
+import { fetchWithToken } from "../../../auth/fetchWithToken";
 
-const habitFetcher: Fetcher<Habit[], string> = (url) =>
-  fetch(url).then((res) => res.json());
+const habitFetcher: Fetcher<Habit[], [string, string]> = (url, token) =>
+  fetchWithToken(url, {}, token).then((res) => res.json());
 
 export function useHabits() {
-  const { data, error } = useSWR("/habits", habitFetcher);
+  const auth = useAuth();
+  const { data, error } = useSWR(
+    ["/habits", auth.user?.access_token],
+    habitFetcher
+  );
 
   return {
     habits: data,

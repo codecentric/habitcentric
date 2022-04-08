@@ -1,4 +1,6 @@
 import { ScopedMutator } from "swr/dist/types";
+import { getUser } from "../../../auth/getUser";
+import { fetchWithToken } from "../../../auth/fetchWithToken";
 
 export async function createHabit(
   name: string,
@@ -6,22 +8,34 @@ export async function createHabit(
   frequency: string,
   mutate: ScopedMutator
 ) {
-  await fetch("/habits", {
-    method: "POST",
-    body: JSON.stringify({
-      name,
-      schedule: {
-        repetitions,
-        frequency,
-      },
-    }),
-  });
-  await mutate("/habits");
-  await mutate("/report/achievement");
+  const user = getUser();
+  await fetchWithToken(
+    "/habits",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        name,
+        schedule: {
+          repetitions,
+          frequency,
+        },
+      }),
+    },
+    user?.access_token
+  );
+  await mutate(["/habits", user?.access_token]);
+  await mutate(["/report/achievement", user?.access_token]);
 }
 
 export async function deleteHabit(id: number, mutate: ScopedMutator) {
-  await fetch(`/habits/${id}`, { method: "DELETE" });
-  await mutate("/habits");
-  await mutate("/report/achievement");
+  const user = getUser();
+  await fetchWithToken(
+    `/habits/${id}`,
+    {
+      method: "DELETE",
+    },
+    user?.access_token
+  );
+  await mutate(["/habits", user?.access_token]);
+  await mutate(["/report/achievement", user?.access_token]);
 }
