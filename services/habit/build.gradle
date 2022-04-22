@@ -66,11 +66,13 @@ ext {
             springfox         : '2.9.2',
             liquibase         : '4.4.3',
             pactProvider      : '3.6.12',
-            springCloudVersion: 'Greenwich.SR6'
+            springCloudVersion: 'Greenwich.SR6',
+            jna               : '5.8.0'
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce
 ext['junit-jupiter.version'] = versions.junitJupiter
+ext['jna.version'] = versions.jna // Required for Docker on ARM
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'

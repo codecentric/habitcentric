@@ -5,9 +5,9 @@ plugins {
     id("com.github.jk1.dependency-license-report") version "1.16"
     id("org.springframework.boot") version "2.2.5.RELEASE"
     id("com.diffplug.spotless") version "5.14.3"
-    kotlin("jvm") version "1.5.30"
-    kotlin("kapt") version "1.5.30"
-    kotlin("plugin.spring") version "1.5.30"
+    kotlin("jvm") version "1.6.10"
+    kotlin("kapt") version "1.6.10"
+    kotlin("plugin.spring") version "1.6.10"
     // we should switch to the plugin but enabling it causes warnings for the openapi generator
     //id("io.freefair.lombok") version "6.2.0"
 }
