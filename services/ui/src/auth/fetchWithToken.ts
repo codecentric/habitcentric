@@ -7,7 +7,7 @@ export function fetchWithToken(
     ...init,
     headers: {
       ...init?.headers,
-      Authorization: `Bearer ${token}`,
+      ...(token && { Authorization: `Bearer ${token}` }),
     },
   });
 }

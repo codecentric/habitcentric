@@ -1,6 +1,7 @@
 {
   "name": "ui-react",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "proxy": "http://localhost:8080",
   "dependencies": {
@@ -22,16 +23,17 @@
     "react-dom": "^17.0.2",
     "react-oidc-context": "^2.1.0",
     "react-popper": "^2.2.5",
+    "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.0",
     "react-simple-icons": "^1.0.0-beta.5",
     "simple-icons": "^6.9.0",
     "swr": "^1.2.2",
     "typescript": "^4.5.5",
-    "use-clear-params": "^0.1.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "PORT=9004 react-scripts start",
+    "start:oidc": "PORT=9004 env-cmd -f .env.development-oidc react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -58,6 +60,7 @@
     "@testing-library/user-event": "^14.0.0-beta.11",
     "@types/react-datepicker": "^4.3.4",
     "autoprefixer": "^10.4.2",
+    "env-cmd": "^10.1.0",
     "msw": "^0.36.8",
     "postcss": "^8.4.12",
     "prettier": "^2.5.1",

@@ -2,21 +2,29 @@ import React from "react";
 import Header from "./header/Header";
 import OverviewPage from "./overview/OverviewPage";
 import Footer from "./footer/Footer";
-import SimpleOidcRouter from "./auth/SimpleOidcRouter";
 import LandingPage from "./landing/LandingPage";
 import { AuthProvider } from "react-oidc-context";
-import { oidcConfig } from "./auth/oidcConfig";
+import { oidc } from "./auth/config/oidc";
+import { Route, Routes } from "react-router-dom";
+import RequireAuthWhenOidcIsEnabled from "./auth/RequireAuthWhenOidcIsEnabled";
 
 function App() {
   return (
-    <AuthProvider {...oidcConfig}>
+    <AuthProvider {...oidc}>
       <div className="divide-y">
         <Header />
 
-        <SimpleOidcRouter
-          unauthenticatedPage={<LandingPage />}
-          authenticatedPage={<OverviewPage />}
-        />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route
+            path="/overview"
+            element={
+              <RequireAuthWhenOidcIsEnabled>
+                <OverviewPage />
+              </RequireAuthWhenOidcIsEnabled>
+            }
+          />
+        </Routes>
 
         <Footer />
       </div>

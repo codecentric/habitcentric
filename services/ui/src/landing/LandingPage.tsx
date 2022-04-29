@@ -1,6 +1,7 @@
 import { AuthContextProps, useAuth } from "react-oidc-context";
 import { useState } from "react";
 import PrimaryButton from "../overview/components/PrimaryButton";
+import { oidcIsEnabled } from "../auth/config/oidc";
 
 function LandingPage() {
   const [redirectError, setRedirectError] = useState(false);
@@ -13,7 +14,7 @@ function LandingPage() {
         <h1 className="mb-4 text-5xl font-semibold leading-tight tracking-tight text-gray-800">
           Track your habits.
           <br />
-          <span className="bg-gradient-to-r from-cc-primary-500 to-centric-mint-500 bg-clip-text text-transparent">
+          <span className="from-cc-primary-500 to-centric-mint-500 bg-gradient-to-r bg-clip-text text-transparent">
             Feel good.
           </span>
         </h1>
@@ -23,7 +24,14 @@ function LandingPage() {
             your habits now and start your adventure.
           </p>
           <div className="mx-auto max-w-xs">
-            <LoginButton {...auth} onError={() => setRedirectError(true)} />
+            {oidcIsEnabled() ? (
+              <OidcLoginButton
+                {...auth}
+                onError={() => setRedirectError(true)}
+              />
+            ) : (
+              <BackendLoginLink />
+            )}
             {error && <div>Oops... Something went wrong!</div>}
           </div>
         </div>
@@ -34,7 +42,7 @@ function LandingPage() {
 
 type LoginButtonProps = AuthContextProps & { onError: () => void };
 
-function LoginButton({
+function OidcLoginButton({
   activeNavigator,
   signinRedirect,
   onError,
@@ -48,6 +56,17 @@ function LoginButton({
     >
       Log in
     </PrimaryButton>
+  );
+}
+
+function BackendLoginLink() {
+  return (
+    <a
+      className={`bg-cc-primary-500 hover:bg-cc-primary-600 active:bg-cc-primary-700 w-full rounded-lg px-4 py-2 text-sm font-semibold tracking-wider text-gray-900 shadow-sm sm:text-base`}
+      href={`${process.env.PUBLIC_URL}/overview`}
+    >
+      Log in
+    </a>
   );
 }
 
