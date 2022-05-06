@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { useSWRConfig } from "swr";
 import { createHabit } from "../../api/habit/api";
+import { Frequency } from "../../api/habit/habit";
 import PrimaryButton from "../PrimaryButton";
 
 type TextFieldProps = {
@@ -45,7 +46,7 @@ TextField.defaultProps = {
 export function HabitForm() {
   const [name, setName] = useState("");
   const [repetitions, setRepetitions] = useState("1");
-  const [frequency, setFrequency] = useState("DAILY");
+  const [frequency, setFrequency] = useState<Frequency>("DAILY");
 
   const { mutate } = useSWRConfig();
 
@@ -83,7 +84,7 @@ export function HabitForm() {
               className="w-full rounded-md border-0 bg-gray-100 text-sm shadow-sm sm:text-base"
               id="frequency"
               value={frequency}
-              onChange={(e) => setFrequency(e.target.value)}
+              onChange={(e) => setFrequency(e.target.value as Frequency)}
             >
               <option value="DAILY">daily</option>
               <option value="WEEKLY">weekly</option>

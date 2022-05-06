@@ -1,5 +1,7 @@
 import { rest } from "msw";
-import { formatISO, parseISO, sub } from "date-fns";
+import { sub } from "date-fns";
+import { CreateHabitRequest } from "../../overview/api/habit/api";
+import { TrackedDates } from "../../overview/api/track/model";
 
 let habits = [
   {
@@ -28,11 +30,11 @@ let habits = [
   },
 ];
 
-function todayMinusDays(days: number): string {
-  return formatISO(sub(new Date(), { days: days }), { representation: "date" });
+function todayMinusDays(days: number): Date {
+  return sub(new Date(), { days: days });
 }
 
-export const trackedDatesMap = new Map<number, string[]>([
+export const trackedDatesMap = new Map<number, TrackedDates>([
   [1, [todayMinusDays(1), todayMinusDays(2)]],
   [2, [todayMinusDays(3), todayMinusDays(4)]],
   [3, [todayMinusDays(5), todayMinusDays(6)]],
@@ -56,8 +58,8 @@ export const handlers = [
   rest.get("/report/achievement", (req, res, ctx) => {
     return res(ctx.status(200), ctx.json(achievement));
   }),
-  rest.post("/habits", (req, res, ctx) => {
-    const body = JSON.parse(req.body as string);
+  rest.post<CreateHabitRequest>("/habits", (req, res, ctx) => {
+    const body = req.body;
     const nextId = Math.max(...habits.map((habit) => habit.id)) + 1;
     habits = [
       ...habits,
@@ -76,11 +78,9 @@ export const handlers = [
       ctx.json(trackedDatesMap.get(parseInt(habitId as string)))
     );
   }),
-  rest.put("/track/habits/:habitId", (req, res, ctx) => {
+  rest.put<TrackedDates>("/track/habits/:habitId", (req, res, ctx) => {
     const { habitId } = req.params;
-    const trackedDates = JSON.parse(req.body as string).map(
-      (dateString: string) => parseISO(dateString)
-    );
+    const trackedDates = req.body;
     trackedDatesMap.set(parseInt(habitId as string), trackedDates);
     return res(ctx.status(200));
   }),

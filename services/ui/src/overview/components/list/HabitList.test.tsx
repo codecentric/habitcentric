@@ -9,7 +9,7 @@ import userEvent from "@testing-library/user-event";
 import React from "react";
 import { renderWithoutSwrCache } from "../../../test-utils/swr/RenderWithoutSwrCache";
 import { trackedDatesMap } from "../../../test-utils/mocks/handlers";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 
 it("renders list of three habits", async () => {
   renderWithoutSwrCache(<HabitList />);
@@ -98,9 +98,9 @@ it("should highlight already tracked dates when datepicker is open", async () =>
 
   await clickJoggingTrackButton();
   const regexForTrackedDates = `${format(
-    parseISO(trackedDatesMap.get(1)![0]),
+    trackedDatesMap.get(1)![0],
     "EEEE, MMMM do, yyyy"
-  )}|${format(parseISO(trackedDatesMap.get(1)![1]), "EEEE, MMMM do, yyyy")}`;
+  )}|${format(trackedDatesMap.get(1)![1], "EEEE, MMMM do, yyyy")}`;
 
   const alreadyTrackedDays = await screen.findAllByRole("option", {
     name: new RegExp(regexForTrackedDates, "i"),

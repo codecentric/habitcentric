@@ -1,25 +1,32 @@
 import { ScopedMutator } from "swr/dist/types";
 import { getUser } from "../../../auth/getUser";
 import { fetchWithToken } from "../../../auth/fetchWithToken";
+import { Frequency, Habit } from "./habit";
+
+export type CreateHabitRequest = Omit<Habit, "id">;
 
 export async function createHabit(
   name: string,
   repetitions: number,
-  frequency: string,
+  frequency: Frequency,
   mutate: ScopedMutator
 ) {
   const user = getUser();
+  const request: CreateHabitRequest = {
+    name,
+    schedule: {
+      repetitions,
+      frequency,
+    },
+  };
   await fetchWithToken(
     "/habits",
     {
       method: "POST",
-      body: JSON.stringify({
-        name,
-        schedule: {
-          repetitions,
-          frequency,
-        },
-      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
     },
     user?.access_token
   );

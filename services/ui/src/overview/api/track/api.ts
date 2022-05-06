@@ -16,6 +16,9 @@ export async function putTrackedDates(
     `/track/habits/${habitId}`,
     {
       method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify(formattedTrackedDates),
     },
     user?.access_token
