@@ -19,4 +19,26 @@ public class UiIntTest extends WebTest {
         .xpath("/html/head/title/text()")
         .isEqualTo("hc-ui");
   }
+
+  @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
+  public void getUiWithAnyRouteShouldReturnTheHabitUi() {
+    get("/ui/any")
+        .expectStatus()
+        .isOk()
+        .expectBody()
+        .xpath("/html/head/title/text()")
+        .isEqualTo("hc-ui");
+  }
+
+  @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
+  public void getUiWithOverviewRouteShouldReturnTheHabitUiOverview() {
+    get("/ui/overview")
+        .expectStatus()
+        .isOk()
+        .expectBody()
+        .xpath("/html/head/title/text()")
+        .isEqualTo("hc-ui overview");
+  }
 }

@@ -30,7 +30,6 @@ spring:
           predicates:
             - Path=/ui/**
           filters:
-            - AddRequestHeaderUserId
             - RemoveRequestHeader=Authorization
   security:
     oauth2:

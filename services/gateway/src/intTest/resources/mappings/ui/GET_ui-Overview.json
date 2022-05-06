@@ -1,7 +1,7 @@
 {
   "request": {
     "method": "GET",
-    "urlPattern": "\/ui\/(?!(overview)).*",
+    "url": "/ui/overview",
     "headers": {
       "Authorization": {
         "absent": true
@@ -13,6 +13,6 @@
     "headers": {
       "Content-Type": "text/html"
     },
-    "bodyFileName": "ui.html"
+    "bodyFileName": "ui-overview.html"
   }
 }
