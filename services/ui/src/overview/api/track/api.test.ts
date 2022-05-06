@@ -12,4 +12,12 @@ describe("update tracked dates", () => {
       "access_token",
     ]);
   });
+
+  it("should mutate achievement report state", async () => {
+    await putTrackedDates(1, [new Date(), new Date(), new Date()], mutatorMock);
+    expect(mutatorMock).toHaveBeenCalledWith([
+      "/report/achievement",
+      "access_token",
+    ]);
+  });
 });

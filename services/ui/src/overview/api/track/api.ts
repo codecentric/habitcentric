@@ -24,4 +24,5 @@ export async function putTrackedDates(
     user?.access_token
   );
   await mutate(["/track/habits", habitId, user?.access_token]);
+  await mutate(["/report/achievement", user?.access_token]);
 }
