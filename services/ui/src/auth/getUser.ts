@@ -1,9 +1,8 @@
 import { User } from "oidc-client-ts";
+import { oidc } from "./config/oidc";
 
 export function getUser() {
-  const oidcStorage = sessionStorage.getItem(
-    "oidc.user:http://localhost:8080/auth/realms/habitcentric:ui"
-  );
+  const oidcStorage = sessionStorage.getItem(`oidc.user:${oidc.authority}:ui`);
   if (!oidcStorage) {
     return null;
   }

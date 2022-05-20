@@ -1,0 +1,13 @@
+apiVersion: v2
+name: ui
+version: 1.0.0
+appVersion: v1
+description: Chart for the ui service of habitcentric, a service to deliver the frontend web app
+keywords:
+  - habitcentric
+  - ui
+  - microservices
+home: https://github.com/codecentric/habitcentric/tree/main/services/ui/helm/ui
+sources:
+  - https://github.com/codecentric/habitcentric
+engine: gotpl
