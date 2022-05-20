@@ -14,7 +14,7 @@ public class GatewayAuthConfig {
 
   @Getter @Setter @NotNull private GatewayAuthType type;
 
-  public static enum GatewayAuthType {
+  public enum GatewayAuthType {
     HTTP_BASIC,
     OAUTH_2_LOGIN
   }
