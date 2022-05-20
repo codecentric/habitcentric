@@ -5,6 +5,7 @@ import { useAchievement } from "../../api/report/achievement";
 function Report() {
   const { achievement, error } = useAchievement();
 
+  if (error) return <div>Failed to load</div>;
   if (!achievement) {
     return <div>Loading...</div>;
   }
