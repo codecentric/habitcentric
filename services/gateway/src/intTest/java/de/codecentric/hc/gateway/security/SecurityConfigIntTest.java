@@ -47,13 +47,18 @@ public class SecurityConfigIntTest extends WebTest {
         .isFound()
         .expectHeader()
         .valueMatches("Location", expectedLocation);
-    get("/ui/").expectStatus().isFound().expectHeader().valueMatches("Location", expectedLocation);
+    get("/ui/overview")
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueMatches("Location", expectedLocation);
   }
 
   @Test
   public void requestsWithoutAuthShouldBeOk() {
     get("/favicon.ico").expectStatus().isOk();
     get("/actuator/health").expectStatus().isOk();
+    get("/ui/").expectStatus().isOk();
   }
 
   @Test
@@ -70,6 +75,6 @@ public class SecurityConfigIntTest extends WebTest {
     delete("/habits/123").expectStatus().isForbidden();
     get("/track").expectStatus().isForbidden();
     put("/track", "{}").expectStatus().isForbidden();
-    get("/ui/").expectStatus().isForbidden();
+    get("/ui/overview").expectStatus().isForbidden();
   }
 }

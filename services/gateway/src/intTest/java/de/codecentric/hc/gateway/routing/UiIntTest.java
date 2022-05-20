@@ -11,6 +11,12 @@ public class UiIntTest extends WebTest {
 
   @Test
   @WithMockUser(username = DEFAULT, roles = USER)
+  public void getIndexShouldRedirectToTheHabitUi() {
+    get("/").expectStatus().isFound().expectHeader().valueMatches("Location", "/ui");
+  }
+
+  @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
   public void getUiShouldReturnTheHabitUi() {
     get("/ui/")
         .expectStatus()
@@ -18,5 +24,27 @@ public class UiIntTest extends WebTest {
         .expectBody()
         .xpath("/html/head/title/text()")
         .isEqualTo("hc-ui");
+  }
+
+  @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
+  public void getUiWithAnyRouteShouldReturnTheHabitUi() {
+    get("/ui/any")
+        .expectStatus()
+        .isOk()
+        .expectBody()
+        .xpath("/html/head/title/text()")
+        .isEqualTo("hc-ui");
+  }
+
+  @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
+  public void getUiWithOverviewRouteShouldReturnTheHabitUiOverview() {
+    get("/ui/overview")
+        .expectStatus()
+        .isOk()
+        .expectBody()
+        .xpath("/html/head/title/text()")
+        .isEqualTo("hc-ui overview");
   }
 }

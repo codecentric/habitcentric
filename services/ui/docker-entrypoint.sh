@@ -1,5 +1,8 @@
 #!/bin/sh
-appFile="$(ls /usr/share/nginx/html/dist/js/app*.js)"
-envsubst '$HABIT_HOST,$TRACKING_HOST,$REPORT_HOST,$OIDC_AUTH,$OIDC_AUTHORITY_HOST,$OIDC_CLIENT_ID' < ${appFile} > app.js.tmp
-mv app.js.tmp ${appFile}
+indexFile="/usr/share/nginx/html/dist/index.html"
+appFile="$(ls /usr/share/nginx/html/dist/static/js/main*.js)"
+envsubst '$OIDC_ENABLED,$PUBLIC_URL' < ${indexFile} > index.html.tmp
+envsubst '$OIDC_ENABLED,$PUBLIC_URL' < ${appFile} > main.js.tmp
+mv index.html.tmp ${indexFile}
+mv main.js.tmp ${appFile}
 exec "$@"

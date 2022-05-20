@@ -30,26 +30,21 @@ jobs:
       - name: 🏗 Setup node env
         uses: actions/setup-node@v2
         with:
-          # For some reason the tests hang when running node >=16 ...
-          # Using node 14 it just builds successful Òó
-          node-version: 14
-          cache: 'yarn'
-          cache-dependency-path: services/ui/yarn.lock
+          node-version: 17
+          cache: 'npm'
+          cache-dependency-path: services/ui/package-lock.json
       - name: 👨🏻‍💻 Install dependencies
         working-directory: ./services/ui
-        run: yarn install
-      - name: 👀 Lint code
-        working-directory: ./services/ui
-        run: yarn run lint --no-fix --max-warnings 0
+        run: npm install
       - name: 🧪 Run tests
         working-directory: ./services/ui
-        run: yarn run test:unit --coverage --coverageReporters=cobertura
+        run: npm run test:ci
       - name: 📦 Upload test results
         uses: actions/upload-artifact@v2
         if: always()
         with:
           name: test-results
-          path: ./services/ui/test-reports/junit.xml
+          path: ./services/ui/junit.xml
       - name: 🔎 Upload coverage report
         uses: codecov/codecov-action@v2
         with:
@@ -57,11 +52,11 @@ jobs:
           name: habitcentric/ui
       - name: 🏗 Build
         working-directory: ./services/ui
-        run: yarn build
+        run: npm run build
       - name: 📋 Generate license report
         working-directory: ./services/ui
         run: |
-          yarn license-report >licenses.txt
+          npm run license-report >licenses.txt
           zip -r license-report.zip licenses licenses.txt
       - name: 📦 Upload license report
         uses: actions/upload-artifact@v2

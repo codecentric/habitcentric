@@ -42,7 +42,13 @@ ext {
 // override the version the spring boot dependency-management plugin would enforce
 ext['junit-jupiter.version'] = versions.junitJupiter
 
+tasks.named('compileJava') {
+  inputs.files(tasks.named('processResources'))
+}
+
 dependencies {
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'

@@ -1,13 +1,10 @@
 {
   "request": {
     "method": "GET",
-    "url": "/ui/",
+    "urlPattern": "\/ui\/(?!(overview)).*",
     "headers": {
       "Authorization": {
         "absent": true
-      },
-      "X-User-ID": {
-        "equalTo": "default"
       }
     }
   },

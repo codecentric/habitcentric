@@ -30,8 +30,13 @@ spring:
           predicates:
             - Path=/ui/**
           filters:
-            - AddRequestHeaderUserId
             - RemoveRequestHeader=Authorization
+        - id: index_route
+          uri: no://op
+          predicates:
+            - Path=/
+          filters:
+            - RedirectTo=302, /ui
   security:
     oauth2:
       client:

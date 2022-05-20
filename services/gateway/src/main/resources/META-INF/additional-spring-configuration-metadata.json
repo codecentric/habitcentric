@@ -1,0 +1,33 @@
+{
+  "groups": [
+    {
+      "name": "gateway.auth",
+      "type": "de.codecentric.hc.gateway.security.GatewayAuthConfig",
+      "description": "Auth related configuration"
+    }
+  ],
+  "properties": [
+    {
+      "name": "gateway.auth.type",
+      "type": "de.codecentric.hc.gateway.security.GatewayAuthConfig.GatewayAuthType",
+      "sourceType": "de.codecentric.hc.gateway.security.GatewayAuthConfig",
+      "description": "Authentication method used for Spring Security.",
+      "defaultValue": "HTTP_BASIC"
+    }
+  ],
+  "hints": [
+    {
+      "name": "gateway.auth.type",
+      "values": [
+        {
+          "value": "HTTP_BASIC",
+          "description": "Secure endpoints using HTTP basic auth."
+        },
+        {
+          "value": "OAUTH_2_LOGIN",
+          "description": "Secure endpoints using OAuth."
+        }
+      ]
+    }
+  ]
+}
