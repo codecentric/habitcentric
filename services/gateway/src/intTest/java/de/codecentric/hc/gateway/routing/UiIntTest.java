@@ -11,6 +11,12 @@ public class UiIntTest extends WebTest {
 
   @Test
   @WithMockUser(username = DEFAULT, roles = USER)
+  public void getIndexShouldRedirectToTheHabitUi() {
+    get("/").expectStatus().isFound().expectHeader().valueMatches("Location", "/ui");
+  }
+
+  @Test
+  @WithMockUser(username = DEFAULT, roles = USER)
   public void getUiShouldReturnTheHabitUi() {
     get("/ui/")
         .expectStatus()
