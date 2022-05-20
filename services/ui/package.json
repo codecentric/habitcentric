@@ -36,7 +36,9 @@
     "start:oidc": "PORT=9004 env-cmd -f .env.development-oidc react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test:ci": "react-scripts test --coverage --ci --coverageReporters=cobertura --testResultsProcessor=\"jest-junit\" --watchAll=false",
+    "eject": "react-scripts eject",
+    "license-report": "license-checker-rseidelsohn --production --json --files licenses/ --relativeLicensePath --relativeModulePath --excludePackages ui-react"
   },
   "eslintConfig": {
     "extends": [
@@ -61,6 +63,8 @@
     "@types/react-datepicker": "^4.3.4",
     "autoprefixer": "^10.4.2",
     "env-cmd": "^10.1.0",
+    "jest-junit": "^13.2.0",
+    "license-checker-rseidelsohn": "^3.1.0",
     "msw": "^0.36.8",
     "postcss": "^8.4.12",
     "prettier": "^2.5.1",
