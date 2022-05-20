@@ -69,16 +69,16 @@ function BrandWithCaption() {
 export function SocialMediaIcons() {
   return (
     <span className="mt-2 inline-flex items-center justify-center sm:ml-auto sm:mt-0 sm:justify-start">
-      <a className="cursor-pointer text-gray-500 hover:text-gray-700">
+      <a href="https://codecentric.de" className="cursor-pointer text-gray-500 hover:text-gray-700">
         <Codecentric className="h-5 w-5 fill-gray-500 hover:fill-gray-700" />
       </a>
-      <a className="ml-3 cursor-pointer text-gray-500 hover:text-gray-700">
+      <a href="https://twitter.com/codecentric" className="ml-3 cursor-pointer text-gray-500 hover:text-gray-700">
         <Twitter className="h-5 w-5 fill-gray-500 hover:fill-gray-700" />
       </a>
-      <a className="ml-3 cursor-pointer text-gray-500 hover:text-gray-700">
+      <a href="https://www.instagram.com/codecentricag" className="ml-3 cursor-pointer text-gray-500 hover:text-gray-700">
         <Instagram className="h-5 w-5 fill-gray-500 hover:fill-gray-700" />
       </a>
-      <a className="ml-3 cursor-pointer text-gray-500 hover:text-gray-700">
+      <a href="https://linkedin.com/company/codecentric-ag" className="ml-3 cursor-pointer text-gray-500 hover:text-gray-700">
         <Linkedin className="h-5 w-5 fill-gray-500 hover:fill-gray-700" />
       </a>
     </span>
