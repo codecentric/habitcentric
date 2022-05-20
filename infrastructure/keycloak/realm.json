@@ -129,9 +129,9 @@
       "baseUrl": "/",
       "secret": "password",
       "redirectUris": [
-        "http://habitcentric.demo/ui/auth/callback",
-        "https://habitcentric.demo/ui/auth/callback",
-        "http://localhost:9004/auth/callback"
+        "http://habitcentric.demo/ui/overview",
+        "https://habitcentric.demo/ui/overview",
+        "http://localhost:9004/overview"
       ]
     },
     {
