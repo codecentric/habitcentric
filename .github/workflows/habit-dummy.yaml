@@ -1,0 +1,29 @@
+# Workaround for skipped checks due to path filter
+# https://docs.github.com/en/enterprise-cloud@latest/repositories/configuring-branches-and-merges-in-your-repository/defining-the-mergeability-of-pull-requests/troubleshooting-required-status-checks#handling-skipped-but-required-checks
+name: habit service
+
+on:
+  push:
+    branches:
+      - '**'
+    paths-ignore:
+      - .github/workflows/prepare-release.yaml
+      - .github/workflows/build-java-service.yaml
+      - .github/workflows/parse-junit-results.yaml
+      - .github/workflows/build-docker.yaml
+      - .github/workflows/release.yaml
+      - .github/workflows/habit.yaml
+      - services/habit/**
+
+jobs:
+  build:
+    name: 🔨 Build and test backend service / habit
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required" '
+
+  docker:
+    name: 🔨 Build and push Docker image / habit
+    runs-on: ubuntu-latest
+    steps:
+      - run: 'echo "No build required" '
