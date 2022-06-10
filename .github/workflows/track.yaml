@@ -20,6 +20,7 @@ jobs:
       working-dir: ./services/track
 
   build:
+    name: 🔨 Build and test backend service
     uses: ./.github/workflows/build-java-service.yaml
     needs: prepare-release
     with:
@@ -27,6 +28,7 @@ jobs:
       version: ${{ needs.prepare-release.outputs.release-version }}
 
   docker:
+    name: 🔨 Build and push Docker image
     uses: ./.github/workflows/build-docker.yaml
     needs:
       - prepare-release

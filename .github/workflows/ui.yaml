@@ -19,7 +19,7 @@ jobs:
       working-dir: ./services/ui
 
   build:
-    name: 🔨 Build and test service
+    name: 🔨 Build and test UI
     runs-on: ubuntu-latest
     outputs:
       license-artifact-name: license-report
@@ -65,6 +65,7 @@ jobs:
           path: ./services/ui/license-report.zip
 
   docker:
+    name: 🔨 Build and push Docker image
     uses: ./.github/workflows/build-docker.yaml
     needs:
       - prepare-release

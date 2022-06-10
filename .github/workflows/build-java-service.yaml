@@ -19,7 +19,7 @@ on:
 
 jobs:
   build:
-    name: 🔨 Build and test service
+    name: ${{ inputs.service_name }}
     runs-on: ubuntu-latest
     outputs:
       jar-artifact-name: ${{ inputs.service_name }}-jar
