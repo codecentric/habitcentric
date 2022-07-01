@@ -5,6 +5,10 @@ environments:
   kuma:
   traefik-mesh:
 
+repositories:
+  - name: bitnami-archive-full-index
+    url: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+
 releases:
   - name: ui
     namespace: hc-ui
@@ -43,4 +47,3 @@ releases:
     values:
       - ./values/gateway-values.yaml.gotmpl
   {{- end }}
-

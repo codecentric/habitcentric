@@ -15,5 +15,5 @@ engine: gotpl
 dependencies:
   - name: postgresql
     version: 10.4.4
-    repository: https://charts.bitnami.com/bitnami
+    repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
     condition: persistence.deployPostgres
