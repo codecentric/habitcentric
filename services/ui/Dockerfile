@@ -7,7 +7,7 @@ COPY public public/
 COPY src src/
 RUN npm run build
 
-FROM nginx:1.21.6 as run
+FROM nginx:1.23.0 as run
 COPY --from=build /app/build /usr/share/nginx/html/dist
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY ./docker-entrypoint.sh /
