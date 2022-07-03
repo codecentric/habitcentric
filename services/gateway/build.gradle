@@ -1,7 +1,7 @@
 plugins {
     id 'org.springframework.boot' version '2.1.7.RELEASE'
     id 'java'
-    id 'com.diffplug.spotless' version '5.14.3'
+    id 'com.diffplug.spotless' version '5.17.1'
     id "io.freefair.lombok" version "6.2.0"
     id 'com.github.jk1.dependency-license-report' version '1.16'
 }
