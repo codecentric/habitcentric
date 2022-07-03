@@ -1,4 +1,4 @@
-FROM node:17.4.0 as build
+FROM node:17.9.1 as build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm install
