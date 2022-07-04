@@ -3,7 +3,7 @@ plugins {
     id 'org.flywaydb.flyway' version '7.14.1'
     id 'java'
     id 'com.diffplug.spotless' version '5.17.1'
-    id "io.freefair.lombok" version "6.1.0"
+    id "io.freefair.lombok" version "6.5.0.2"
     id 'com.github.jk1.dependency-license-report' version '1.19'
 }
 
