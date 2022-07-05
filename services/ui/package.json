@@ -7,7 +7,7 @@
   "dependencies": {
     "@headlessui/react": "1.6.5",
     "@heroicons/react": "1.0.6",
-    "@icons-pack/react-simple-icons": "4.6.1",
+    "@icons-pack/react-simple-icons": "4.7.2",
     "@popperjs/core": "2.11.5",
     "@tailwindcss/forms": "0.4.1",
     "@testing-library/jest-dom": "5.16.4",
