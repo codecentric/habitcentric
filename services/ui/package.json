@@ -61,7 +61,7 @@
   "devDependencies": {
     "@testing-library/user-event": "14.2.1",
     "@types/react-datepicker": "4.4.1",
-    "autoprefixer": "10.4.5",
+    "autoprefixer": "10.4.7",
     "env-cmd": "10.1.0",
     "jest-junit": "13.2.0",
     "license-checker-rseidelsohn": "3.1.0",
