@@ -21,7 +21,7 @@ jobs:
       - name: ⬇️ Checkout
         uses: actions/checkout@v2
       - name: 🏗 Setup node env
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: lts/*
           cache-dependency-path: package-lock.json
