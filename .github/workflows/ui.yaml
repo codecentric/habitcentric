@@ -46,7 +46,7 @@ jobs:
           name: test-results
           path: ./services/ui/junit.xml
       - name: 🔎 Upload coverage report
-        uses: codecov/codecov-action@v2
+        uses: codecov/codecov-action@v3
         with:
           files: ./services/ui/coverage/cobertura-coverage.xml
           name: habitcentric/ui
