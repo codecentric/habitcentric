@@ -63,7 +63,7 @@
     "@types/react-datepicker": "4.4.2",
     "autoprefixer": "10.4.7",
     "env-cmd": "10.1.0",
-    "jest-junit": "13.2.0",
+    "jest-junit": "14.0.0",
     "license-checker-rseidelsohn": "3.1.0",
     "msw": "0.43.1",
     "postcss": "8.4.14",
