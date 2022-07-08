@@ -1,15 +1,12 @@
 import HabitList from "./HabitList";
-import {
-  screen,
-  waitFor,
-  waitForElementToBeRemoved,
-  within,
-} from "@testing-library/react";
+import { screen, waitFor, waitForElementToBeRemoved, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import { renderWithoutSwrCache } from "../../../test-utils/swr/RenderWithoutSwrCache";
 import { trackedDatesMap } from "../../../test-utils/mocks/handlers";
 import { format } from "date-fns";
+
+jest.mock("../../api/track/api");
 
 it("renders list of three habits", async () => {
   renderWithoutSwrCache(<HabitList />);
@@ -63,9 +60,7 @@ it("filters habits by name based on search query", async () => {
 
   const items = screen.queryAllByRole("listitem");
   expect(items.length).toEqual(1);
-  expect(
-    within(items[0]).getByRole("heading", { name: "Jogging" })
-  ).toBeInTheDocument();
+  expect(within(items[0]).getByRole("heading", { name: "Jogging" })).toBeInTheDocument();
 });
 
 it("filters habits by schedule based on search query", async () => {
@@ -76,9 +71,7 @@ it("filters habits by schedule based on search query", async () => {
 
   const items = screen.queryAllByRole("listitem");
   expect(items.length).toEqual(1);
-  expect(
-    within(items[0]).getByRole("heading", { name: "Jogging" })
-  ).toBeInTheDocument();
+  expect(within(items[0]).getByRole("heading", { name: "Jogging" })).toBeInTheDocument();
 });
 
 it("should open datepicker when track button is clicked", async () => {
@@ -119,9 +112,7 @@ it("should highlight date when date is selected", async () => {
   });
   await userEvent.click(days[10]);
 
-  await waitFor(() =>
-    expect(days[10]).toHaveClass("react-datepicker__day--highlighted")
-  );
+  await waitFor(() => expect(days[10]).toHaveClass("react-datepicker__day--highlighted"));
 });
 
 async function clickJoggingTrackButton() {
