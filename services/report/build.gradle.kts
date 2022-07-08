@@ -4,7 +4,7 @@ plugins {
     id("org.openapi.generator") version "5.4.0"
     id("com.github.jk1.dependency-license-report") version "1.19"
     id("org.springframework.boot") version "2.2.5.RELEASE"
-    id("com.diffplug.spotless") version "5.17.1"
+    id("com.diffplug.spotless") version "6.8.0"
     kotlin("jvm") version "1.6.10"
     kotlin("kapt") version "1.6.10"
     kotlin("plugin.spring") version "1.6.10"
