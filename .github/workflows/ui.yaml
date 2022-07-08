@@ -40,7 +40,7 @@ jobs:
         working-directory: ./services/ui
         run: npm run test:ci
       - name: 📦 Upload test results
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         if: always()
         with:
           name: test-results
@@ -59,7 +59,7 @@ jobs:
           npm run license-report >licenses.txt
           zip -r license-report.zip licenses licenses.txt
       - name: 📦 Upload license report
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: license-report
           path: ./services/ui/license-report.zip
