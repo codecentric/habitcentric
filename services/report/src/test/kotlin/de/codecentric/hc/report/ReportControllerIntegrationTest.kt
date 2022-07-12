@@ -23,7 +23,7 @@ internal class ReportControllerIntegrationTest {
         every { reportService.calculateAchievementRates() } returns AchievementRates(0.42, 0.42)
 
         mockMvc.get("/report/achievement").andExpect {
-            status { isOk }
+            status { isOk() }
             jsonPath("$.week") { value(42.0) }
         }
     }

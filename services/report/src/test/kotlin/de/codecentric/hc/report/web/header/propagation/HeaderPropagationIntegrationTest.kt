@@ -19,7 +19,7 @@ import org.springframework.test.context.ContextConfiguration
 import java.net.URI
 
 @SpringBootTest(
-        properties = ["spring.sleuth.http.enabled=false"],
+        properties = ["spring.sleuth.enabled=false"],
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration(initializers = [HeaderPropagationIntegrationTest.Initializer::class])
 class HeaderPropagationIntegrationTest {
