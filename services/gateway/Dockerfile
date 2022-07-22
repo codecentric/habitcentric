@@ -1,4 +1,4 @@
-FROM openjdk:11.0.15-jre-slim-buster@sha256:b744cc7f7856d7d6a37633e5501b2938aa16e3a16218170cec691d2a8c17b0ca
+FROM openjdk:11.0.15-jre-slim-buster@sha256:d96b1affdca115786f193e6b420c11699f5fde3df730ceac128d840a2aa51073
 WORKDIR /opt/
 COPY build/libs/gateway-*.jar app.jar
 EXPOSE 9000
