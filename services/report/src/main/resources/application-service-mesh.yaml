@@ -1,4 +1,3 @@
 spring:
   sleuth:
-    http:
-      enabled: false
+    enabled: false

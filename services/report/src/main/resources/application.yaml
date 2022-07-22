@@ -13,7 +13,8 @@ spring:
   profiles:
     active: chaos-monkey
   sleuth:
-    propagation-keys: authorization
+    baggage:
+      remote-fields: authorization
   jackson:
     default-property-inclusion: NON_NULL
 server:

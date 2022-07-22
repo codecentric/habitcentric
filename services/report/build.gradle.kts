@@ -1,13 +1,14 @@
+import io.spring.gradle.dependencymanagement.dsl.DependencyManagementExtension
+import io.spring.gradle.dependencymanagement.dsl.ImportsHandler
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.openapi.generator") version "5.4.0"
     id("com.github.jk1.dependency-license-report") version "2.1"
-    id("org.springframework.boot") version "2.2.5.RELEASE"
+    id("org.springframework.boot") version "2.7.1"
     id("com.diffplug.spotless") version "6.8.0"
-    kotlin("jvm") version "1.6.10"
-    kotlin("kapt") version "1.6.10"
-    kotlin("plugin.spring") version "1.6.10"
+    kotlin("jvm") version "1.7.10"
+    kotlin("plugin.spring") version "1.7.10"
     // we should switch to the plugin but enabling it causes warnings for the openapi generator
     //id("io.freefair.lombok") version "6.2.0"
 }
@@ -49,18 +50,17 @@ extra["mockkVersion"] = "1.12.0"
 extra["springMockkVersion"] = "2.0.3"
 extra["wiremockVersion"] = "2.27.2"
 extra["moschiVersion"] = "1.9.2"
-extra["springCloudVersion"] = "Hoxton.SR9"
+extra["springCloudVersion"] = "2021.0.3"
 
 dependencies {
     implementation("com.squareup.moshi:moshi:${property("moschiVersion")}")
-    kapt("org.springframework.boot:spring-boot-configuration-processor")
-
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation(platform("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}"))
     implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
-    implementation("org.springframework.cloud:spring-cloud-starter-zipkin")
+    implementation("org.springframework.cloud:spring-cloud-sleuth-zipkin")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -69,6 +69,7 @@ dependencies {
     runtimeOnly("de.codecentric:chaos-monkey-spring-boot:${property("chaosMonkeyVersion")}")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
         exclude(module = "mockito-core")
