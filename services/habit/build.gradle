@@ -63,7 +63,7 @@ ext {
             chaosMonkey       : '2.5.1',
             testcontainers    : '1.15.3',
             postgresql        : '42.2.23',
-            springfox         : '2.9.2',
+            springdoc         : '1.6.9',
             liquibase         : '4.4.3',
             pactProvider      : '3.6.12',
             springCloudVersion: '2021.0.3',
@@ -82,8 +82,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
-    implementation "io.springfox:springfox-swagger2:$versions.springfox"
-    implementation "io.springfox:springfox-swagger-ui:$versions.springfox"
+    implementation "org.springdoc:springdoc-openapi-ui:$versions.springdoc"
     implementation platform("org.springframework.cloud:spring-cloud-dependencies:$versions.springCloudVersion")
     implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
     runtimeOnly "org.postgresql:postgresql:$versions.postgresql"

@@ -31,3 +31,7 @@ server:
     # some integration tests rely on the error details
     include-message: always
     include-binding-errors: always
+
+springdoc:
+  packages-to-scan: de.codecentric.hc.habit
+  paths-to-match: /habits/**

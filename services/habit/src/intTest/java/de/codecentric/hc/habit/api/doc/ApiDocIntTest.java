@@ -15,7 +15,7 @@ public class ApiDocIntTest extends RestAssuredTest {
   public void shouldReturnOpenApiSpecAsJson() {
     given()
         .when()
-        .get("/v2/api-docs")
+        .get("/v3/api-docs")
         .then()
         .statusCode(200)
         .contentType(JSON)
