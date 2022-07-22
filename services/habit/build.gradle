@@ -66,7 +66,7 @@ ext {
             springfox         : '2.9.2',
             liquibase         : '4.4.3',
             pactProvider      : '3.6.12',
-            springCloudVersion: 'Greenwich.SR6',
+            springCloudVersion: '2021.0.3',
             jna               : '5.8.0'
     ]
 }
@@ -76,6 +76,7 @@ ext['jna.version'] = versions.jna // Required for Docker on ARM
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -83,7 +84,7 @@ dependencies {
     implementation "io.springfox:springfox-swagger2:$versions.springfox"
     implementation "io.springfox:springfox-swagger-ui:$versions.springfox"
     implementation platform("org.springframework.cloud:spring-cloud-dependencies:$versions.springCloudVersion")
-    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+    implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
     runtimeOnly "org.postgresql:postgresql:$versions.postgresql"
     runtimeOnly "org.liquibase:liquibase-core:$versions.liquibase"
     runtimeOnly "de.codecentric:chaos-monkey-spring-boot:$versions.chaosMonkey"
