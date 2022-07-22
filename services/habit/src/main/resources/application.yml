@@ -27,3 +27,7 @@ logging:
     liquibase.executor: WARN
 server:
   port: 9001
+  error:
+    # some integration tests rely on the error details
+    include-message: always
+    include-binding-errors: always
