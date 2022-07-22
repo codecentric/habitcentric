@@ -17,9 +17,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import org.testcontainers.containers.JdbcDatabaseContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
@@ -28,8 +25,6 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
   private final String urlTemplate = "/track/users/{userId}/habits/{habitId}";
   private final String userId = "abc.def";
   private final Long habitId = 123L;
-
-  @Container public static final JdbcDatabaseContainer DATABASE = new PostgreSQLContainer();
 
   @Autowired private JdbcTemplate jdbcTemplate;
 

@@ -67,7 +67,8 @@ ext {
             liquibase         : '4.4.3',
             pactProvider      : '3.6.12',
             springCloudVersion: '2021.0.3',
-            jna               : '5.8.0'
+            jna               : '5.8.0',
+            preliquibase      : '1.1.1'
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce
@@ -92,6 +93,12 @@ dependencies {
     liquibaseRuntime "org.postgresql:postgresql:$versions.postgresql"
     liquibaseRuntime "ch.qos.logback:logback-core"
     liquibaseRuntime "ch.qos.logback:logback-classic"
+    // Liquibase cannot create the schema by itself like flyway and spring boot did never intent
+    // for the schema.sql mechanism to work alongside a high level schema migration tool.
+    // The behaviour we relied on to create the schema was never supported and is fixed since
+    // spring boot 2.5.
+    // see: https://github.com/spring-projects/spring-boot/issues/22741
+    implementation "net.lbruun.springboot:preliquibase-spring-boot-starter:$versions.preliquibase"
     testImplementation "org.junit.jupiter:junit-jupiter:"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     intTestImplementation "au.com.dius:pact-jvm-provider-junit5_2.12:$versions.pactProvider"
