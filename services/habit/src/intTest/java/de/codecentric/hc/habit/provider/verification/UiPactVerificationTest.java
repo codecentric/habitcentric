@@ -18,9 +18,6 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import org.testcontainers.containers.JdbcDatabaseContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @ActiveProfiles("intTest")
@@ -37,8 +34,6 @@ public class UiPactVerificationTest {
   private static final String TABLE_NAME = "hc_habit.HABIT";
   private static final String INSERT_STATEMENT =
       "INSERT INTO hc_habit.habit (id, name, repetitions, frequency, user_id) VALUES (?, ? , ?, ?, ?)";
-
-  @Container public static final JdbcDatabaseContainer DATABASE = new PostgreSQLContainer();
 
   @Autowired private JdbcTemplate jdbcTemplate;
 

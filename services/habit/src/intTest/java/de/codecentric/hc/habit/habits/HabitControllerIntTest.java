@@ -30,9 +30,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.jdbc.JdbcTestUtils;
-import org.testcontainers.containers.JdbcDatabaseContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
@@ -41,8 +38,6 @@ public class HabitControllerIntTest extends RestAssuredTest {
   private static final String TABLE_NAME = "hc_habit.HABIT";
   private static final Header DEFAULT_USER_ID_HEADER = new Header(HttpHeaders.USER_ID, "default");
   private static final Schedule DEFAULT_SCHEDULE = new Schedule(1, DAILY);
-
-  @Container public static final JdbcDatabaseContainer DATABASE = new PostgreSQLContainer();
 
   @Autowired private JdbcTemplate jdbcTemplate;
 

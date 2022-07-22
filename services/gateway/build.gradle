@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.7.RELEASE'
+    id 'org.springframework.boot' version '2.7.2'
     id 'java'
     id 'com.diffplug.spotless' version '6.8.0'
     id "io.freefair.lombok" version "6.5.0.3"
@@ -33,7 +33,7 @@ repositories {
 }
 
 ext {
-    springCloudVersion = 'Greenwich.SR2'
+    springCloudVersion = '2021.0.3'
     versions = [
             restAssured   : '4.0.0',
             junitJupiter  : '5.8.0',
@@ -50,9 +50,9 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
-    implementation 'org.springframework.cloud:spring-cloud-starter-security'
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testImplementation 'org.junit.jupiter:junit-jupiter-params'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {

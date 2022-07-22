@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.1.3.RELEASE'
+    id 'org.springframework.boot' version '2.7.2'
     id 'org.liquibase.gradle' version '2.1.1'
     id 'java'
     id 'com.diffplug.spotless' version '6.8.0'
@@ -63,11 +63,12 @@ ext {
             chaosMonkey       : '2.5.1',
             testcontainers    : '1.15.3',
             postgresql        : '42.2.23',
-            springfox         : '2.9.2',
+            springdoc         : '1.6.9',
             liquibase         : '4.4.3',
             pactProvider      : '3.6.12',
-            springCloudVersion: 'Greenwich.SR6',
-            jna               : '5.8.0'
+            springCloudVersion: '2021.0.3',
+            jna               : '5.8.0',
+            preliquibase      : '1.1.1'
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce
@@ -76,14 +77,14 @@ ext['jna.version'] = versions.jna // Required for Docker on ARM
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
-    implementation "io.springfox:springfox-swagger2:$versions.springfox"
-    implementation "io.springfox:springfox-swagger-ui:$versions.springfox"
+    implementation "org.springdoc:springdoc-openapi-ui:$versions.springdoc"
     implementation platform("org.springframework.cloud:spring-cloud-dependencies:$versions.springCloudVersion")
-    implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+    implementation 'org.springframework.cloud:spring-cloud-sleuth-zipkin'
     runtimeOnly "org.postgresql:postgresql:$versions.postgresql"
     runtimeOnly "org.liquibase:liquibase-core:$versions.liquibase"
     runtimeOnly "de.codecentric:chaos-monkey-spring-boot:$versions.chaosMonkey"
@@ -91,6 +92,12 @@ dependencies {
     liquibaseRuntime "org.postgresql:postgresql:$versions.postgresql"
     liquibaseRuntime "ch.qos.logback:logback-core"
     liquibaseRuntime "ch.qos.logback:logback-classic"
+    // Liquibase cannot create the schema by itself like flyway and spring boot did never intent
+    // for the schema.sql mechanism to work alongside a high level schema migration tool.
+    // The behaviour we relied on to create the schema was never supported and is fixed since
+    // spring boot 2.5.
+    // see: https://github.com/spring-projects/spring-boot/issues/22741
+    implementation "net.lbruun.springboot:preliquibase-spring-boot-starter:$versions.preliquibase"
     testImplementation "org.junit.jupiter:junit-jupiter:"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     intTestImplementation "au.com.dius:pact-jvm-provider-junit5_2.12:$versions.pactProvider"

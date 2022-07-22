@@ -8,7 +8,6 @@ spring:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:10001}/${DB_NAME:postgres}
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
-    initialization-mode: always
   jackson:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
@@ -28,3 +27,11 @@ logging:
     liquibase.executor: WARN
 server:
   port: 9001
+  error:
+    # some integration tests rely on the error details
+    include-message: always
+    include-binding-errors: always
+
+springdoc:
+  packages-to-scan: de.codecentric.hc.habit
+  paths-to-match: /habits/**

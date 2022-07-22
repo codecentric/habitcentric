@@ -27,3 +27,7 @@ spring:
             non_contextual_creation: true
 server:
   port: 9002
+  error:
+    # some integration tests rely on the error details
+    include-message: always
+    include-binding-errors: always

@@ -1,6 +1,6 @@
 spring:
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:postgresql:9.6.8://localhost/postgres
+    url: jdbc:tc:postgresql:14://localhost/postgres
   liquibase:
     test-rollback-on-update: true
