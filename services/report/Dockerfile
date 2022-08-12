@@ -1,4 +1,4 @@
-FROM openjdk:11.0.15-jre-slim-buster@sha256:d96b1affdca115786f193e6b420c11699f5fde3df730ceac128d840a2aa51073
+FROM openjdk:11.0.16-jre-slim-buster@sha256:d030d27043616146d95daafc3a3b588cbfd43311cf8a164177c949cad4f2dab3
 WORKDIR /opt/
 COPY build/libs/report-*.jar app.jar
 EXPOSE 9003
