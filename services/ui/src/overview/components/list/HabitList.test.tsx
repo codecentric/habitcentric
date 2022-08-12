@@ -112,7 +112,9 @@ it("should highlight date when date is selected", async () => {
   });
   await userEvent.click(days[10]);
 
-  await waitFor(() => expect(days[10]).toHaveClass("react-datepicker__day--highlighted"));
+  await waitFor(() => expect(days[10]).toHaveClass("react-datepicker__day--highlighted"), {
+    timeout: 10000,
+  });
 });
 
 async function clickJoggingTrackButton() {
