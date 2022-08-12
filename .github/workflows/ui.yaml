@@ -53,6 +53,11 @@ jobs:
       - name: 🏗 Build
         working-directory: ./services/ui
         run: npm run build
+      - name: 📦 Upload build
+        uses: actions/upload-artifact@v3
+        with:
+          name: ui-build
+          path: ./services/ui/build
       - name: 📋 Generate license report
         working-directory: ./services/ui
         run: |
@@ -74,6 +79,8 @@ jobs:
       image-name: ui
       working-dir: ./services/ui
       version: ${{ needs.prepare-release.outputs.release-version }}
+      artifact-name: ui-build
+      artifact-path: ./services/ui/build
 
   github-release:
     uses: ./.github/workflows/release.yaml
