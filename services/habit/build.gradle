@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.2'
+    id 'org.springframework.boot' version '2.7.3'
     id 'org.liquibase.gradle' version '2.1.1'
     id 'java'
     id 'com.diffplug.spotless' version '6.9.1'
