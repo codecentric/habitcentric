@@ -147,6 +147,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: keycloak-http
+            name: keycloak-keycloakx-http
             port:
               number: 8080

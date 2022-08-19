@@ -134,5 +134,5 @@ spec:
       paths:
       - path: /auth
         backend:
-          serviceName: keycloak-http
+          serviceName: keycloak-keycloakx-http
           servicePort: 8080
