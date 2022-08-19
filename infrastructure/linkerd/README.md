@@ -32,7 +32,7 @@ linkerd check --pre
 
 # If all checks pass, install Linkerd
 # (you may verify the output before piping it to kubectl, if you want)
-linkerd install | kubectl apply -f -
+linkerd install --set proxyInit.runAsRoot=true | kubectl apply -f -
 
 # Perform a post-installation check that will also wait for all components
 # to start properly
