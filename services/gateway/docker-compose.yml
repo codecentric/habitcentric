@@ -1,20 +1,35 @@
 version: '3.1'
 services:
   auth-keycloak:
-    image: jboss/keycloak:16.1.1
+    image: quay.io/keycloak/keycloak:19.0.1
+    entrypoint:
+      - sh
+      - "-c"
+    command:
+      - |
+        /opt/keycloak/bin/kc.sh \
+          --verbose \
+          start \
+          --auto-build \
+          --import-realm \
+          --http-enabled=true \
+          --http-port=8080 \
+          --hostname-strict=false \
+          --hostname-strict-https=false
     ports:
       - "8080:8080"
     environment:
-      KEYCLOAK_USER: keycloak
-      KEYCLOAK_PASSWORD: keycloak
-      KEYCLOAK_IMPORT: /realm/realm.json
-      DB_VENDOR: postgres
-      DB_ADDR: auth-keycloak-db
-      DB_PORT: 10003
-      DB_USER: keycloak
-      DB_PASSWORD: password
+      KEYCLOAK_ADMIN: keycloak
+      KEYCLOAK_ADMIN_PASSWORD: keycloak
+      KC_DB: postgres
+      KC_DB_URL_HOST: auth-keycloak-db
+      KC_DB_URL_PORT: 10003
+      KC_DB_URL_DATABASE: keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: password
+      KC_HTTP_RELATIVE_PATH: /auth
     volumes:
-      - ../../infrastructure/keycloak/realm.json:/realm/realm.json
+      - ../../infrastructure/keycloak/realm.json:/opt/keycloak/data/import/realm.json
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/auth" ]
       interval: 30s
