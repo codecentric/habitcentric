@@ -263,6 +263,10 @@ ij_java_wrap_comments = true
 ij_java_wrap_first_method_in_call_chain = false
 ij_java_wrap_long_lines = false
 
+[*.groovy]
+indent_size = 4
+ij_continuation_indent_size = 8
+
 [{*.pom, *.wsdl, *.xml}]
 ij_continuation_indent_size = 2
 ij_xml_align_attributes = true
