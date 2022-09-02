@@ -58,7 +58,7 @@ spec:
   action: ALLOW
   selector:
     matchLabels:
-      app.kubernetes.io/name: keycloak
+      app.kubernetes.io/name: keycloakx
       app.kubernetes.io/instance: keycloak
   rules:
   # rule to allow unrestricted access from requests forwarded by the ingress gateway
@@ -83,10 +83,10 @@ spec:
   action: ALLOW
   selector:
     matchLabels:
-      app: postgresql
-      release: keycloak
+      app.kubernetes.io/name: postgresql
+      app.kubernetes.io/instance: keycloak-postgresql
   rules:
   - from:
     - source:
         principals:
-        - cluster.local/ns/hc-keycloak/sa/keycloak
+        - cluster.local/ns/hc-keycloak/sa/keycloak-keycloakx
