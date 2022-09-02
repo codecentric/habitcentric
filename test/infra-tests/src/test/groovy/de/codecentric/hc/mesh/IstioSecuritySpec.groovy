@@ -74,7 +74,7 @@ class IstioSecuritySpec extends Specification {
         "track"             | "curl track.hc-track:9002"                                                 || "RBAC: access denied"
         "track-postgres"    | "psql -h track-track-postgresql.hc-track -p 10002 -c \"SELECT 'nope'\" -w" || ".*\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
         "report"            | "curl report.hc-report:9003"                                               || "RBAC: access denied"
-        "keycloak"          | "curl keycloak-http.hc-keycloak:8080"                                      || "RBAC: access denied"
-        "keycloak-postgres" | "psql -h keycloak-postgresql.hc-keycloak -p 10003 -c \"SELECT 'nope'\" -w" || ".*\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
+        "keycloak"          | "curl keycloak-keycloakx-http.hc-keycloak:8080"                            || "RBAC: access denied"
+        "keycloak-postgres" | "psql -h keycloak-postgresql.hc-keycloak -p 5432 -c \"SELECT 'nope'\" -w"  || ".*\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request.\n"
     }
 }
