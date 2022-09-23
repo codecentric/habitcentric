@@ -28,6 +28,14 @@ let habits = [
       repetitions: 6,
     },
   },
+  {
+    id: 4,
+    name: "Cooking",
+    schedule: {
+      frequency: "YEARLY",
+      repetitions: 50,
+    },
+  },
 ];
 
 function todayMinusDays(days: number): Date {
@@ -37,7 +45,8 @@ function todayMinusDays(days: number): Date {
 export const trackedDatesMap = new Map<number, TrackedDates>([
   [1, [todayMinusDays(1), todayMinusDays(2)]],
   [2, [todayMinusDays(3), todayMinusDays(4)]],
-  [3, [todayMinusDays(5), todayMinusDays(6)]],
+  [3, []],
+  [4, [todayMinusDays(0)]],
 ]);
 
 const achievement = {

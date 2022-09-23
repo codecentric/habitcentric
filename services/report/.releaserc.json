@@ -9,7 +9,7 @@
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     ["@semantic-release/exec", {
-      "prepareCmd": "mkdir -p release && echo '${nextRelease.version}' > release/version.txt && echo '${nextRelease.notes}' > release/notes.md"
+      "prepareCmd": "mkdir -p release && echo '${nextRelease.version}' > release/version.txt && echo '${nextRelease.notes.replaceAll('\\'', '\\'\"\\'\"\\'')}' > release/notes.md"
     }]
   ],
   "skipTag": true,

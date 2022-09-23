@@ -6,20 +6,18 @@ import { renderWithoutSwrCache } from "../../../test-utils/swr/RenderWithoutSwrC
 import { trackedDatesMap } from "../../../test-utils/mocks/handlers";
 import { format } from "date-fns";
 
-jest.mock("../../api/track/api");
-
-it("renders list of three habits", async () => {
+it("renders list of four habits", async () => {
   renderWithoutSwrCache(<HabitList />);
   const list = await screen.findByRole("list", { name: /habits/i });
   const items = within(list).getAllByRole("listitem");
-  expect(items.length).toEqual(3);
+  expect(items.length).toEqual(4);
 });
 
 it("renders habit titles", async () => {
   renderWithoutSwrCache(<HabitList />);
   const items = await screen.findAllByRole("listitem");
   const titles = items.map((i) => within(i).getByRole("heading").textContent);
-  expect(titles).toEqual(["Jogging", "Programming", "Working out"]);
+  expect(titles).toEqual(["Jogging", "Programming", "Working out", "Cooking"]);
 });
 
 it("renders habit schedule", async () => {
@@ -27,6 +25,7 @@ it("renders habit schedule", async () => {
   expect(await screen.findByText(/once per day/i)).toBeInTheDocument();
   expect(await screen.findByText(/twice per week/i)).toBeInTheDocument();
   expect(await screen.findByText(/6 times per month/i)).toBeInTheDocument();
+  expect(await screen.findByText(/50 times per year/i)).toBeInTheDocument();
 });
 
 it("renders habit track buttons", async () => {
@@ -89,11 +88,8 @@ it("should open datepicker when track button is clicked", async () => {
 it("should highlight already tracked dates when datepicker is open", async () => {
   renderWithoutSwrCache(<HabitList />);
 
-  await clickJoggingTrackButton();
-  const regexForTrackedDates = `${format(
-    trackedDatesMap.get(1)![0],
-    "EEEE, MMMM do, yyyy"
-  )}|${format(trackedDatesMap.get(1)![1], "EEEE, MMMM do, yyyy")}`;
+  await clickCookingTrackButton();
+  const regexForTrackedDates = `${format(trackedDatesMap.get(4)![0], "EEEE, MMMM do, yyyy")}`;
 
   const alreadyTrackedDays = await screen.findAllByRole("option", {
     name: new RegExp(regexForTrackedDates, "i"),
@@ -106,20 +102,32 @@ it("should highlight already tracked dates when datepicker is open", async () =>
 it("should highlight date when date is selected", async () => {
   renderWithoutSwrCache(<HabitList />);
 
-  await clickJoggingTrackButton();
+  await clickWorkingOutTrackButton();
   let days = await screen.findAllByRole("option", {
     name: /Choose/i,
   });
   await userEvent.click(days[10]);
 
-  await waitFor(() => expect(days[10]).toHaveClass("react-datepicker__day--highlighted"), {
-    timeout: 10000,
-  });
+  await waitFor(() => expect(days[10]).toHaveClass("react-datepicker__day--highlighted"));
 });
 
 async function clickJoggingTrackButton() {
   const trackButton = await screen.findByRole("button", {
     name: /track jogging habit/i,
+  });
+  await userEvent.click(trackButton);
+}
+
+async function clickCookingTrackButton() {
+  const trackButton = await screen.findByRole("button", {
+    name: /track cooking habit/i,
+  });
+  await userEvent.click(trackButton);
+}
+
+async function clickWorkingOutTrackButton() {
+  const trackButton = await screen.findByRole("button", {
+    name: /track working out habit/i,
   });
   await userEvent.click(trackButton);
 }
