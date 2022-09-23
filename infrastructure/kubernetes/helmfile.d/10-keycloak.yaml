@@ -3,6 +3,8 @@ repositories:
     url: https://codecentric.github.io/helm-charts
   - name: incubator
     url: https://charts.helm.sh/incubator
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
 
 environments:
   default:
@@ -12,6 +14,14 @@ environments:
   traefik-mesh:
 
 releases:
+  - name: keycloak-postgresql
+    namespace: hc-keycloak
+    labels:
+      service: keycloak
+    chart: bitnami/postgresql
+    version: 11.1.23
+    values:
+      - ./values/keycloak-postgresql-values.yaml.gotmpl
   - name: keycloak-realm-config
     namespace: hc-keycloak
     chart: incubator/raw
@@ -29,7 +39,7 @@ releases:
     namespace: hc-keycloak
     labels:
       service: keycloak
-    chart: codecentric/keycloak
-    version: 16.0.5
+    chart: codecentric/keycloakx
+    version: 1.6.0
     values:
       - ./values/keycloak-values.yaml.gotmpl

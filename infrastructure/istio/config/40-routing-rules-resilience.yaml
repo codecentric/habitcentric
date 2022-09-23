@@ -170,7 +170,7 @@ spec:
         prefix: /auth
     route:
     - destination:
-        host: keycloak-http
+        host: keycloak-keycloakx-http
         port:
           number: 8080
 ---

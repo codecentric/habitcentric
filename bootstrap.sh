@@ -149,7 +149,7 @@ habitcentric_istio_deploy() {
   habitcentric_deploy "istio"
   # wait for keycloak before progressing, istiod needs to be able to pull the key set from keycloak
   # https://github.com/istio/istio/issues/29436
-  wait_for_ready_replica "statefulset" 1 "keycloak" "hc-keycloak"
+  wait_for_ready_replica "statefulset" 1 "keycloak-keycloakx" "hc-keycloak"
   istio_deploy
 
   echo

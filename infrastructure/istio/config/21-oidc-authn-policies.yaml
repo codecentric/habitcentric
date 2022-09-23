@@ -9,10 +9,10 @@ spec:
       istio: ingressgateway
   jwtRules:
     - issuer: https://habitcentric.demo/auth/realms/habitcentric
-      jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+      jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
       forwardOriginalToken: true
     - issuer: http://habitcentric.demo/auth/realms/habitcentric
-      jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+      jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
       forwardOriginalToken: true
 ---
 apiVersion: security.istio.io/v1beta1
@@ -27,10 +27,10 @@ spec:
       app.kubernetes.io/instance: habit
   jwtRules:
   - issuer: https://habitcentric.demo/auth/realms/habitcentric
-    jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+    jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
     forwardOriginalToken: true
   - issuer: http://habitcentric.demo/auth/realms/habitcentric
-    jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+    jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
     forwardOriginalToken: true
 ---
 apiVersion: security.istio.io/v1beta1
@@ -45,10 +45,10 @@ spec:
       app.kubernetes.io/instance: track
   jwtRules:
   - issuer: https://habitcentric.demo/auth/realms/habitcentric
-    jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+    jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
     forwardOriginalToken: true
   - issuer: http://habitcentric.demo/auth/realms/habitcentric
-    jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+    jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
     forwardOriginalToken: true
 ---
 apiVersion: security.istio.io/v1beta1
@@ -63,10 +63,10 @@ spec:
       app.kubernetes.io/instance: report
   jwtRules:
   - issuer: https://habitcentric.demo/auth/realms/habitcentric
-    jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+    jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
     forwardOriginalToken: true
   - issuer: http://habitcentric.demo/auth/realms/habitcentric
-    jwksUri: http://keycloak-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
+    jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
     forwardOriginalToken: true
 ---
 apiVersion: security.istio.io/v1beta1
