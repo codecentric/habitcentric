@@ -13,7 +13,7 @@ This configuration showcases Istio's features based on a habitcentric Kubernetes
 - Locally installed [helmfile CLI](https://github.com/roboll/helmfile#installation)  (version >= 0.9.3)
 - Locally installed [Helm CLI](https://helm.sh/docs/using_helm/#install-helm) (version >= 3.4.0) with [Helm Diff plugin](https://github.com/databus23/helm-diff#install) (version >= 3.1.0)
 
-> This guide is based on Istio 1.12.2
+> This guide is based on Istio 1.15.0
 
 ## Install Istio
 
