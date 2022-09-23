@@ -16,7 +16,7 @@
     "@types/node": "16.11.59",
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
-    "date-fns": "2.29.1",
+    "date-fns": "2.29.3",
     "oidc-client-ts": "2.0.5",
     "react": "17.0.2",
     "react-datepicker": "4.8.0",
