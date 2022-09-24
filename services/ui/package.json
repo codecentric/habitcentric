@@ -14,7 +14,7 @@
     "@testing-library/react": "12.1.5",
     "@types/jest": "28.1.8",
     "@types/node": "16.11.60",
-    "@types/react": "18.0.17",
+    "@types/react": "18.0.21",
     "@types/react-dom": "18.0.6",
     "date-fns": "2.29.3",
     "oidc-client-ts": "2.0.5",
