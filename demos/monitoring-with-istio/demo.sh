@@ -17,7 +17,7 @@ read -s
 
 desc "Wir starten mit der Routing-Konfiguration für habitcentric"
 DEMO_AUTO_RUN=y run "cd ./infrastructure/istio"
-run "kubectl apply -f config/20-gateway-with-tls.yaml && kubectl apply -f config/11-routing-rules.yaml"
+run "kubectl apply -f config/20-gateway-with-tls.yaml && kubectl apply -f config/11-routing-rules.yaml && kubectl apply -f config/30-canary-workload-subsets.yaml && kubectl apply -f config/31-routing-rules-canary.yaml"
 
 desc "Schauen wir uns die mal im Detail an.."
 run "cat config/11-routing-rules.yaml"
