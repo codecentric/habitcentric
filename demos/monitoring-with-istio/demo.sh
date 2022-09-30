@@ -34,11 +34,10 @@ desc "Werfen wir einen Blick auf unsere Metriken!"
 run "open http://jaeger.demo && open http://grafana.demo && open http://kiali.demo"
 
 desc "Was wären Metriken ohne ein bisschen Chaos.."
-DEMO_AUTO_RUN=y DEMO_RUN_FAST=y run "curl -k --request POST --url https://habitcentric.demo/report/actuator/chaosmonkey/enable"
-DEMO_RUN_FAST=y run "curl -k --request POST --url https://habitcentric.demo/report/actuator/chaosmonkey/assaults --header 'Content-Type: application/json' --data '{ \"level\": 3, \"exceptionsActive\": \"true\" }'"
+DEMO_AUTO_RUN=y run "cd ../../infrastructure/istio"
+run "kubectl apply -f config/41-fault-injection.yaml"
 
 desc "Schauen wir mal, was sich durch ein paar Retries verbessern lässt"
-DEMO_AUTO_RUN=y run "cd ../../infrastructure/istio"
 run "kubectl apply -f config/40-routing-rules-resilience.yaml"
 
 desc "Und zu guter letzt werfen wir noch einmal einen Blick in unsere Retry-Konfiguration"
