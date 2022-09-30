@@ -6,11 +6,11 @@ cd ../..
 
 
 desc "Wir erstellen einen Minikube Cluster"
-DEMO_RUN_FAST=y run "minikube start --memory=8192 --cpus=6" "$SUDO_USER"
+DEMO_RUN_FAST=y run "minikube start --memory=8192 --cpus=6 --cni flannel" "$SUDO_USER"
 
 desc "Und deployen Istio"
 DEMO_AUTO_RUN=y run "cd ./infrastructure/istio"
-run "helmfile apply"
+run "helmfile --environment cni apply"
 
 desc "Minikube Load Balancer"
 run "minikube tunnel > /dev/null 2>&1 &"
