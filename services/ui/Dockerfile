@@ -1,4 +1,4 @@
-FROM nginx:1.23.1
+FROM nginx:1.23.2
 COPY build/ /usr/share/nginx/html/dist
 COPY nginx.conf /etc/nginx/nginx.conf
 COPY ./docker-entrypoint.sh /
