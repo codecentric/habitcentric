@@ -49,7 +49,7 @@ extra["chaosMonkeyVersion"] = "2.2.0"
 extra["mockkVersion"] = "1.12.0"
 extra["springMockkVersion"] = "2.0.3"
 extra["wiremockVersion"] = "2.27.2"
-extra["moschiVersion"] = "1.9.2"
+extra["moschiVersion"] = "1.14.0"
 extra["springCloudVersion"] = "2021.0.3"
 
 dependencies {
