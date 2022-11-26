@@ -46,7 +46,7 @@ repositories {
 }
 
 extra["chaosMonkeyVersion"] = "2.7.0"
-extra["mockkVersion"] = "1.12.0"
+extra["mockkVersion"] = "1.13.2"
 extra["springMockkVersion"] = "2.0.3"
 extra["wiremockVersion"] = "2.27.2"
 extra["moschiVersion"] = "1.14.0"
