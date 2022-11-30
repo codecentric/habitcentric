@@ -62,7 +62,7 @@ ext {
             chaosMonkey       : '2.7.0',
             testcontainers    : '1.15.3',
             reflections       : '0.9.12',
-            postgresql        : '42.2.23',
+            postgresql        : '42.5.1',
             springCloudVersion: '2021.0.3',
             jna               : '5.8.0'
     ]
