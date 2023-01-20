@@ -63,7 +63,7 @@ ext {
             chaosMonkey       : '2.7.0',
             testcontainers    : '1.17.6',
             postgresql        : '42.5.1',
-            springdoc         : '1.6.13',
+            springdoc         : '1.6.14',
             liquibase         : '4.17.2',
             pactProvider      : '3.6.15',
             springCloudVersion: '2021.0.3',
