@@ -6,7 +6,7 @@ plugins {
     id("org.openapi.generator") version "5.4.0"
     id("com.github.jk1.dependency-license-report") version "2.1"
     id("org.springframework.boot") version "2.7.8"
-    id("com.diffplug.spotless") version "6.12.0"
+    id("com.diffplug.spotless") version "6.13.0"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
     // we should switch to the plugin but enabling it causes warnings for the openapi generator
