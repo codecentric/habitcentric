@@ -64,7 +64,7 @@ ext {
             testcontainers    : '1.17.6',
             postgresql        : '42.5.1',
             springdoc         : '1.6.14',
-            liquibase         : '4.17.2',
+            liquibase         : '4.19.0',
             pactProvider      : '3.6.15',
             springCloudVersion: '2021.0.3',
             jna               : '5.8.0',
