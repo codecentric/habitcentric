@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
 import de.codecentric.habitcentric.track.auth.InsecureJwtDecoder;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Locale;
-import javax.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 
 public class ApplicationConfigurationTest {

@@ -3,7 +3,7 @@ package de.codecentric.habitcentric.track.auth;
 import static de.codecentric.habitcentric.track.auth.AuthError.JWT_TOKEN_MISSING;
 
 import de.codecentric.habitcentric.track.habit.validation.UserId;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
