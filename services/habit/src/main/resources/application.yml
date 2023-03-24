@@ -35,3 +35,4 @@ server:
 springdoc:
   packages-to-scan: de.codecentric.hc.habit
   paths-to-match: /habits/**
+  enable-spring-security: false

@@ -20,7 +20,7 @@ image:
 
 {{- if (eq .Environment.Name "traefik-mesh") }}
 extraEnv:
-  - name: SPRING_ZIPKIN_BASEURL
+  - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
     value: http://jaeger-collector.traefik-mesh.svc.cluster.local:9411
 {{- end }}
 

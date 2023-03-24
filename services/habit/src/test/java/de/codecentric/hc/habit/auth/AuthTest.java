@@ -16,9 +16,10 @@ import de.codecentric.hc.habit.habits.Habit;
 import de.codecentric.hc.habit.habits.Habit.Schedule;
 import de.codecentric.hc.habit.habits.Habit.Schedule.Frequency;
 import de.codecentric.hc.habit.habits.HabitRepository;
+import jakarta.servlet.ServletException;
+import jakarta.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.List;
-import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.util.NestedServletException;
 
 @AutoConfigureMockMvc
 @EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
@@ -100,7 +100,7 @@ public class AuthTest {
                 mvc.perform(get("/habits").accept(APPLICATION_JSON))
                     .andExpect(status().isUnauthorized()));
     assertThat(thrown)
-        .isInstanceOf(NestedServletException.class)
+        .isInstanceOf(ServletException.class)
         .hasCauseExactlyInstanceOf(ConstraintViolationException.class);
     assertThat(thrown.getCause())
         .hasMessage("getHabits.userId: must not be blank and size must be between 5 and 64");

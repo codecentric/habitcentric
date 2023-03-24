@@ -2,7 +2,7 @@ package de.codecentric.hc.habit.auth;
 
 import de.codecentric.hc.habit.common.HttpHeaders;
 import de.codecentric.hc.habit.validation.UserId;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;

@@ -10,11 +10,11 @@ import static org.mockito.Mockito.when;
 
 import de.codecentric.hc.habit.habits.Habit.ModificationRequest;
 import de.codecentric.hc.habit.habits.Habit.Schedule;
+import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
 import org.hibernate.exception.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
