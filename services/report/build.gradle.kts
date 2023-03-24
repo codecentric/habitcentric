@@ -3,9 +3,9 @@ import io.spring.gradle.dependencymanagement.dsl.ImportsHandler
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.openapi.generator") version "5.4.0"
+    id("org.openapi.generator") version "6.4.0"
     id("com.github.jk1.dependency-license-report") version "2.1"
-    id("org.springframework.boot") version "2.7.11"
+    id("org.springframework.boot") version "3.0.5"
     id("com.diffplug.spotless") version "6.13.0"
     kotlin("jvm") version "1.7.22"
     kotlin("plugin.spring") version "1.7.22"
@@ -19,7 +19,7 @@ apply { from("../gradle/jacoco.gradle") }
 apply { from("../gradle/licenses.gradle") }
 
 group = "de.codecentric.hc"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 configurations {
     compileOnly {
@@ -45,28 +45,28 @@ repositories {
     mavenCentral()
 }
 
-extra["chaosMonkeyVersion"] = "2.7.2"
+extra["chaosMonkeyVersion"] = "3.0.0"
 extra["mockkVersion"] = "1.13.5"
-extra["springMockkVersion"] = "2.0.3"
-extra["wiremockVersion"] = "2.27.2"
+extra["springMockkVersion"] = "4.0.2"
+extra["wiremockVersion"] = "3.0.0-beta-4"
 extra["moschiVersion"] = "1.14.0"
-extra["springCloudVersion"] = "2021.0.6"
 
 dependencies {
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.8")
     implementation("com.squareup.moshi:moshi:${property("moschiVersion")}")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}"))
-    implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
-    implementation("org.springframework.cloud:spring-cloud-sleuth-zipkin")
+    implementation("io.micrometer:micrometer-tracing-bridge-otel")
+    implementation("io.opentelemetry:opentelemetry-exporter-zipkin")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     runtimeOnly("de.codecentric:chaos-monkey-spring-boot:${property("chaosMonkeyVersion")}")
+    runtimeOnly("org.aspectj:aspectjweaver")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
@@ -89,7 +89,7 @@ tasks.withType<KotlinCompile> {
     dependsOn(tasks.openApiGenerate)
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+        jvmTarget = "17"
     }
 }
 
@@ -103,6 +103,8 @@ openApiGenerate {
     library.set("spring-boot")
     configOptions.put("basePackage", "de.codecentric.hc.report")
     configOptions.put("interfaceOnly", "true")
+    configOptions.put("useSpringBoot3", "true")
+    configOptions.put("documentationProvider", "none")
 }
 
 tasks.named("openApiGenerate") {

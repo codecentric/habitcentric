@@ -19,10 +19,10 @@ import org.springframework.test.context.ContextConfiguration
 import java.net.URI
 
 @SpringBootTest(
-        properties = ["management.tracing.enabled=false"],
+        properties = ["management.tracing.enabled=true"],
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(initializers = [HeaderPropagationIntegrationTest.Initializer::class])
-class HeaderPropagationIntegrationTest {
+@ContextConfiguration(initializers = [TracingBaggageHeaderPropagationIntegrationTest.Initializer::class])
+class TracingBaggageHeaderPropagationIntegrationTest {
 
     @Autowired
     lateinit var restTemplate: TestRestTemplate
@@ -46,13 +46,6 @@ class HeaderPropagationIntegrationTest {
     @ParameterizedTest
     @ValueSource(strings = [
         "Authorization",
-        "x-request-id",
-        "x-b3-traceid",
-        "x-b3-spanid",
-        "x-b3-parentspanid",
-        "x-b3-sampled",
-        "x-b3-flags",
-        "x-ot-span-context"
     ])
     fun `should propagate header`(header: String) {
         mockEndpoint("/habits", 200, "[]")

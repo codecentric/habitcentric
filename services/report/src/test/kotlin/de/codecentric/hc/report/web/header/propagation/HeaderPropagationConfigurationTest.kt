@@ -14,45 +14,45 @@ internal class HeaderPropagationConfigurationTest {
             .withUserConfiguration(HeaderPropagationConfiguration::class.java)
 
     @Test
-    fun `should not provide header propagation rest template customizer bean when spring sleuth is active`() {
+    fun `should not provide header propagation rest template customizer bean when tracing is active`() {
         contextRunner
-                .withPropertyValues("spring.sleuth.enabled=true")
+                .withPropertyValues("management.tracing.enabled=true")
                 .run {
                     assertThat(it).doesNotHaveBean(HeaderPropagationRestTemplateCustomizer::class.java)
                 }
     }
 
     @Test
-    fun `should provide header propagation rest template customizer bean when spring sleuth is not active`() {
+    fun `should provide header propagation rest template customizer bean when tracing is not active`() {
         contextRunner
-                .withPropertyValues("spring.sleuth.enabled=false")
+                .withPropertyValues("management.tracing.enabled=false")
                 .run {
                     assertThat(it).hasSingleBean(HeaderPropagationRestTemplateCustomizer::class.java)
                 }
     }
 
     @Test
-    fun `should not inject servlet request interceptor when spring sleuth is active`() {
+    fun `should not inject servlet request interceptor when tracing is active`() {
         contextRunner
-                .withPropertyValues("spring.sleuth.enabled=true")
+                .withPropertyValues("management.tracing.enabled=true")
                 .run {
                     assertThat(it).doesNotHaveBean(WebMvcConfigurer::class.java)
                 }
     }
 
     @Test
-    fun `should inject servlet request interceptor when spring sleuth is not active`() {
+    fun `should inject servlet request interceptor when tracing is not active`() {
         contextRunner
-                .withPropertyValues("spring.sleuth.enabled=false")
+                .withPropertyValues("management.tracing.enabled=false")
                 .run {
                     assertThat(it).hasSingleBean(WebMvcConfigurer::class.java)
                 }
     }
 
     @Test
-    fun `should configure request scoped header propagation data when spring sleuth is not active`() {
+    fun `should configure request scoped header propagation data when tracing is not active`() {
         contextRunner
-                .withPropertyValues("spring.sleuth.enabled=false")
+                .withPropertyValues("management.tracing.enabled=false")
                 .run {
                     val requestAttributesScope = mockk<AbstractRequestAttributesScope>(relaxed = true)
                     it.beanFactory.registerScope(WebApplicationContext.SCOPE_REQUEST, requestAttributesScope)

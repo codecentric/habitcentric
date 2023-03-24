@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-@ConditionalOnProperty("spring.sleuth.enabled", havingValue = "false", matchIfMissing = false)
+@ConditionalOnProperty("management.tracing.enabled", havingValue = "false", matchIfMissing = false)
 class HeaderPropagationConfiguration {
 
     @Bean
