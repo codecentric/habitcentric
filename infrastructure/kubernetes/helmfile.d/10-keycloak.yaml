@@ -3,8 +3,8 @@ repositories:
     url: https://codecentric.github.io/helm-charts
   - name: incubator
     url: https://charts.helm.sh/incubator
-  - name: bitnami
-    url: https://charts.bitnami.com/bitnami
+  - name: bitnami-archive-full-index
+    url: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
 
 environments:
   default:
@@ -18,8 +18,8 @@ releases:
     namespace: hc-keycloak
     labels:
       service: keycloak
-    chart: bitnami/postgresql
-    version: 11.1.23
+    chart: bitnami-archive-full-index/postgresql
+    version: 11.6.0
     values:
       - ./values/keycloak-postgresql-values.yaml.gotmpl
   - name: keycloak-realm-config
