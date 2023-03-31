@@ -82,3 +82,8 @@ dependencyManagement {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
+
+// disable the jar task to prevent the plain jar from being created.
+tasks.named("jar") {
+  enabled = false
+}

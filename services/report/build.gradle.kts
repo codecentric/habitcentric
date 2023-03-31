@@ -113,3 +113,8 @@ tasks.named("openApiGenerate") {
         File("$buildDir/generated-sources/src/main/kotlin/de/codecentric/hc/report/Application.kt").delete()
     }
 }
+
+// disable the jar task to prevent the plain jar from being created.
+tasks.named<Jar>("jar") {
+  enabled = false
+}

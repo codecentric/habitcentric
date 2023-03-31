@@ -113,3 +113,8 @@ dependencies {
     intTestImplementation 'org.testcontainers:junit-jupiter'
     intTestImplementation 'org.testcontainers:postgresql'
 }
+
+// disable the jar task to prevent the plain jar from being created.
+tasks.named("jar") {
+  enabled = false
+}
