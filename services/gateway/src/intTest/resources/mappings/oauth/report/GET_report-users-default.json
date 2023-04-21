@@ -1,0 +1,18 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/report/achievement",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer access-token"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "week": 0.5,
+      "month": 0.75
+    }
+  }
+}

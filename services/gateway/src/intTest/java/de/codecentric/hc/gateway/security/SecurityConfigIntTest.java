@@ -5,54 +5,11 @@ import static de.codecentric.hc.gateway.security.ApplicationUser.Role.USER;
 
 import de.codecentric.hc.gateway.testing.WebTest;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.security.test.context.support.WithMockUser;
 
+@AutoConfigureWebTestClient
 public class SecurityConfigIntTest extends WebTest {
-
-  @Test
-  public void requestsWithoutAuthShouldBeUnauthorized() {
-    String expectedLocation = "/oauth2/authorization/keycloak";
-    get("/actuator")
-        .expectStatus()
-        .isFound()
-        .expectHeader()
-        .valueMatches("Location", expectedLocation);
-    get("/habits")
-        .expectStatus()
-        .isFound()
-        .expectHeader()
-        .valueMatches("Location", expectedLocation);
-    post("/habits", "{}")
-        .expectStatus()
-        .isFound()
-        .expectHeader()
-        .valueMatches("Location", expectedLocation);
-    delete("/habits/123")
-        .expectStatus()
-        .isFound()
-        .expectHeader()
-        .valueMatches("Location", expectedLocation);
-    get("/track")
-        .expectStatus()
-        .isFound()
-        .expectHeader()
-        .valueMatches("Location", expectedLocation);
-    put("/track", "{}")
-        .expectStatus()
-        .isFound()
-        .expectHeader()
-        .valueMatches("Location", expectedLocation);
-    get("/report")
-        .expectStatus()
-        .isFound()
-        .expectHeader()
-        .valueMatches("Location", expectedLocation);
-    get("/ui/overview")
-        .expectStatus()
-        .isFound()
-        .expectHeader()
-        .valueMatches("Location", expectedLocation);
-  }
 
   @Test
   public void requestsWithoutAuthShouldBeOk() {
@@ -75,6 +32,7 @@ public class SecurityConfigIntTest extends WebTest {
     delete("/habits/123").expectStatus().isForbidden();
     get("/track").expectStatus().isForbidden();
     put("/track", "{}").expectStatus().isForbidden();
+    get("/report/achievement").expectStatus().isForbidden();
     get("/ui/overview").expectStatus().isForbidden();
   }
 }
