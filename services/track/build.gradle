@@ -63,7 +63,7 @@ ext {
             testcontainers    : '1.17.6',
             reflections       : '0.10.2',
             postgresql        : '42.5.1',
-            springCloudVersion: '2021.0.3',
+            springCloudVersion: '2021.0.6',
             jna               : '5.8.0'
     ]
 }
