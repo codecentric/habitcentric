@@ -50,7 +50,7 @@ extra["mockkVersion"] = "1.13.5"
 extra["springMockkVersion"] = "2.0.3"
 extra["wiremockVersion"] = "2.27.2"
 extra["moschiVersion"] = "1.14.0"
-extra["springCloudVersion"] = "2021.0.3"
+extra["springCloudVersion"] = "2021.0.6"
 
 dependencies {
     implementation("com.squareup.moshi:moshi:${property("moschiVersion")}")
