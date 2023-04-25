@@ -68,7 +68,7 @@ ext {
             pactProvider      : '3.6.15',
             springCloudVersion: '2021.0.6',
             jna               : '5.8.0',
-            preliquibase      : '1.1.1'
+            preliquibase      : '1.3.0'
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce
