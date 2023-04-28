@@ -5,12 +5,18 @@
   "packageRules": [
     {
       "matchUpdateTypes": [
-        "minor",
+        "minor"
+      ],
+      "automerge": true
+    },
+    {
+      "matchUpdateTypes": [
         "patch",
         "pin",
         "digest"
       ],
+      "groupName": "patch, pin, image digest versions",
       "automerge": true
     }
-  ]
+  ],
 }
