@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.6_10-jre
+FROM eclipse-temurin:17.0.7_7-jre
 WORKDIR /opt/
 COPY build/libs/gateway-*.jar app.jar
 EXPOSE 9000

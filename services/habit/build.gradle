@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '3.0.5'
+    id 'org.springframework.boot' version '3.0.6'
     id 'org.liquibase.gradle' version '2.1.1'
     id 'java'
     id 'com.diffplug.spotless' version '6.13.0'
@@ -60,7 +60,7 @@ ext {
     versions = [
             restAssured       : '5.3.0',
             junitJupiter      : '5.8.0',
-            chaosMonkey       : '3.0.0',
+            chaosMonkey       : '3.0.1',
             testcontainers    : '1.17.6',
             postgresql        : '42.5.1',
             springdoc         : '2.0.4',
