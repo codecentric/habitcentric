@@ -11,7 +11,7 @@ gevent==21.12.0
 geventhttpclient==1.5.5
 google-auth==2.6.2
 greenlet==1.1.3.post0
-idna==3.3
+idna==3.4
 itsdangerous==2.1.2
 Jinja2==3.0.3
 kubernetes==23.3.0
