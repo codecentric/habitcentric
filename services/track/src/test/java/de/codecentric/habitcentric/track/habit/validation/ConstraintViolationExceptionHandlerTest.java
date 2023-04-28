@@ -7,11 +7,11 @@ import static org.mockito.Mockito.when;
 
 import de.codecentric.habitcentric.track.error.ApiErrorResponse;
 import de.codecentric.habitcentric.track.error.ApiErrorResponseAssertion;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 
 public class ConstraintViolationExceptionHandlerTest implements ApiErrorResponseAssertion {

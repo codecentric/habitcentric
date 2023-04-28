@@ -29,7 +29,7 @@ public class SecurityConfigTest {
   }
 
   @Test
-  public void springSecurityFilterChainShouldNotThrowExceptionWithHttpBasic() {
+  public void springSecurityFilterChainShouldNotThrowExceptionWithHttpBasic() throws Exception {
     SecurityWebFilterChain filterChain =
         new SecurityConfig(HTTP_BASIC_CONFIG).springSecurityFilterChain(http());
     assertThat(filterChain).isNotNull();

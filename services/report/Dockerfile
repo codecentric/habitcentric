@@ -1,4 +1,4 @@
-FROM openjdk:11.0.16-jre-slim-buster@sha256:d030d27043616146d95daafc3a3b588cbfd43311cf8a164177c949cad4f2dab3
+FROM eclipse-temurin:17.0.6_10-jre
 WORKDIR /opt/
 COPY build/libs/report-*.jar app.jar
 EXPOSE 9003

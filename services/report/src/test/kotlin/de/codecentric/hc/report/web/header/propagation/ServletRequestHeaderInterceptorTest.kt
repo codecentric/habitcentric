@@ -2,10 +2,10 @@ package de.codecentric.hc.report.web.header.propagation
 
 import io.mockk.every
 import io.mockk.mockk
+import jakarta.servlet.http.HttpServletRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import javax.servlet.http.HttpServletRequest
 
 internal class ServletRequestHeaderInterceptorTest {
     private val headerPropagationData = HeaderPropagationData()

@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "/habits",
+    "headers": {
+      "Authorization": {
+        "equalTo": "Bearer access-token"
+      },
+      "X-User-ID": {
+        "equalTo": "default"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "bodyFileName": "habits.json"
+  }
+}

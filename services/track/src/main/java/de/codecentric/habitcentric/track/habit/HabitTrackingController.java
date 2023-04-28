@@ -2,11 +2,11 @@ package de.codecentric.habitcentric.track.habit;
 
 import de.codecentric.habitcentric.track.habit.validation.HabitId;
 import de.codecentric.habitcentric.track.habit.validation.UserId;
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;

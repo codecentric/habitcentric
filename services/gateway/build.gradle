@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.11'
+    id 'org.springframework.boot' version '3.0.5'
     id 'java'
     id 'com.diffplug.spotless' version '6.13.0'
     id "io.freefair.lombok" version "6.6.3"
@@ -12,7 +12,7 @@ apply from: '../gradle/licenses.gradle'
 apply from: 'gradle/jacoco.gradle'
 
 group = 'de.codecentric'
-sourceCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = JavaVersion.VERSION_17
 
 bootRun {
     environment SPRING_PROFILES_ACTIVE: environment.SPRING_PROFILES_ACTIVE ?: 'local'
@@ -33,9 +33,9 @@ repositories {
 }
 
 ext {
-    springCloudVersion = '2021.0.6'
+    springCloudVersion = '2022.0.1'
     versions = [
-            restAssured   : '4.5.1',
+            restAssured   : '5.3.0',
             junitJupiter  : '5.8.0',
     ]
 }
@@ -81,4 +81,9 @@ dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
+
+// disable the jar task to prevent the plain jar from being created.
+tasks.named("jar") {
+  enabled = false
 }

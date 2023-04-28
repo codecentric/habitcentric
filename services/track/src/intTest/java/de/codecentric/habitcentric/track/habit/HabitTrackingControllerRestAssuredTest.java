@@ -249,7 +249,7 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
         .statusCode(415)
         .contentType(JSON)
         .body("error", equalTo("Unsupported Media Type"))
-        .body("message", equalTo("Content type 'text/plain;charset=ISO-8859-1' not supported"));
+        .body("message", equalTo("Content-Type 'text/plain;charset=ISO-8859-1' is not supported."));
   }
 
   @Test

@@ -12,10 +12,14 @@ spring:
     name: report
   profiles:
     active: chaos-monkey
-  sleuth:
-    baggage:
-      remote-fields: authorization
   jackson:
     default-property-inclusion: NON_NULL
 server:
   port: 9003
+
+management:
+  tracing:
+    baggage:
+      remote-fields: authorization
+    sampling:
+      probability: 1.0
