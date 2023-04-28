@@ -17,7 +17,7 @@ Jinja2==3.0.3
 kubernetes==23.3.0
 MarkupSafe==2.1.0
 msgpack==1.0.3
-oauthlib==3.2.0
+oauthlib==3.2.2
 pip-licenses==3.5.3
 psutil==5.9.0
 PTable==0.9.2
