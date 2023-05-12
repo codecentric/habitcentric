@@ -1,5 +1,5 @@
 task zipLicenseReport(type: Zip, dependsOn: generateLicenseReport) {
-  archiveName "license-report.zip"
+  archiveFileName = "license-report.zip"
   from generateLicenseReport.outputFolder
 }
 
