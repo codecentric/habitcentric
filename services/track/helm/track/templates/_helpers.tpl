@@ -90,14 +90,14 @@ Create environment variables for database configuration
 - name: DB_PORT
   value: "10002"
 - name: DB_NAME
-  value: {{ .Values.postgresql.postgresqlDatabase | quote }}
+  value: {{ .Values.postgresql.auth.database | quote }}
 - name: DB_USER
-  value: {{ .Values.postgresql.postgresqlUsername | quote }}
+  value: {{ .Values.postgresql.auth.username | quote }}
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ template "track.postgresql.fullname" . }}
-      key: postgresql-password
+      key: password
 {{- else }}
 - name: DB_NAME
   value: {{ .Values.persistence.dbName }}

@@ -77,7 +77,7 @@ Create a default fully qualified app name for the postgres requirement.
 */}}
 {{- define "habit.postgresql.fullname" -}}
 {{- $postgresContext := dict "Values" .Values.postgresql "Release" .Release "Chart" (dict "Name" "postgresql") -}}
-{{ template "postgresql.fullname" $postgresContext }}
+{{ template "postgresql.primary.fullname" $postgresContext }}
 {{- end -}}
 
 {{/*
@@ -90,14 +90,14 @@ Create environment variables for database configuration
 - name: DB_PORT
   value: "10001"
 - name: DB_NAME
-  value: {{ .Values.postgresql.postgresqlDatabase | quote }}
+  value: {{ .Values.postgresql.auth.database | quote }}
 - name: DB_USER
-  value: {{ .Values.postgresql.postgresqlUsername | quote }}
+  value: {{ .Values.postgresql.auth.username | quote }}
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ template "habit.postgresql.fullname" . }}
-      key: postgresql-password
+      key: password
 {{- else }}
 - name: DB_NAME
   value: {{ .Values.persistence.dbName }}

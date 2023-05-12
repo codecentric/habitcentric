@@ -89,27 +89,21 @@ podLabels: {}
 ## Additional pod annotations which may be required
 podAnnotations: {}
 
-## updateStrategy for habitcentric habit Deployment
+## updateStrategyType for habitcentric habit Deployment
 ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
 updateStrategyType: RollingUpdate
 
 postgresql:
   nameOverride: habit-postgresql
 
-  ## Default port for the hc-track db
-  service:
-    port: 10001
+  ## Default port for the habit-postgresql
+  primary:
+    service:
+      ports:
+        postgresql: 10001
 
-  ## PostgreSQL user to create
-  postgresqlUsername: habit
-
-  ## PostgreSQL password for the new user
-  ## If not set, a random 10 characters password will be used
-  # postgresPassword: ""
-
-  ## PostgreSQL database to create
-  postgresqlDatabase: habit
-
-  persistence:
-    ## Enable PostgreSQL persistence using persistent volume claims
-    enabled: true
+  auth:
+    username: habit
+    password: habit
+    database: habit
+    postgresPassword: postgres

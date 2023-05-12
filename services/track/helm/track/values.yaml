@@ -96,20 +96,14 @@ updateStrategyType: RollingUpdate
 postgresql:
   nameOverride: track-postgresql
 
-  ## Default port for the hc-track db
-  service:
-    port: 10002
+  ## Default port for the track-postgresql
+  primary:
+    service:
+      ports:
+        postgresql: 10002
 
-  ## PostgreSQL user to create
-  postgresqlUsername: track
-
-  ## PostgreSQL password for the new user
-  ## If not set, a random 10 characters password will be used
-  # postgresqlPassword: ""
-
-  ## PostgreSQL database to create
-  postgresqlDatabase: track
-
-  persistence:
-    ## Enable PostgreSQL persistence using persistent volume claims
-    enabled: true
+  auth:
+    username: track
+    password: track
+    database: track
+    postgresPassword: postgres
