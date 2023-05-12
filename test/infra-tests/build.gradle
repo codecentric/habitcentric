@@ -14,7 +14,7 @@ dependencies {
     testImplementation 'org.spockframework:spock-core'
 
     testImplementation 'com.squareup.okhttp3:okhttp:4.10.0'
-    testImplementation 'io.kubernetes:client-java-extended:17.0.2'
+    testImplementation 'io.kubernetes:client-java-extended:18.0.0'
 }
 
 test {
