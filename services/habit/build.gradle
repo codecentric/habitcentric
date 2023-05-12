@@ -38,7 +38,7 @@ liquibase {
 
 spotless {
     java {
-        googleJavaFormat('1.7')
+        googleJavaFormat('1.17.0')
     }
 }
 
