@@ -8,7 +8,7 @@ plugins {
     id("org.springframework.boot") version "3.0.6"
     id("com.diffplug.spotless") version "6.13.0"
     kotlin("jvm") version "1.8.21"
-    kotlin("plugin.spring") version "1.7.22"
+    kotlin("plugin.spring") version "1.8.21"
     // we should switch to the plugin but enabling it causes warnings for the openapi generator
     //id("io.freefair.lombok") version "6.2.0"
 }
