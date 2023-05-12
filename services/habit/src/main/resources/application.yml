@@ -17,11 +17,13 @@ spring:
       ddl-auto: validate
     properties:
       hibernate:
-        default_schema: ${spring.liquibase.defaultSchema}
+        default_schema: ${spring.liquibase.default-schema}
         dialect: org.hibernate.dialect.PostgreSQLDialect
         # https://github.com/spring-projects/spring-boot/issues/12007#issuecomment-370774241
         jdbc.lob.non_contextual_creation: true
-  liquibase.defaultSchema: hc_habit
+  liquibase:
+    change-log: db/changelog/db.changelog-master.yaml
+    default-schema: hc_habit
 logging:
   level:
     liquibase.executor: WARN
