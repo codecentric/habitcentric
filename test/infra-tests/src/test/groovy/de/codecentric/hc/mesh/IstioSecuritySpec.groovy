@@ -2,19 +2,19 @@ package de.codecentric.hc.mesh
 
 import de.codecentric.hc.infra.Environment
 import de.codecentric.hc.infra.K8sHelper
-import de.codecentric.hc.infra.RequestHelper
+import de.codecentric.hc.infra.HttpHelper
 import spock.lang.Requires
 import spock.lang.Specification
 
 @Requires({ Environment.Istio })
 class IstioSecuritySpec extends Specification {
-    private RequestHelper oauthHelper = new RequestHelper()
+    private HttpHelper httpHelper = new HttpHelper()
     private static helperPodNamespace = "hc-ui"
     private static helperPodName = "habitcentric-pen-test"
-    private static helper = new K8sHelper()
+    private static k8sHelper = new K8sHelper()
 
     void setupSpec() {
-        helper.createAlpineCmdRunnerWithPackages(
+        k8sHelper.createAlpineCmdRunnerWithPackages(
                 helperPodName,
                 helperPodNamespace,
                 ["istio-injection": "enabled"],
@@ -23,13 +23,13 @@ class IstioSecuritySpec extends Specification {
     }
 
     void cleanupSpec() {
-        helper.deletePod(helperPodName, helperPodNamespace)
+        k8sHelper.deletePod(helperPodName, helperPodNamespace)
     }
 
     def "should forbid request to #name service without oidc token"() {
         when:
         def url = Environment.baseUrlWithPath(path)
-        def response = oauthHelper.get(url)
+        def response = httpHelper.create().get(url).execute()
 
         then:
         response.code == 403
@@ -44,7 +44,7 @@ class IstioSecuritySpec extends Specification {
     def "should allow request to #name service with oidc token"() {
         when:
         def url = Environment.baseUrlWithPath(path)
-        def response = oauthHelper.getWithAuth(url)
+        def response = httpHelper.create().auth().get(url).execute()
 
         then:
         response.code == status
@@ -58,10 +58,10 @@ class IstioSecuritySpec extends Specification {
 
     def "should forbid access to service: #service"() {
         given:
-        helper.waitForReadyPod(helperPodName, helperPodNamespace)
+        k8sHelper.waitForReadyPod(helperPodName, helperPodNamespace)
 
         when:
-        def result = helper.executeCommandInPod(helperPodName, helperPodNamespace, command)
+        def result = k8sHelper.executeCommandInPod(helperPodName, helperPodNamespace, command)
 
         then:
         result.stdout ==~ expectedOutput || result.stderr ==~ expectedOutput

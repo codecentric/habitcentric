@@ -36,6 +36,7 @@ class K8sHelper {
             List<String> packages
     ) {
 
+
         V1Pod pod = new V1PodBuilder()
                 .withNewMetadata()
                 .withName(podName)
@@ -61,12 +62,12 @@ class K8sHelper {
                 .build()
 
         try {
-            api.createNamespacedPod(namespace, pod, null, null, null)
+            api.createNamespacedPod(namespace, pod, null, null, null, null)
         }
         catch (ApiException e) {
             if (e.code == 409) {
                 deletePod(podName, namespace)
-                api.createNamespacedPod(namespace, pod, null, null, null)
+                api.createNamespacedPod(namespace, pod, null, null, null, null)
             } else {
                 throw e
             }
