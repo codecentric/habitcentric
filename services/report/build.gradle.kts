@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.openapi.generator") version "6.6.0"
-    id("com.github.jk1.dependency-license-report") version "2.1"
+    id("com.github.jk1.dependency-license-report") version "2.2"
     id("org.springframework.boot") version "3.0.6"
     id("com.diffplug.spotless") version "6.18.0"
     kotlin("jvm") version "1.8.21"
