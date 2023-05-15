@@ -52,7 +52,7 @@ extra["wiremockVersion"] = "3.0.0-beta-8"
 extra["moschiVersion"] = "1.15.0"
 
 dependencies {
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.9")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.10")
     implementation("com.squareup.moshi:moshi:${property("moschiVersion")}")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
