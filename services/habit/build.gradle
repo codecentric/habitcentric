@@ -67,7 +67,7 @@ ext {
             liquibase         : '4.22.0',
             pactProvider      : '4.6.0',
             jna               : '5.8.0',
-            preliquibase      : '1.3.0'
+            preliquibase      : '1.4.0'
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce
