@@ -33,7 +33,7 @@ repositories {
 }
 
 ext {
-    springCloudVersion = '2022.0.2'
+    springCloudVersion = '2022.0.3'
     versions = [
             restAssured   : '5.3.0',
             junitJupiter  : '5.8.0',
