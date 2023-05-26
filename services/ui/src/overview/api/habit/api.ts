@@ -1,7 +1,7 @@
-import { ScopedMutator } from "swr/dist/types";
 import { getUser } from "../../../auth/getUser";
 import { fetchWithToken } from "../../../auth/fetchWithToken";
 import { Frequency, Habit } from "./habit";
+import { ScopedMutator } from "swr/_internal";
 
 export type CreateHabitRequest = Omit<Habit, "id">;
 

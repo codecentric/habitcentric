@@ -1,7 +1,7 @@
 import { formatISO } from "date-fns";
-import { ScopedMutator } from "swr/dist/types";
 import { getUser } from "../../../auth/getUser";
 import { fetchWithToken } from "../../../auth/fetchWithToken";
+import { ScopedMutator } from "swr/_internal";
 
 export async function putTrackedDates(
   habitId: number,
