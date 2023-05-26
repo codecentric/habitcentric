@@ -3,11 +3,8 @@ import { parseISO } from "date-fns";
 import { useAuth } from "react-oidc-context";
 import { fetchWithToken } from "../../../auth/fetchWithToken";
 
-const trackedDatesFetcher: Fetcher<string[], [string, string, string]> = (
-  url,
-  habitId,
-  token
-) => fetchWithToken(`${url}/${habitId}`, {}, token).then((res) => res.json());
+const trackedDatesFetcher: Fetcher<string[], [string, string, string]> = ([url, habitId, token]) =>
+  fetchWithToken(`${url}/${habitId}`, {}, token).then((res) => res.json());
 
 export function useTrackedDatesOfHabit(habitId: number) {
   const auth = useAuth();

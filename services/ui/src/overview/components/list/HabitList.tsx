@@ -12,8 +12,7 @@ function HabitList() {
   if (!habits) return <div>Loading...</div>;
 
   const filteredHabits = habits.filter(
-    (habit) =>
-      nameStartsWithQuery(habit, query) || scheduleStartsWithQuery(habit, query)
+    (habit) => nameStartsWithQuery(habit, query) || scheduleStartsWithQuery(habit, query)
   );
 
   return (
@@ -33,9 +32,7 @@ function nameStartsWithQuery(habit: Habit, query: string) {
 }
 
 function scheduleStartsWithQuery(habit: Habit, query: string) {
-  return scheduleToString(habit.schedule)
-    .toLowerCase()
-    .includes(query.toLowerCase());
+  return scheduleToString(habit.schedule).toLowerCase().includes(query.toLowerCase());
 }
 
 type SearchInputProps = {
@@ -45,7 +42,7 @@ type SearchInputProps = {
 function SearchInput({ setQuery }: SearchInputProps) {
   return (
     <div className="relative text-gray-500">
-      <SearchIcon className="absolute top-2 left-2 flex w-8 items-center pl-2" />
+      <SearchIcon className="absolute left-2 top-2 flex w-8 items-center pl-2" />
       <input
         id="habit-search"
         className="w-full rounded-md border-0 bg-gray-100 pl-12 text-sm shadow-sm focus:bg-white focus:text-gray-800 focus:outline-none sm:text-base"

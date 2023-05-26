@@ -47,7 +47,7 @@ it("should delete habit when delete button is clicked", async () => {
   });
   await userEvent.click(button);
   const programming = screen.queryByRole("heading", { name: /programming/i });
-  await waitForElementToBeRemoved(programming);
+  await waitFor(() => expect(programming).not.toBeInTheDocument());
   expect(programming).not.toBeInTheDocument();
 });
 

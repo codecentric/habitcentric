@@ -7,10 +7,8 @@ export type Achievement = {
   month: number;
 };
 
-const achievementFetcher: Fetcher<Achievement, [string, string]> = (
-  url,
-  token
-) => fetchWithToken(url, {}, token).then((res) => res.json());
+const achievementFetcher: Fetcher<Achievement, [string, string]> = ([url, token]) =>
+  fetchWithToken(url, {}, token).then((res) => res.json());
 
 export function useAchievement() {
   const auth = useAuth();
