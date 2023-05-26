@@ -30,7 +30,7 @@ jobs:
       - name: 🏗 Setup node env
         uses: actions/setup-node@v3
         with:
-          node-version: 17
+          node-version-file: services/ui/.nvmrc
           cache: 'npm'
           cache-dependency-path: services/ui/package-lock.json
       - name: 👨🏻‍💻 Install dependencies
