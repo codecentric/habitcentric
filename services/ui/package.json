@@ -28,8 +28,13 @@
     "react-simple-icons": "1.0.0-beta.5",
     "simple-icons": "8.15.0",
     "swr": "2.1.5",
-    "typescript": "4.9.5",
+    "typescript": "5.0.4",
     "web-vitals": "3.3.1"
+  },
+  "overrides": {
+    "react-scripts": {
+      "typescript": "^5"
+    }
   },
   "scripts": {
     "start": "PORT=9004 react-scripts start",
