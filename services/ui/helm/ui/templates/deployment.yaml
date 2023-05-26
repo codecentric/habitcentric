@@ -36,8 +36,6 @@ spec:
             - name: http-ui
               containerPort: 9004
           env:
-            - name: PUBLIC_URL
-              value: {{ .Values.publicUrl | quote }}
             {{- if .Values.oidc.enabled }}
             - name: OIDC_ENABLED
               value: "true"

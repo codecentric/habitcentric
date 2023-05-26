@@ -55,8 +55,6 @@ livenessProbe:
 oidc:
   enabled: true
 
-publicUrl: /ui
-
 ## Number of service instances
 replicas: 1
 

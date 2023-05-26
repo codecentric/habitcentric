@@ -14,21 +14,18 @@ function LandingPage() {
         <h1 className="mb-4 text-5xl font-semibold leading-tight tracking-tight text-gray-800">
           Track your habits.
           <br />
-          <span className="from-cc-primary-500 to-centric-mint-500 bg-gradient-to-r bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-cc-primary-500 to-centric-mint-500 bg-clip-text text-transparent">
             Feel good.
           </span>
         </h1>
         <div className="max-w-md pb-8">
           <p className="pb-8 text-lg text-gray-600">
-            Even a journey of a thousand miles begins with a single step. Track
-            your habits now and start your adventure.
+            Even a journey of a thousand miles begins with a single step. Track your habits now and
+            start your adventure.
           </p>
           <div className="mx-auto max-w-xs">
             {oidcIsEnabled() ? (
-              <OidcLoginButton
-                {...auth}
-                onError={() => setRedirectError(true)}
-              />
+              <OidcLoginButton {...auth} onError={() => setRedirectError(true)} />
             ) : (
               <BackendLoginLink />
             )}
@@ -42,11 +39,7 @@ function LandingPage() {
 
 type LoginButtonProps = AuthContextProps & { onError: () => void };
 
-function OidcLoginButton({
-  activeNavigator,
-  signinRedirect,
-  onError,
-}: LoginButtonProps) {
+function OidcLoginButton({ activeNavigator, signinRedirect, onError }: LoginButtonProps) {
   const waitingForRedirect = activeNavigator === "signinRedirect";
 
   return (
@@ -62,8 +55,8 @@ function OidcLoginButton({
 function BackendLoginLink() {
   return (
     <a
-      className={`bg-cc-primary-500 hover:bg-cc-primary-600 active:bg-cc-primary-700 w-full rounded-lg px-4 py-2 text-sm font-semibold tracking-wider text-gray-900 shadow-sm sm:text-base`}
-      href={`${process.env.PUBLIC_URL}/overview`}
+      className={`w-full rounded-lg bg-cc-primary-500 px-4 py-2 text-sm font-semibold tracking-wider text-gray-900 shadow-sm hover:bg-cc-primary-600 active:bg-cc-primary-700 sm:text-base`}
+      href={`${import.meta.env.BASE_URL}/overview`}
     >
       Log in
     </a>
