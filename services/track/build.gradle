@@ -60,7 +60,7 @@ ext {
             restAssured       : '5.3.0',
             junitJupiter      : '5.8.0',
             chaosMonkey       : '3.0.1',
-            testcontainers    : '1.18.1',
+            testcontainers    : '1.18.2',
             reflections       : '0.10.2',
             postgresql        : '42.6.0',
             jna               : '5.8.0'
