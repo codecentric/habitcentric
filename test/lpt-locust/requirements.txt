@@ -9,7 +9,7 @@ Flask-BasicAuth==0.2.0
 Flask-Cors==3.0.10
 gevent==22.10.2
 geventhttpclient==2.0.9
-google-auth==2.19.0
+google-auth==2.19.1
 greenlet==2.0.2
 idna==3.4
 itsdangerous==2.1.2
