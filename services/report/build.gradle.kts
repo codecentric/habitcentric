@@ -7,8 +7,8 @@ plugins {
     id("com.github.jk1.dependency-license-report") version "2.4"
     id("org.springframework.boot") version "3.1.0"
     id("com.diffplug.spotless") version "6.19.0"
-    kotlin("jvm") version "1.8.21"
-    kotlin("plugin.spring") version "1.8.21"
+    kotlin("jvm") version "1.8.22"
+    kotlin("plugin.spring") version "1.8.22"
     // we should switch to the plugin but enabling it causes warnings for the openapi generator
     //id("io.freefair.lombok") version "6.2.0"
 }
@@ -48,7 +48,7 @@ repositories {
 extra["chaosMonkeyVersion"] = "3.0.1"
 extra["mockkVersion"] = "1.13.5"
 extra["springMockkVersion"] = "4.0.2"
-extra["wiremockVersion"] = "3.0.0-beta-8"
+extra["wiremockVersion"] = "3.0.0-beta-9"
 extra["moschiVersion"] = "1.15.0"
 
 dependencies {
