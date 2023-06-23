@@ -35,5 +35,5 @@ typing_extensions==4.6.3
 urllib3==1.26.16
 websocket-client==1.6.0
 Werkzeug==2.3.6
-zope.event==4.6
+zope.event==5.0
 zope.interface==6.0
