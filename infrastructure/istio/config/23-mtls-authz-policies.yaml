@@ -72,6 +72,7 @@ spec:
         methods:
         - GET
         paths:
+        - /auth/realms/master/protocol/openid-connect/certs
         - /auth/realms/habitcentric/protocol/openid-connect/certs
 ---
 apiVersion: security.istio.io/v1beta1

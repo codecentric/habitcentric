@@ -8,6 +8,12 @@ spec:
     matchLabels:
       istio: ingressgateway
   jwtRules:
+    - issuer: http://habitcentric.demo/auth/realms/master
+      jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/master/protocol/openid-connect/certs
+      forwardOriginalToken: true
+    - issuer: https://habitcentric.demo/auth/realms/master
+      jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/master/protocol/openid-connect/certs
+      forwardOriginalToken: true
     - issuer: https://habitcentric.demo/auth/realms/habitcentric
       jwksUri: http://keycloak-keycloakx-http.hc-keycloak.svc.cluster.local:8080/auth/realms/habitcentric/protocol/openid-connect/certs
       forwardOriginalToken: true
