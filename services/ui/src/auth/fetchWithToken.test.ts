@@ -1,13 +1,13 @@
-import {fetchWithToken} from "./fetchWithToken";
+import { fetchWithToken } from "./fetchWithToken";
+import { SpyInstance, vi } from "vitest";
 
-let fetchMock: jest.SpyInstance
+let fetchMock: SpyInstance;
 
 beforeAll(() => {
-  fetchMock = jest
-      .spyOn(global, "fetch")
-      .mockImplementation(() =>
-          Promise.resolve({json: () => Promise.resolve({})} as Response))
-})
+  fetchMock = vi
+    .spyOn(global, "fetch")
+    .mockImplementation(() => Promise.resolve({ json: () => Promise.resolve({}) } as Response));
+});
 
 it("sets authorization header when token is passed", () => {
   fetchWithToken("url", {}, "token");
@@ -26,11 +26,7 @@ it("does not set authorization header when token is not passed", () => {
 });
 
 it("preserves headers when token is passed", () => {
-  fetchWithToken(
-      "url",
-      {headers: {"Content-Type": "application/json"}},
-      "token"
-  );
+  fetchWithToken("url", { headers: { "Content-Type": "application/json" } }, "token");
   expect(fetchMock).toHaveBeenCalledWith("url", {
     headers: {
       "Content-Type": "application/json",
@@ -40,7 +36,7 @@ it("preserves headers when token is passed", () => {
 });
 
 it("preserves headers when token is not passed", () => {
-  fetchWithToken("url", {headers: {"Content-Type": "application/json"}});
+  fetchWithToken("url", { headers: { "Content-Type": "application/json" } });
   expect(fetchMock).toHaveBeenCalledWith("url", {
     headers: {
       "Content-Type": "application/json",

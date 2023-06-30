@@ -1,9 +1,9 @@
 export const oidc = {
   authority: "/auth/realms/habitcentric",
   client_id: "ui",
-  redirect_uri: `${window.location.origin}${process.env.PUBLIC_URL}/overview`,
+  redirect_uri: `${window.location.origin}${import.meta.env.BASE_URL}/overview`,
 };
 
 export function oidcIsEnabled() {
-  return process.env.REACT_APP_OIDC_ENABLED?.toLowerCase() === "true";
+  return import.meta.env.VITE_OIDC_ENABLED?.toLowerCase() === "true";
 }

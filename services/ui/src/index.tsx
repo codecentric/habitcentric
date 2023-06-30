@@ -5,14 +5,14 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
-if (process.env.NODE_ENV === "development") {
-  const { worker } = require("./test-utils/mocks/worker");
+if (import.meta.env.MODE.includes("development")) {
+  const { worker } = await import("./test-utils/mocks/worker");
   worker.start();
 }
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <App />
     </BrowserRouter>
   </React.StrictMode>,

@@ -3,23 +3,24 @@ import LandingPage from "./LandingPage";
 import { oidcIsEnabled } from "../auth/config/oidc";
 import userEvent from "@testing-library/user-event";
 import { useAuth } from "react-oidc-context";
+import { Mock, vi } from "vitest";
 
-jest.mock("../auth/config/oidc");
-jest.mock("react-oidc-context", () => {
+vi.mock("../auth/config/oidc");
+vi.mock("react-oidc-context", () => {
   return {
-    useAuth: jest.fn(),
+    useAuth: vi.fn(),
   };
 });
 
 describe("given oidc is enabled", () => {
   beforeEach(() => {
-    (oidcIsEnabled as jest.Mock).mockReturnValue(true);
+    (oidcIsEnabled as Mock).mockReturnValue(true);
   });
 
   it("starts oidc flow when user clicks on login button", async () => {
-    const signinRedirect = jest.fn();
+    const signinRedirect = vi.fn();
     signinRedirect.mockResolvedValue({});
-    (useAuth as jest.Mock).mockReturnValue({ signinRedirect });
+    (useAuth as Mock).mockReturnValue({ signinRedirect });
 
     render(<LandingPage />);
     const loginButton = screen.getByRole("button", { name: /log in/i });
@@ -29,9 +30,9 @@ describe("given oidc is enabled", () => {
   });
 
   it("renders error when user clicks on login button but oidc flow start fails", async () => {
-    const signinRedirect: any = jest.fn();
+    const signinRedirect: any = vi.fn();
     signinRedirect.mockRejectedValue({});
-    (useAuth as jest.Mock).mockReturnValue({ signinRedirect });
+    (useAuth as Mock).mockReturnValue({ signinRedirect });
 
     render(<LandingPage />);
 
@@ -43,7 +44,7 @@ describe("given oidc is enabled", () => {
   });
 
   it("renders error when auth error occured", () => {
-    (useAuth as jest.Mock).mockReturnValue({ error: "Some error" });
+    (useAuth as Mock).mockReturnValue({ error: "Some error" });
     render(<LandingPage />);
     const error = screen.getByText("Oops... Something went wrong!");
     expect(error).toBeVisible();
@@ -52,8 +53,8 @@ describe("given oidc is enabled", () => {
 
 describe("given oidc is disabled", () => {
   beforeEach(() => {
-    (oidcIsEnabled as jest.Mock).mockReturnValue(false);
-    (useAuth as jest.Mock).mockReturnValue({});
+    (oidcIsEnabled as Mock).mockReturnValue(false);
+    (useAuth as Mock).mockReturnValue({});
   });
 
   it("renders link to overview", async () => {

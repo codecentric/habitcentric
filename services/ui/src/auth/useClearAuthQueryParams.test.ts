@@ -1,21 +1,22 @@
 import useClearAuthQueryParams from "./useClearAuthQueryParams";
 import { useSearchParams } from "react-router-dom";
+import { Mock, vi } from "vitest";
 
-jest.mock("react", () => {
+vi.mock("react", () => {
   return {
     useEffect: (fn: () => void) => fn(),
   };
 });
 
-jest.mock("react-router-dom", () => {
+vi.mock("react-router-dom", () => {
   return {
-    useSearchParams: jest.fn(),
+    useSearchParams: vi.fn(),
   };
 });
 
 it("given authentication flow has been completed, search params include state and code should set search params to empty", () => {
-  const setSearchParamsMock = jest.fn();
-  (useSearchParams as jest.Mock).mockReturnValue([
+  const setSearchParamsMock = vi.fn();
+  (useSearchParams as Mock).mockReturnValue([
     new URLSearchParams("state=state&code=code"),
     setSearchParamsMock,
   ]);
@@ -26,8 +27,8 @@ it("given authentication flow has been completed, search params include state an
 });
 
 it("given authentication flow has not been completed should not set search params to empty", () => {
-  const setSearchParamsMock = jest.fn();
-  (useSearchParams as jest.Mock).mockReturnValue([
+  const setSearchParamsMock = vi.fn();
+  (useSearchParams as Mock).mockReturnValue([
     new URLSearchParams("state=state&code=code"),
     setSearchParamsMock,
   ]);

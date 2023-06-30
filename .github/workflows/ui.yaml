@@ -35,7 +35,7 @@ jobs:
           cache-dependency-path: services/ui/package-lock.json
       - name: 👨🏻‍💻 Install dependencies
         working-directory: ./services/ui
-        run: npm install
+        run: npm clean-install
       - name: 🧪 Run tests
         working-directory: ./services/ui
         run: npm run test:ci

@@ -109,7 +109,6 @@ services:
     environment:
       HABIT_SERVICE_HOST: http://localhost:9000/
       TRACKING_SERVICE_HOST: http://localhost:9000/
-      PUBLIC_URL: /ui
     networks:
       - habitcentric-net
 volumes:
