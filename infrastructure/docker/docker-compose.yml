@@ -1,7 +1,7 @@
 version: '3.1'
 services:
   auth-keycloak:
-    image: quay.io/keycloak/keycloak:21.1.1
+    image: quay.io/keycloak/keycloak:21.1.2
     entrypoint:
       - sh
       - "-c"

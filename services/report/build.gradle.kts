@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.openapi.generator") version "6.6.0"
     id("com.github.jk1.dependency-license-report") version "2.5"
-    id("org.springframework.boot") version "3.1.0"
+    id("org.springframework.boot") version "3.1.1"
     id("com.diffplug.spotless") version "6.19.0"
     kotlin("jvm") version "1.9.0"
     kotlin("plugin.spring") version "1.9.0"
@@ -52,7 +52,7 @@ extra["wiremockVersion"] = "3.0.0-beta-10"
 extra["moschiVersion"] = "1.15.0"
 
 dependencies {
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.12")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.15")
     implementation("com.squareup.moshi:moshi:${property("moschiVersion")}")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
