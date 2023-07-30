@@ -4,7 +4,7 @@
   "homepage": ".",
   "private": true,
   "dependencies": {
-    "@headlessui/react": "1.7.15",
+    "@headlessui/react": "1.7.16",
     "@heroicons/react": "1.0.6",
     "@icons-pack/react-simple-icons": "8.0.1",
     "@popperjs/core": "2.11.8",
