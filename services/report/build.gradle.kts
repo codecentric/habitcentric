@@ -45,7 +45,7 @@ repositories {
     mavenCentral()
 }
 
-extra["chaosMonkeyVersion"] = "3.0.1"
+extra["chaosMonkeyVersion"] = "3.0.2"
 extra["mockkVersion"] = "1.13.5"
 extra["springMockkVersion"] = "4.0.2"
 extra["wiremockVersion"] = "3.0.0-beta-10"
