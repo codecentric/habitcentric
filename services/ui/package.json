@@ -10,7 +10,7 @@
     "@popperjs/core": "2.11.8",
     "@tailwindcss/forms": "0.5.4",
     "@types/node": "18.17.4",
-    "@types/react": "18.2.19",
+    "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",
     "date-fns": "2.30.0",
     "oidc-client-ts": "2.2.4",
