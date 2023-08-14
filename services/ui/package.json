@@ -64,7 +64,7 @@
     "@types/react-datepicker": "4.15.0",
     "@vitejs/plugin-react": "^4.0.0",
     "@vitest/coverage-c8": "^0.31.4",
-    "autoprefixer": "10.4.14",
+    "autoprefixer": "10.4.15",
     "env-cmd": "10.1.0",
     "jsdom": "^22.0.0",
     "license-checker-rseidelsohn": "4.2.6",
