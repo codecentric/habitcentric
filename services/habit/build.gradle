@@ -61,7 +61,7 @@ ext {
             restAssured       : '5.3.1',
             junitJupiter      : '5.8.0',
             chaosMonkey       : '3.0.2',
-            testcontainers    : '1.18.3',
+            testcontainers    : '1.19.0',
             postgresql        : '42.6.0',
             springdoc         : '2.2.0',
             liquibase         : '4.23.1',
