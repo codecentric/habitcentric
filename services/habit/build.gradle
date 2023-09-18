@@ -58,13 +58,13 @@ configurations {
 
 ext {
     versions = [
-            restAssured       : '5.3.1',
+            restAssured       : '5.3.2',
             junitJupiter      : '5.8.0',
             chaosMonkey       : '3.0.2',
             testcontainers    : '1.19.0',
             postgresql        : '42.6.0',
             springdoc         : '2.2.0',
-            liquibase         : '4.23.1',
+            liquibase         : '4.23.2',
             pactProvider      : '4.6.2',
             jna               : '5.8.0',
             preliquibase      : '1.4.0'
