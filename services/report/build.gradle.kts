@@ -9,8 +9,6 @@ plugins {
     id("com.diffplug.spotless") version "6.22.0"
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.spring") version "1.9.10"
-    // we should switch to the plugin but enabling it causes warnings for the openapi generator
-    //id("io.freefair.lombok") version "6.2.0"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -67,8 +65,6 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     runtimeOnly("de.codecentric:chaos-monkey-spring-boot:${property("chaosMonkeyVersion")}")
     runtimeOnly("org.aspectj:aspectjweaver")
-    compileOnly("org.projectlombok:lombok")
-    annotationProcessor("org.projectlombok:lombok")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")

@@ -32,8 +32,8 @@ jobs:
       - name: 🛠 Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          java-version: '21'
+          distribution: 'zulu'
       - name: ✔️ Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: 🏗 Build with Gradle
