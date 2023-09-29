@@ -96,7 +96,9 @@ dependencies {
     implementation 'org.springframework.security:spring-security-oauth2-jose'
 
     // Spring Modulith
+    implementation "org.springframework.modulith:spring-modulith-starter-core"
     implementation "org.springframework.modulith:spring-modulith-starter-jpa"
+    intTestImplementation "org.springframework.modulith:spring-modulith-starter-test"
 
     implementation 'io.micrometer:micrometer-tracing-bridge-otel'
     implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'

@@ -1,6 +1,5 @@
-package de.codecentric.habitcentric.track.error.matcher;
+package de.codecentric.habitcentric.track.utils;
 
-import static de.codecentric.habitcentric.track.habit.HabitTrackingError.CONSTRAINT_VIOLATION;
 import static org.apache.commons.lang3.builder.ToStringStyle.JSON_STYLE;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,13 +53,5 @@ public class ApiErrorMatcher extends TypeSafeMatcher<String> {
 
   public static Matcher<String> hasError(ApiError expected, Object... templateProperties) {
     return new ApiErrorMatcher(expected, templateProperties);
-  }
-
-  public static Matcher<String> hasUserIdViolationError() {
-    return hasError(CONSTRAINT_VIOLATION, "must not be blank and size must be between 5 and 64");
-  }
-
-  public static Matcher<String> hasHabitIdViolationError() {
-    return hasError(CONSTRAINT_VIOLATION, "must be greater than 0");
   }
 }

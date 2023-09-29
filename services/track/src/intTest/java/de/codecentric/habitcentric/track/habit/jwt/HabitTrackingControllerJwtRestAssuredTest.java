@@ -1,7 +1,7 @@
 package de.codecentric.habitcentric.track.habit.jwt;
 
-import static de.codecentric.habitcentric.track.error.matcher.ApiErrorMatcher.hasHabitIdViolationError;
-import static de.codecentric.habitcentric.track.error.matcher.ApiErrorMatcher.hasUserIdViolationError;
+import static de.codecentric.habitcentric.track.habit.matcher.HabitApiMatcher.hasHabitIdViolationError;
+import static de.codecentric.habitcentric.track.habit.matcher.HabitApiMatcher.hasUserIdViolationError;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;

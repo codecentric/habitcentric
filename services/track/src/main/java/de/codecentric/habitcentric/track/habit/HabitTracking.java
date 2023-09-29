@@ -17,21 +17,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @Getter
 @Setter
 @ToString
 @Table
-public class HabitTracking {
+public class HabitTracking extends AbstractAggregateRoot<HabitTracking> {
 
   @EmbeddedId @Valid private Id id;
 
   public HabitTracking(String userId, Long habitId, LocalDate trackDate) {
     this.id = new HabitTracking.Id(userId, habitId, trackDate);
+
+    registerEvent(new HabitTracking.Created(userId, habitId, trackDate));
   }
 
   @Embeddable
@@ -51,4 +54,6 @@ public class HabitTracking {
 
     @NotNull private LocalDate trackDate;
   }
+
+  public record Created(String userId, Long habitId, LocalDate trackDate) {}
 }

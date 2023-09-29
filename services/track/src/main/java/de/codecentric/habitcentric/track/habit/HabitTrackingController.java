@@ -1,7 +1,7 @@
 package de.codecentric.habitcentric.track.habit;
 
+import de.codecentric.habitcentric.track.auth.UserId;
 import de.codecentric.habitcentric.track.habit.validation.HabitId;
-import de.codecentric.habitcentric.track.habit.validation.UserId;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;

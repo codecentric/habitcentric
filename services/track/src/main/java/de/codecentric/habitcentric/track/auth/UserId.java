@@ -1,4 +1,4 @@
-package de.codecentric.habitcentric.track.habit.validation;
+package de.codecentric.habitcentric.track.auth;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;

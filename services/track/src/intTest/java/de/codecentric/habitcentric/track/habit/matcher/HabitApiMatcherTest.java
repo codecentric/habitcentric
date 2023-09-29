@@ -1,6 +1,6 @@
-package de.codecentric.habitcentric.track.error.matcher;
+package de.codecentric.habitcentric.track.habit.matcher;
 
-import static de.codecentric.habitcentric.track.error.matcher.ApiErrorMatcher.hasHabitIdViolationError;
+import static de.codecentric.habitcentric.track.habit.matcher.HabitApiMatcher.hasHabitIdViolationError;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -10,7 +10,7 @@ import static org.mockito.Mockito.verify;
 import org.hamcrest.Description;
 import org.junit.jupiter.api.Test;
 
-public class ApiErrorMatcherTest {
+public class HabitApiMatcherTest {
 
   private final String habitIdViolationErrorResponse =
       "{\"errors\":[{\"code\":\"TRACK_101\",\"title\":\"Constraint violation\",\"detail\":\"must be greater than 0\",\"id\":\"123\"}]}";
