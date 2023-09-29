@@ -1,6 +1,6 @@
 import React from "react";
 import LinkSection, { LinkSectionData } from "./LinkSection";
-import { ReactComponent as Codecentric } from "../cc-black-logo.svg";
+import Codecentric from "../cc-black-logo.svg?react";
 import { SiInstagram, SiLinkedin, SiTwitter } from "@icons-pack/react-simple-icons";
 
 const linkSections: Array<LinkSectionData> = [
