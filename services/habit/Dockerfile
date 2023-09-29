@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17.0.8_7-jre
+FROM azul/zulu-openjdk:21-jre-latest
 WORKDIR /opt/
 COPY build/libs/habit-*.jar app.jar
 EXPOSE 9001

@@ -13,13 +13,22 @@ apply from: '../gradle/licenses.gradle'
 apply from: 'gradle/jacoco.gradle'
 
 group = 'de.codecentric'
-sourceCompatibility = JavaVersion.VERSION_17
 
 def dbUrlDefault = 'jdbc:postgresql://localhost:10001/'
 def dbUserDefault = 'postgres'
 def dbPasswordDefault = 'postgres'
 
 bootRun {
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+lombok {
+    version = "1.18.30"
 }
 
 liquibase {
