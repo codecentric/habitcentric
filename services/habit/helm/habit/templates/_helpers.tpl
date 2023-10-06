@@ -77,7 +77,7 @@ Create a default fully qualified app name for the postgres requirement.
 */}}
 {{- define "habit.postgresql.fullname" -}}
 {{- $postgresContext := dict "Values" .Values.postgresql "Release" .Release "Chart" (dict "Name" "postgresql") -}}
-{{ template "postgresql.primary.fullname" $postgresContext }}
+{{ template "postgresql.v1.primary.fullname" $postgresContext }}
 {{- end -}}
 
 {{/*
