@@ -1,0 +1,6 @@
+environments:
+  default:
+  istio:
+  linkerd:
+  kuma:
+  traefik-mesh:

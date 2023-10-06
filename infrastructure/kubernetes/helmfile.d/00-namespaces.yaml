@@ -1,13 +1,9 @@
+bases:
+  - environments.yaml
+
 repositories:
   - name: incubator
     url: https://charts.helm.sh/incubator
-
-environments:
-  default:
-  istio:
-  linkerd:
-  kuma:
-  traefik-mesh:
 
 releases:
 - name: namespaces

@@ -1,9 +1,5 @@
-environments:
-  default:
-  istio:
-  linkerd:
-  kuma:
-  traefik-mesh:
+bases:
+  - environments.yaml
 
 repositories:
   - name: bitnami-archive-full-index
