@@ -98,6 +98,7 @@ dependencies {
     // Spring Modulith
     implementation "org.springframework.modulith:spring-modulith-starter-core"
     implementation "org.springframework.modulith:spring-modulith-starter-jpa"
+    implementation "org.springframework.modulith:spring-modulith-events-kafka"
     intTestImplementation "org.springframework.modulith:spring-modulith-starter-test"
 
     implementation 'io.micrometer:micrometer-tracing-bridge-otel'

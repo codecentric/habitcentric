@@ -25,6 +25,15 @@ spring:
           lob:
             # https://github.com/spring-projects/spring-boot/issues/12007#issuecomment-370774241
             non_contextual_creation: true
+
+  kafka:
+    client-id: track
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:11003}
+    properties:
+      "security.protocol": SASL_PLAINTEXT
+      "sasl.mechanism": PLAIN
+      "sasl.jaas.config": 'org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_USER:track}" password="${KAFKA_PASSWORD:track}";'
+
 server:
   port: 9002
   error:

@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.modulith.events.Externalized;
 
 @Entity
 @AllArgsConstructor
@@ -34,7 +35,7 @@ public class HabitTracking extends AbstractAggregateRoot<HabitTracking> {
   public HabitTracking(String userId, Long habitId, LocalDate trackDate) {
     this.id = new HabitTracking.Id(userId, habitId, trackDate);
 
-    registerEvent(new HabitTracking.Created(userId, habitId, trackDate));
+    registerEvent(new DateTracked(userId, habitId, trackDate));
   }
 
   @Embeddable
@@ -55,5 +56,10 @@ public class HabitTracking extends AbstractAggregateRoot<HabitTracking> {
     @NotNull private LocalDate trackDate;
   }
 
-  public record Created(String userId, Long habitId, LocalDate trackDate) {}
+  @Externalized("habit-tracking-events::#{#this.getId()}")
+  public record DateTracked(String userId, Long habitId, LocalDate trackDate) {
+    public String getId() {
+      return userId + "-" + habitId;
+    }
+  }
 }

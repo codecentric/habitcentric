@@ -1,0 +1,16 @@
+bases:
+  - environments.yaml
+
+repositories:
+  - name: bitnami-archive-full-index
+    url: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+
+releases:
+  - name: kafka
+    namespace: hc-kafka
+    labels:
+      service: kafka
+    chart: bitnami-archive-full-index/kafka
+    version: 25.3.1
+    values:
+      - ./values/kafka-values.yaml.gotmpl

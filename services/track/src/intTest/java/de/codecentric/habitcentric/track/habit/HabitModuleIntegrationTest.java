@@ -20,13 +20,13 @@ public class HabitModuleIntegrationTest {
   @Autowired private HabitTrackingController habitTrackingController;
 
   @Test
-  void shouldPublishHabitTrackingCreatedEventWhenHabitTrackingIsSaved(Scenario scenario) {
+  void shouldPublishDateTrackedEventWhenHabitTrackingIsSaved(Scenario scenario) {
     scenario
         .stimulate(
             () ->
                 habitTrackingController.putHabitTrackingRecords(
                     "userId", 1L, Set.of(LocalDate.parse("2023-09-29"))))
-        .andWaitForEventOfType(HabitTracking.Created.class)
+        .andWaitForEventOfType(HabitTracking.DateTracked.class)
         .toArriveAndVerify(
             event -> {
               assertThat(event.habitId()).isEqualTo(1L);

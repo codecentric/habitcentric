@@ -52,6 +52,23 @@ spec:
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
+  name: hc-kafka-authz
+  namespace: hc-kafka
+spec:
+  action: ALLOW
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: kafka
+      app.kubernetes.io/instance: hc-kafka
+  rules:
+    - from:
+        - source:
+            principals:
+              - cluster.local/ns/hc-track/sa/track
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
  name: keycloak-authz
  namespace: hc-keycloak
 spec:
