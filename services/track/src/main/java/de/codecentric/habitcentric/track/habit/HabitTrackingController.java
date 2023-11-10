@@ -4,6 +4,7 @@ import de.codecentric.habitcentric.track.auth.UserId;
 import de.codecentric.habitcentric.track.habit.validation.HabitId;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ public class HabitTrackingController {
   @Transactional
   @PutMapping("/track/habits/{habitId}")
   @ResponseBody
-  public List<LocalDate> putHabitTrackingRecordsWithJwt(
+  public Collection<LocalDate> putHabitTrackingRecordsWithJwt(
       @UserId String userId,
       @PathVariable @HabitId Long habitId,
       @RequestBody Set<LocalDate> dates) {
@@ -38,16 +39,42 @@ public class HabitTrackingController {
   @Transactional
   @PutMapping("/track/users/{userId}/habits/{habitId}")
   @ResponseBody
-  public List<LocalDate> putHabitTrackingRecords(
+  public Collection<LocalDate> putHabitTrackingRecords(
       @PathVariable @UserId String userId,
       @PathVariable @HabitId Long habitId,
       @RequestBody Set<LocalDate> dates) {
-    repository.deleteByIdHabitId(habitId);
-    Set<HabitTracking> trackRecords =
-        dates.stream()
-            .map(date -> new HabitTracking(userId, habitId, date))
-            .collect(Collectors.toSet());
-    return extractDates(repository.saveAll(trackRecords));
+    var existingHabitTrackings = repository.findByIdUserIdAndIdHabitId(userId, habitId);
+
+    untrackRemovedTrackingDates(dates, existingHabitTrackings);
+    trackNewTrackingDates(userId, habitId, dates, existingHabitTrackings);
+
+    return dates.stream().sorted().toList();
+  }
+
+  private void untrackRemovedTrackingDates(
+      Set<LocalDate> dates, List<HabitTracking> existingHabitTrackings) {
+    existingHabitTrackings.stream()
+        .filter(ht -> !dates.contains(ht.getId().getTrackDate()))
+        .forEach(
+            ht -> {
+              ht.untrack();
+              repository.delete(ht);
+            });
+  }
+
+  private void trackNewTrackingDates(String userId, Long habitId, Set<LocalDate> dates, List<HabitTracking> existingHabitTrackings) {
+    var existingTrackDates =
+            existingHabitTrackings.stream()
+                                  .map(ht -> ht.getId().getTrackDate())
+                                  .collect(Collectors.toSet());
+
+    var newHabitTrackings =
+            dates.stream()
+                 .filter(date -> !existingTrackDates.contains(date))
+                 .map(date -> new HabitTracking(userId, habitId, date))
+                 .toList();
+
+    repository.saveAll(newHabitTrackings);
   }
 
   @GetMapping("/track/habits/{habitId}")

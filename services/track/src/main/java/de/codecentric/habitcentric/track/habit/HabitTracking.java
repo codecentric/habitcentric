@@ -38,6 +38,10 @@ public class HabitTracking extends AbstractAggregateRoot<HabitTracking> {
     registerEvent(new DateTracked(userId, habitId, trackDate));
   }
 
+  public void untrack() {
+    registerEvent(new DateUntracked(id.userId, id.habitId, id.trackDate));
+  }
+
   @Embeddable
   @AllArgsConstructor
   @NoArgsConstructor
@@ -58,6 +62,13 @@ public class HabitTracking extends AbstractAggregateRoot<HabitTracking> {
 
   @Externalized("habit-tracking-events::#{#this.getId()}")
   public record DateTracked(String userId, Long habitId, LocalDate trackDate) {
+    public String getId() {
+      return userId + "-" + habitId;
+    }
+  }
+
+  @Externalized("habit-tracking-events::#{#this.getId()}")
+  public record DateUntracked(String userId, Long habitId, LocalDate trackDate) {
     public String getId() {
       return userId + "-" + habitId;
     }
