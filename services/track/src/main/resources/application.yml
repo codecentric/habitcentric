@@ -33,6 +33,9 @@ spring:
       "security.protocol": SASL_PLAINTEXT
       "sasl.mechanism": PLAIN
       "sasl.jaas.config": 'org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_USER:track}" password="${KAFKA_PASSWORD:track}";'
+    producer:
+      properties:
+        "spring.json.type.mapping": "date-tracked:de.codecentric.habitcentric.track.habit.HabitTracking$DateTracked,date-untracked:de.codecentric.habitcentric.track.habit.HabitTracking$DateUntracked"
 
 server:
   port: 9002
