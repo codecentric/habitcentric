@@ -30,7 +30,7 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
 
   @AfterEach
   public void cleanUp() {
-    String[] tableNames = {"HC_TRACK.HABIT_TRACKING"};
+    String[] tableNames = {"HC_TRACK.TRACKED_DATES", "HC_TRACK.HABIT_TRACKING"};
     JdbcTestUtils.deleteFromTables(jdbcTemplate, tableNames);
   }
 

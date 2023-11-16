@@ -3,7 +3,6 @@ package de.codecentric.habitcentric.track.habit.jwt;
 import static java.time.Month.DECEMBER;
 import static java.time.Month.JANUARY;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyIterable;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,11 +35,14 @@ public class HabitTrackingControllerJwtWebMvcTest {
   private final String authorizationHeader = "Bearer _";
   private final Long habitId = 123L;
 
-  private final List<HabitTracking> defaultTrackRecords =
-      Arrays.asList(
-          new HabitTracking(userId, habitId, LocalDate.of(2019, JANUARY, 31)),
-          new HabitTracking(userId, habitId, LocalDate.of(2018, DECEMBER, 31)),
-          new HabitTracking(userId, habitId, LocalDate.of(2019, JANUARY, 1)));
+  private final HabitTracking defaultTrackRecords =
+      HabitTracking.from(
+          userId,
+          habitId,
+          Set.of(
+              LocalDate.of(2019, JANUARY, 31),
+              LocalDate.of(2018, DECEMBER, 31),
+              LocalDate.of(2019, JANUARY, 1)));
 
   private final String expected = "[\"2018-12-31\",\"2019-01-01\",\"2019-01-31\"]";
 
@@ -74,7 +76,8 @@ public class HabitTrackingControllerJwtWebMvcTest {
 
   @Test
   public void shouldReturnTrackRecords() throws Exception {
-    given(repository.findByIdUserIdAndIdHabitId(userId, habitId)).willReturn(defaultTrackRecords);
+    given(repository.findByIdUserIdAndIdHabitId(userId, habitId))
+        .willReturn(Optional.of(defaultTrackRecords));
     mockMvc
         .perform(get(urlTemplate, habitId).header(HttpHeaders.AUTHORIZATION, authorizationHeader))
         .andExpect(status().isOk())
@@ -83,7 +86,8 @@ public class HabitTrackingControllerJwtWebMvcTest {
 
   @Test
   public void shouldReturnEmptyArrayWhenTrackRecordsAreNotFound() throws Exception {
-    given(repository.findByIdUserIdAndIdHabitId(userId, habitId)).willReturn(new ArrayList<>());
+    given(repository.findByIdUserIdAndIdHabitId(userId, habitId))
+        .willReturn(Optional.of(HabitTracking.from(userId, habitId)));
     mockMvc
         .perform(get(urlTemplate, habitId).header(HttpHeaders.AUTHORIZATION, authorizationHeader))
         .andExpect(status().isOk())
@@ -92,7 +96,9 @@ public class HabitTrackingControllerJwtWebMvcTest {
 
   @Test
   public void shouldFilterOutDuplicateTrackRecords() throws Exception {
-    given(repository.saveAll(anyIterable())).willReturn(defaultTrackRecords);
+    given(repository.findByIdUserIdAndIdHabitId(userId, habitId))
+        .willReturn(Optional.of(defaultTrackRecords));
+    given(repository.save(any())).willReturn(defaultTrackRecords);
     mockMvc
         .perform(
             put(urlTemplate, habitId)

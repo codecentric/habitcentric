@@ -28,24 +28,30 @@ public class HabitModuleIntegrationTest {
 
   @Test
   void shouldPublishDateTrackedEventWhenHabitTrackingIsSaved(Scenario scenario) {
+    habitTrackingRepository.save(
+        HabitTracking.from("userId", 1L, Set.of(LocalDate.parse("2023-09-29"))));
+
     scenario
         .stimulate(
             () ->
                 habitTrackingController.putHabitTrackingRecords(
-                    "userId", 1L, Set.of(LocalDate.parse("2023-09-29"))))
+                    "userId",
+                    1L,
+                    Set.of(LocalDate.parse("2023-09-29"), LocalDate.parse("2023-09-30"))))
         .andWaitForEventOfType(HabitTracking.DateTracked.class)
         .toArriveAndVerify(
             event -> {
               assertThat(event.habitId()).isEqualTo(1L);
               assertThat(event.userId()).isEqualTo("userId");
-              assertThat(event.trackDate()).isEqualTo(LocalDate.parse("2023-09-29"));
+              assertThat(event.trackDate()).isEqualTo(LocalDate.parse("2023-09-30"));
             });
   }
 
   @Test
   void shouldPublishDateUntrackedEventWhenExistingHabitTrackingIsRemoved(Scenario scenario) {
-    habitTrackingController.putHabitTrackingRecords(
-        "userId", 1L, Set.of(LocalDate.parse("2023-09-29"), LocalDate.parse("2023-09-30")));
+    habitTrackingRepository.save(
+        HabitTracking.from(
+            "userId", 1L, Set.of(LocalDate.parse("2023-09-29"), LocalDate.parse("2023-09-30"))));
 
     scenario
         .stimulate(
