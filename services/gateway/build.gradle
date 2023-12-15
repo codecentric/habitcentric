@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '3.1.4'
+    id 'org.springframework.boot' version '3.2.0'
     id 'java'
     id 'com.diffplug.spotless' version '6.22.0'
     id "io.freefair.lombok" version "8.4"
@@ -45,7 +45,6 @@ ext {
     springCloudVersion = '2022.0.4'
     versions = [
             restAssured   : '5.3.2',
-            junitJupiter  : '5.8.0',
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce
