@@ -74,7 +74,7 @@
     "prettier-plugin-tailwindcss": "0.5.4",
     "tailwindcss": "3.3.3",
     "vite": "^5.0.0",
-    "vite-plugin-svgr": "^4.0.0",
+    "vite-plugin-svgr": "^4.2.0",
     "vitest": "^1.0.0"
   },
   "msw": {
