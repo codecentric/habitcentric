@@ -1,4 +1,4 @@
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { sub } from "date-fns";
 import { CreateHabitRequest } from "../../overview/api/habit/api";
 import { TrackedDates } from "../../overview/api/track/model";
@@ -55,20 +55,20 @@ const achievement = {
 };
 
 export const handlers = [
-  rest.get("/habits", (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(habits));
+  http.get("/habits", async () => {
+    return HttpResponse.json(habits);
   }),
-  rest.delete("/habits/:habitId", (req, res, ctx) => {
-    let { habitId } = req.params;
+  http.delete<{ habitId: string }>("/habits/:habitId", ({ params }) => {
+    let { habitId } = params;
     habits = habits.filter((habit) => habit.id !== parseInt(habitId as string));
     trackedDatesMap.delete(parseInt(habitId as string));
-    return res(ctx.status(200), ctx.json(habits));
+    return HttpResponse.json(habits);
   }),
-  rest.get("/report/achievement", (req, res, ctx) => {
-    return res(ctx.status(200), ctx.json(achievement));
+  http.get("/report/achievement", () => {
+    return HttpResponse.json(achievement);
   }),
-  rest.post<CreateHabitRequest>("/habits", (req, res, ctx) => {
-    const body = req.body;
+  http.post<never, CreateHabitRequest>("/habits", async ({ request }) => {
+    const body = await request.json();
     const nextId = Math.max(...habits.map((habit) => habit.id)) + 1;
     habits = [
       ...habits,
@@ -78,19 +78,21 @@ export const handlers = [
       },
     ];
     trackedDatesMap.set(nextId, []);
-    return res(ctx.status(201));
+    return new Response(null, { status: 201 });
   }),
-  rest.get("/track/habits/:habitId", (req, res, ctx) => {
-    const { habitId } = req.params;
-    return res(
-      ctx.status(200),
-      ctx.json(trackedDatesMap.get(parseInt(habitId as string)))
-    );
+  http.get<{ habitId: string }>("/track/habits/:habitId", ({ params }) => {
+    const { habitId } = params;
+    return HttpResponse.json(trackedDatesMap.get(parseInt(habitId as string)));
   }),
-  rest.put<TrackedDates>("/track/habits/:habitId", (req, res, ctx) => {
-    const { habitId } = req.params;
-    const trackedDates = req.body;
-    trackedDatesMap.set(parseInt(habitId as string), trackedDates);
-    return res(ctx.status(200));
-  }),
+  http.put<{ habitId: string }, TrackedDates>(
+    "/track/habits/:habitId",
+    async ({ request, params }) => {
+      const { habitId } = params;
+      const trackedDates = await request.json();
+      trackedDatesMap.set(parseInt(habitId as string), trackedDates);
+      return new Response(null, {
+        status: 200,
+      });
+    }
+  ),
 ];
