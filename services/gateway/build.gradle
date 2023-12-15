@@ -45,7 +45,6 @@ ext {
     springCloudVersion = '2022.0.4'
     versions = [
             restAssured   : '5.3.2',
-            junitJupiter  : '5.8.0',
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce

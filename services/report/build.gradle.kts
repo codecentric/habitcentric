@@ -46,7 +46,7 @@ repositories {
 extra["chaosMonkeyVersion"] = "3.0.2"
 extra["mockkVersion"] = "1.13.8"
 extra["springMockkVersion"] = "4.0.2"
-extra["wiremockVersion"] = "3.0.1"
+extra["wiremockVersion"] = "3.3.1"
 extra["moschiVersion"] = "1.15.0"
 
 dependencies {
@@ -74,7 +74,9 @@ dependencies {
 
     testImplementation("io.mockk:mockk:${property("mockkVersion")}")
     testImplementation("com.ninja-squad:springmockk:${property("springMockkVersion")}")
-    testImplementation("com.github.tomakehurst:wiremock:${property("wiremockVersion")}")
+    // the standalone dependency avoids problems with jetty dependencies
+    // https://github.com/wiremock/wiremock/issues/2317#issuecomment-1695804622
+    testImplementation("org.wiremock:wiremock-standalone:${property("wiremockVersion")}")
 }
 
 tasks.withType<Test> {
