@@ -6,7 +6,7 @@ plugins {
     id("org.openapi.generator") version "7.0.1"
     id("com.github.jk1.dependency-license-report") version "2.5"
     id("org.springframework.boot") version "3.1.4"
-    id("com.diffplug.spotless") version "6.22.0"
+    id("com.diffplug.spotless") version "6.23.3"
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.spring") version "1.9.10"
 }
