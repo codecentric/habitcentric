@@ -23,7 +23,9 @@ vi.mock("react-oidc-context", () => ({
 // during api calls...
 const originalUrl = URL;
 const myUrl = function (url: string | URL, base?: string | URL | undefined) {
-  return new originalUrl(url, base || "http://localhost/");
+  // msw 2.0 resolves relative paths against `location.origin` which is http://localhost:3000.
+  // To make msw match against relative paths we need to prefix relative urls with that.
+  return new originalUrl(url, base || "http://localhost:3000/");
 };
 //@ts-ignore
 URL = myUrl;
