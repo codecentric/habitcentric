@@ -67,7 +67,7 @@ configurations {
 
 ext {
     versions = [
-            restAssured       : '5.3.2',
+            restAssured       : '5.4.0',
             junitJupiter      : '5.8.0',
             chaosMonkey       : '3.0.2',
             testcontainers    : '1.19.0',
