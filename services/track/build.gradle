@@ -71,7 +71,7 @@ ext {
             chaosMonkey       : '3.0.2',
             testcontainers    : '1.19.0',
             reflections       : '0.10.2',
-            postgresql        : '42.6.0',
+            postgresql        : '42.7.1',
             jna               : '5.8.0'
     ]
 }
