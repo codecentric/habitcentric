@@ -19,7 +19,7 @@
     "react-dom": "18.2.0",
     "react-oidc-context": "2.3.0",
     "react-popper": "2.3.0",
-    "react-router-dom": "6.16.0",
+    "react-router-dom": "6.21.0",
     "react-simple-icons": "1.0.0-beta.5",
     "simple-icons": "9.17.0",
     "swr": "2.2.4",
