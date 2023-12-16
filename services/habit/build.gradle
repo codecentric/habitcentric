@@ -71,7 +71,7 @@ ext {
             junitJupiter      : '5.8.0',
             chaosMonkey       : '3.0.2',
             testcontainers    : '1.19.0',
-            postgresql        : '42.6.0',
+            postgresql        : '42.7.1',
             springdoc         : '2.2.0',
             liquibase         : '4.25.0',
             pactProvider      : '4.6.3',
