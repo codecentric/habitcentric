@@ -10,7 +10,7 @@ Flask-Cors==4.0.0
 gevent==23.9.1
 geventhttpclient==2.0.10
 google-auth==2.23.2
-greenlet==2.0.2
+greenlet==3.0.3
 idna==3.4
 itsdangerous==2.1.2
 Jinja2==3.1.2
