@@ -32,7 +32,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
-@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+@EnableAutoConfiguration(
+    exclude = DataSourceAutoConfiguration.class,
+    excludeName = "org.springframework.modulith.events.jpa.JpaEventPublicationAutoConfiguration")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class AuthTest {
