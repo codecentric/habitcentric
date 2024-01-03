@@ -4,15 +4,16 @@ import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
 import java.time.LocalDate
+import java.util.UUID
 
 @Service
 class HabitTrackingService(
-    val habitTrackingProperties: HabitTrackingProperties,
-    val restTemplate: RestTemplate
+  val habitTrackingProperties: HabitTrackingProperties,
+  val restTemplate: RestTemplate
 ) {
 
-    private val trackEndpointUrl: String get() = "${habitTrackingProperties.serviceUrl}/track"
+  private val trackEndpointUrl: String get() = "${habitTrackingProperties.serviceUrl}/track"
 
-    fun getTrackingDates(habitId: Long): List<LocalDate> =
-        restTemplate.getForObject<Array<LocalDate>>("$trackEndpointUrl/habits/$habitId").asList()
+  fun getTrackingDates(habitId: UUID): List<LocalDate> =
+    restTemplate.getForObject<Array<LocalDate>>("$trackEndpointUrl/habits/$habitId").asList()
 }

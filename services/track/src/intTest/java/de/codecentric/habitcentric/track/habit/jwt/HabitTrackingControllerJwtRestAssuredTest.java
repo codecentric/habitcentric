@@ -10,6 +10,7 @@ import static org.hamcrest.Matchers.*;
 import de.codecentric.habitcentric.track.RestAssuredTest;
 import io.restassured.specification.RequestSpecification;
 import java.time.LocalDate;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class HabitTrackingControllerJwtRestAssuredTest extends RestAssuredTest {
 
   private final String urlTemplate = "/track/habits/{habitId}";
 
-  private final Long habitId = 123L;
+  private final UUID habitId = UUID.randomUUID();
 
   @Autowired private JdbcTemplate jdbcTemplate;
 

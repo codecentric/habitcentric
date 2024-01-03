@@ -6,11 +6,11 @@ import { fetchWithToken } from "../../../auth/fetchWithToken";
 const trackedDatesFetcher: Fetcher<string[], [string, string, string]> = ([url, habitId, token]) =>
   fetchWithToken(`${url}/${habitId}`, {}, token).then((res) => res.json());
 
-export function useTrackedDatesOfHabit(habitId: number) {
+export function useTrackedDatesOfHabit(habitId: string) {
   const auth = useAuth();
   const { data, error } = useSWR(
     ["/track/habits", habitId, auth.user?.access_token],
-    trackedDatesFetcher
+    trackedDatesFetcher,
   );
 
   const trackedDates = data?.map((dateString) => parseISO(dateString));

@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataAccessException;
@@ -46,7 +47,7 @@ public class HabitController {
       security = {@SecurityRequirement(name = "User-ID"), @SecurityRequirement(name = "basicAuth")})
   @GetMapping("/habits/{id}")
   @ResponseBody
-  public Habit getHabit(@PathVariable Long id, @Parameter(hidden = true) @UserId String userId) {
+  public Habit getHabit(@PathVariable UUID id, @Parameter(hidden = true) @UserId String userId) {
     return repository
         .findByIdAndUserId(id, userId)
         .orElseThrow(
@@ -83,7 +84,7 @@ public class HabitController {
       security = {@SecurityRequirement(name = "User-ID"), @SecurityRequirement(name = "basicAuth")})
   @DeleteMapping("/habits/{id}")
   public ResponseEntity deleteHabit(
-      @PathVariable Long id, @Parameter(hidden = true) @UserId String userId) {
+      @PathVariable UUID id, @Parameter(hidden = true) @UserId String userId) {
     Long deletedRecords = repository.deleteByIdAndUserId(id, userId);
     if (deletedRecords < 1) {
       throw new ResponseStatusException(

@@ -4,10 +4,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
@@ -15,6 +12,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -39,10 +37,7 @@ public class Habit extends AbstractAggregateRoot<Habit> {
 
   public static final String CONSTRAINT_NAME_UNIQUE_NAME = "unique_habit_name";
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habit_id_generator")
-  @SequenceGenerator(name = "habit_id_generator", sequenceName = "habit_seq")
-  private Long id;
+  @Id private UUID id;
 
   @NotBlank
   @Size(max = 64)
@@ -80,6 +75,7 @@ public class Habit extends AbstractAggregateRoot<Habit> {
   public static Habit from(ModificationRequest modificationRequest, String userId) {
     Habit habit =
         builder()
+            .id(UUID.randomUUID())
             .name(modificationRequest.getName())
             .schedule(modificationRequest.getSchedule())
             .userId(userId)
@@ -112,7 +108,7 @@ public class Habit extends AbstractAggregateRoot<Habit> {
   }
 
   public record HabitCreated(
-      Long habitId, String name, Schedule.Frequency frequency, Integer repetitions) {
+      UUID habitId, String name, Schedule.Frequency frequency, Integer repetitions) {
     public String getId() {
       return habitId.toString();
     }

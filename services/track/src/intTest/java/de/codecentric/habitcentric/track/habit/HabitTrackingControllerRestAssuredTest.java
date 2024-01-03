@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.startsWith;
 
 import de.codecentric.habitcentric.track.RestAssuredTest;
 import java.time.LocalDate;
+import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +25,7 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
 
   private final String urlTemplate = "/track/users/{userId}/habits/{habitId}";
   private final String userId = "abc.def";
-  private final Long habitId = 123L;
+  private final UUID habitId = UUID.randomUUID();
 
   @Autowired private JdbcTemplate jdbcTemplate;
 
@@ -190,10 +191,10 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
   }
 
   @Test
-  public void shouldRejectGetRequestsWithoutPositiveHabitId() {
+  public void shouldRejectGetRequestsWithoutUuidHabitId() {
     given()
         .when()
-        .get(urlTemplate, userId, 0)
+        .get(urlTemplate, userId, "abcd")
         .then()
         .statusCode(400)
         .contentType(JSON)
@@ -227,12 +228,12 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
   }
 
   @Test
-  public void shouldRejectPutRequestsWithoutPositiveHabitId() {
+  public void shouldRejectPutRequestsWithoutUuidHabitId() {
     given()
         .contentType(JSON)
         .body(new LocalDate[0])
         .when()
-        .put(urlTemplate, userId, 0)
+        .put(urlTemplate, userId, "abcd")
         .then()
         .statusCode(400)
         .contentType(JSON)
@@ -244,7 +245,7 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
     given()
         .body(new LocalDate[0])
         .when()
-        .put(urlTemplate, userId, 0)
+        .put(urlTemplate, userId, "d712645f-cd4f-40c4-b171-bb2ea72d180d")
         .then()
         .statusCode(415)
         .contentType(JSON)
@@ -257,7 +258,7 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
     given()
         .contentType(JSON)
         .when()
-        .put(urlTemplate, userId, 0)
+        .put(urlTemplate, userId, "d712645f-cd4f-40c4-b171-bb2ea72d180d")
         .then()
         .statusCode(400)
         .contentType(JSON)
@@ -272,7 +273,7 @@ public class HabitTrackingControllerRestAssuredTest extends RestAssuredTest {
         .contentType(JSON)
         .body(body)
         .when()
-        .put(urlTemplate, userId, 0)
+        .put(urlTemplate, userId, "d712645f-cd4f-40c4-b171-bb2ea72d180d")
         .then()
         .statusCode(400)
         .contentType(JSON)

@@ -4,13 +4,13 @@ import { fetchWithToken } from "../../../auth/fetchWithToken";
 import { ScopedMutator } from "swr/_internal";
 
 export async function putTrackedDates(
-  habitId: number,
+  habitId: string,
   trackedDates: Date[],
-  mutate: ScopedMutator
+  mutate: ScopedMutator,
 ) {
   const user = getUser();
   const formattedTrackedDates = trackedDates.map((date) =>
-    formatISO(date, { representation: "date" })
+    formatISO(date, { representation: "date" }),
   );
   await fetchWithToken(
     `/track/habits/${habitId}`,
@@ -21,7 +21,7 @@ export async function putTrackedDates(
       },
       body: JSON.stringify(formattedTrackedDates),
     },
-    user?.access_token
+    user?.access_token,
   );
   await mutate(["/track/habits", habitId, user?.access_token]);
   await mutate(["/report/achievement", user?.access_token]);

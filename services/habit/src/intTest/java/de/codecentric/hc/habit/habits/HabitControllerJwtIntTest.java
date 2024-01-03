@@ -2,6 +2,7 @@ package de.codecentric.hc.habit.habits;
 
 import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.DAILY;
 import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.WEEKLY;
+import static de.codecentric.hc.habit.testing.CustomMatchers.isValidUuid;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,6 +14,7 @@ import de.codecentric.hc.habit.habits.Habit.Schedule;
 import de.codecentric.hc.habit.testing.RestAssuredTest;
 import io.restassured.http.Header;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -57,7 +59,7 @@ public class HabitControllerJwtIntTest extends RestAssuredTest {
         .then()
         .statusCode(OK.value())
         .body("name", contains(expected))
-        .body("id", everyItem(greaterThan(0)));
+        .body("id", everyItem(isValidUuid()));
   }
 
   @Test
@@ -75,7 +77,7 @@ public class HabitControllerJwtIntTest extends RestAssuredTest {
         .then()
         .statusCode(OK.value())
         .body("name", contains(expected))
-        .body("id", everyItem(greaterThan(0)));
+        .body("id", everyItem(isValidUuid()));
   }
 
   @Test
@@ -238,13 +240,14 @@ public class HabitControllerJwtIntTest extends RestAssuredTest {
 
   @Test
   public void deleteHabitNotFound() {
+    UUID habitId = UUID.randomUUID();
     given()
         .header(DEFAULT_AUTHORIZATION_HEADER)
         .when()
-        .delete("/habits/{id}", 999)
+        .delete("/habits/{id}", habitId)
         .then()
         .statusCode(NOT_FOUND.value())
-        .body("message", equalTo("Habit '999' could not be found."));
+        .body("message", equalTo(String.format("Habit '%s' could not be found.", habitId)));
   }
 
   private String insertHabit(String name) {

@@ -7,7 +7,7 @@ import CardPopover from "../CardPopover";
 import TrackDatePicker from "./TrackDatePicker";
 
 export type HabitItemProps = {
-  id: number;
+  id: string;
   name: string;
   schedule: Schedule;
 };
@@ -27,7 +27,7 @@ export function HabitItem({ id, name, schedule }: HabitItemProps) {
   );
 }
 
-type TrackPopoverProps = { habitId: number; name: string };
+type TrackPopoverProps = { habitId: string; name: string };
 
 function TrackPopover({ habitId, name }: TrackPopoverProps) {
   return (
@@ -37,7 +37,7 @@ function TrackPopover({ habitId, name }: TrackPopoverProps) {
   );
 }
 
-type DeleteButtonProps = { id: number; name: string };
+type DeleteButtonProps = { id: string; name: string };
 
 function DeleteButton({ id, name }: DeleteButtonProps) {
   const { mutate } = useSWRConfig();

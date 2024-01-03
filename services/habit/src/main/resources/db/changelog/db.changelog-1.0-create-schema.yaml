@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: BIGINT
+                  type: UUID
               - column:
                   name: name
                   type: VARCHAR(64)

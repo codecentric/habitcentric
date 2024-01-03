@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 public class HabitApiMatcherTest {
 
   private final String habitIdViolationErrorResponse =
-      "{\"errors\":[{\"code\":\"TRACK_101\",\"title\":\"Constraint violation\",\"detail\":\"must be greater than 0\",\"id\":\"123\"}]}";
+      "{\"errors\":[{\"code\":\"TRACK_101\",\"title\":\"Constraint violation\",\"detail\":\"must be a valid UUID\",\"id\":\"123\"}]}";
   private final String mismatchErrorResponse =
       "{\"errors\":[{\"code\":\"TRACK_101\",\"title\":\"Constraint violation\",\"detail\":\"MISMATCH\",\"id\":\"123\"}]}";
   private final String multipleErrorsResponse =
@@ -42,6 +42,6 @@ public class HabitApiMatcherTest {
     hasHabitIdViolationError().describeTo(description);
     verify(description)
         .appendText(
-            "{\"code\":\"TRACK_101\",\"title\":\"Constraint violation\",\"detail\":\"must be greater than 0\"}");
+            "{\"code\":\"TRACK_101\",\"title\":\"Constraint violation\",\"detail\":\"must be a valid UUID\"}");
   }
 }

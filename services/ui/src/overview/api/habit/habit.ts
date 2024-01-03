@@ -1,5 +1,5 @@
 export type Habit = {
-  id: number;
+  id: string;
   name: string;
   schedule: Schedule;
 };
@@ -13,7 +13,7 @@ export type Frequency = "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
 
 export function scheduleToString(schedule: Schedule): string {
   return `${repetitionsToString(schedule.repetitions)} per ${frequencyToString(
-    schedule.frequency
+    schedule.frequency,
   )}`;
 }
 

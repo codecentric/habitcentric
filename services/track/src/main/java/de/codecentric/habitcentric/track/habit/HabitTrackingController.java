@@ -1,12 +1,12 @@
 package de.codecentric.habitcentric.track.habit;
 
 import de.codecentric.habitcentric.track.auth.UserId;
-import de.codecentric.habitcentric.track.habit.validation.HabitId;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
+import java.util.UUID;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,22 +26,23 @@ public class HabitTrackingController {
   }
 
   @Transactional
-  @PutMapping("/track/habits/{habitId}")
+  @PutMapping("/track/habits/{habitIdString}")
   @ResponseBody
   public Collection<LocalDate> putHabitTrackingRecordsWithJwt(
       @UserId String userId,
-      @PathVariable @HabitId Long habitId,
+      @org.hibernate.validator.constraints.UUID @PathVariable String habitIdString,
       @RequestBody Set<LocalDate> dates) {
-    return putHabitTrackingRecords(userId, habitId, dates);
+    return putHabitTrackingRecords(userId, habitIdString, dates);
   }
 
   @Transactional
-  @PutMapping("/track/users/{userId}/habits/{habitId}")
+  @PutMapping("/track/users/{userId}/habits/{habitIdString}")
   @ResponseBody
   public Collection<LocalDate> putHabitTrackingRecords(
       @PathVariable @UserId String userId,
-      @PathVariable @HabitId Long habitId,
+      @org.hibernate.validator.constraints.UUID @PathVariable String habitIdString,
       @RequestBody Set<LocalDate> dates) {
+    var habitId = UUID.fromString(habitIdString);
     var existingHabitTrackings =
         repository
             .findByIdUserIdAndIdHabitId(userId, habitId)
@@ -54,19 +55,21 @@ public class HabitTrackingController {
     return existingHabitTrackings.getSortedTrackingDates();
   }
 
-  @GetMapping("/track/habits/{habitId}")
+  @GetMapping("/track/habits/{habitIdString}")
   @ResponseBody
   public Iterable<LocalDate> getHabitTrackingRecordsWithJwt(
-      @UserId String userId, @PathVariable @HabitId Long habitId) {
-    return getHabitTrackingRecords(userId, habitId);
+      @UserId String userId,
+      @org.hibernate.validator.constraints.UUID @PathVariable String habitIdString) {
+    return getHabitTrackingRecords(userId, habitIdString);
   }
 
-  @GetMapping("/track/users/{userId}/habits/{habitId}")
+  @GetMapping("/track/users/{userId}/habits/{habitIdString}")
   @ResponseBody
   public Iterable<LocalDate> getHabitTrackingRecords(
-      @PathVariable @UserId String userId, @PathVariable @HabitId Long habitId) {
+      @PathVariable @UserId String userId,
+      @org.hibernate.validator.constraints.UUID @PathVariable String habitIdString) {
     return repository
-        .findByIdUserIdAndIdHabitId(userId, habitId)
+        .findByIdUserIdAndIdHabitId(userId, UUID.fromString(habitIdString))
         .map(HabitTracking::getSortedTrackingDates)
         .orElse(Collections.emptyList());
   }

@@ -12,7 +12,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -20,6 +19,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -82,11 +82,11 @@ public class HabitTracking extends AbstractAggregateRoot<HabitTracking> {
     return trackings.stream().sorted().toList();
   }
 
-  public static HabitTracking from(String userId, Long habitId) {
+  public static HabitTracking from(String userId, UUID habitId) {
     return new HabitTracking(new Id(userId, habitId), new HashSet<>());
   }
 
-  public static HabitTracking from(String userId, Long habitId, Collection<LocalDate> trackings) {
+  public static HabitTracking from(String userId, UUID habitId, Collection<LocalDate> trackings) {
     return new HabitTracking(new Id(userId, habitId), new HashSet<>(trackings));
   }
 
@@ -102,18 +102,18 @@ public class HabitTracking extends AbstractAggregateRoot<HabitTracking> {
     @Size(max = 64)
     private String userId;
 
-    @NotNull @Positive private Long habitId;
+    @NotNull private UUID habitId;
   }
 
   @Externalized("habit-tracking-events::#{#this.getId()}")
-  public record DateTracked(String userId, Long habitId, LocalDate trackDate) {
+  public record DateTracked(String userId, UUID habitId, LocalDate trackDate) {
     public String getId() {
       return userId + "-" + habitId;
     }
   }
 
   @Externalized("habit-tracking-events::#{#this.getId()}")
-  public record DateUntracked(String userId, Long habitId, LocalDate trackDate) {
+  public record DateUntracked(String userId, UUID habitId, LocalDate trackDate) {
     public String getId() {
       return userId + "-" + habitId;
     }
