@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.modulith.events.Externalized;
 
 @Entity
 @Builder
@@ -116,12 +117,14 @@ public class Habit extends AbstractAggregateRoot<Habit> {
     @NotNull @Valid private Schedule schedule;
   }
 
+  @Externalized("habit-events::#{#this.habitId}")
   public record HabitCreated(
-      UUID habitId, String userId, String name, Schedule.Frequency frequency, Integer repetitions) {
-    public String getId() {
-      return habitId.toString();
-    }
-  }
+      UUID habitId,
+      String userId,
+      String name,
+      Schedule.Frequency frequency,
+      Integer repetitions) {}
 
+  @Externalized("habit-events::#{#this.habitId}")
   public record HabitDeleted(UUID habitId) {}
 }
