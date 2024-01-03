@@ -13,3 +13,23 @@ sasl:
       - "track"
     passwords:
       - "track"
+
+externalAccess:
+  enabled: true
+  service:
+    broker:
+      type: LoadBalancer
+      ports:
+        external: 9094
+    controller:
+      type: LoadBalancer
+      containerPorts:
+        external: 9094
+  autoDiscovery:
+    enabled: true
+
+serviceAccount:
+  create: true
+
+rbac:
+  create: true
