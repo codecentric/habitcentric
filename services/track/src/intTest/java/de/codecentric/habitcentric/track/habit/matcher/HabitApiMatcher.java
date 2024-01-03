@@ -12,6 +12,6 @@ public class HabitApiMatcher {
   }
 
   public static Matcher<String> hasHabitIdViolationError() {
-    return hasError(CONSTRAINT_VIOLATION, "must be greater than 0");
+    return hasError(CONSTRAINT_VIOLATION, "must be a valid UUID");
   }
 }

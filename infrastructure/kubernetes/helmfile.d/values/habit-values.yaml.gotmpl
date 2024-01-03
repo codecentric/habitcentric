@@ -18,8 +18,10 @@ image:
 
 ## habitcentric habit service configuration
 
-{{- if (eq .Environment.Name "traefik-mesh") }}
 extraEnv:
+  - name: KAFKA_BOOTSTRAP_SERVERS
+    value: kafka.hc-kafka.svc.cluster.local:9092
+{{- if (eq .Environment.Name "traefik-mesh") }}
   - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
     value: http://jaeger-collector.traefik-mesh.svc.cluster.local:9411
 {{- end }}

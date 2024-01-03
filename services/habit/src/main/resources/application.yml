@@ -24,6 +24,17 @@ spring:
   liquibase:
     change-log: db/changelog/db.changelog-master.yaml
     default-schema: hc_habit
+
+  kafka:
+    client-id: habit
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:11003}
+    properties:
+      "security.protocol": SASL_PLAINTEXT
+      "sasl.mechanism": PLAIN
+      "sasl.jaas.config": 'org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_USER:habit}" password="${KAFKA_PASSWORD:habit}";'
+    producer:
+      properties:
+        "spring.json.type.mapping": "habit-created:de.codecentric.hc.habit.habits.Habit.HabitCreated,habit-deleted:de.codecentric.hc.habit.habits.Habit.HabitDeleted"
 logging:
   level:
     liquibase.executor: WARN

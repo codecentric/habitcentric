@@ -8,7 +8,7 @@ import { putTrackedDates } from "../../api/track/api";
 import { useSWRConfig } from "swr";
 
 export type TrackDatePickerProps = {
-  habitId: number;
+  habitId: string;
 };
 
 function TrackDatePicker({ habitId }: TrackDatePickerProps) {
@@ -20,12 +20,9 @@ function TrackDatePicker({ habitId }: TrackDatePickerProps) {
 
   async function updateTrackedDates(selectedDate: Date) {
     const updatedTrackedDates =
-      trackedDates!.findIndex(
-        (trackedDate) => trackedDate.valueOf() === selectedDate.valueOf()
-      ) >= 0
-        ? trackedDates!.filter(
-            (trackedDate) => trackedDate.valueOf() !== selectedDate.valueOf()
-          )
+      trackedDates!.findIndex((trackedDate) => trackedDate.valueOf() === selectedDate.valueOf()) >=
+      0
+        ? trackedDates!.filter((trackedDate) => trackedDate.valueOf() !== selectedDate.valueOf())
         : [...trackedDates!, selectedDate];
     await putTrackedDates(habitId, updatedTrackedDates, mutate);
   }

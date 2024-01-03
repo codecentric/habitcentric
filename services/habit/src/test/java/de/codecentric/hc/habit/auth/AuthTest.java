@@ -20,6 +20,7 @@ import jakarta.servlet.ServletException;
 import jakarta.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureMockMvc
-@EnableAutoConfiguration(exclude = DataSourceAutoConfiguration.class)
+@EnableAutoConfiguration(
+    exclude = DataSourceAutoConfiguration.class,
+    excludeName = "org.springframework.modulith.events.jpa.JpaEventPublicationAutoConfiguration")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 public class AuthTest {
@@ -43,7 +46,7 @@ public class AuthTest {
   private static final List<Habit> DEFAULT_HABITS =
       Arrays.asList(
           Habit.builder()
-              .id(123l)
+              .id(UUID.randomUUID())
               .name("ABC")
               .userId(DEFAULT_USER)
               .schedule(DEFAULT_SCHEDULE)

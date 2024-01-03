@@ -64,6 +64,7 @@ spec:
     - from:
         - source:
             principals:
+              - cluster.local/ns/hc-habit/sa/habit
               - cluster.local/ns/hc-track/sa/track
 ---
 apiVersion: security.istio.io/v1beta1

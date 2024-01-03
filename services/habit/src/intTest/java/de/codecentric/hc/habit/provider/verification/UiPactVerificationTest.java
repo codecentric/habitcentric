@@ -7,6 +7,7 @@ import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import de.codecentric.hc.habit.habits.Habit.Schedule.Frequency;
+import java.util.UUID;
 import org.apache.hc.core5.http.HttpRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -56,13 +57,22 @@ public class UiPactVerificationTest {
 
   @State("habits 'Jogging', 'Meditate' and 'Play guitar' exist")
   public void createHabitsJoggingAndMeditateAndPlayGuitar() {
-    jdbcTemplate.update(INSERT_STATEMENT, 1, "Jogging", 2, Frequency.WEEKLY.name(), USER_ID);
-    jdbcTemplate.update(INSERT_STATEMENT, 51, "Play guitar", 5, Frequency.MONTHLY.name(), USER_ID);
-    jdbcTemplate.update(INSERT_STATEMENT, 101, "Meditate", 1, Frequency.DAILY.name(), USER_ID);
+    jdbcTemplate.update(
+        INSERT_STATEMENT, UUID.randomUUID(), "Jogging", 2, Frequency.WEEKLY.name(), USER_ID);
+    jdbcTemplate.update(
+        INSERT_STATEMENT, UUID.randomUUID(), "Play guitar", 5, Frequency.MONTHLY.name(), USER_ID);
+    jdbcTemplate.update(
+        INSERT_STATEMENT, UUID.randomUUID(), "Meditate", 1, Frequency.DAILY.name(), USER_ID);
   }
 
-  @State("habit with id '123' exists")
+  @State("habit with id 'd712645f-cd4f-40c4-b171-bb2ea72d180d' exists")
   public void createHabit123() {
-    jdbcTemplate.update(INSERT_STATEMENT, 123, "Habit name", 1, Frequency.DAILY.name(), USER_ID);
+    jdbcTemplate.update(
+        INSERT_STATEMENT,
+        UUID.fromString("d712645f-cd4f-40c4-b171-bb2ea72d180d"),
+        "Habit name",
+        1,
+        Frequency.DAILY.name(),
+        USER_ID);
   }
 }

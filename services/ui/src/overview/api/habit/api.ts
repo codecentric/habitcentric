@@ -9,7 +9,7 @@ export async function createHabit(
   name: string,
   repetitions: number,
   frequency: Frequency,
-  mutate: ScopedMutator
+  mutate: ScopedMutator,
 ) {
   const user = getUser();
   const request: CreateHabitRequest = {
@@ -28,20 +28,20 @@ export async function createHabit(
       },
       body: JSON.stringify(request),
     },
-    user?.access_token
+    user?.access_token,
   );
   await mutate(["/habits", user?.access_token]);
   await mutate(["/report/achievement", user?.access_token]);
 }
 
-export async function deleteHabit(id: number, mutate: ScopedMutator) {
+export async function deleteHabit(id: string, mutate: ScopedMutator) {
   const user = getUser();
   await fetchWithToken(
     `/habits/${id}`,
     {
       method: "DELETE",
     },
-    user?.access_token
+    user?.access_token,
   );
   await mutate(["/habits", user?.access_token]);
   await mutate(["/report/achievement", user?.access_token]);

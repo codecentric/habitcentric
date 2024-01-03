@@ -2,6 +2,7 @@ package de.codecentric.hc.habit.habits;
 
 import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.DAILY;
 import static de.codecentric.hc.habit.habits.Habit.Schedule.Frequency.WEEKLY;
+import static de.codecentric.hc.habit.testing.CustomMatchers.isValidUuid;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.when;
 import static io.restassured.http.ContentType.JSON;
@@ -9,7 +10,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.everyItem;
-import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.isEmptyOrNullString;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -23,6 +23,7 @@ import de.codecentric.hc.habit.habits.Habit.Schedule;
 import de.codecentric.hc.habit.testing.RestAssuredTest;
 import io.restassured.http.Header;
 import java.sql.SQLException;
+import java.util.UUID;
 import java.util.stream.Stream;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.AfterEach;
@@ -61,7 +62,7 @@ public class HabitControllerIntTest extends RestAssuredTest {
         .then()
         .statusCode(200)
         .body("name", contains(expected))
-        .body("id", everyItem(greaterThan(0)));
+        .body("id", everyItem(isValidUuid()));
   }
 
   @Test
@@ -79,7 +80,7 @@ public class HabitControllerIntTest extends RestAssuredTest {
         .then()
         .statusCode(200)
         .body("name", contains(expected))
-        .body("id", everyItem(greaterThan(0)));
+        .body("id", everyItem(isValidUuid()));
   }
 
   @Test
@@ -246,19 +247,20 @@ public class HabitControllerIntTest extends RestAssuredTest {
 
   @Test
   public void deleteHabitNotFound() {
+    UUID habitId = UUID.randomUUID();
     given()
         .header(DEFAULT_USER_ID_HEADER)
         .when()
-        .delete("/habits/{id}", 999)
+        .delete("/habits/{id}", habitId)
         .then()
         .statusCode(NOT_FOUND.value())
-        .body("message", equalTo("Habit '999' could not be found."));
+        .body("message", equalTo(String.format("Habit '%s' could not be found.", habitId)));
   }
 
   @Test
   public void deleteHabitWithoutAuthShouldFail() {
     when()
-        .delete("/habits/{id}", 123)
+        .delete("/habits/{id}", UUID.randomUUID())
         .then()
         .statusCode(
             INTERNAL_SERVER_ERROR.value()) // TODO: HTTP 400 or 401 would be more appropriate

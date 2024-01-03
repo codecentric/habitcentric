@@ -71,6 +71,7 @@ services:
       - habit-db
     environment:
       DB_HOST: habit-db
+      KAFKA_BOOTSTRAP_SERVERS: kafka:11001
     networks:
       - habitcentric-net
   habit-db:
@@ -124,8 +125,8 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:11001,EXTERNAL://localhost:11003
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:11002
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CLIENT_USERS=track,kafka-ui
-      - KAFKA_CLIENT_PASSWORDS=track,kafka-ui
+      - KAFKA_CLIENT_USERS=habit,track,kafka-ui
+      - KAFKA_CLIENT_PASSWORDS=habit,track,kafka-ui
     networks:
       - habitcentric-net
   kafka-ui:

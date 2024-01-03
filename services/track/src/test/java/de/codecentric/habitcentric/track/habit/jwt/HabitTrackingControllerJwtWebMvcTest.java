@@ -33,7 +33,7 @@ public class HabitTrackingControllerJwtWebMvcTest {
   private final String urlTemplate = "/track/habits/{habitId}";
   private final String userId = "abc.def";
   private final String authorizationHeader = "Bearer _";
-  private final Long habitId = 123L;
+  private final UUID habitId = UUID.randomUUID();
 
   private final HabitTracking defaultTrackRecords =
       HabitTracking.from(

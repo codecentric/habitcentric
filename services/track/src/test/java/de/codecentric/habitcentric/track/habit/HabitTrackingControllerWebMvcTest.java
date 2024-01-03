@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.Set;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class HabitTrackingControllerWebMvcTest {
 
   private final String urlTemplate = "/track/users/{userId}/habits/{habitId}";
   private final String userId = "abc.def";
-  private final Long habitId = 123L;
+  private final UUID habitId = UUID.randomUUID();
 
   private final HabitTracking defaultTrackRecords =
       HabitTracking.from(

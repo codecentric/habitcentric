@@ -4,10 +4,7 @@ import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.Valid;
@@ -15,6 +12,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -22,6 +20,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.domain.AbstractAggregateRoot;
+import org.springframework.modulith.events.Externalized;
 
 @Entity
 @Builder
@@ -29,19 +29,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @Setter
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ToString
 @Table(
     uniqueConstraints =
         @UniqueConstraint(columnNames = "name", name = Habit.CONSTRAINT_NAME_UNIQUE_NAME))
-public class Habit {
+public class Habit extends AbstractAggregateRoot<Habit> {
 
   public static final String CONSTRAINT_NAME_UNIQUE_NAME = "unique_habit_name";
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "habit_id_generator")
-  @SequenceGenerator(name = "habit_id_generator", sequenceName = "habit_seq")
-  private Long id;
+  @Id private UUID id;
 
   @NotBlank
   @Size(max = 64)
@@ -76,12 +73,28 @@ public class Habit {
     }
   }
 
+  public Habit delete() {
+    registerEvent(new HabitDeleted(id));
+    return this;
+  }
+
   public static Habit from(ModificationRequest modificationRequest, String userId) {
-    return builder()
-        .name(modificationRequest.getName())
-        .schedule(modificationRequest.getSchedule())
-        .userId(userId)
-        .build();
+    Habit habit =
+        builder()
+            .id(UUID.randomUUID())
+            .name(modificationRequest.getName())
+            .schedule(modificationRequest.getSchedule())
+            .userId(userId)
+            .build();
+    habit.registerEvent(
+        new Habit.HabitCreated(
+            habit.id,
+            habit.userId,
+            habit.name,
+            habit.schedule.frequency,
+            habit.schedule.repetitions));
+
+    return habit;
   }
 
   /**
@@ -103,4 +116,15 @@ public class Habit {
 
     @NotNull @Valid private Schedule schedule;
   }
+
+  @Externalized("habit-events::#{#this.habitId}")
+  public record HabitCreated(
+      UUID habitId,
+      String userId,
+      String name,
+      Schedule.Frequency frequency,
+      Integer repetitions) {}
+
+  @Externalized("habit-events::#{#this.habitId}")
+  public record HabitDeleted(UUID habitId) {}
 }

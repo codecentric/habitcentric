@@ -10,31 +10,32 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForObject
+import java.util.UUID
 
 @ExtendWith(MockKExtension::class)
 internal class HabitServiceTest {
 
-    @MockK
-    lateinit var restTemplate: RestTemplate
+  @MockK
+  lateinit var restTemplate: RestTemplate
 
-    @MockK
-    lateinit var properties: HabitProperties
+  @MockK
+  lateinit var properties: HabitProperties
 
-    @InjectMockKs
-    lateinit var subject: HabitService
+  @InjectMockKs
+  lateinit var subject: HabitService
 
-    @BeforeEach
-    internal fun setUp() {
-        every { properties.serviceUrl } returns "url"
-    }
+  @BeforeEach
+  internal fun setUp() {
+    every { properties.serviceUrl } returns "url"
+  }
 
-    @Test
-    fun `should call habit endpoint`() {
-        val habit = Habit(1, Schedule(1, Frequency.WEEKLY))
+  @Test
+  fun `should call habit endpoint`() {
+    val habit = Habit(UUID.randomUUID(), Schedule(1, Frequency.WEEKLY))
 
-        every { restTemplate.getForObject<Array<Habit>>("url/habits") } returns arrayOf(habit)
+    every { restTemplate.getForObject<Array<Habit>>("url/habits") } returns arrayOf(habit)
 
-        val habits = subject.getHabits()
-        assertThat(habits).isEqualTo(listOf(habit))
-    }
+    val habits = subject.getHabits()
+    assertThat(habits).isEqualTo(listOf(habit))
+  }
 }
