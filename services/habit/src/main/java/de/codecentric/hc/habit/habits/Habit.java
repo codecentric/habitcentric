@@ -72,6 +72,11 @@ public class Habit extends AbstractAggregateRoot<Habit> {
     }
   }
 
+  public Habit delete() {
+    registerEvent(new HabitDeleted(id));
+    return this;
+  }
+
   public static Habit from(ModificationRequest modificationRequest, String userId) {
     Habit habit =
         builder()
@@ -82,7 +87,11 @@ public class Habit extends AbstractAggregateRoot<Habit> {
             .build();
     habit.registerEvent(
         new Habit.HabitCreated(
-            habit.id, habit.name, habit.schedule.frequency, habit.schedule.repetitions));
+            habit.id,
+            habit.userId,
+            habit.name,
+            habit.schedule.frequency,
+            habit.schedule.repetitions));
 
     return habit;
   }
@@ -108,9 +117,11 @@ public class Habit extends AbstractAggregateRoot<Habit> {
   }
 
   public record HabitCreated(
-      UUID habitId, String name, Schedule.Frequency frequency, Integer repetitions) {
+      UUID habitId, String userId, String name, Schedule.Frequency frequency, Integer repetitions) {
     public String getId() {
       return habitId.toString();
     }
   }
+
+  public record HabitDeleted(UUID habitId) {}
 }

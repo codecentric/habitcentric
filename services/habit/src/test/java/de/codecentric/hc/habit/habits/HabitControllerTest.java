@@ -63,14 +63,14 @@ public class HabitControllerTest {
   public void getHabitShouldReturnHabitById() {
     Habit expected = DEFAULT_HABIT;
     when(repository.findByIdAndUserId(eq(habitId), eq(userId))).thenReturn(Optional.of(expected));
-    assertThat(controller.getHabit(habitId, userId)).isEqualTo(expected);
+    assertThat(controller.getHabit(habitId.toString(), userId)).isEqualTo(expected);
   }
 
   @Test
   public void getHabitShouldThrowAnExceptionWhenHabitNotFound() {
     when(repository.findByIdAndUserId(eq(habitId), eq(userId))).thenReturn(Optional.empty());
     assertThatExceptionOfType(ResponseStatusException.class)
-        .isThrownBy(() -> controller.getHabit(habitId, userId))
+        .isThrownBy(() -> controller.getHabit(habitId.toString(), userId))
         .withMessageMatching("404 NOT_FOUND \"Habit '(.*)' could not be found.\"");
   }
 
@@ -135,15 +135,17 @@ public class HabitControllerTest {
 
   @Test
   public void deleteHabitShouldDeleteHabit() {
-    when(repository.deleteByIdAndUserId(eq(habitId), eq(userId))).thenReturn(1l);
-    assertThat(controller.deleteHabit(habitId, userId)).isEqualTo(ResponseEntity.ok().build());
+    when(repository.findByIdAndUserId(eq(habitId), eq(userId)))
+        .thenReturn(Optional.of(DEFAULT_HABIT));
+    assertThat(controller.deleteHabit(habitId.toString(), userId))
+        .isEqualTo(ResponseEntity.ok().build());
   }
 
   @Test
   public void deleteHabitShouldThrowExceptionWhenHabitNotFound() {
     when(repository.deleteByIdAndUserId(eq(habitId), eq(userId))).thenReturn(0l);
     assertThatExceptionOfType(ResponseStatusException.class)
-        .isThrownBy(() -> controller.deleteHabit(habitId, userId))
+        .isThrownBy(() -> controller.deleteHabit(habitId.toString(), userId))
         .withMessageMatching("404 NOT_FOUND \"Habit '(.*)' could not be found.\"");
   }
 }

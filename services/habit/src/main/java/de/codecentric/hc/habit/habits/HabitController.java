@@ -47,9 +47,11 @@ public class HabitController {
       security = {@SecurityRequirement(name = "User-ID"), @SecurityRequirement(name = "basicAuth")})
   @GetMapping("/habits/{id}")
   @ResponseBody
-  public Habit getHabit(@PathVariable UUID id, @Parameter(hidden = true) @UserId String userId) {
+  public Habit getHabit(
+      @PathVariable @org.hibernate.validator.constraints.UUID String id,
+      @Parameter(hidden = true) @UserId String userId) {
     return repository
-        .findByIdAndUserId(id, userId)
+        .findByIdAndUserId(UUID.fromString(id), userId)
         .orElseThrow(
             () ->
                 new ResponseStatusException(
@@ -84,12 +86,17 @@ public class HabitController {
       security = {@SecurityRequirement(name = "User-ID"), @SecurityRequirement(name = "basicAuth")})
   @DeleteMapping("/habits/{id}")
   public ResponseEntity deleteHabit(
-      @PathVariable UUID id, @Parameter(hidden = true) @UserId String userId) {
-    Long deletedRecords = repository.deleteByIdAndUserId(id, userId);
-    if (deletedRecords < 1) {
-      throw new ResponseStatusException(
-          NOT_FOUND, String.format("Habit '%s' could not be found.", id));
-    }
+      @PathVariable @org.hibernate.validator.constraints.UUID String id,
+      @Parameter(hidden = true) @UserId String userId) {
+    var habit = repository.findByIdAndUserId(UUID.fromString(id), userId);
+
+    habit.ifPresentOrElse(
+        it -> repository.delete(it.delete()),
+        () -> {
+          throw new ResponseStatusException(
+              NOT_FOUND, String.format("Habit '%s' could not be found.", id));
+        });
+
     return ResponseEntity.ok().build();
   }
 
