@@ -16,3 +16,8 @@ Content-Type: application/json
     "frequency": "MONTHLY"
   }
 }
+
+### Delete habit
+# Retrieve the ID by fetching the habits first
+DELETE http://localhost:9001/habits/8ffa23a1-e91b-45a3-9060-3b0f53c0c6f3
+X-User-Id: default
