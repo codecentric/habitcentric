@@ -11,6 +11,7 @@ spring:
   flyway.schemas: hc_track
   jackson:
     serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
       FAIL_ON_EMPTY_BEANS: false
   jpa:
     database-platform: postgres
@@ -36,6 +37,7 @@ spring:
     producer:
       properties:
         "spring.json.type.mapping": "date-tracked:de.codecentric.habitcentric.track.habit.HabitTracking$DateTracked,date-untracked:de.codecentric.habitcentric.track.habit.HabitTracking$DateUntracked"
+      value-serializer: de.codecentric.habitcentric.track.CustomJsonSerializer
 
 server:
   port: 9002
