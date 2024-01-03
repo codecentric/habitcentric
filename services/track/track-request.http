@@ -1,0 +1,7 @@
+PUT localhost:9002/track/users/12345/habits/1
+Content-Type: application/json
+
+[
+  "2021-01-01",
+  "2021-01-02"
+]

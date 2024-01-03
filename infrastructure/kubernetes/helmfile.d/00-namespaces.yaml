@@ -1,13 +1,9 @@
+bases:
+  - environments.yaml
+
 repositories:
   - name: incubator
     url: https://charts.helm.sh/incubator
-
-environments:
-  default:
-  istio:
-  linkerd:
-  kuma:
-  traefik-mesh:
 
 releases:
 - name: namespaces
@@ -78,6 +74,26 @@ releases:
       kind: Namespace
       metadata:
         name: hc-report
+        {{- if eq .Environment.Name "istio" }}
+        labels:
+          "istio-injection": "enabled"
+        {{- end }}
+        {{- if eq .Environment.Name "linkerd" }}
+        annotations:
+          "linkerd.io/inject": "enabled"
+          "config.linkerd.io/trace-collector": "linkerd-collector.linkerd:55678"
+          "config.alpha.linkerd.io/trace-collector-service-account": "linkerd-collector"
+        {{- end }}
+        {{- if eq .Environment.Name "kuma" }}
+        annotations:
+          "kuma.io/sidecar-injection": "enabled"
+          "kuma.io/mesh": "default"
+        {{- end }}
+      spec:
+    - apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: hc-kafka
         {{- if eq .Environment.Name "istio" }}
         labels:
           "istio-injection": "enabled"

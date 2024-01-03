@@ -174,14 +174,16 @@ The goal is to provide infrastructure configurations which...
 
 Each habitcentric service runs with the same ports across all deployment options.
 
-| Service           | Port  |
-|-------------------|-------|
-| gateway           | 9000  |
-| habit             | 9001  |
-| habit-postgres    | 10001 |
-| track             | 9002  |
-| track-postgres    | 10002 |
-| report            | 9003  |
-| ui                | 9004  |
-| keycloak          | 8080  |
-| keycloak-postgres | 10003 |
+| Service           | Port          |
+|-------------------|---------------|
+| gateway           | 9000          |
+| habit             | 9001          |
+| habit-postgres    | 10001         |
+| track             | 9002          |
+| track-postgres    | 10002         |
+| report            | 9003          |
+| ui                | 9004          |
+| keycloak          | 8080          |
+| keycloak-postgres | 10003         |
+| kafka             | 11001 - 11003 |
+| kafka-ui          | 11001 - 11003 |

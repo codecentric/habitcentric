@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import de.codecentric.habitcentric.track.error.ApiError;
 import de.codecentric.habitcentric.track.error.ApiErrorException;
-import de.codecentric.habitcentric.track.habit.validation.UserId;
 import jakarta.servlet.http.HttpServletRequest;
 import org.assertj.core.api.Condition;
 import org.junit.jupiter.api.BeforeEach;

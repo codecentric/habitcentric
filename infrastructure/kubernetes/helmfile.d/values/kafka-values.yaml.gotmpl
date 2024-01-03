@@ -1,0 +1,35 @@
+controller:
+  replicaCount: 1
+kraft:
+  # generated with: uuidgen | tr -d '-' | base64 | cut -b 1-22
+  clusterId: "ZDQ2MzI3MWEwNmIwNGMyMT"
+sasl:
+  interbroker:
+    password: "kafka"
+  controller:
+    password: "kafka"
+  client:
+    users:
+      - "track"
+    passwords:
+      - "track"
+
+externalAccess:
+  enabled: true
+  service:
+    broker:
+      type: LoadBalancer
+      ports:
+        external: 9094
+    controller:
+      type: LoadBalancer
+      containerPorts:
+        external: 9094
+  autoDiscovery:
+    enabled: true
+
+serviceAccount:
+  create: true
+
+rbac:
+  create: true

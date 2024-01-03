@@ -1,12 +1,12 @@
 package de.codecentric.habitcentric.track.habit;
 
+import de.codecentric.habitcentric.track.auth.UserId;
 import de.codecentric.habitcentric.track.habit.validation.HabitId;
-import de.codecentric.habitcentric.track.habit.validation.UserId;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +28,7 @@ public class HabitTrackingController {
   @Transactional
   @PutMapping("/track/habits/{habitId}")
   @ResponseBody
-  public List<LocalDate> putHabitTrackingRecordsWithJwt(
+  public Collection<LocalDate> putHabitTrackingRecordsWithJwt(
       @UserId String userId,
       @PathVariable @HabitId Long habitId,
       @RequestBody Set<LocalDate> dates) {
@@ -38,16 +38,20 @@ public class HabitTrackingController {
   @Transactional
   @PutMapping("/track/users/{userId}/habits/{habitId}")
   @ResponseBody
-  public List<LocalDate> putHabitTrackingRecords(
+  public Collection<LocalDate> putHabitTrackingRecords(
       @PathVariable @UserId String userId,
       @PathVariable @HabitId Long habitId,
       @RequestBody Set<LocalDate> dates) {
-    repository.deleteByIdHabitId(habitId);
-    Set<HabitTracking> trackRecords =
-        dates.stream()
-            .map(date -> new HabitTracking(userId, habitId, date))
-            .collect(Collectors.toSet());
-    return extractDates(repository.saveAll(trackRecords));
+    var existingHabitTrackings =
+        repository
+            .findByIdUserIdAndIdHabitId(userId, habitId)
+            .orElse(HabitTracking.from(userId, habitId));
+
+    existingHabitTrackings.track(dates);
+
+    repository.save(existingHabitTrackings);
+
+    return existingHabitTrackings.getSortedTrackingDates();
   }
 
   @GetMapping("/track/habits/{habitId}")
@@ -61,13 +65,9 @@ public class HabitTrackingController {
   @ResponseBody
   public Iterable<LocalDate> getHabitTrackingRecords(
       @PathVariable @UserId String userId, @PathVariable @HabitId Long habitId) {
-    return extractDates(repository.findByIdUserIdAndIdHabitId(userId, habitId));
-  }
-
-  protected List<LocalDate> extractDates(List<HabitTracking> trackRecords) {
-    return trackRecords.stream()
-        .map(tracking -> tracking.getId().getTrackDate())
-        .sorted()
-        .collect(Collectors.toList());
+    return repository
+        .findByIdUserIdAndIdHabitId(userId, habitId)
+        .map(HabitTracking::getSortedTrackingDates)
+        .orElse(Collections.emptyList());
   }
 }

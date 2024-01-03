@@ -1,3 +1,6 @@
+bases:
+  - environments.yaml
+
 repositories:
   - name: codecentric
     url: https://codecentric.github.io/helm-charts
@@ -5,13 +8,6 @@ repositories:
     url: https://charts.helm.sh/incubator
   - name: bitnami-archive-full-index
     url: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
-
-environments:
-  default:
-  istio:
-  linkerd:
-  kuma:
-  traefik-mesh:
 
 releases:
   - name: keycloak-postgresql

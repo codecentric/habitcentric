@@ -52,6 +52,9 @@ spotless {
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://repo.spring.io/milestone"
+    }
 }
 
 test {
@@ -79,12 +82,25 @@ ext {
 ext['junit-jupiter.version'] = versions.junitJupiter
 ext['jna.version'] = versions.jna // Required for Docker on ARM
 
+dependencyManagement {
+    imports {
+        mavenBom 'org.springframework.modulith:spring-modulith-bom:1.1.0-M1'
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.security:spring-security-oauth2-jose'
+
+    // Spring Modulith
+    implementation "org.springframework.modulith:spring-modulith-starter-core"
+    implementation "org.springframework.modulith:spring-modulith-starter-jpa"
+    implementation "org.springframework.modulith:spring-modulith-events-kafka"
+    intTestImplementation "org.springframework.modulith:spring-modulith-starter-test"
+
     implementation 'io.micrometer:micrometer-tracing-bridge-otel'
     implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
     runtimeOnly "org.postgresql:postgresql:$versions.postgresql"

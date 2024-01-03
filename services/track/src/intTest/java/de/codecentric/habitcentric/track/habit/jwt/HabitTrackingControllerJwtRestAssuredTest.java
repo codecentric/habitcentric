@@ -1,7 +1,7 @@
 package de.codecentric.habitcentric.track.habit.jwt;
 
-import static de.codecentric.habitcentric.track.error.matcher.ApiErrorMatcher.hasHabitIdViolationError;
-import static de.codecentric.habitcentric.track.error.matcher.ApiErrorMatcher.hasUserIdViolationError;
+import static de.codecentric.habitcentric.track.habit.matcher.HabitApiMatcher.hasHabitIdViolationError;
+import static de.codecentric.habitcentric.track.habit.matcher.HabitApiMatcher.hasUserIdViolationError;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,7 +29,7 @@ public class HabitTrackingControllerJwtRestAssuredTest extends RestAssuredTest {
 
   @AfterEach
   public void cleanUp() {
-    String[] tableNames = {"HC_TRACK.HABIT_TRACKING"};
+    String[] tableNames = {"HC_TRACK.TRACKED_DATES", "HC_TRACK.HABIT_TRACKING"};
     JdbcTestUtils.deleteFromTables(jdbcTemplate, tableNames);
   }
 
