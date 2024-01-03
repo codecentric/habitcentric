@@ -1,0 +1,54 @@
+name: streak service
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - .github/workflows/prepare-release.yaml
+      - .github/workflows/build-java-service.yaml
+      - .github/workflows/parse-junit-results.yaml
+      - .github/workflows/build-docker.yaml
+      - .github/workflows/release.yaml
+      - .github/workflows/streak.yaml
+      - services/habit/**
+
+jobs:
+  prepare-release:
+    uses: ./.github/workflows/prepare-release.yaml
+    with:
+      working-dir: ./services/streak
+
+  build:
+    name: 🔨 Build and test backend service
+    uses: ./.github/workflows/build-java-service.yaml
+    needs: prepare-release
+    with:
+      service_name: streak
+      version: ${{ needs.prepare-release.outputs.release-version }}
+
+  docker:
+    name: 🔨 Build and push Docker image
+    uses: ./.github/workflows/build-docker.yaml
+    needs:
+      - prepare-release
+      - build
+    with:
+      image-name: streak
+      working-dir: ./services/streak
+      version: ${{ needs.prepare-release.outputs.release-version }}
+      artifact-name: ${{ needs.build.outputs.jar-artifact-name }}
+      artifact-path: ${{ needs.build.outputs.jar-artifact-path }}
+
+  github-release:
+    uses: ./.github/workflows/release.yaml
+    needs:
+      - prepare-release
+      - build
+      - docker
+    with:
+      service-name: streak
+      version: ${{ needs.prepare-release.outputs.release-version }}
+      change-notes: ${{ needs.prepare-release.outputs.release-notes }}
+      license-artifact-name: ${{ needs.build.outputs.license-artifact-name }}
+      license-artifact-path: ${{ needs.build.outputs.license-artifact-path }}

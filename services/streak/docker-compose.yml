@@ -1,0 +1,38 @@
+version: '3.1'
+services:
+  db:
+    image: bitnami/postgresql:15
+    restart: always
+    ports:
+      - "10005:10005"
+    environment:
+      POSTGRESQL_PASSWORD: postgres
+      POSTGRESQL_PORT_NUMBER: 10005
+
+  kafka:
+    image: bitnami/kafka:latest
+    ports:
+      - "11003:11003"
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:11001,CONTROLLER://:11002,EXTERNAL://:11003
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:SASL_PLAINTEXT,EXTERNAL:SASL_PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:11001,EXTERNAL://localhost:11003
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka:11002
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CLIENT_USERS=streak,kafka-ui
+      - KAFKA_CLIENT_PASSWORDS=streak,kafka-ui
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "11004:11004"
+    environment:
+      SERVER_PORT: 11004
+      DYNAMIC_CONFIG_ENABLED: 'true'
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:11001
+      KAFKA_CLUSTERS_0_PROPERTIES_SECURITY_PROTOCOL: SASL_PLAINTEXT
+      KAFKA_CLUSTERS_0_PROPERTIES_SASL_MECHANISM: PLAIN
+      KAFKA_CLUSTERS_0_PROPERTIES_SASL_JAAS_CONFIG: 'org.apache.kafka.common.security.plain.PlainLoginModule required username="kafka-ui" password="kafka-ui";'

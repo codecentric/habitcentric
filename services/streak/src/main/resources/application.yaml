@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: streak
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:10001}/${DB_NAME:postgres}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
+
+  jackson:
+    default-property-inclusion: NON_NULL
+
+  kafka:
+    client-id: habit
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:11003}
+    properties:
+      "security.protocol": SASL_PLAINTEXT
+      "sasl.mechanism": PLAIN
+      "sasl.jaas.config": 'org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_USER:streak}" password="${KAFKA_PASSWORD:streak}";'
+
+server:
+  port: 9005

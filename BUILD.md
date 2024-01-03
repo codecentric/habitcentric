@@ -9,17 +9,17 @@ and provide you with general guidelines to work with this repository.
 
 - [Repository Layout](#respository-layout)
 - [Developing habitcentric services](#-developing-habitcentric-services)
-  - [Example: Start report service using mock services](#example-starting-report-service-using-mock-services)
-  - [Example: Start report service using real habit and track service](#example-start-report-service-using-real-habit-and-track-service)
-  - [Code Style Conventions](#code-style-conventions)
-    - [General](#general)
-    - [Java](#java)
-    - [Kotlin](#kotlin)
-  - [Container & Helm Charts](#container--helm-charts)
+    - [Example: Start report service using mock services](#example-starting-report-service-using-mock-services)
+    - [Example: Start report service using real habit and track service](#example-start-report-service-using-real-habit-and-track-service)
+    - [Code Style Conventions](#code-style-conventions)
+        - [General](#general)
+        - [Java](#java)
+        - [Kotlin](#kotlin)
+    - [Container & Helm Charts](#container--helm-charts)
 - [Infrastructure Configurations](#infrastructure-configurations)
 - [Pipeline](#pipeline)
 - [Miscellaneous Stuff](#-miscellaneous-stuff)
-  - [Service Port Configuration](#service-port-configuration)
+    - [Service Port Configuration](#service-port-configuration)
 
 ## 📄 Repository Layout
 
@@ -27,24 +27,24 @@ and provide you with general guidelines to work with this repository.
 - `demos` - Scripted interactive demos that showcase specific scenarios, written in bash.
 - `docs` - Resources like images for our documentation
 - `infrastructure` - Infrastructure showcases
-  - `istio` - Istio service mesh configuration showcase
-  - `kubernetes` - Kubernetes Deployment showcase
-  - `kuma` - Kuma service mesh configuration showcase
-  - `linkerd`- Linkerd service mesh configuration showcase
-  - `traefik-mesh` - Traefik Mesh service mesh configuration showcase
+    - `istio` - Istio service mesh configuration showcase
+    - `kubernetes` - Kubernetes Deployment showcase
+    - `kuma` - Kuma service mesh configuration showcase
+    - `linkerd`- Linkerd service mesh configuration showcase
+    - `traefik-mesh` - Traefik Mesh service mesh configuration showcase
 - `pipeline` - CI pipeline configuration
 - `services` - habitcentric services
-  - `auth-keycloak` - Keycloak distribution containing habitcentric realm & theme configuration
-  - `habit` - Spring Boot Java service
-  - `track` - Spring Boot Java service
-  - `report` - Spring Boot Kotlin service
-  - `gateway` - Spring Cloud Gateway service 
+    - `auth-keycloak` - Keycloak distribution containing habitcentric realm & theme configuration
+    - `habit` - Spring Boot Java service
+    - `track` - Spring Boot Java service
+    - `report` - Spring Boot Kotlin service
+    - `gateway` - Spring Cloud Gateway service
 - `test` - Testing utilities
-  - `infra-tests` - Automated infrastructure tests to test applied service mesh configurations,
-written with [Spock](https://spockframework.org/)
-  - `lpt-locust` - Load generator to generate requests to habitcentric, written with
-[Locust](https://locust.io/)
- 
+    - `infra-tests` - Automated infrastructure tests to test applied service mesh configurations,
+      written with [Spock](https://spockframework.org/)
+    - `lpt-locust` - Load generator to generate requests to habitcentric, written with
+      [Locust](https://locust.io/)
+
 ## 💻 Developing habitcentric services
 
 Depending on your personal preference, you can either develop against mock services or develop
@@ -183,6 +183,8 @@ Each habitcentric service runs with the same ports across all deployment options
 | track-postgres    | 10002         |
 | report            | 9003          |
 | ui                | 9004          |
+| streak            | 9005          |
+| streak-postgres   | 10005         |
 | keycloak          | 8080          |
 | keycloak-postgres | 10003         |
 | kafka             | 11001 - 11003 |
