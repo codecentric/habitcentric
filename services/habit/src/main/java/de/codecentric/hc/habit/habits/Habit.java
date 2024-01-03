@@ -22,6 +22,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 @Entity
 @Builder
@@ -29,12 +30,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @Setter
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @ToString
 @Table(
     uniqueConstraints =
         @UniqueConstraint(columnNames = "name", name = Habit.CONSTRAINT_NAME_UNIQUE_NAME))
-public class Habit {
+public class Habit extends AbstractAggregateRoot<Habit> {
 
   public static final String CONSTRAINT_NAME_UNIQUE_NAME = "unique_habit_name";
 
@@ -77,11 +78,17 @@ public class Habit {
   }
 
   public static Habit from(ModificationRequest modificationRequest, String userId) {
-    return builder()
-        .name(modificationRequest.getName())
-        .schedule(modificationRequest.getSchedule())
-        .userId(userId)
-        .build();
+    Habit habit =
+        builder()
+            .name(modificationRequest.getName())
+            .schedule(modificationRequest.getSchedule())
+            .userId(userId)
+            .build();
+    habit.registerEvent(
+        new Habit.HabitCreated(
+            habit.id, habit.name, habit.schedule.frequency, habit.schedule.repetitions));
+
+    return habit;
   }
 
   /**
@@ -102,5 +109,12 @@ public class Habit {
     private String name;
 
     @NotNull @Valid private Schedule schedule;
+  }
+
+  public record HabitCreated(
+      Long habitId, String name, Schedule.Frequency frequency, Integer repetitions) {
+    public String getId() {
+      return habitId.toString();
+    }
   }
 }
