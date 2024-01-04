@@ -53,6 +53,7 @@ dependencies {
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:kafka")
   testImplementation("org.testcontainers:postgresql")
+  testImplementation("io.kotest:kotest-assertions-core:5.8.0")
 }
 
 dependencyManagement {
