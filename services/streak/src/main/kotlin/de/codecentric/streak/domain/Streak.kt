@@ -2,24 +2,23 @@ package de.codecentric.streak.domain
 
 import de.codecentric.streak.domain.Habit.Frequency
 import de.codecentric.streak.domain.Habit.Frequency.*
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.annotation.Id
+import org.springframework.data.annotation.Transient
 import org.springframework.data.domain.Persistable
 import org.springframework.data.relational.core.mapping.Embedded
 import org.springframework.data.relational.core.mapping.Table
 import java.time.Clock
 import java.time.DayOfWeek
 import java.time.LocalDate
-import java.time.Period
-import java.time.temporal.TemporalAdjuster
 import java.time.temporal.TemporalAdjusters
-import java.time.temporal.WeekFields
 import java.util.UUID
 
 @Table("habits")
 data class Habit(
   @Id private val id: UUID,
   @Embedded(onEmpty = Embedded.OnEmpty.USE_EMPTY) val schedule: Schedule,
-  @Transient private val new: Boolean = false
+  @Value("null") @Transient private val new: Boolean = false
 ) : Persistable<UUID> {
   override fun getId() = id
   override fun isNew() = new
@@ -36,7 +35,7 @@ data class Streak(
   @Id private val id: UUID,
   val habit: Habit,
   private val trackEntries: Set<LocalDate> = emptySet(),
-  @Transient private val new: Boolean = false
+  @Value("null") @Transient private val new: Boolean = false
 ) : Persistable<UUID> {
 
   companion object {
