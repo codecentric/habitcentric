@@ -1,6 +1,5 @@
-environments:
-  default:
-  cni:
+bases:
+  - environments.yaml
 
 repositories:
   - name: incubator
