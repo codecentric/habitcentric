@@ -67,7 +67,7 @@ data class Streak(
   override fun isNew() = new
 }
 
-sealed interface Timeperiod {
+sealed class Timeperiod(protected val start: LocalDate, protected val end: LocalDate) {
   companion object {
     fun from(date: LocalDate, frequency: Frequency): Timeperiod = when (frequency) {
       DAILY -> Day.from(date)
@@ -77,23 +77,22 @@ sealed interface Timeperiod {
     }
   }
 
-  fun previous(): Timeperiod
-  fun calculateTracksInPeriod(trackEntries: Set<LocalDate>): Int
+  abstract fun previous(): Timeperiod
+
+  fun calculateTracksInPeriod(trackEntries: Set<LocalDate>): Int =
+    trackEntries.count { it in start..end }
 }
 
-class Day private constructor(private val date: LocalDate) : Timeperiod {
+class Day private constructor(start: LocalDate, end: LocalDate) : Timeperiod(start, end) {
   companion object {
-    fun from(date: LocalDate): Day = Day(date)
+    fun from(date: LocalDate): Day = Day(start = date, end = date)
   }
 
-  override fun previous(): Timeperiod = Day(date.minusDays(1))
-
-  override fun calculateTracksInPeriod(trackEntries: Set<LocalDate>): Int =
-    trackEntries.count { it == date }
+  override fun previous(): Timeperiod = Day(start.minusDays(1), end.minusDays(1))
 }
 
-class Week private constructor(private val start: LocalDate, private val end: LocalDate) :
-  Timeperiod {
+class Week private constructor(start: LocalDate, end: LocalDate) :
+  Timeperiod(start, end) {
 
   companion object {
     private val WEEK_START = DayOfWeek.MONDAY
@@ -106,15 +105,10 @@ class Week private constructor(private val start: LocalDate, private val end: Lo
   }
 
   override fun previous(): Week = Week(start.minusWeeks(1), end.minusWeeks(1))
-
-  override fun calculateTracksInPeriod(trackEntries: Set<LocalDate>): Int =
-    dates().intersect(trackEntries).size
-
-  private fun dates(): Set<LocalDate> = (start..end).iterator().asSequence().toSet()
 }
 
-class Month private constructor(private val start: LocalDate, private val end: LocalDate) :
-  Timeperiod {
+class Month private constructor(start: LocalDate, end: LocalDate) :
+  Timeperiod(start, end) {
 
   companion object {
     fun from(date: LocalDate): Month = Month(
@@ -124,15 +118,10 @@ class Month private constructor(private val start: LocalDate, private val end: L
   }
 
   override fun previous(): Timeperiod = Month(start.minusMonths(1), end.minusMonths(1))
-
-  override fun calculateTracksInPeriod(trackEntries: Set<LocalDate>): Int =
-    dates().intersect(trackEntries).size
-
-  private fun dates(): Set<LocalDate> = (start..end).iterator().asSequence().toSet()
 }
 
-class Year private constructor(private val start: LocalDate, private val end: LocalDate) :
-  Timeperiod {
+class Year private constructor(start: LocalDate, end: LocalDate) :
+  Timeperiod(start, end) {
 
   companion object {
     fun from(date: LocalDate): Year = Year(
@@ -145,30 +134,4 @@ class Year private constructor(private val start: LocalDate, private val end: Lo
     start = start.minusYears(1).with(TemporalAdjusters.firstDayOfYear()),
     end = start.minusYears(1).with(TemporalAdjusters.lastDayOfYear())
   )
-
-  override fun calculateTracksInPeriod(trackEntries: Set<LocalDate>): Int =
-    dates().intersect(trackEntries).size
-
-  private fun dates(): Set<LocalDate> = (start..end).iterator().asSequence().toSet()
 }
-
-operator fun ClosedRange<LocalDate>.iterator(): Iterator<LocalDate> =
-  object : Iterator<LocalDate> {
-    private var next = this@iterator.start
-    private val finalElement = this@iterator.endInclusive
-    private var hasNext = !next.isAfter(this@iterator.endInclusive)
-
-    override fun hasNext(): Boolean = hasNext
-
-    override fun next(): LocalDate {
-      val value = next
-
-      if (value == finalElement) {
-        hasNext = false
-      } else {
-        next = next.plusDays(1)
-      }
-
-      return value
-    }
-  }
