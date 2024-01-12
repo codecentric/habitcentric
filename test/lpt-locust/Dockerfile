@@ -1,4 +1,4 @@
 FROM locustio/locust:2.16.1
-RUN pip3 install kubernetes
 COPY src /locust-config
+RUN pip3 install -r /locust-config/requirements.txt
 ENV LOCUST_LOCUSTFILE /locust-config/locustfile.py
