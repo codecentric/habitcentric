@@ -1,8 +1,9 @@
-package de.codecentric.streak.domain
+package de.codecentric.habitcentric.streak
 
-import de.codecentric.streak.DataJdbcConfiguration
-import de.codecentric.streak.domain.Habit.Frequency.WEEKLY
-import de.codecentric.streak.domain.Habit.Schedule
+import de.codecentric.habitcentric.streak.database.DataJdbcConfiguration
+import de.codecentric.habitcentric.streak.Habit.Frequency.MONTHLY
+import de.codecentric.habitcentric.streak.Habit.Frequency.WEEKLY
+import de.codecentric.habitcentric.streak.Habit.Schedule
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest
@@ -29,6 +30,15 @@ class StreakRepositoryIntegrationTest(@Autowired val subject: StreakRepository) 
     val id = UUID.randomUUID()
     val streak = Streak.from(Habit(id, Schedule(WEEKLY, 3)))
     subject.save(streak)
-    subject.findByHabitId(id);
+    subject.findByHabitId(id)
+  }
+
+  @Test
+  fun `deletes streak from database by habit id`() {
+    val id = UUID.randomUUID()
+    val streak = Streak.from(Habit(id, Schedule(MONTHLY, 1)))
+    subject.save(streak)
+    subject.deleteByHabitId(id)
+    subject.findByHabitId(id)
   }
 }

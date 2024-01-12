@@ -1,4 +1,4 @@
-package de.codecentric.streak
+package de.codecentric.habitcentric.streak.database
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

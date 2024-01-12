@@ -10,4 +10,5 @@ CREATE TABLE habits
     frequency   VARCHAR(12) NOT NULL,
     repetitions INT         NOT NULL,
     streak      UUID        NOT NULL
+        CONSTRAINT fk_habits_streak REFERENCES streaks (id) ON DELETE CASCADE
 );

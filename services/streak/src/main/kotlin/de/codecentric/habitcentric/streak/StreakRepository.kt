@@ -1,5 +1,6 @@
-package de.codecentric.streak.domain
+package de.codecentric.habitcentric.streak
 
+import org.springframework.data.jdbc.repository.query.Modifying
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
 import java.util.Optional
@@ -16,4 +17,15 @@ interface StreakRepository : CrudRepository<Streak, UUID> {
     """
   )
   fun findByHabitId(id: UUID): Optional<Streak>
+
+  @Query(
+    """
+      DELETE FROM hc_streak.streaks s
+        USING hc_streak.habits h
+      WHERE s.id = h.streak
+        AND h.id = :id
+    """
+  )
+  @Modifying
+  fun deleteByHabitId(id: UUID)
 }

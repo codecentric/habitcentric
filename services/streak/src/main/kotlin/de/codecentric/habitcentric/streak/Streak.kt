@@ -1,7 +1,7 @@
-package de.codecentric.streak.domain
+package de.codecentric.habitcentric.streak
 
-import de.codecentric.streak.domain.Habit.Frequency
-import de.codecentric.streak.domain.Habit.Frequency.*
+import de.codecentric.habitcentric.streak.Habit.Frequency
+import de.codecentric.habitcentric.streak.Habit.Frequency.*
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.Transient

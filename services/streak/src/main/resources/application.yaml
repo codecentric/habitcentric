@@ -23,11 +23,11 @@ spring:
       "sasl.jaas.config": 'org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_USER:streak}" password="${KAFKA_PASSWORD:streak}";'
     producer:
       properties:
-        "spring.json.type.mapping": "habit-created:de.codecentric.streak.HabitCreated"
+        "spring.json.type.mapping": "habit-created:de.codecentric.habitcentric.streak.HabitCreated,habit-deleted:de.codecentric.habitcentric.streak.HabitDeleted"
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       properties:
-        "spring.json.type.mapping": "habit-created:de.codecentric.streak.HabitCreated"
+        "spring.json.type.mapping": "habit-created:de.codecentric.habitcentric.streak.HabitCreated,habit-deleted:de.codecentric.habitcentric.streak.HabitDeleted"
         "auto.offset.reset": earliest
       group-id: streak
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer

@@ -1,7 +1,7 @@
-package de.codecentric.streak.domain
+package de.codecentric.habitcentric.streak
 
-import de.codecentric.streak.domain.Habit.Frequency.*
-import de.codecentric.streak.domain.Habit.Schedule
+import de.codecentric.habitcentric.streak.Habit.Frequency.*
+import de.codecentric.habitcentric.streak.Habit.Schedule
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
 import java.time.Clock
