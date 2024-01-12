@@ -7,8 +7,8 @@ plugins {
     id("com.github.jk1.dependency-license-report") version "2.5"
     id("org.springframework.boot") version "3.1.4"
     id("com.diffplug.spotless") version "6.23.3"
-    kotlin("jvm") version "1.9.10"
-    kotlin("plugin.spring") version "1.9.10"
+    kotlin("jvm") version "1.9.22"
+    kotlin("plugin.spring") version "1.9.22"
 }
 
 apply(plugin = "io.spring.dependency-management")
@@ -44,13 +44,13 @@ repositories {
 }
 
 extra["chaosMonkeyVersion"] = "3.0.2"
-extra["mockkVersion"] = "1.13.8"
+extra["mockkVersion"] = "1.13.9"
 extra["springMockkVersion"] = "4.0.2"
 extra["wiremockVersion"] = "3.0.1"
 extra["moschiVersion"] = "1.15.0"
 
 dependencies {
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.16")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
     implementation("com.squareup.moshi:moshi:${property("moschiVersion")}")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
