@@ -1,6 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '3.1.4'
-    id 'org.flywaydb.flyway' version '10.3.0'
+    id 'org.flywaydb.flyway' version '10.5.0'
     id 'java'
     id 'com.diffplug.spotless' version '6.23.3'
     id "io.freefair.lombok" version "8.4"
