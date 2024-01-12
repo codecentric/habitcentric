@@ -42,7 +42,7 @@ services:
         aliases:
           - habitcentric.demo
   auth-keycloak-db:
-    image: bitnami/postgresql:15
+    image: bitnami/postgresql:16
     environment:
       POSTGRESQL_USER: keycloak
       POSTGRESQL_PASSWORD: password
@@ -75,7 +75,7 @@ services:
     networks:
       - habitcentric-net
   habit-db:
-    image: bitnami/postgresql:15
+    image: bitnami/postgresql:16
     restart: always
     environment:
       POSTGRESQL_PASSWORD: postgres
@@ -92,7 +92,7 @@ services:
     networks:
       - habitcentric-net
   track-db:
-    image: bitnami/postgresql:15
+    image: bitnami/postgresql:16
     restart: always
     environment:
       POSTGRESQL_PASSWORD: postgres
