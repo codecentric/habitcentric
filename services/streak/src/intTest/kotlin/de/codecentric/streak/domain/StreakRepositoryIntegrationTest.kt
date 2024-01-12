@@ -23,4 +23,12 @@ class StreakRepositoryIntegrationTest(@Autowired val subject: StreakRepository) 
     subject.save(streak)
     subject.findById(streak.id)
   }
+
+  @Test
+  fun `loads streak from database by habit id`() {
+    val id = UUID.randomUUID()
+    val streak = Streak.from(Habit(id, Schedule(WEEKLY, 3)))
+    subject.save(streak)
+    subject.findByHabitId(id);
+  }
 }

@@ -20,6 +20,11 @@ data class Habit(
   @Embedded(onEmpty = Embedded.OnEmpty.USE_EMPTY) val schedule: Schedule,
   @Value("null") @Transient private val new: Boolean = false
 ) : Persistable<UUID> {
+  companion object {
+    fun from(id: UUID, frequency: Frequency, repetitions: Int): Habit =
+      Habit(id, Schedule(frequency, repetitions), true)
+  }
+
   override fun getId() = id
   override fun isNew() = new
 

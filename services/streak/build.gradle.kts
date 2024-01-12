@@ -89,6 +89,7 @@ dependencies {
   testImplementation("org.testcontainers:junit-jupiter")
   testImplementation("org.testcontainers:kafka")
   testImplementation("org.testcontainers:postgresql")
+  intTestImplementation("org.springframework.kafka:spring-kafka-test")
   intTestImplementation("org.springframework.modulith:spring-modulith-starter-test")
   intTestImplementation("org.springframework.boot:spring-boot-starter-test")
   intTestImplementation("org.springframework.security:spring-security-test")

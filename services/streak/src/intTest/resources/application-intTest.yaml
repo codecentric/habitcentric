@@ -2,3 +2,8 @@ spring:
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     url: jdbc:tc:postgresql:16://localhost/postgres
+
+  kafka:
+    client-id: streak
+    properties:
+      "security.protocol": PLAINTEXT
