@@ -42,7 +42,7 @@ jobs:
           pip-licenses --with-license-file \
             --format html --with-notice-file --no-license-path >licenses.html
       - name: 📦 Upload license report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: license-report
           path: ./test/lpt-locust/licenses.html

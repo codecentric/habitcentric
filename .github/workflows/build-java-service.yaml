@@ -42,17 +42,17 @@ jobs:
           arguments: build -Pversion=${{ inputs.version }} generateLicenseReport
           build-root-directory: services/${{ inputs.service_name }}
       - name: 📦 Upload JAR
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.service_name }}-jar
           path: ./services/${{ inputs.service_name }}/build/libs/${{ inputs.service_name }}-*.jar
       - name: 📦 Upload license report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.service_name }}-license
           path: ./services/${{ inputs.service_name }}/build/distributions/license-report.zip
       - name: 📦 Upload test results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: test-results
