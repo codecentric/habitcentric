@@ -68,7 +68,7 @@
     "env-cmd": "10.1.0",
     "jsdom": "^23.0.0",
     "license-checker-rseidelsohn": "4.3.0",
-    "msw": "2.0.14",
+    "msw": "2.1.0",
     "postcss": "8.4.33",
     "prettier": "3.2.2",
     "prettier-plugin-tailwindcss": "0.5.11",
