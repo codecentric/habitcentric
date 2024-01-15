@@ -21,7 +21,7 @@
     "react-popper": "2.3.0",
     "react-router-dom": "6.21.2",
     "react-simple-icons": "1.0.0-beta.5",
-    "simple-icons": "9.21.0",
+    "simple-icons": "11.1.0",
     "swr": "2.2.4",
     "typescript": "5.3.3",
     "web-vitals": "3.5.1"
