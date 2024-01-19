@@ -41,7 +41,7 @@ data class Streak(
   val habit: Habit,
   private val trackEntries: Set<LocalDate> = emptySet(),
   @Value("null") @Transient private val new: Boolean = false
-) : Persistable<UUID> {
+) : AggregateRoot<UUID> {
 
   companion object {
     fun from(habit: Habit): Streak =
@@ -67,6 +67,8 @@ data class Streak(
 
   fun track(track: LocalDate): Streak = copy(trackEntries = trackEntries + track)
   fun untrack(track: LocalDate): Streak = copy(trackEntries = trackEntries - track)
+
+  override fun saved(): AggregateRoot<UUID> = copy(new = false)
 
   override fun getId() = id
   override fun isNew() = new
