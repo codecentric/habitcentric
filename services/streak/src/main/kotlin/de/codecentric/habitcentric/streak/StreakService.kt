@@ -23,4 +23,13 @@ class StreakService(private val streakRepository: StreakRepository) {
       streakRepository.save(updatedStreak)
     }
   }
+
+  @Transactional
+  fun on(event: DateUntracked) {
+    val streak = streakRepository.findByHabitId(event.habitId)
+    streak.ifPresent {
+      val updatedStreak = it.untrack(event.trackDate)
+      streakRepository.save(updatedStreak)
+    }
+  }
 }

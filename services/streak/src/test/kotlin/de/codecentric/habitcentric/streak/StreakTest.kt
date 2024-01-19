@@ -1,6 +1,8 @@
 package de.codecentric.habitcentric.streak
 
-import de.codecentric.habitcentric.streak.Habit.Frequency.*
+import de.codecentric.habitcentric.streak.Habit.Frequency.MONTHLY
+import de.codecentric.habitcentric.streak.Habit.Frequency.WEEKLY
+import de.codecentric.habitcentric.streak.Habit.Frequency.YEARLY
 import de.codecentric.habitcentric.streak.Habit.Schedule
 import io.kotest.matchers.shouldBe
 import org.junit.jupiter.api.Test
@@ -115,6 +117,22 @@ class StreakTest {
       .track(LocalDate.parse("2023-01-01"))
 
     result.length(clock) shouldBe 3
+  }
+
+  @Test
+  fun `length returns 4 if three times weekly habit has been tracked 3 times in the last week and once in the current week and one track in the current week has been untracked`() {
+    val clock = Clock.fixed(Instant.parse("2024-01-11T15:00:00.00Z"), ZoneId.of("UTC"))
+
+    val subject = Streak.from(HabitFixtues.ThreeTimesWeekly)
+    val result = subject
+      .track(LocalDate.parse("2024-01-11"))
+      .track(LocalDate.parse("2024-01-04"))
+      .track(LocalDate.parse("2024-01-03"))
+      .track(LocalDate.parse("2024-01-02"))
+      .track(LocalDate.parse("2024-01-10"))
+      .untrack(LocalDate.parse("2024-01-10"))
+
+    result.length(clock) shouldBe 4
   }
 
   object HabitFixtues {

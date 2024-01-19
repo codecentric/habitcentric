@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.test.context.EmbeddedKafka
-import org.springframework.modulith.test.ApplicationModuleTest
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.testcontainers.shaded.org.awaitility.Awaitility.await
@@ -29,6 +28,7 @@ class StreakServiceIntegrationTest(
   @Autowired private val habitCreatedKafkaTemplate: KafkaTemplate<String, HabitCreated>,
   @Autowired private val habitDeletedKafkaTemplate: KafkaTemplate<String, HabitDeleted>,
   @Autowired private val dateTrackedKafkaTemplate: KafkaTemplate<String, DateTracked>,
+  @Autowired private val dateUntrackedKafkaTemplate: KafkaTemplate<String, DateUntracked>,
   @Autowired private val streakRepository: StreakRepository,
 ) {
 
@@ -78,6 +78,30 @@ class StreakServiceIntegrationTest(
     await().atMost(10, TimeUnit.SECONDS).untilAsserted {
       streakRepository.findByHabitId(id) shouldBePresent {
         it.length(clock) shouldBe 1
+      }
+    }
+  }
+
+  @Test
+  fun `should decrease length when DateTracked event is received`() {
+    val clock = Clock.fixed(Instant.parse("2024-01-11T15:00:00.00Z"), ZoneId.of("UTC"))
+
+    val id = UUID.randomUUID()
+
+    val streak = Streak.from(Habit.from(id, WEEKLY, 4))
+      .track(LocalDate.parse("2024-01-11"));
+    streakRepository.save(streak)
+    streak.length(clock) shouldBe 1
+
+    dateUntrackedKafkaTemplate.send(
+      "track-events",
+      "key",
+      DateUntracked(id, LocalDate.parse("2024-01-11"))
+    )
+
+    await().atMost(10, TimeUnit.SECONDS).untilAsserted {
+      streakRepository.findByHabitId(id) shouldBePresent {
+        it.length(clock) shouldBe 0
       }
     }
   }
