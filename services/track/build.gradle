@@ -71,7 +71,7 @@ ext {
     versions = [
             restAssured       : '5.4.0',
             junitJupiter      : '5.8.0',
-            chaosMonkey       : '3.0.2',
+            chaosMonkey       : '3.1.0',
             testcontainers    : '1.19.3',
             reflections       : '0.10.2',
             postgresql        : '42.7.1',
