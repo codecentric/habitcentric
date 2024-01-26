@@ -9,7 +9,7 @@
     "@icons-pack/react-simple-icons": "9.3.0",
     "@popperjs/core": "2.11.8",
     "@tailwindcss/forms": "0.5.7",
-    "@types/node": "20.11.6",
+    "@types/node": "20.11.7",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "date-fns": "2.30.0",
