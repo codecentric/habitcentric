@@ -47,7 +47,7 @@ extra["chaosMonkeyVersion"] = "3.1.0"
 extra["mockkVersion"] = "1.13.9"
 extra["springMockkVersion"] = "4.0.2"
 extra["wiremockVersion"] = "3.0.1"
-extra["moschiVersion"] = "1.15.0"
+extra["moschiVersion"] = "1.15.1"
 
 dependencies {
     implementation("io.swagger.core.v3:swagger-annotations:2.2.20")
