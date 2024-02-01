@@ -58,7 +58,7 @@ jobs:
           name: test-results
           path: ./services/${{ inputs.service_name }}/build/test-results/
       - name: 🔎 Upload coverage report
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         with:
           files: ./services/${{ inputs.service_name }}/build/reports/jacoco/test/jacocoTestReport.xml
           name: habitcentric/${{ inputs.service_name }}
