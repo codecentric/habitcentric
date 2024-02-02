@@ -7,6 +7,8 @@ import { AuthProvider } from "react-oidc-context";
 import { oidc } from "./auth/config/oidc";
 import { Route, Routes } from "react-router-dom";
 import RequireAuthWhenOidcIsEnabled from "./auth/RequireAuthWhenOidcIsEnabled";
+import Socket from "./Socket";
+import SocketReactPage from "./socket/SocketReactPage";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
 
         <Routes>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/ws" element={<Socket />} />
+          <Route path="/wsr" element={<SocketReactPage />} />
           <Route
             path="/overview"
             element={

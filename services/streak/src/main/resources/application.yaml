@@ -4,7 +4,7 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:10001}/${DB_NAME:postgres}
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:10005}/${DB_NAME:postgres}
     username: ${DB_USER:postgres}
     password: ${DB_PASSWORD:postgres}
 
@@ -32,5 +32,15 @@ spring:
       group-id: streak
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
 
+management:
+  tracing:
+    enabled: false
+
 server:
   port: 9005
+
+logging:
+  level:
+    org.springframework.security.messaging.web.socket: DEBUG
+    org.springframework.web.socket.server: DEBUG
+    org.springframework.messaging.simp.user: TRACE
