@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '3.1.4'
+    id 'org.springframework.boot' version '3.1.8'
     id 'org.flywaydb.flyway' version '10.7.1'
     id 'java'
     id 'com.diffplug.spotless' version '6.25.0'
