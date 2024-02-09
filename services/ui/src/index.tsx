@@ -5,20 +5,28 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { createRoot } from "react-dom/client";
 
-if (import.meta.env.MODE.includes("development")) {
-  const { worker } = await import("./test-utils/mocks/worker");
-  worker.start();
+async function enableMsw() {
+  if (import.meta.env.MODE.includes("development")) {
+    const { worker } = await import("./test-utils/mocks/worker");
+    return worker.start({
+      serviceWorker: {
+        url: "/ui/mockServiceWorker.js",
+      },
+    });
+  }
 }
 
-const container = document.getElementById("root");
-const root = createRoot(container!);
-root.render(
-  <React.StrictMode>
-    <BrowserRouter basename={import.meta.env.BASE_URL}>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
-);
+enableMsw().then(() => {
+  const container = document.getElementById("root");
+  const root = createRoot(container!);
+  root.render(
+    <React.StrictMode>
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <App />
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+});
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
