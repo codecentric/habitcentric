@@ -8,13 +8,13 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.apache.groovy:groovy-all:4.0.19'
+    implementation 'org.apache.groovy:groovy-all:4.0.20'
 
     testImplementation platform("org.spockframework:spock-bom:2.3-groovy-4.0")
     testImplementation 'org.spockframework:spock-core'
 
     testImplementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    testImplementation 'io.kubernetes:client-java-extended:19.0.0'
+    testImplementation 'io.kubernetes:client-java-extended:19.0.1'
 }
 
 test {
