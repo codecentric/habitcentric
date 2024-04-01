@@ -72,7 +72,7 @@ ext {
             chaosMonkey       : '3.1.0',
             testcontainers    : '1.19.7',
             postgresql        : '42.7.3',
-            springdoc         : '2.3.0',
+            springdoc         : '2.5.0',
             liquibase         : '4.26.0',
             pactProvider      : '4.6.7',
             jna               : '5.8.0',
