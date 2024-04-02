@@ -73,7 +73,7 @@ ext {
             testcontainers    : '1.19.7',
             postgresql        : '42.7.3',
             springdoc         : '2.5.0',
-            liquibase         : '4.26.0',
+            liquibase         : '4.27.0',
             pactProvider      : '4.6.8',
             jna               : '5.8.0',
             preliquibase      : '1.5.0'
