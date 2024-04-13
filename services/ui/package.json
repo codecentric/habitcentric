@@ -12,7 +12,7 @@
     "@types/node": "20.12.7",
     "@types/react": "18.2.77",
     "@types/react-dom": "18.2.25",
-    "date-fns": "2.30.0",
+    "date-fns": "3.6.0",
     "oidc-client-ts": "2.4.0",
     "react": "18.2.0",
     "react-datepicker": "4.25.0",
