@@ -6,12 +6,12 @@
   "dependencies": {
     "@headlessui/react": "1.7.18",
     "@heroicons/react": "1.0.6",
-    "@icons-pack/react-simple-icons": "9.4.0",
+    "@icons-pack/react-simple-icons": "9.4.1",
     "@popperjs/core": "2.11.8",
     "@tailwindcss/forms": "0.5.7",
-    "@types/node": "20.12.3",
-    "@types/react": "18.2.74",
-    "@types/react-dom": "18.2.23",
+    "@types/node": "20.12.7",
+    "@types/react": "18.2.77",
+    "@types/react-dom": "18.2.25",
     "date-fns": "2.30.0",
     "oidc-client-ts": "2.4.0",
     "react": "18.2.0",
@@ -23,7 +23,7 @@
     "react-simple-icons": "1.0.0-beta.5",
     "simple-icons": "11.11.0",
     "swr": "2.2.5",
-    "typescript": "5.4.3",
+    "typescript": "5.4.5",
     "web-vitals": "3.5.2"
   },
   "overrides": {
