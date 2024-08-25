@@ -1,6 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '3.1.8'
-    id 'org.liquibase.gradle' version '2.2.1'
+    id 'org.liquibase.gradle' version '2.2.2'
     id 'java'
     id 'com.diffplug.spotless' version '6.25.0'
     id "io.freefair.lombok" version "8.6"
@@ -28,7 +28,7 @@ java {
 }
 
 lombok {
-    version = "1.18.32"
+    version = "1.18.34"
 }
 
 liquibase {
@@ -71,12 +71,12 @@ ext {
             junitJupiter      : '5.8.0',
             chaosMonkey       : '3.1.0',
             testcontainers    : '1.19.7',
-            postgresql        : '42.7.3',
+            postgresql        : '42.7.4',
             springdoc         : '2.5.0',
             liquibase         : '4.27.0',
-            pactProvider      : '4.6.8',
+            pactProvider      : '4.6.13',
             jna               : '5.8.0',
-            preliquibase      : '1.5.0'
+            preliquibase      : '1.5.1'
     ]
 }
 // override the version the spring boot dependency-management plugin would enforce
