@@ -67,7 +67,7 @@
     "autoprefixer": "10.4.20",
     "env-cmd": "10.1.0",
     "jsdom": "^23.0.0",
-    "license-checker-rseidelsohn": "4.3.0",
+    "license-checker-rseidelsohn": "4.4.2",
     "msw": "2.3.5",
     "postcss": "8.4.47",
     "prettier": "3.3.3",
