@@ -3,7 +3,7 @@ import io.spring.gradle.dependencymanagement.dsl.ImportsHandler
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.openapi.generator") version "7.4.0"
+    id("org.openapi.generator") version "7.8.0"
     id("com.github.jk1.dependency-license-report") version "2.9"
     id("org.springframework.boot") version "3.1.8"
     id("com.diffplug.spotless") version "6.25.0"
