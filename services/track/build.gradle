@@ -3,7 +3,7 @@ plugins {
     id 'org.flywaydb.flyway' version '10.19.0'
     id 'java'
     id 'com.diffplug.spotless' version '6.25.0'
-    id "io.freefair.lombok" version "8.10"
+    id "io.freefair.lombok" version "8.10.2"
     id 'com.github.jk1.dependency-license-report' version '2.9'
 }
 
@@ -72,7 +72,7 @@ ext {
             restAssured       : '5.5.0',
             junitJupiter      : '5.8.0',
             chaosMonkey       : '3.1.0',
-            testcontainers    : '1.20.2',
+            testcontainers    : '1.20.3',
             reflections       : '0.10.2',
             postgresql        : '42.7.4',
             jna               : '5.8.0'
@@ -84,7 +84,7 @@ ext['jna.version'] = versions.jna // Required for Docker on ARM
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.modulith:spring-modulith-bom:1.2.4'
+        mavenBom 'org.springframework.modulith:spring-modulith-bom:1.2.5'
     }
 }
 
