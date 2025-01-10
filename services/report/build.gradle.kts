@@ -44,13 +44,13 @@ repositories {
 }
 
 extra["chaosMonkeyVersion"] = "3.1.0"
-extra["mockkVersion"] = "1.13.13"
+extra["mockkVersion"] = "1.13.14"
 extra["springMockkVersion"] = "4.0.2"
 extra["wiremockVersion"] = "3.0.1"
-extra["moschiVersion"] = "1.15.1"
+extra["moschiVersion"] = "1.15.2"
 
 dependencies {
-    implementation("io.swagger.core.v3:swagger-annotations:2.2.25")
+    implementation("io.swagger.core.v3:swagger-annotations:2.2.27")
     implementation("com.squareup.moshi:moshi:${property("moschiVersion")}")
     implementation("org.springframework.boot:spring-boot-starter-validation")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
