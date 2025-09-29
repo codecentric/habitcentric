@@ -11,6 +11,6 @@ releases:
     labels:
       service: kafka
     chart: bitnami-archive-full-index/kafka
-    version: 25.3.1
+    version: 25.3.5
     values:
       - ./values/kafka-values.yaml.gotmpl

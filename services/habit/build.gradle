@@ -28,7 +28,7 @@ java {
 }
 
 lombok {
-    version = "1.18.36"
+    version = "1.18.42"
 }
 
 liquibase {
@@ -67,14 +67,14 @@ configurations {
 
 ext {
     versions = [
-            restAssured       : '5.5.0',
+            restAssured       : '5.5.6',
             junitJupiter      : '5.8.0',
             chaosMonkey       : '3.1.2',
             testcontainers    : '1.20.4',
-            postgresql        : '42.7.4',
+            postgresql        : '42.7.8',
             springdoc         : '2.6.0',
             liquibase         : '4.29.2',
-            pactProvider      : '4.6.16',
+            pactProvider      : '4.6.17',
             jna               : '5.8.0',
             preliquibase      : '1.5.1'
     ]
