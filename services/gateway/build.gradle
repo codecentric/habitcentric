@@ -24,7 +24,7 @@ java {
 }
 
 lombok {
-    version = "1.18.36"
+    version = "1.18.42"
 }
 
 spotless {
@@ -44,7 +44,7 @@ repositories {
 ext {
     springCloudVersion = '2022.0.5'
     versions = [
-            restAssured   : '5.5.0',
+            restAssured   : '5.5.6',
             junitJupiter  : '5.8.0',
     ]
 }
