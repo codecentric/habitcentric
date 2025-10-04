@@ -29,7 +29,7 @@ jobs:
       - name: 🏗 Setup python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.13'
           cache: 'pip'
           cache-dependency-path: 'test/lpt-locust/src/requirements.txt'
       - name: 👨🏻‍💻 Install dependencies
