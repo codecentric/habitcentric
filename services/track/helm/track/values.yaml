@@ -4,7 +4,7 @@ init:
   image:
     registry: docker.io
     repository: alpine
-    tag: 3.19
+    tag: 3.22
     pullPolicy: IfNotPresent
 
 image:
