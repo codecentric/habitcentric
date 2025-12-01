@@ -74,7 +74,7 @@ ext {
             postgresql        : '42.7.8',
             springdoc         : '2.6.0',
             liquibase         : '4.29.2',
-            pactProvider      : '4.6.17',
+            pactProvider      : '4.6.18',
             jna               : '5.8.0',
             preliquibase      : '1.5.1'
     ]
