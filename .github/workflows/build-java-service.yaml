@@ -34,13 +34,11 @@ jobs:
         with:
           java-version: '21'
           distribution: 'zulu'
-      - name: ✔️ Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
+      - name: 🛠️ Setup gradle
+        uses: gradle/actions/setup-gradle@v5
       - name: 🏗 Build with Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          arguments: build -Pversion=${{ inputs.version }} generateLicenseReport
-          build-root-directory: services/${{ inputs.service_name }}
+        run: ./gradlew build -Pversion=${{ inputs.version }} generateLicenseReport
+        working-directory: services/${{ inputs.service_name }}
       - name: 📦 Upload JAR
         uses: actions/upload-artifact@v4
         with:
