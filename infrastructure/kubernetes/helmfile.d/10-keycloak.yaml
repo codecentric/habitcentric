@@ -15,7 +15,7 @@ releases:
     labels:
       service: keycloak
     chart: bitnami-archive-full-index/postgresql
-    version: 11.6.0
+    version: 11.9.13
     values:
       - ./values/keycloak-postgresql-values.yaml.gotmpl
   - name: keycloak-realm-config
