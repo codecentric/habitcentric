@@ -10,6 +10,10 @@ on:
       release-notes:
         value: ${{ jobs.prepare-release.outputs.notes }}
 
+env:
+  # Ignore scripts during ci to somewhat safeguard against supply chain issues
+  npm_config_ignore_scripts: true
+
 jobs:
   prepare-release:
     name: 🛫 Prepare release

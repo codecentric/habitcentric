@@ -12,6 +12,10 @@ on:
       - .github/workflows/ui.yaml
       - services/ui/**
 
+env:
+  # Ignore scripts during ci to somewhat safeguard against supply chain issues
+  npm_config_ignore_scripts: true
+
 jobs:
   prepare-release:
     uses: ./.github/workflows/prepare-release.yaml
