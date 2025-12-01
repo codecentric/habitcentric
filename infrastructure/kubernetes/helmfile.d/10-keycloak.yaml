@@ -36,6 +36,6 @@ releases:
     labels:
       service: keycloak
     chart: codecentric/keycloakx
-    version: 1.6.0
+    version: 1.7.0
     values:
       - ./values/keycloak-values.yaml.gotmpl
