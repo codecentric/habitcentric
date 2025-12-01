@@ -1,9 +1,9 @@
 {
   "extends": [
-    "config:base"
+    "config:recommended"
   ],
   "ignorePaths": [],
-  "platformAutomerge" : false,
+  "platformAutomerge": false,
   "npm": {
     "minimumReleaseAge": "3 days",
     "internalChecksFilter": "strict",
@@ -25,5 +25,5 @@
       "groupName": "patch, pin, image digest versions",
       "automerge": true
     }
-  ],
+  ]
 }
