@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -53,23 +54,18 @@ public class SecurityConfig {
   }
 
   @Bean
-  public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http)
-      throws Exception {
+  public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
     configureAuthorization(http);
+    if (GatewayAuthType.OAUTH_2_LOGIN.equals(authConfig.getType())) {
+      http.oauth2Login(Customizer.withDefaults());
+    } else {
+      http.httpBasic(Customizer.withDefaults());
+    }
     return http.build();
   }
 
-  private void configureAuthorization(ServerHttpSecurity http) throws Exception {
-    if (GatewayAuthType.OAUTH_2_LOGIN.equals(authConfig.getType())) {
-      commonConfig(http).oauth2Login();
-    } else {
-      commonConfig(http).httpBasic();
-    }
-  }
-
-  private ServerHttpSecurity commonConfig(ServerHttpSecurity http) throws Exception {
-    return http.csrf()
-        .disable()
+  private void configureAuthorization(ServerHttpSecurity http) {
+    http.csrf(ServerHttpSecurity.CsrfSpec::disable)
         .authorizeExchange(
             (authorize) ->
                 authorize
@@ -90,8 +86,7 @@ public class SecurityConfig {
                     .pathMatchers("/ui/**")
                     .permitAll()
                     .pathMatchers("/")
-                    .permitAll()
-                    .and());
+                    .permitAll());
   }
 
   @Bean
