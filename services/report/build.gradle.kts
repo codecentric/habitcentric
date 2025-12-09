@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.openapi.generator") version "7.9.0"
     id("com.github.jk1.dependency-license-report") version "2.9"
-    id("org.springframework.boot") version "3.1.8"
+    id("org.springframework.boot") version "3.5.7"
     id("com.diffplug.spotless") version "6.25.0"
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
@@ -44,9 +44,9 @@ repositories {
 }
 
 extra["chaosMonkeyVersion"] = "3.1.2"
-extra["mockkVersion"] = "1.13.16"
+extra["mockkVersion"] = "1.13.3"
 extra["springMockkVersion"] = "4.0.2"
-extra["wiremockVersion"] = "3.0.1"
+extra["wiremockVersion"] = "3.13.1"
 extra["moschiVersion"] = "1.15.2"
 
 dependencies {
@@ -74,7 +74,7 @@ dependencies {
 
     testImplementation("io.mockk:mockk:${property("mockkVersion")}")
     testImplementation("com.ninja-squad:springmockk:${property("springMockkVersion")}")
-    testImplementation("com.github.tomakehurst:wiremock:${property("wiremockVersion")}")
+    testImplementation("org.wiremock:wiremock-standalone:${property("wiremockVersion")}")
 }
 
 tasks.withType<Test> {

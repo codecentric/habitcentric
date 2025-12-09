@@ -28,7 +28,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -58,7 +58,7 @@ public class AuthTest {
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZWZhdWx0In0.2E88ZlFE4Tor8d5gRU2451WrLtDavGfgbFf8ZuKBRxM");
   }
 
-  @MockBean private HabitRepository repository;
+  @MockitoBean private HabitRepository repository;
 
   @Autowired private MockMvc mvc;
 
