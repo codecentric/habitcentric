@@ -8,15 +8,16 @@ import de.codecentric.hc.habit.habits.Habit.ModificationRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.modulith.test.ApplicationModuleTest;
 import org.springframework.modulith.test.Scenario;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @ActiveProfiles("intTest")
 @ApplicationModuleTest
-@MockBean(UserIdArgumentResolver.class)
 public class HabitModuleIntegrationTest {
+
+  @MockitoBean private UserIdArgumentResolver userIdArgumentResolver;
 
   @Autowired private HabitController habitController;
   @Autowired private HabitRepository habitRepository;

@@ -59,7 +59,7 @@ public class ApiErrorExceptionHandlerTest implements ApiErrorResponseAssertion {
         DummyError.builder().code("123").title("ABC").statusCode(I_AM_A_TEAPOT.value()).build();
     ApiErrorException exception = new DummyErrorException(error);
     ResponseEntity<ApiErrorResponse> response = handler.handle(exception);
-    assertThat(response.getStatusCodeValue()).isEqualTo(error.getStatusCode());
+    assertThat(response.getStatusCode().value()).isEqualTo(error.getStatusCode());
     assertThat(response.getBody().getErrors()).hasSize(1);
     assertEquals(error, response.getBody().getErrors().get(0));
   }
@@ -77,7 +77,7 @@ public class ApiErrorExceptionHandlerTest implements ApiErrorResponseAssertion {
     Exception cause = new IllegalArgumentException("CAUSE");
     ApiErrorException exception = new DummyErrorException(error, cause, templateProperties);
     ResponseEntity<ApiErrorResponse> response = handler.handle(exception);
-    assertThat(response.getStatusCodeValue()).isEqualTo(error.getStatusCode());
+    assertThat(response.getStatusCode().value()).isEqualTo(error.getStatusCode());
     assertThat(response.getBody().getErrors()).hasSize(1);
     assertEquals(error, response.getBody().getErrors().get(0), templateProperties);
   }

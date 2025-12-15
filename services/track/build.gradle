@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '3.1.8'
+    id 'org.springframework.boot' version '3.5.7'
     id 'org.flywaydb.flyway' version '10.21.0'
     id 'java'
     id 'com.diffplug.spotless' version '6.25.0'
@@ -53,7 +53,7 @@ spotless {
 repositories {
     mavenCentral()
     maven {
-        url "https://repo.spring.io/milestone"
+        url = "https://repo.spring.io/milestone"
     }
 }
 
@@ -77,14 +77,15 @@ ext {
             postgresql        : '42.7.8',
             jna               : '5.8.0'
     ]
+    springCloudVersion = '2025.0.0'
 }
 // override the version the spring boot dependency-management plugin would enforce
-ext['junit-jupiter.version'] = versions.junitJupiter
 ext['jna.version'] = versions.jna // Required for Docker on ARM
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.modulith:spring-modulith-bom:1.2.5'
+        mavenBom 'org.springframework.modulith:spring-modulith-bom:1.4.4'
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
 }
 
@@ -105,6 +106,7 @@ dependencies {
     implementation 'io.opentelemetry:opentelemetry-exporter-zipkin'
     runtimeOnly "org.postgresql:postgresql:$versions.postgresql"
     runtimeOnly 'org.flywaydb:flyway-core'
+    runtimeOnly 'org.flywaydb:flyway-database-postgresql'
     runtimeOnly "de.codecentric:chaos-monkey-spring-boot:$versions.chaosMonkey"
     runtimeOnly "org.aspectj:aspectjweaver"
     testImplementation "org.junit.jupiter:junit-jupiter"
