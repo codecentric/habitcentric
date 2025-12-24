@@ -9,5 +9,5 @@ releases:
   - name: istio-cni
     namespace: kube-system
     chart: istio/cni
-    version: 1.28.1
+    version: 1.28.2
     installed: {{ eq .Environment.Name "cni" | toYaml }}

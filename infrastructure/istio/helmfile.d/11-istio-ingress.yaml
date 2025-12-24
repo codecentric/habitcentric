@@ -11,7 +11,7 @@ releases:
   - name: istio-ingressgateway
     namespace: istio-ingress
     chart: istio/gateway
-    version: 1.28.1
+    version: 1.28.2
     # this fails the installation because helm waits for the loadbalancer to get an ip.
     # But the IP is not available until someone runs minikube tunnel
     #wait: true
