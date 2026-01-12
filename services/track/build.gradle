@@ -84,7 +84,7 @@ ext['jna.version'] = versions.jna // Required for Docker on ARM
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.modulith:spring-modulith-bom:1.2.5'
+        mavenBom 'org.springframework.modulith:spring-modulith-bom:1.4.6'
     }
 }
 
