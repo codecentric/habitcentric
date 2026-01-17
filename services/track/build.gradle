@@ -3,7 +3,7 @@ plugins {
     id 'org.flywaydb.flyway' version '10.22.0'
     id 'java'
     id 'com.diffplug.spotless' version '6.25.0'
-    id "io.freefair.lombok" version "8.14.3"
+    id "io.freefair.lombok" version "8.14.4"
     id 'com.github.jk1.dependency-license-report' version '2.9'
 }
 
@@ -69,12 +69,12 @@ configurations {
 
 ext {
     versions = [
-            restAssured       : '5.5.6',
+            restAssured       : '5.5.7',
             junitJupiter      : '5.8.0',
             chaosMonkey       : '3.2.2',
             testcontainers    : '1.21.4',
             reflections       : '0.10.2',
-            postgresql        : '42.7.8',
+            postgresql        : '42.7.9',
             jna               : '5.8.0'
     ]
 }
