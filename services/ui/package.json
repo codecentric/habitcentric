@@ -17,7 +17,7 @@
     "react": "18.3.1",
     "react-datepicker": "4.25.0",
     "react-dom": "18.3.1",
-    "react-oidc-context": "2.3.1",
+    "react-oidc-context": "2.4.0",
     "react-popper": "2.3.0",
     "react-router-dom": "6.30.3",
     "react-simple-icons": "1.0.0-beta.5",
