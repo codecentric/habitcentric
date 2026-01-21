@@ -9,4 +9,4 @@ releases:
   - name: istio-base
     namespace: istio-system
     chart: istio/base
-    version: 1.28.2
+    version: 1.28.3
