@@ -69,7 +69,7 @@ ext {
     versions = [
             restAssured       : '5.5.7',
             junitJupiter      : '5.8.0',
-            chaosMonkey       : '3.2.2',
+            chaosMonkey       : '3.3.0',
             testcontainers    : '1.21.4',
             postgresql        : '42.7.9',
             springdoc         : '2.6.0',
