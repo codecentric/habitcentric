@@ -24,7 +24,7 @@ jobs:
     if: github.ref == 'refs/heads/main' && inputs.version != 'dev'
     steps:
       - name: ⬇️ Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: 📦 Download license artifact
         uses: actions/download-artifact@v4
         with:
