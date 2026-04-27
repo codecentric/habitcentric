@@ -28,7 +28,7 @@ java {
 }
 
 lombok {
-    version = "1.18.42"
+    version = "1.18.46"
 }
 
 flyway {
@@ -74,7 +74,7 @@ ext {
             chaosMonkey       : '3.3.0',
             testcontainers    : '1.21.4',
             reflections       : '0.10.2',
-            postgresql        : '42.7.9',
+            postgresql        : '42.7.10',
             jna               : '5.8.0'
     ]
 }
@@ -84,7 +84,7 @@ ext['jna.version'] = versions.jna // Required for Docker on ARM
 
 dependencyManagement {
     imports {
-        mavenBom 'org.springframework.modulith:spring-modulith-bom:1.4.7'
+        mavenBom 'org.springframework.modulith:spring-modulith-bom:1.4.11'
     }
 }
 
