@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: 📦 Download artifact
         uses: actions/download-artifact@v4
         if: inputs.artifact-name && inputs.artifact-path

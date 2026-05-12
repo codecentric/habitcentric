@@ -28,7 +28,7 @@ jobs:
       license-artifact-path: ./services/${{ inputs.service_name }}/build/distributions
     steps:
       - name: ⬇️ Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: 🛠 Set up JDK
         uses: actions/setup-java@v4
         with:

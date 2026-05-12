@@ -30,7 +30,7 @@ jobs:
       license-artifact-path: ./services/ui/license-report
     steps:
       - name: ⬇️ Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: 🏗 Setup node env
         uses: actions/setup-node@v4
         with:
